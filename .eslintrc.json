@@ -1,0 +1,86 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+    // "es2021": true
+  },
+  "extends": [
+    // "next", "react" 충돌 ERROR
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended", // 추가
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "plugin:prettier/recommended", // 추가
+    "plugin:jsx-a11y/recommended", // 추가
+    "plugin:react-hooks/recommended" // 추가
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest", // 사용할 ECMAScript 버전을 설정
+    "sourceType": "module" // parser의 export 형태를 설정
+  },
+  "plugins": [
+    "react",
+    "react-hooks",
+    "simple-import-sort",
+    "prettier",
+    "jsx-a11y",
+    "import",
+    "@typescript-eslint/eslint-plugin"
+  ],
+  "rules": {
+    // 0: off 1: warn 2: error 로 표기 가능
+    "indent": ["error", 2, { "SwitchCase": 1 }], // 들여쓰기 몇 칸? 기본 2칸으로 하되, switch문에서는 1칸으로 지정
+    "quotes": ["error", "double", { "avoidEscape": true }], // 쌍따옴표가 아닌 홑따옴표를 사용
+    "semi": ["error", "always"], // semi colon을 강제함
+    "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }],
+    "comma-dangle": ["error", "always-multiline"], // 두 줄 이상의 경우에는 후행 쉼표를 항상 사용, 한 개 일 때는 사용하지 않음
+    "object-curly-spacing": ["error", "always"], // 객체 괄호 앞 뒤 공백 추가
+    "space-in-parens": ["error", "never"], // 일반 괄호 앞 뒤 공백 추가
+    "computed-property-spacing": ["error", "never"], // 대괄호 앞 뒤 공백 추가하지 않음
+    "comma-spacing": ["error", { "before": false, "after": true }], // 반점 앞 뒤 공백: 앞에는 없고, 뒤에는 있게
+    "eol-last": ["error", "always"], // line의 가장 마지막 줄에는 개행 넣기
+    "no-tabs": ["error", { "allowIndentationTabs": true }], // \t의 사용을 금지하고 tab키의 사용은 허용
+    "object-shorthand": "error", // 객체의 간편 사용(es6)을 강제할 것인가? -> https://eslint.org/docs/rules/object-shorthand
+    "padding-line-between-statements": [
+      "error",
+      { "blankLine": "always", "prev": "*", "next": "return" },
+      { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*" },
+      {
+        "blankLine": "any",
+        "prev": ["const", "let", "var"],
+        "next": ["const", "let", "var"]
+      }
+    ],
+    "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
+    "react-hooks/exhaustive-deps": "off", // Checks effect dependencies
+    "react/react-in-jsx-scope": "off", // import React from "react"가 필수였던 시기에 필요한 규칙
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "import/no-named-as-default": 0, // default로 정의되지 않은 아이들을 불러왔음을 알려줌
+    "@typescript-eslint/no-empty-function": "off", // 빈 함수 스코프 에러 제거
+    "@typescript-eslint/no-unused-vars": ["warn", { "caughtErrors": "none" }], // no-unused-vars가 아닌 타스 전용으로 바꿔야 interface 선언 등의 상황도 고려해줌
+    "jsx-a11y/no-autofocus": "off" // autoFocus 허용
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    },
+    "import/parsers": {
+      // 추가
+      "@typescript-eslint/parser": [".ts", ".tsx", ".js"]
+    }
+  }
+}
