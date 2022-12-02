@@ -1,3 +1,4 @@
+//전체 프로젝트에 적용될 global style. 얘기된 것이 없어서 일단 임의로 해두겠음
 import { createGlobalStyle } from 'styled-components';
 import { normalize } from 'styled-normalize';
 

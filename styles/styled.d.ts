@@ -1,7 +1,7 @@
+//커스텀 테마의 타입 정의
 import 'styled-components';
 
 declare module 'styled-components' {
-  //커스텀 테마의 타입 정의
   export interface DefaultTheme {
     // colors: {
     //   black: string;
