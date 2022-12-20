@@ -1,2 +1,2 @@
-export { default as LargeBtn } from './RegisterBtn/LargeBtn';
-export { default as SmallBtn } from './RegisterBtn/SmallBtn';
+export { default as LargeBtn } from '../shared/Button/LargeBtn';
+export { default as ResistSmallBtn } from './Button/ResistSmallBtn';

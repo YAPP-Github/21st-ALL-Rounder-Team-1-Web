@@ -1,4 +1,4 @@
-import * as S from '../styled';
+import { LargeBtnContainer } from './styled';
 
 interface Props {
 	width: number;
@@ -7,9 +7,9 @@ interface Props {
 }
 const LargeBtn = (props: Props) => {
 	return (
-		<S.LargeBtnContainer width={props.width} background={props.background}>
+		<LargeBtnContainer width={props.width} background={props.background}>
 			<span>{props.btnText}</span>
-		</S.LargeBtnContainer>
+		</LargeBtnContainer>
 	);
 };
 export default LargeBtn;
