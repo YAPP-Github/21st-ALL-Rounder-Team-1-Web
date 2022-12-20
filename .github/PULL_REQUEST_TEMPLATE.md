@@ -48,5 +48,5 @@
 `체크리스트`
 
 - [] Merge 하는 브랜치에 Master/Main 브랜치가 아닙니다. (개인 작업시에만 확인)
-- [] Critical 한 Error 또는 Warning 이 존재하지 않습니다. 
+- [] Critical 한 Error 또는 Warning 이 존재하지 않습니다.
 - [] 브라우저에 console 이 존재하지 않습니다.
