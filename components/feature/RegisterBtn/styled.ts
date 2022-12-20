@@ -5,31 +5,28 @@ export const SmallBtnContainer = styled.button<{ width: number }>`
 	width: ${({ width }) => `${width}px`};
 	height: 48px;
 	border-radius: 10px;
-	border: 1px solid #e5e5ea; //스타일 세팅 되면 바꾸기
-	padding: 15px 24px;
-	//스타일 세팅 되면 바꾸기
+	border: 1px solid ${({ theme }) => theme.colors.gray_002};
+	padding: 15px 0;
 	&:hover {
-		background-color: #f9f9fb;
+		background-color: ${({ theme }) => theme.colors.gray_000};
 	}
 	& > span {
-		//이 아래는 스타일 세팅 되면 바꾸기
-		//color: #000;
-		//font:
+		display: block;
+		color: ${({ theme }) => theme.colors.gray_007};
+		font: ${({ theme }) => theme.fonts.button_001};
 	}
 `;
 export const LargeBtnContainer = styled.button<{ width: number; background: string }>`
 	text-align: center;
 	width: ${({ width }) => `${width}px`};
-	height: 48px;
+	height: 50px;
+	padding: 16px 0;
 	border-radius: 10px;
-	border: 1px solid #e5e5ea; //스타일 세팅 되면 바꾸기
-	// 스타일 세팅 되면 바꾸기
-	//background-color:
-	//color:
-	//border -> background에 따라서 유무 나눠주기
+	border: ${({ background, theme }) => background === 'white' && `1px solid ${theme.colors.gray_004}`};
+	background-color: ${({ background, theme }) => (background === 'blue' ? theme.colors.primary_003 : theme.colors.white)};
 	& > span {
-		//이 아래는 스타일 세팅 되면 바꾸기
-		//color: #000;
-		//font:
+		display: block;
+		color: ${({ background, theme }) => (background === 'blue' ? theme.colors.white : theme.colors.gray_007)};
+		font: ${({ theme }) => theme.fonts.button_001};
 	}
 `;

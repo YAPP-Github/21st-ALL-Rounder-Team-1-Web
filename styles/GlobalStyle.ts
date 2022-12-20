@@ -4,10 +4,11 @@ import normalize from 'styled-normalize';
 const GlobalStyle = styled.createGlobalStyle`
 	${normalize};
 
-	* {
+	*,
+	*:after,
+	*:before {
 		box-sizing: border-box;
-		font-size: 62.5%; // 10px->1rem
-		min-width: 320px;
+		font-size: 62.5%; // 10px -> 1rem
 	}
 
 	html,
@@ -94,11 +95,11 @@ const GlobalStyle = styled.createGlobalStyle`
 		margin: 0;
 		padding: 0;
 		border: 0;
-		font-size: 62.5%; //10px->1rem
+		font-size: 10px;
 		font: inherit;
 		vertical-align: baseline;
 	}
-	/* HTML5 display-role reset for older browsers */
+
 	article,
 	aside,
 	details,
@@ -150,27 +151,20 @@ const GlobalStyle = styled.createGlobalStyle`
 		height: 10rem;
 		border-radius: 1.6rem;
 	}
-	body,
-	html {
-		min-width: 1921px;
-		height: auto;
-		font-family: Pretendard;
-		font-size: 62.5%;
-	}
+
 	a {
 		text-decoration: none;
 		color: inherit;
 	}
 	input,
 	button {
-		outline: none;
+		padding: 0;
 		border: none;
 		background-color: transparent;
-	}
-	button {
-		padding: 0;
+		outline: none;
 		cursor: pointer;
 	}
+
 	input {
 		-webkit-appearance: none; /* Safari and Chrome */
 		-moz-appearance: none; /* Firefox */
