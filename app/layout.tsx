@@ -10,7 +10,7 @@ import { GlobalStyle, theme } from 'styles';
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<html>
-			<head />
+			<head lang="ko" />
 			<body>
 				<Provider>
 					<QueryProvider>
@@ -33,6 +33,6 @@ export default RootLayout;
 
 const ChildrenContainer = styled.main`
 	position: relative;
-	min-height: calc(100vh - 160px);
-	font-size: 2rem;
+	min-height: calc(100vh - 258px);
+	margin-top: 78px;
 `;
