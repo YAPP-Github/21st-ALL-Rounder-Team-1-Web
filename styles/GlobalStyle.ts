@@ -199,6 +199,21 @@ const GlobalStyle = styled.createGlobalStyle`
 		/* Internet Explorer 10+ */
 		color: transparent;
 	}
+
+	// Web Accessibility Styles - IR
+	.visually-hidden {
+		position: absolute !important;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: 0;
+		border: 0;
+		overflow: hidden;
+		clip: rect(1px 1px 1px 1px); /* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
+		clip: rect(1px, 1px, 1px, 1px); /*maybe deprecated but we need to support legacy browsers */
+		clip-path: inset(50%); /*modern browsers, clip-path works inwards from each corner*/
+		white-space: nowrap; /* added line to stop words getting smushed together (as they go onto seperate lines and some screen readers do not understand line feeds as a space */
+	}
 `;
 
 export default GlobalStyle;
