@@ -5,6 +5,7 @@ export const SmallBtnContainer = styled.button<{ width: number }>`
 	width: ${({ width }) => `${width}px`};
 	height: 48px;
 	border-radius: 10px;
+	background-color: ${({ theme }) => theme.colors.white};
 	border: 1px solid ${({ theme }) => theme.colors.gray_002};
 	padding: 15px 0;
 	&:hover {
