@@ -1,17 +1,25 @@
 import Link from 'next/link';
-import styled from 'styled-components';
+import styled, { CSSProperties } from 'styled-components';
 
-export const BoxFlexColumnCenter = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+export const FlexBox = styled.div<CSSProperties>`
+	display: ${({ display }) => display ?? 'flex'};
+	flex-direction: ${({ flexDirection }) => flexDirection ?? 'row'};
+	align-items: ${({ alignItems }) => alignItems ?? 'stretch'};
+	justify-content: ${({ justifyContent }) => justifyContent ?? 'flex-start'};
+	flex-wrap: ${({ flexWrap }) => flexWrap ?? 'nowrap'};
 `;
 
 export const MaxContainer = styled.div`
 	position: relative;
 	width: 100%;
 	max-width: 1200px;
+	margin: 0 auto;
+`;
+
+export const SubMaxContainer = styled.div`
+	position: relative;
+	width: 100%;
+	max-width: 996px;
 	margin: 0 auto;
 `;
 
