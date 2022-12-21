@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 
-export const BoxFlexCenter = styled.div`
+export const BoxFlexColumnCenter = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
