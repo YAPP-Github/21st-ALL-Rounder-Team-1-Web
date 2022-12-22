@@ -1,46 +1,31 @@
-import { usePathname } from 'next/navigation';
-import React, { useCallback } from 'react';
+import React from 'react';
+import { StyledLayout } from 'components/shared';
 import * as S from './styled';
 
-const navigations = [
+const userNavigationItems = [
 	{
 		id: 1,
-		path: '/',
-		renderText: 'Home',
-	},
-	{
-		id: 2,
-		path: '/registration',
-		renderText: 'registration',
-	},
-	{
-		id: 3,
-		path: '/mypage',
-		renderText: 'mypage',
+		renderText: '로그인',
 	},
 ] as const;
 
 const Header = () => {
-	const browserPathname = usePathname() as string;
-
-	const isActivedPage = useCallback(
-		(pathname: string) => {
-			return browserPathname === pathname;
-		},
-		[browserPathname],
-	);
-
 	return (
 		<S.Container>
-			<S.GlobalNavigation>
-				{navigations.map((navigation) => {
-					return (
-						<S.NavigationItem key={navigation.id} href={navigation.path} selected={isActivedPage(navigation.path)}>
-							{navigation.renderText}
-						</S.NavigationItem>
-					);
-				})}
-			</S.GlobalNavigation>
+			<StyledLayout.MaxContainer>
+				<S.GlobalNavigation>
+					<S.LogoWrapper href={'/'} hrefLang={'ko'}>
+						<span className="visually-hidden">Pump 사이트 로고 이미지</span>
+						<StyledLayout.ImageBox width="160px" height="58px" backgroundImageSrc="" />
+					</S.LogoWrapper>
+
+					<StyledLayout.UnorderList>
+						{userNavigationItems.map((useNavigationItem) => {
+							return <S.NavigationItem key={useNavigationItem.id}>{useNavigationItem.renderText}</S.NavigationItem>;
+						})}
+					</StyledLayout.UnorderList>
+				</S.GlobalNavigation>
+			</StyledLayout.MaxContainer>
 		</S.Container>
 	);
 };
