@@ -20,6 +20,5 @@ export const ProductErrorMeassage = styled.span`
 	display: inline-block;
 	margin-top: 6px;
 	padding: 0;
-	//font는 답변 온 후에 바꿔서 적용
-	font: ${({ theme }) => theme.fonts.body_oneline_001};
+	font: ${({ theme }) => theme.fonts.body_oneline_005};
 `;
