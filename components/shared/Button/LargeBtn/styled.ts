@@ -6,7 +6,7 @@ export const LargeBtnContainer = styled.button<{ width: number; background: stri
 	height: 50px;
 	padding: 16px 0;
 	border-radius: 10px;
-	border: ${({ background, theme }) => background === 'white' && `1px solid ${theme.colors.gray_004}`};
+	border: ${({ background, theme }) => background === 'white' && `${1}px solid ${theme.colors.gray_004}`};
 	background-color: ${({ background, theme }) => (background === 'blue' ? theme.colors.primary_003 : theme.colors.white)};
 	& > span {
 		display: block;
