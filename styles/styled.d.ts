@@ -1,3 +1,4 @@
+import React from 'react';
 import 'styled-components';
 
 declare module 'styled-components' {
@@ -35,6 +36,13 @@ declare module 'styled-components' {
 			button_001: FlattenSimpleInterpolation;
 			tab_001: FlattenSimpleInterpolation;
 			tab_002: FlattenSimpleInterpolation;
+		};
+	}
+	export interface Styles {
+		btnStyle: {
+			white_btn: React.CSSProperties;
+			blue_btn_001: React.CSSProperties;
+			blue_btn_002: React.CSSProperties;
 		};
 	}
 }

@@ -1,5 +1,6 @@
-export { default as ResistSmallBtn } from './Button/ResistSmallBtn';
-export { default as ProductBtn } from './Button/ProductBtn';
-export { default as FloatingBtn } from './Button/FloatingBtn';
+export { default as StoreResistrationSmallBtn } from './Button/StoreResistrationSmallBtn';
+export { default as ProductRemoveBtn } from './Button/ProductRemoveBtn';
+export { default as ProductAddBtn } from './Button/ProductAddBtn';
+export { default as ScrollTopDownFloatingBtn } from './Button/ScrollTopDownFloatingBtn';
 export { default as ProductImageBtn } from './Button/ProductImageBtn';
 export { default as StoreImageBtn } from './Button/StoreImageBtn';

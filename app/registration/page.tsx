@@ -1,6 +1,7 @@
 'use client';
-import { ProductImageBtn, StoreImageBtn } from 'components/feature';
-import { StyledLayout } from 'components/shared';
+import { styled } from '@tanstack/react-query-devtools/build/lib/utils';
+import { LargeBtn, StyledLayout } from 'components/shared';
+import { style } from 'styles/theme';
 
 const Registration = () => {
 	// const [count, setCount] = useAtom(countAtom);
@@ -10,11 +11,10 @@ const Registration = () => {
 			<br />
 			<br />
 			<br />
-			<StoreImageBtn />
 			<br />
-			<br />
-			<br />
-			<ProductImageBtn isError={true} />
+			<LargeBtn style={style.btnStyle.blue_btn_002} onClick={() => alert('dpdp')}>
+				다음 단계
+			</LargeBtn>
 		</StyledLayout.BoxFlexCenter>
 	);
 };

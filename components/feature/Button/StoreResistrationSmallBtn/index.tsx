@@ -4,11 +4,11 @@ interface Props {
 	width: number;
 	btnText: string;
 }
-const ProductImageBtn = (props: Props) => {
+const StoreResistrationSmallBtn = (props: Props) => {
 	return (
 		<SmallBtnContainer width={props.width}>
 			<span>{props.btnText}</span>
 		</SmallBtnContainer>
 	);
 };
-export default ProductImageBtn;
+export default StoreResistrationSmallBtn;

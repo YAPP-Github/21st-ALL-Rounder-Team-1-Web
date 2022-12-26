@@ -1,14 +1,15 @@
 import { LargeBtnContainer } from './styled';
 
 interface Props {
-	width: number;
-	background: string; // blue or white
-	btnText: string;
+	children: React.ReactNode;
+	style: React.CSSProperties;
+	onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
+
 const LargeBtn = (props: Props) => {
 	return (
-		<LargeBtnContainer width={props.width} background={props.background}>
-			<span>{props.btnText}</span>
+		<LargeBtnContainer style={props.style} onClick={props.onClick}>
+			<span>{props.children}</span>
 		</LargeBtnContainer>
 	);
 };
