@@ -18,7 +18,9 @@ const ModalFrame = (props: PropsWithChildren) => {
 					zIndex: 9999,
 				}}
 			>
-				<S.ContentWrapper style={{ height: 'auto', padding: '40px 32px', borderRadius: '16px', backgroundColor: '#ffffff' }}>
+				<S.ContentWrapper
+					style={{ height: 'auto', padding: '40px 32px', borderRadius: '16px', backgroundColor: '#ffffff', textAlign: 'center' }}
+				>
 					{props.children}
 				</S.ContentWrapper>
 			</S.Container>
