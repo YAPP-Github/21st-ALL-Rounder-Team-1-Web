@@ -1,5 +1,6 @@
 import * as styled from 'styled-components';
 import normalize from 'styled-normalize';
+import theme from 'styles/theme';
 
 const GlobalStyle = styled.createGlobalStyle`
 	${normalize};
@@ -213,6 +214,92 @@ const GlobalStyle = styled.createGlobalStyle`
 		clip: rect(1px, 1px, 1px, 1px); /*maybe deprecated but we need to support legacy browsers */
 		clip-path: inset(50%); /*modern browsers, clip-path works inwards from each corner*/
 		white-space: nowrap; /* added line to stop words getting smushed together (as they go onto seperate lines and some screen readers do not understand line feeds as a space */
+	}
+
+	.modal-title {
+		padding-bottom: 8px;
+		font: ${theme.fonts.headline_003};
+	}
+
+	.modal-description {
+		font: ${theme.fonts.body_oneline_002};
+	}
+
+	.modal-btn-single-wrapper {
+		max-height: 50px;
+		margin-top: 32px;
+
+		& > :nth-of-type(1) {
+			flex: 1;
+			width: 200px;
+			margin: 0 auto;
+		}
+	}
+
+	.modal-primary-btn-single-wrapper {
+		max-height: 50px;
+		margin-top: 40px;
+
+		& > :nth-of-type(1) {
+			flex: 1;
+			width: 200px;
+			margin: 0 auto;
+		}
+	}
+
+	.modal-btn-multi-wrapper {
+		display: flex;
+		gap: 8px;
+		max-height: 50px;
+		margin-top: 32px;
+
+		& > :nth-of-type(1) {
+			flex: 1;
+			width: 200px;
+		}
+
+		& > :nth-of-type(2) {
+			flex: 1;
+			width: 200px;
+		}
+	}
+
+	.modal-social-title {
+		padding-bottom: 16px;
+		font: ${theme.fonts.headline_002};
+	}
+
+	.modal-social-btn-wrapper {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		width: 400px;
+		height: 130px;
+		margin-top: 68px;
+
+		& > :nth-of-type(1) {
+			flex: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 60px;
+			border-radius: 10px;
+			background: #06bd34;
+			font: ${theme.fonts.button_001};
+			color: #ffffff;
+		}
+
+		& > :nth-of-type(2) {
+			flex: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 60px;
+			border-radius: 10px;
+			background: #fbe54d;
+			font: ${theme.fonts.button_001};
+			color: #351d1c;
+		}
 	}
 `;
 
