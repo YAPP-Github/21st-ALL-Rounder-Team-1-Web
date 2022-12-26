@@ -1,0 +1,38 @@
+import styled from 'styled-components';
+
+export const RadioBtnContainer = styled.label`
+	cursor: pointer;
+	position: absolute;
+	& > input {
+		opacity: 0;
+		height: 0;
+		width: 0;
+	}
+	& > span {
+		position: absolute;
+		height: 24px;
+		width: 24px;
+		border-radius: 50%;
+		background-color: ${({ theme }) => theme.colors.white};
+		border: 1px solid ${({ theme }) => theme.colors.gray_003};
+	}
+	& > input:checked ~ span:after {
+		content: '';
+		position: absolute;
+		transform: translate(30%, 30%);
+		width: 14px;
+		height: 14px;
+		border-radius: 50%;
+		background: ${({ theme }) => theme.colors.gray_007};
+	}
+`;
+
+// /* 2번 그룹 라디오 버튼 선택 시 색상 변경, 내부 원 */
+// span {
+// 	position: absolute;
+// 	height: 24px;
+// 	width: 24px;
+// 	border-radius: 50%;
+// 	background-color: ${({ theme }) => theme.colors.white};
+// 	border: 1px solid ${({ theme }) => theme.colors.gray_003};
+// }
