@@ -1,15 +1,36 @@
 import { css, DefaultTheme } from 'styled-components';
+import localFont from '@next/font/local';
 
+const pretendard = localFont({
+	src: [
+		{
+			path: '../public/static/fonts/Pretendard-Regular.woff2',
+			weight: '400',
+			style: 'normal',
+		},
+		{
+			path: '../public/static/fonts/Pretendard-Medium.woff2',
+			weight: '500',
+			style: 'normal',
+		},
+		{
+			path: '../public/static/fonts/Pretendard-Bold.woff2',
+			weight: '700',
+			style: 'normal',
+		},
+	],
+});
 interface Font {
 	weight: 400 | 500 | 600 | 700;
 	size: number;
 	height: number;
 	spacing: number;
+	fontFamily: string;
 }
 
-const fontStyleGenerator = ({ weight, size, height, spacing }: Font) => {
+const fontStyleGenerator = ({ weight, size, height, spacing, fontFamily }: Font) => {
 	return css`
-		font-family: Pretendard;
+		font-family: ${fontFamily};
 		font-weight: ${weight};
 		font-size: ${size}px;
 		line-height: ${height}px;
