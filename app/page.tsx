@@ -1,11 +1,23 @@
 'use client';
 
 import styled from 'styled-components';
-import { StyledLayout, Typography } from 'components/shared';
+import { StyledLayout, Typography, Toast } from 'components/shared';
+import {
+	SocialLoginModal,
+	ExitConfirmModal,
+	LeaveMemberConfirmModal,
+	StoreResistrationConfirmModal,
+	LeaveMemberSuccessModal,
+	StoreEditSuccessModal,
+	StoreProductEditSuccessModal,
+	StoreProductRequiredWarningModal,
+} from 'components/feature';
 
 const Root = () => {
 	return (
 		<Container display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'}>
+			{false && <Toast open={false} duration={3} />}
+
 			<Typography variant="h2" aggressive="headline_001" align="center" lineHeight="64px" padding="0 0 24px 0">
 				리필스테이션,
 				<br />
@@ -29,9 +41,21 @@ const Root = () => {
 					fontSize: '16px',
 					fontWeight: 'medium',
 				}}
+				onClick={() => {}}
 			>
 				입점 신청하기
 			</div>
+
+			{false && <SocialLoginModal />}
+
+			{false && <ExitConfirmModal />}
+			{false && <LeaveMemberConfirmModal />}
+			{false && <StoreResistrationConfirmModal />}
+
+			{false && <LeaveMemberSuccessModal />}
+			{false && <StoreEditSuccessModal />}
+			{false && <StoreProductEditSuccessModal />}
+			{false && <StoreProductRequiredWarningModal />}
 		</Container>
 	);
 };
