@@ -2,7 +2,9 @@ import styled from 'styled-components';
 
 export const RadioBtnContainer = styled.label`
 	cursor: pointer;
-	position: absolute;
+	display: inline-block;
+	height: 24px;
+	width: 24px;
 	& > input {
 		opacity: 0;
 		height: 0;
@@ -24,6 +26,10 @@ export const RadioBtnContainer = styled.label`
 		height: 14px;
 		border-radius: 50%;
 		background: ${({ theme }) => theme.colors.gray_007};
+	}
+	& > input:disabled ~ span {
+		cursor: not-allowed;
+		background: ${({ theme }) => theme.colors.gray_001};
 	}
 `;
 
