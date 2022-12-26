@@ -1,4 +1,4 @@
-import { css, DefaultTheme, Styles } from 'styled-components';
+import { css, DefaultTheme } from 'styled-components';
 
 interface Font {
 	weight: 400 | 500 | 600 | 700;
@@ -53,24 +53,5 @@ const theme: DefaultTheme = {
 		tab_002: fontStyleGenerator({ weight: 500, size: 15, height: 17, spacing: -0.4 }),
 	},
 } as const;
-export const style: Styles = {
-	btnStyle: {
-		white_btn: {
-			width: `${200}px`,
-			backgroundColor: `${theme.colors.white}`,
-			color: `${theme.colors.gray_007}`,
-			border: `1px solid ${theme.colors.gray_004}`,
-		},
-		blue_btn_001: {
-			width: `${200}px`,
-			backgroundColor: `${theme.colors.primary_003}`,
-			color: `${theme.colors.white}`,
-		},
-		blue_btn_002: {
-			width: `${240}px`,
-			backgroundColor: `${theme.colors.primary_003}`,
-			color: `${theme.colors.white}`,
-		},
-	},
-};
+
 export default theme;
