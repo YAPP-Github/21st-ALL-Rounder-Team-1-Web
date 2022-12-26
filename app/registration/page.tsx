@@ -1,24 +1,33 @@
 'use client';
-
-import { useAtom } from 'jotai';
-import { countAtom } from 'store/atoms';
-import { StyledLayout } from 'components/shared';
+import { LargeBtn, StyledLayout } from 'components/shared';
+import style from 'styles/style';
 
 const Registration = () => {
-	const [count, setCount] = useAtom(countAtom);
+	// const [count, setCount] = useAtom(countAtom);
 
 	return (
 		<StyledLayout.BoxFlexCenter>
-			<div>Registration Page 👋🏻</div>
-			<div> counter : {count}</div>
-			<div style={{ display: 'flex' }}>
-				<button style={{ flex: 1, border: '1px solid black' }} type="button" onClick={() => setCount(count - 1)}>
-					-
-				</button>
-				<button style={{ flex: 1, border: '1px solid black' }} type="button" onClick={() => setCount(count + 1)}>
-					+
-				</button>
-			</div>
+			<br />
+			<br />
+			<br />
+			<br />
+			<LargeBtn style={style.btnStyle.blue_btn_002} onClick={() => alert('얏호 개선완료')}>
+				다음 단계
+			</LargeBtn>
+			<br />
+			<br />
+			<br />
+			<br />
+			<LargeBtn style={style.btnStyle.blue_btn_001} onClick={() => alert('얏호 히히')}>
+				다음 단계
+			</LargeBtn>
+			<br />
+			<br />
+			<br />
+			<br />
+			<LargeBtn style={style.btnStyle.white_btn} onClick={() => alert('얏호 호호')}>
+				다음 단계
+			</LargeBtn>
 		</StyledLayout.BoxFlexCenter>
 	);
 };
