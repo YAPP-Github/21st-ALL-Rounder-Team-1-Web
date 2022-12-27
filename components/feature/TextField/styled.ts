@@ -28,11 +28,11 @@ export const StyledTextFiled = styled.input<{ isError: boolean | undefined }>`
 	}
 `;
 
-export const StyledMessage = styled.span<{ flag: string }>`
+export const StyledMessage = styled.span`
 	display: block;
 	padding: 0px 8px;
 	gap: 8px;
 	${({ theme }) => theme.fonts.body_oneline_005};
 	margin-top: 6px;
-	color: ${({ theme, flag }) => (flag === 'error' ? theme.colors.error : theme.colors.success)};
+	color: ${({ theme }) => theme.colors.error};
 `;
