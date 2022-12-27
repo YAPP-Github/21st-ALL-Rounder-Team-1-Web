@@ -2,9 +2,11 @@ import styled from 'styled-components';
 
 export const TextFieldContainer = styled.div`
 	position: relative;
+	display: flex;
+	flex-direction: column;
 `;
-export const StyledTextFiled = styled.input`
-	border: 1px solid ${({ theme }) => theme.colors.gray_002};
+export const StyledTextFiled = styled.input<{ isError: boolean | undefined }>`
+	border: 1px solid ${({ theme, isError }) => (!isError || undefined ? theme.colors.gray_002 : theme.colors.error)};
 	padding: 8px 16px;
 	width: 320px;
 	height: 48px;
@@ -24,4 +26,13 @@ export const StyledTextFiled = styled.input`
 	::placeholder {
 		color: ${({ theme }) => theme.colors.gray_003};
 	}
+`;
+
+export const StyledMessage = styled.span<{ flag: string }>`
+	display: block;
+	padding: 0px 8px;
+	gap: 8px;
+	${({ theme }) => theme.fonts.body_oneline_005};
+	margin-top: 6px;
+	color: ${({ theme, flag }) => (flag === 'error' ? theme.colors.error : theme.colors.success)};
 `;

@@ -1,13 +1,12 @@
 'use client';
-import { RadioBtn, TextField } from 'components/feature';
-import { FlexBox } from 'components/shared/styled/layout';
+import { TextField } from 'components/feature';
 
 const Registration = () => {
-	// const [count, setCount] = useAtom(countAtom);
-
 	return (
 		<>
-			<TextField />
+			<TextField isError={true} placeholder="입력해주세요" />
+			<TextField placeholder="입력해주세요" />
+			<TextField isSuccess={true} placeholder="입력해주세요" />
 		</>
 	);
 };
