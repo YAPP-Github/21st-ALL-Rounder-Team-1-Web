@@ -5,8 +5,8 @@ export const TextFieldContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 `;
-export const StyledTextFiled = styled.input<{ isError: boolean | undefined }>`
-	border: 1px solid ${({ theme, isError }) => (!isError || undefined ? theme.colors.gray_002 : theme.colors.error)};
+export const StyledTextFiled = styled.input<{ flag: string | undefined }>`
+	border: 1px solid ${({ theme, flag }) => (flag === 'error' ? theme.colors.error : theme.colors.gray_002)};
 	padding: 8px 16px;
 	width: 320px;
 	height: 48px;

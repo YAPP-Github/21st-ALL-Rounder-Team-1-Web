@@ -4,26 +4,25 @@ import { BusinessTextFiled, SuccessMessage } from './styled';
 
 interface Props {
 	placeholder: string;
-	isError?: boolean;
-	isSuccess?: boolean;
+	flag?: string; // normal , success , error
 }
 const BusinessLicenseTextField = (props: Props) => {
-	const [isError, setIsError] = useState(props.isError);
+	const [flag, setFlag] = useState(props.flag);
 	const handleError = () => {
-		if (!isError) return;
-		setIsError((isError) => !isError);
+		if (flag === 'normal') return;
+		setFlag('normal');
 	};
 	return (
 		<TextFieldContainer>
 			<BusinessTextFiled
 				onFocus={handleError}
-				isError={isError}
+				flag={flag}
 				placeholder={props.placeholder}
 				type="search"
-				disabled={props.isSuccess}
+				disabled={flag === 'success'}
 			/>
-			{isError && <StyledMessage>사업자 번호를 확인해주세요</StyledMessage>}
-			{props.isSuccess && <SuccessMessage>✓ 입점가능한 사업자 번호입니다.</SuccessMessage>}
+			{flag === 'error' && <StyledMessage>사업자 번호를 확인해주세요</StyledMessage>}
+			{flag === 'success' && <SuccessMessage>✓ 입점가능한 사업자 번호입니다.</SuccessMessage>}
 		</TextFieldContainer>
 	);
 };

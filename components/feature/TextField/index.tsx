@@ -3,19 +3,18 @@ import { StyledMessage, StyledTextFiled, TextFieldContainer } from './styled';
 
 interface Props {
 	placeholder: string;
-	isError?: boolean;
-	isSuccess?: boolean;
+	flag?: string; // normal , success , error
 }
 const TextField = (props: Props) => {
-	const [isError, setIsError] = useState(props.isError);
+	const [flag, setFlag] = useState(props.flag);
 	const handleError = () => {
-		if (!isError) return;
-		setIsError((isError) => !isError);
+		if (flag === 'normal') return;
+		setFlag('normal');
 	};
 	return (
 		<TextFieldContainer>
-			<StyledTextFiled onFocus={handleError} isError={isError} placeholder={props.placeholder} type="search" />
-			{isError && <StyledMessage>경고메시지 자리에요</StyledMessage>}
+			<StyledTextFiled onFocus={handleError} flag={flag} placeholder={props.placeholder} type="search" />
+			{flag === 'error' && <StyledMessage>경고메시지 자리에요</StyledMessage>}
 		</TextFieldContainer>
 	);
 };
