@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
-import { ModalFrame } from 'components/shared';
+import { ModalFrame, LargeBtn } from 'components/shared';
+import style from 'styles/style';
 
 type Props = {
 	modalTitle: ReactNode;
@@ -23,12 +24,12 @@ const ConfirmModal = (props: Props) => {
 			<p className="modal-description">{props.modalDescription}</p>
 
 			<div className="modal-btn-multi-wrapper">
-				<button type="button" onClick={props.modalBtn.cancel.onCancel}>
+				<LargeBtn style={style.btnStyle.white_btn} onClick={props.modalBtn.cancel.onCancel}>
 					{props.modalBtn.cancel.text}
-				</button>
-				<button type="button" onClick={props.modalBtn.confirm.onConfirm}>
+				</LargeBtn>
+				<LargeBtn style={style.btnStyle.black_btn} onClick={props.modalBtn.confirm.onConfirm}>
 					{props.modalBtn.confirm.text}
-				</button>
+				</LargeBtn>
 			</div>
 		</ModalFrame>
 	);

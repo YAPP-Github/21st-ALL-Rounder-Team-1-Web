@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
-import { ModalFrame } from 'components/shared';
+import { ModalFrame, LargeBtn } from 'components/shared';
+import style from 'styles/style';
 
 type Props = {
 	modalTitle: ReactNode;
@@ -18,9 +19,12 @@ const InfoMoal = (props: Props) => {
 			<p className="modal-description">{props.modalDescription}</p>
 
 			<div className={props.modalBtn.type === 'primary' ? 'modal-primary-btn-single-wrapper' : 'modal-btn-single-wrapper'}>
-				<button type="button" onClick={props.modalBtn.onClick}>
+				<LargeBtn
+					style={props.modalBtn.type === 'primary' ? style.btnStyle.blue_btn_001 : style.btnStyle.black_btn}
+					onClick={props.modalBtn.onClick}
+				>
 					{props.modalBtn.text}
-				</button>
+				</LargeBtn>
 			</div>
 		</ModalFrame>
 	);
