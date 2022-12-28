@@ -1,7 +1,7 @@
 'use client';
 
 import styled from 'styled-components';
-import { StyledLayout, Typography, Toast } from 'components/shared';
+import { StyledLayout, Typography, Toast, LargeBtn } from 'components/shared';
 import {
 	SocialLoginModal,
 	ExitConfirmModal,
@@ -12,6 +12,7 @@ import {
 	StoreProductEditSuccessModal,
 	StoreProductRequiredWarningModal,
 } from 'components/feature';
+import style from 'styles/style';
 
 const Root = () => {
 	return (
@@ -28,23 +29,9 @@ const Root = () => {
 				<br />더 많은 사람에게 리필스테이션의 가치를 전해보세요.
 			</Typography>
 
-			<div
-				style={{
-					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'center',
-					width: '240px',
-					height: '50px',
-					borderRadius: '8px',
-					backgroundColor: '#0064FF',
-					color: '#FFFFFF',
-					fontSize: '16px',
-					fontWeight: 'medium',
-				}}
-				onClick={() => {}}
-			>
+			<LargeBtn style={style.btnStyle.blue_btn_002} onClick={() => {}}>
 				입점 신청하기
-			</div>
+			</LargeBtn>
 
 			{false && <SocialLoginModal />}
 
