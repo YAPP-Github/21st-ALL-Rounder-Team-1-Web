@@ -18,7 +18,7 @@ const Root = () => {
 		<Container display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'}>
 			{false && <Toast open={false} duration={3} />}
 
-			<Typography variant="h2" aggressive="headline_001" align="center" lineHeight="64px" padding="0 0 24px 0">
+			<Typography variant="h2" aggressive="headline_multiline_001" align="center" lineHeight="64px" padding="0 0 24px 0">
 				리필스테이션,
 				<br />
 				OOO서비스에서 알리세요!

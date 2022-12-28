@@ -21,7 +21,7 @@ const pretendard = localFont({
 	],
 });
 interface Font {
-	weight: 400 | 500 | 700;
+	weight: 400 | 500 | 600 | 700;
 	size: number;
 	height: number;
 	spacing: number;
@@ -56,7 +56,20 @@ const theme: DefaultTheme = {
 		primary_003: '#0064FF',
 	},
 	fonts: {
-		headline_001: fontStyleGenerator({ weight: 700, size: 48, height: 50, spacing: -1, fontFamily: pretendard.style.fontFamily }),
+		headline_oneline_001: fontStyleGenerator({
+			weight: 700,
+			size: 48,
+			height: 50,
+			spacing: -1,
+			fontFamily: pretendard.style.fontFamily,
+		}),
+		headline_multiline_001: fontStyleGenerator({
+			weight: 700,
+			size: 48,
+			height: 64,
+			spacing: -1,
+			fontFamily: pretendard.style.fontFamily,
+		}),
 		headline_002: fontStyleGenerator({
 			weight: 700,
 			size: 32,
@@ -99,6 +112,20 @@ const theme: DefaultTheme = {
 			spacing: -0.4,
 			fontFamily: pretendard.style.fontFamily,
 		}),
+		body_oneline_004: fontStyleGenerator({
+			weight: 400,
+			size: 14,
+			height: 16,
+			spacing: -0.4,
+			fontFamily: pretendard.style.fontFamily,
+		}),
+		body_oneline_005: fontStyleGenerator({
+			weight: 400,
+			size: 13,
+			height: 15,
+			spacing: -0.4,
+			fontFamily: pretendard.style.fontFamily,
+		}),
 		body_multiline_001: fontStyleGenerator({
 			weight: 400,
 			size: 17,
@@ -121,6 +148,8 @@ const theme: DefaultTheme = {
 			fontFamily: pretendard.style.fontFamily,
 		}),
 		button_001: fontStyleGenerator({ weight: 500, size: 16, height: 18, spacing: -0.4, fontFamily: pretendard.style.fontFamily }),
+		tab_001: fontStyleGenerator({ weight: 600, size: 15, height: 17, spacing: -0.4, fontFamily: pretendard.style.fontFamily }),
+		tab_002: fontStyleGenerator({ weight: 500, size: 15, height: 17, spacing: -0.4, fontFamily: pretendard.style.fontFamily }),
 	},
 } as const;
 

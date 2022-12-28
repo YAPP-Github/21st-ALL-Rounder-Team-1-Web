@@ -1,3 +1,4 @@
+import React from 'react';
 import 'styled-components';
 
 declare module 'styled-components' {
@@ -19,17 +20,29 @@ declare module 'styled-components' {
 			primary_003: '#0064FF';
 		};
 		fonts: {
-			headline_001: FlattenSimpleInterpolation;
+			headline_oneline_001: FlattenSimpleInterpolation;
+			headline_multiline_001: FlattenSimpleInterpolation;
 			headline_002: FlattenSimpleInterpolation;
 			headline_003: FlattenSimpleInterpolation;
 			headline_004: FlattenSimpleInterpolation;
 			body_oneline_001: FlattenSimpleInterpolation;
 			body_oneline_002: FlattenSimpleInterpolation;
 			body_oneline_003: FlattenSimpleInterpolation;
+			body_oneline_004: FlattenSimpleInterpolation;
+			body_oneline_005: FlattenSimpleInterpolation;
 			body_multiline_001: FlattenSimpleInterpolation;
 			body_multiline_002: FlattenSimpleInterpolation;
 			body_multiline_003: FlattenSimpleInterpolation;
 			button_001: FlattenSimpleInterpolation;
+			tab_001: FlattenSimpleInterpolation;
+			tab_002: FlattenSimpleInterpolation;
+		};
+	}
+	export interface Styles {
+		btnStyle: {
+			white_btn: React.CSSProperties;
+			blue_btn_001: React.CSSProperties;
+			blue_btn_002: React.CSSProperties;
 		};
 	}
 }

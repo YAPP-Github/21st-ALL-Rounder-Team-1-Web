@@ -266,7 +266,7 @@ const GlobalStyle = styled.createGlobalStyle`
 
 	.modal-social-title {
 		padding-bottom: 16px;
-		font: ${theme.fonts.headline_002};
+		font: ${theme.fonts.headline_003};
 	}
 
 	.modal-social-btn-wrapper {
