@@ -4,16 +4,22 @@ import * as S from './styled';
 type Props = {
 	variant: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'caption' | 'span' | 'div';
 	aggressive:
-		| 'headline_001'
+		| 'headline_oneline_001'
+		| 'headline_multiline_001'
 		| 'headline_002'
 		| 'headline_003'
 		| 'headline_004'
 		| 'body_oneline_001'
 		| 'body_oneline_002'
 		| 'body_oneline_003'
+		| 'body_oneline_004'
+		| 'body_oneline_005'
 		| 'body_multiline_001'
 		| 'body_multiline_002'
-		| 'body_multiline_003';
+		| 'body_multiline_003'
+		| 'button_001'
+		| 'tab_001'
+		| 'tab_002';
 	margin?: string;
 	padding?: string;
 	color?: string;

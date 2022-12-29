@@ -17,6 +17,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
 						<RootStyleRegistry>
 							<ThemeProvider theme={theme}>
 								<GlobalStyle />
+								<div id="modal-portal" />
 								<Header />
 								<ChildrenContainer>{children}</ChildrenContainer>
 								<Footer />

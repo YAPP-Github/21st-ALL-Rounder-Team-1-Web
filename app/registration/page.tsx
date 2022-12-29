@@ -6,7 +6,7 @@ const Registration = () => {
 		<>
 			<TextField flag="error" placeholder="입력해주세요" />
 			<TextField flag="normal" placeholder="입력해주세요" />
-			<BusinessLicenseTextField flag="success" placeholder="입력해주세요" />
+			<BusinessLicenseTextField flag="normal" placeholder="입력해주세요" />
 		</>
 	);
 };

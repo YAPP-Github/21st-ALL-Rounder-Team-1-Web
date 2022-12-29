@@ -41,6 +41,7 @@ declare module 'styled-components' {
 	export interface Styles {
 		btnStyle: {
 			white_btn: React.CSSProperties;
+			black_btn: React.CSSProperties;
 			blue_btn_001: React.CSSProperties;
 			blue_btn_002: React.CSSProperties;
 		};
