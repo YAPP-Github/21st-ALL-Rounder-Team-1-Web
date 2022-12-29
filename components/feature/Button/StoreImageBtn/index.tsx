@@ -1,10 +1,10 @@
-import { PhotoIcon } from 'public/static/icons';
+import { AddPhotoIcon } from 'public/static/icons';
 import { StoreImageContainer } from './styled';
 
 const StoreImageBtn = () => {
 	return (
 		<StoreImageContainer>
-			<PhotoIcon />
+			<AddPhotoIcon />
 		</StoreImageContainer>
 	);
 };

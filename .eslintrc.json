@@ -22,6 +22,7 @@
 		"@typescript-eslint/triple-slash-reference": "off",
 		"@typescript-eslint/consistent-type-definitions": "off",
 		"@typescript-eslint/strict-boolean-expressions": "off",
+		"no-useless-return": "off",
 		"react/react-in-jsx-scope": "off",
 		"no-var": "error",
 		"no-unused-vars": ["error", { "args": "none" }],
