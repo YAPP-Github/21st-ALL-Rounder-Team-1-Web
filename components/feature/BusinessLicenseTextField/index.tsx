@@ -1,12 +1,13 @@
 import { ChangeEvent, useState } from 'react';
-import { TextFieldContainer, StyledMessage } from '../TextField/styled';
-import { BusinessTextFiled, SuccessMessage } from './styled';
+import style from 'styles/style';
+import { TextFieldContainer, StyledMessage, StyledTextFiled } from '../TextField/styled';
+import { SuccessMessage } from './styled';
 
 interface Props {
 	placeholder: string;
 	flag?: string; // normal , success , error
 }
-const BusinessLicenseTextField = (props: Props) => {
+const BusinessLicenseTextField = ({ placeholder, ...props }: Props) => {
 	const [flag, setFlag] = useState(props.flag);
 	const [businessLicense, setBusinessLicense] = useState('');
 	const handleError = () => {
@@ -23,10 +24,11 @@ const BusinessLicenseTextField = (props: Props) => {
 	};
 	return (
 		<TextFieldContainer>
-			<BusinessTextFiled
+			<StyledTextFiled
 				onFocus={handleError}
 				flag={flag}
-				placeholder={props.placeholder}
+				style={style.textFieldWidth.textField_width_003}
+				placeholder={placeholder}
 				type="search"
 				value={businessLicense}
 				onChange={handleBusinessLicense}

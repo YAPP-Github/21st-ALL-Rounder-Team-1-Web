@@ -8,7 +8,7 @@ export const TextFieldContainer = styled.div`
 export const StyledTextFiled = styled.input<{ flag: string | undefined }>`
 	border: 1px solid ${({ theme, flag }) => (flag === 'error' ? theme.colors.error : theme.colors.gray_002)};
 	padding: 8px 16px;
-	width: 320px;
+
 	height: 48px;
 	border-radius: 10px;
 	font: ${({ theme }) => theme.fonts.body_oneline_002};
