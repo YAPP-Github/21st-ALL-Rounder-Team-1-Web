@@ -10,7 +10,7 @@ const ProductImageBtn = (props: Props) => {
 			<ProductImageContainer isError={props.isError}>
 				<AddPhotoIcon />
 			</ProductImageContainer>
-			<ProductErrorMeassage>사진을 입력하세요</ProductErrorMeassage>
+			{/* <ProductErrorMeassage>사진을 입력하세요</ProductErrorMeassage> */}
 		</>
 	);
 };

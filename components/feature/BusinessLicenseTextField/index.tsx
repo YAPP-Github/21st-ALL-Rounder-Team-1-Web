@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState, KeyboardEvent } from 'react';
 import style from 'styles/style';
 import { TextFieldContainer, StyledMessage, StyledTextFiled } from '../TextField/styled';
 import { SuccessMessage } from './styled';
@@ -10,17 +10,28 @@ interface Props {
 const BusinessLicenseTextField = ({ placeholder, ...props }: Props) => {
 	const [flag, setFlag] = useState(props.flag);
 	const [businessLicense, setBusinessLicense] = useState('');
+	const [currentKey, setCurrentKey] = useState('');
 	const handleError = () => {
 		if (flag === 'normal') return;
 		setFlag('normal');
 	};
 	const handleBusinessLicense = (e: ChangeEvent<HTMLInputElement>) => {
+		// 나중에 한 번 더 체크
 		let newText = e.target.value;
+		const num = /[-0-9]/;
+		if (newText.length > 0 && !num.test(newText[newText.length - 1])) return;
 		if (newText.length > 12) return;
-		if (newText.length === 3 || newText.length === 6) {
+		if (newText.length === 12) {
+			setBusinessLicense(newText.replace(/-/g, '').replace(/(\d{3})(\d{2})(\d{5})/, '$1-$2-$3'));
+			return;
+		}
+		if (currentKey !== 'Backspace' && (newText.length === 3 || newText.length === 6)) {
 			newText += '-';
 		}
-		setBusinessLicense(newText);
+		setBusinessLicense(newText.replace(/(\d{3})(\d{2})(\d{5})/, '$1-$2-$3'));
+	};
+	const checkKey = (e: KeyboardEvent<HTMLInputElement>) => {
+		setCurrentKey(() => e.key);
 	};
 	return (
 		<TextFieldContainer>
@@ -32,6 +43,7 @@ const BusinessLicenseTextField = ({ placeholder, ...props }: Props) => {
 				type="search"
 				value={businessLicense}
 				onChange={handleBusinessLicense}
+				onKeyDown={checkKey}
 				disabled={flag === 'success'}
 			/>
 			{flag === 'error' && <StyledMessage>사업자 번호를 확인해주세요</StyledMessage>}
