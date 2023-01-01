@@ -1,6 +1,6 @@
 'use client';
 import { Typography } from 'components/shared';
-import { BottomIcon } from 'public/static/icons';
+import { BottomIcon, TopIcon } from 'public/static/icons';
 import { useRef, useState } from 'react';
 import { DropDownContainer, DropDownClosed, DownSection, DownContainer } from './styled';
 
@@ -26,7 +26,7 @@ const DropDownList = ({ dropdownElements }: Props) => {
 			<DropDownClosed ref={focusRef} onClick={handleIsOpen}>
 				<Typography variant="h2" aggressive="button_001">
 					{dropdownElements[selectedElement]}
-					<BottomIcon />
+					{!isOpen ? <BottomIcon /> : <TopIcon />}
 				</Typography>
 			</DropDownClosed>
 			<DownContainer isOpen={isOpen}>

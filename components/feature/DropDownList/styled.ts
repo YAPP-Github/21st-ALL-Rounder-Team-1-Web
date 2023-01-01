@@ -24,7 +24,8 @@ export const DropDownClosed = styled.button`
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	justify-content: center;
+	justify-content: flex-end;
+	padding-right: 13px;
 	border: 1px solid ${({ theme }) => theme.colors.gray_002};
 	&:focus {
 		border-radius: 8px 8px 0px 0px;
@@ -40,6 +41,7 @@ export const DownContainer = styled.div<{ isOpen: boolean }>`
 		css`
 			visibility: visible;
 		`}
+	z-index:1;
 `;
 export const DownSection = styled.article`
 	width: 75px;
@@ -49,8 +51,8 @@ export const DownSection = styled.article`
 	border-radius: 0px 0px 8px 8px;
 	border-top: none;
 	display: flex;
+	padding: 0 21px;
 	align-items: center;
-	justify-content: center;
 	&:hover {
 		background-color: ${({ theme }) => theme.colors.gray_000};
 	}
