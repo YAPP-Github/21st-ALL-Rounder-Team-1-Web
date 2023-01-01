@@ -3,11 +3,11 @@ import { StyledMessage, StyledTextFiled, TextFieldContainer } from './styled';
 
 interface Props {
 	placeholder: string;
-	flag?: string; // normal , success , error
+	flag: string; // normal , success , error
 	width: React.CSSProperties;
 }
 const TextField = ({ placeholder, width, ...props }: Props) => {
-	const [flag, setFlag] = useState(props.flag);
+	const [flag, setFlag] = useState<string>(props.flag);
 	const handleError = () => {
 		if (flag === 'normal') return;
 		setFlag('normal');

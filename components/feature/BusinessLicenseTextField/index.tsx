@@ -5,12 +5,12 @@ import { SuccessMessage } from './styled';
 
 interface Props {
 	placeholder: string;
-	flag?: string; // normal , success , error
+	flag: string; // normal , success , error
 }
 const BusinessLicenseTextField = ({ placeholder, ...props }: Props) => {
-	const [flag, setFlag] = useState(props.flag);
-	const [businessLicense, setBusinessLicense] = useState('');
-	const [currentKey, setCurrentKey] = useState('');
+	const [flag, setFlag] = useState<string>(props.flag);
+	const [businessLicense, setBusinessLicense] = useState<string>('');
+	const [currentKey, setCurrentKey] = useState<string>('');
 	const handleError = () => {
 		if (flag === 'normal') return;
 		setFlag('normal');
