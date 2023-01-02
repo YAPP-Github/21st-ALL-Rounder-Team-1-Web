@@ -1,11 +1,12 @@
 'use client';
 
-import { DropDownList } from 'components/feature';
+import { RadioBtn } from 'components/feature';
 
 const Registration = () => {
 	return (
 		<>
-			<DropDownList dropdownElements={['g당', 'ml당']} />
+			<RadioBtn value="1학년" name="학교" />
+			<RadioBtn value="2학년" name="학교" />
 		</>
 	);
 };

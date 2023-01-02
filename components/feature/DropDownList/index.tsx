@@ -1,4 +1,3 @@
-'use client';
 import { Typography } from 'components/shared';
 import { BottomIcon, TopIcon } from 'public/static/icons';
 import { useRef, useState } from 'react';

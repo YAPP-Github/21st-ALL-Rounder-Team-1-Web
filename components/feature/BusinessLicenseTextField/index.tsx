@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, KeyboardEvent } from 'react';
+import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import style from 'styles/style';
 import { TextFieldContainer, StyledMessage, StyledTextFiled } from '../TextField/styled';
 import { SuccessMessage } from './styled';
