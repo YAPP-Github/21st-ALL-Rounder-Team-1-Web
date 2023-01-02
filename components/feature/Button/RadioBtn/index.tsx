@@ -1,7 +1,7 @@
 import { RadioBtnContainer } from './styled';
 
 // 어떤 요소인지 구분하기 위함. 추후 name 도 어떻게 해볼지 고민해봐야함
-interface Props {
+type Props = {
 	value: string;
 	name: string;
 }

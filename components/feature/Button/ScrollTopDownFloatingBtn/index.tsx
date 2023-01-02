@@ -1,7 +1,7 @@
 import { BottomIcon, TopIcon } from 'public/static/icons';
 import { FloatingBtnContainer } from './styled';
 
-interface Props {
+type Props = {
 	isTop: boolean; // true->to top, false->to bottom
 }
 const ScrollTopDownFloatingBtn = (props: Props) => {
