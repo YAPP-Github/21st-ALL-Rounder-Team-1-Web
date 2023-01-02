@@ -22,7 +22,7 @@ const Root = () => {
 			<Typography variant="h2" aggressive="headline_multiline_001" align="center" lineHeight="64px" padding="0 0 24px 0">
 				리필스테이션,
 				<br />
-				OOO서비스에서 알리세요!
+				Pump! 에서 알리세요!
 			</Typography>
 			<Typography variant="p" aggressive="body_multiline_001" align="center" padding="0 0 36px 0">
 				빠르고 간편하게 가게 정보와 판매상품을 등록하고
