@@ -4,7 +4,7 @@ import { TabContainer, TabElement } from './styled';
 const Tab = () => {
 	return (
 		<TabContainer>
-			<TabElement>
+			<TabElement isCurrentStep={true}>
 				<Typography variant="h2" aggressive="body_oneline_005">
 					Step1
 				</Typography>
@@ -12,7 +12,7 @@ const Tab = () => {
 					운영자 기본정보
 				</Typography>
 			</TabElement>
-			<TabElement>
+			<TabElement isCurrentStep={false}>
 				<Typography variant="h2" aggressive="body_oneline_005">
 					Step2
 				</Typography>
@@ -20,7 +20,7 @@ const Tab = () => {
 					매장정보
 				</Typography>
 			</TabElement>
-			<TabElement>
+			<TabElement isCurrentStep={false}>
 				<Typography variant="h2" aggressive="body_oneline_005">
 					Step3
 				</Typography>
