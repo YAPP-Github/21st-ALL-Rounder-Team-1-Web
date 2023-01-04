@@ -11,7 +11,7 @@ const StoreResistrationConfirmModal = () => {
 					onCancel: () => {},
 				},
 				confirm: {
-					text: '신청',
+					text: '신청하기',
 					onConfirm: () => {},
 				},
 			}}
