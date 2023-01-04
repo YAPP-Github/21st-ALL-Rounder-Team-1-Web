@@ -1,8 +1,8 @@
 import { Typography } from 'components/shared';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { theme } from 'styles';
-import { SelectedTabElement, TabContainer, TabElement } from './styled';
+import { TabContainer, TabElement } from './styled';
 
 const Tab = () => {
 	const pathname = usePathname();
