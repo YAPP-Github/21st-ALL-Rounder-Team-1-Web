@@ -12,6 +12,10 @@ const Tab = () => {
 		{ id: 3, step: 'Step3', title: '상품정보' },
 	];
 	const [currentStep, setCurrentStep] = useState(1);
+	const checkDetailUI = (elementId: number) => {
+		if (elementId === 3 || elementId + 1 === currentStep) return false;
+		return true;
+	};
 	useEffect(() => {
 		if (pathname !== null) {
 			setCurrentStep(() => Number(pathname[pathname.length - 1]));
@@ -21,7 +25,7 @@ const Tab = () => {
 		<TabContainer>
 			{tabElementArr.map(({ id, step, title }) => {
 				return (
-					<TabElement key={step} isSelected={id === currentStep}>
+					<TabElement borderRight={checkDetailUI(id)} key={step} isSelected={id === currentStep}>
 						<Typography
 							variant="h2"
 							color={id === currentStep ? theme.colors.primary_003 : theme.colors.gray_003}

@@ -1,9 +1,7 @@
 'use client';
 import { Tab } from 'components/feature';
 import { LargeBtn } from 'components/shared';
-import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import Router from 'next/router';
 import style from 'styles/style';
 
 const RegistrationLayout = ({ children }: { children: React.ReactNode }) => {
