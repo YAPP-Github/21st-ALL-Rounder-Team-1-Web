@@ -1,14 +1,13 @@
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import style from 'styles/style';
-import { TextFieldContainer, StyledMessage, StyledTextFiled } from '../TextField/styled';
-import { SuccessMessage } from './styled';
+import * as S from '../TextField/styled';
 // 다른 TextField와는 다르게 입력값 처리할 예정
 // 이유 1: 입력할 때 하이픈을 넣어줘야 함
 // 이유2: 하이픈 넣어준 것 제외한 값을 서버에 넘겨야 함
-interface Props {
+type Props = {
 	name: string;
 	flag: string; // normal , success , error
-}
+};
 const BusinessLicenseTextField = ({ name, ...props }: Props) => {
 	const [flag, setFlag] = useState<string>(props.flag);
 	const [businessLicense, setBusinessLicense] = useState<string>('');
@@ -36,8 +35,8 @@ const BusinessLicenseTextField = ({ name, ...props }: Props) => {
 		setCurrentKey(() => e.key);
 	};
 	return (
-		<TextFieldContainer>
-			<StyledTextFiled
+		<S.TextFieldContainer>
+			<S.StyledTextFiled
 				onFocus={handleError}
 				name={name}
 				flag={flag}
@@ -49,9 +48,9 @@ const BusinessLicenseTextField = ({ name, ...props }: Props) => {
 				onKeyDown={checkKey}
 				disabled={flag === 'success'}
 			/>
-			{flag === 'error' && <StyledMessage>사업자 번호를 확인해주세요</StyledMessage>}
-			{flag === 'success' && <SuccessMessage>✓ 입점가능한 사업자 번호입니다.</SuccessMessage>}
-		</TextFieldContainer>
+			{flag === 'error' && <S.StyledMessage>사업자 번호를 확인해주세요</S.StyledMessage>}
+			{flag === 'success' && <S.SuccessMessage>✓ 입점가능한 사업자 번호입니다.</S.SuccessMessage>}
+		</S.TextFieldContainer>
 	);
 };
 export default BusinessLicenseTextField;

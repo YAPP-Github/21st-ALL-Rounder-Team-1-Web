@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyledMessage, StyledTextFiled, TextFieldContainer } from './styled';
+import * as S from './styled';
 
 type Props = {
 	name: string;
@@ -17,8 +17,8 @@ const TextField = ({ placeholder, width, name, value, onChange, ...props }: Prop
 	};
 
 	return (
-		<TextFieldContainer>
-			<StyledTextFiled
+		<S.TextFieldContainer>
+			<S.StyledTextFiled
 				name={name}
 				id={name}
 				onFocus={handleError}
@@ -29,8 +29,8 @@ const TextField = ({ placeholder, width, name, value, onChange, ...props }: Prop
 				placeholder={placeholder}
 				type="search"
 			/>
-			{flag === 'error' && <StyledMessage>경고메시지 자리에요</StyledMessage>}
-		</TextFieldContainer>
+			{flag === 'error' && <S.StyledMessage>경고메시지 자리에요</S.StyledMessage>}
+		</S.TextFieldContainer>
 	);
 };
 export default TextField;

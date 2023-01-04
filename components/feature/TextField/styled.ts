@@ -36,3 +36,6 @@ export const StyledMessage = styled.span`
 	margin-top: 6px;
 	color: ${({ theme }) => theme.colors.error};
 `;
+export const SuccessMessage = styled(StyledMessage)`
+	color: ${({ theme }) => theme.colors.success};
+`;

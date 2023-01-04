@@ -32,13 +32,3 @@ export const RadioBtnContainer = styled.label`
 		background: ${({ theme }) => theme.colors.gray_001};
 	}
 `;
-
-// /* 2번 그룹 라디오 버튼 선택 시 색상 변경, 내부 원 */
-// span {
-// 	position: absolute;
-// 	height: 24px;
-// 	width: 24px;
-// 	border-radius: 50%;
-// 	background-color: ${({ theme }) => theme.colors.white};
-// 	border: 1px solid ${({ theme }) => theme.colors.gray_003};
-// }

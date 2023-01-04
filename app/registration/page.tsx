@@ -1,18 +1,15 @@
 'use client';
-
-import { BusinessLicenseTextField, TextField } from 'components/feature';
 import style from 'styles/style';
+import { BusinessLicenseTextField, DropDownList, TextField } from 'components/feature';
 
 const Registration = () => {
 	return (
 		<>
-			<BusinessLicenseTextField flag="normal" name="사업자" />
-			<TextField
-				onChange={(e) => alert(e.target.value)}
-				name="가격"
-				placeholder="가격"
-				flag="normal"
-				width={style.textFieldWidth.textField_width_001}
+			<DropDownList
+				dropdownElements={[
+					[0, 'g당'],
+					[1, 'ml당'],
+				]}
 			/>
 		</>
 	);

@@ -1,18 +1,18 @@
+import { useRef, useState } from 'react';
+import * as S from './styled';
 import { Typography } from 'components/shared';
 import { BottomIcon, TopIcon } from 'public/static/icons';
-import { useRef, useState } from 'react';
-import { DropDownContainer, DropDownClosed, DownSection, DownContainer } from './styled';
 
 type Props = {
-	dropdownElements: string[];
+	dropdownElements: Array<[number, string]>; // [index로 쓰일 number,요소 value값]
 };
 const DropDownList = ({ dropdownElements }: Props) => {
 	const focusRef = useRef<HTMLButtonElement>(null);
 	const [isOpen, setIsOpen] = useState<boolean>(false);
-	const [selectedElement, setSelectedElement] = useState<number>(0); // 지금 선택된 항목
-	const handleSelectedElement = (idx: number) => {
+	const [currentSelectedElementIndex, setCurrentSelectedElementIndex] = useState<number>(0); // 지금 선택된 항목
+	const handleCurrentSelectedElementIndex = (idx: number) => {
 		if (isOpen && focusRef.current !== null) focusRef.current.blur();
-		setSelectedElement(() => idx);
+		setCurrentSelectedElementIndex(() => idx);
 		setIsOpen((isOpen) => !isOpen);
 	};
 	const handleIsOpen = () => {
@@ -21,27 +21,27 @@ const DropDownList = ({ dropdownElements }: Props) => {
 		setIsOpen((isOpen) => !isOpen);
 	};
 	return (
-		<DropDownContainer>
-			<DropDownClosed ref={focusRef} onClick={handleIsOpen}>
+		<S.DropDownContainer>
+			<S.DropDownClosed ref={focusRef} onClick={handleIsOpen}>
 				<Typography variant="h2" aggressive="button_001">
-					{dropdownElements[selectedElement]}
+					{dropdownElements[currentSelectedElementIndex][1]}
 					{!isOpen ? <BottomIcon /> : <TopIcon />}
 				</Typography>
-			</DropDownClosed>
-			<DownContainer isOpen={isOpen}>
-				{dropdownElements.map((elementValue: string, idx: number) => {
+			</S.DropDownClosed>
+			<S.DownContainer isOpen={isOpen}>
+				{dropdownElements.map((item: [number, string]) => {
 					return (
-						idx !== selectedElement && (
-							<DownSection key={`${idx}${elementValue}`} onClick={() => handleSelectedElement(idx)}>
+						item[0] !== currentSelectedElementIndex && (
+							<S.DownSection key={`${item[1]}`} onClick={() => handleCurrentSelectedElementIndex(item[0])}>
 								<Typography variant="span" aggressive="button_001">
-									{elementValue}
+									{item[1]}
 								</Typography>
-							</DownSection>
+							</S.DownSection>
 						)
 					);
 				})}
-			</DownContainer>
-		</DropDownContainer>
+			</S.DownContainer>
+		</S.DropDownContainer>
 	);
 };
 export default DropDownList;
