@@ -1,6 +1,6 @@
 import { SmallBtnContainer } from './styled';
 
-interface Props {
+type Props = {
 	width: number;
 	btnText: string;
 }

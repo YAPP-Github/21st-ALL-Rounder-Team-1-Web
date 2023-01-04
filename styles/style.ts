@@ -25,5 +25,12 @@ const style: Styles = {
 			color: `${theme.colors.white}`,
 		},
 	},
+
+	textFieldWidth: {
+		textField_width_001: { width: `123px` },
+		textField_width_002: { width: `278px` },
+		textField_width_003: { width: `320px` },
+		textField_width_004: { width: `560px` },
+	},
 };
 export default style;

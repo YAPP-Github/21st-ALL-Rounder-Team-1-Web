@@ -5,7 +5,7 @@ export const ProductBtnContainer = styled.button`
 	height: 48px;
 	border-radius: 8px;
 	text-align: center;
-	padding: 17px;
+
 	background-color: ${({ theme }) => theme.colors.gray_007};
 	svg {
 		display: block;

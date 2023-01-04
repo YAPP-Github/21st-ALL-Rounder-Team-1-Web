@@ -1,6 +1,6 @@
 import { LargeBtnContainer } from './styled';
 
-interface Props {
+type Props = {
 	children: React.ReactNode;
 	style: React.CSSProperties;
 	onClick: React.MouseEventHandler<HTMLButtonElement>;
