@@ -15,12 +15,9 @@ export { default as ProductAddBtn } from './Button/ProductAddBtn';
 export { default as ScrollTopDownFloatingBtn } from './Button/ScrollTopDownFloatingBtn';
 export { default as ProductImageBtn } from './Button/ProductImageBtn';
 export { default as StoreImageBtn } from './Button/StoreImageBtn';
-<<<<<<< HEAD
 export { default as Tab } from './Tab';
-=======
 export { default as RadioBtn } from './Button/RadioBtn';
 // 그외 컴포넌트
 export { default as TextField } from './TextField';
 export { default as BusinessLicenseTextField } from './BusinessLicenseTextField';
 export { default as DropDownList } from './DropDownList';
->>>>>>> develop
