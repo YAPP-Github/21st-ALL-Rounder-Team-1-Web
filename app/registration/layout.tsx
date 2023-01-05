@@ -1,8 +1,8 @@
 'use client';
-import { Tab } from 'components/feature';
-import { LargeBtn } from 'components/shared';
 import { usePathname, useRouter } from 'next/navigation';
 import style from 'styles/style';
+import { Tab } from 'components/feature';
+import { LargeBtn } from 'components/shared';
 
 const RegistrationLayout = ({ children }: { children: React.ReactNode }) => {
 	const router = useRouter();
@@ -18,7 +18,6 @@ const RegistrationLayout = ({ children }: { children: React.ReactNode }) => {
 			<LargeBtn style={style.btnStyle.blue_btn_002} onClick={handleClick}>
 				버튼
 			</LargeBtn>
-
 			<Tab />
 			<div>{children}</div>
 		</>
