@@ -1,7 +1,7 @@
 'use client';
 import { usePathname, useRouter } from 'next/navigation';
-import { RegistrationContent, RegistrationHeader, Tab } from 'components/feature';
-import { LargeBtn, StyledLayout } from 'components/shared';
+import { RegistrationHeader, Tab } from 'components/feature';
+import { StyledLayout } from 'components/shared';
 
 const RegistrationLayout = ({ children }: { children: React.ReactNode }) => {
 	const router = useRouter();
@@ -17,7 +17,7 @@ const RegistrationLayout = ({ children }: { children: React.ReactNode }) => {
 			<StyledLayout.SubMaxContainer>
 				<RegistrationHeader />
 				<Tab />
-				<RegistrationContent>{children}</RegistrationContent>
+				<StyledLayout.RegistrationContentContainer>{children}</StyledLayout.RegistrationContentContainer>
 			</StyledLayout.SubMaxContainer>
 		</StyledLayout.MaxContainer>
 	);

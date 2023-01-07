@@ -26,7 +26,7 @@ const TextField = ({ placeholder, width, name, value, onChange, ...props }: Prop
 				onChange={onChange}
 				style={width}
 				value={value}
-				placeholder={placeholder}
+				placeholder={placeholder ?? '입력해주세요'}
 				type="search"
 			/>
 			{flag === 'error' && <S.StyledMessage>경고메시지 자리에요</S.StyledMessage>}
