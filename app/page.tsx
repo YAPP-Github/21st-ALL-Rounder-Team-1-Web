@@ -3,10 +3,14 @@
 import styled from 'styled-components';
 import { StyledLayout, Typography, Toast, LargeBtn } from 'components/shared';
 import {
-	SocialLoginModal,
-	ExitConfirmModal,
+	StoreProductEditExitConfirmModal,
 	LeaveMemberConfirmModal,
-	StoreResistrationConfirmModal,
+	StoreRegistrationConfirmModal,
+	StoreRegistrationExitConfirmModal,
+	StoreEditCompletionConfirmModal,
+	StoreRegistrationCancelConfirmModal,
+	StoreRegistrationStepChangeConfirmModal,
+	StoreRegistrationCancelSuccessModal,
 	LeaveMemberSuccessModal,
 	StoreEditSuccessModal,
 	StoreProductEditSuccessModal,
@@ -24,6 +28,7 @@ const Root = () => {
 				<br />
 				Pump! 에서 알리세요!
 			</Typography>
+
 			<Typography variant="p" aggressive="body_multiline_001" align="center" padding="0 0 36px 0">
 				빠르고 간편하게 가게 정보와 판매상품을 등록하고
 				<br />더 많은 사람에게 리필스테이션의 가치를 전해보세요.
@@ -33,12 +38,15 @@ const Root = () => {
 				입점 신청하기
 			</LargeBtn>
 
-			{false && <SocialLoginModal />}
-
-			{false && <ExitConfirmModal />}
+			{false && <StoreProductEditExitConfirmModal />}
 			{false && <LeaveMemberConfirmModal />}
-			{false && <StoreResistrationConfirmModal />}
+			{false && <StoreRegistrationConfirmModal />}
+			{false && <StoreRegistrationExitConfirmModal />}
+			{false && <StoreEditCompletionConfirmModal />}
+			{false && <StoreRegistrationCancelConfirmModal />}
+			{false && <StoreRegistrationStepChangeConfirmModal />}
 
+			{false && <StoreRegistrationCancelSuccessModal />}
 			{false && <LeaveMemberSuccessModal />}
 			{false && <StoreEditSuccessModal />}
 			{false && <StoreProductEditSuccessModal />}
