@@ -3,10 +3,8 @@ export const TabContainer = styled.nav`
 	width: 996px;
 	height: 68px;
 	display: flex;
-	margin: 50px; //ui 확인용
 `;
 export const TabElement = styled.section<{ isSelected: boolean; borderRight: boolean }>`
-	margin-top: 50px; //ui 확인용
 	width: 332px;
 	height: 68px;
 	display: flex;

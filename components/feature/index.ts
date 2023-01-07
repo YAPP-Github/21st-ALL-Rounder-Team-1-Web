@@ -21,3 +21,4 @@ export { default as RadioBtn } from './Button/RadioBtn';
 export { default as TextField } from './TextField';
 export { default as BusinessLicenseTextField } from './BusinessLicenseTextField';
 export { default as DropDownList } from './DropDownList';
+export { default as RegistrationHeader } from './RegistrationHeader';
