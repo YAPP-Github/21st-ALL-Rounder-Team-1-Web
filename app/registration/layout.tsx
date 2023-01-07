@@ -1,7 +1,6 @@
 'use client';
 import { usePathname, useRouter } from 'next/navigation';
-import style from 'styles/style';
-import { RegistrationHeader, Tab } from 'components/feature';
+import { RegistrationContent, RegistrationHeader, Tab } from 'components/feature';
 import { LargeBtn, StyledLayout } from 'components/shared';
 
 const RegistrationLayout = ({ children }: { children: React.ReactNode }) => {
@@ -16,11 +15,9 @@ const RegistrationLayout = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<StyledLayout.MaxContainer>
 			<StyledLayout.SubMaxContainer>
-				<StyledLayout.FlexBox flex-direction="column" align-items="center">
-					<RegistrationHeader />
-					{/* <Tab />
-					<div>{children}</div> */}
-				</StyledLayout.FlexBox>
+				<RegistrationHeader />
+				<Tab />
+				<RegistrationContent>{children}</RegistrationContent>
 			</StyledLayout.SubMaxContainer>
 		</StyledLayout.MaxContainer>
 	);

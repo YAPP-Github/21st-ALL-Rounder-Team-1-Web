@@ -17,7 +17,7 @@ const Tab = () => {
 		return true;
 	};
 	useEffect(() => {
-		if (pathname !== null) {
+		if (pathname !== '/registration' && pathname !== null) {
 			setCurrentStep(() => Number(pathname[pathname.length - 1]));
 		}
 	}, [pathname]);
