@@ -13,7 +13,7 @@ const Login = () => {
 
 	return (
 		<StyledLayout.MaxContainer>
-			<StyledLayout.EmptyBoxDivider height={'214px'} />
+			<StyledLayout.EmptyBoxDivider height={'10vh'} />
 
 			<InnerContainer>
 				<Typography variant="h2" aggressive="headline_multiline_002" margin="0 0 48px 0" align="center">
@@ -48,8 +48,6 @@ const InnerContainer = styled(StyledLayout.FlexBox)`
 	max-width: 463px;
 	margin: 0 auto;
 	padding: 56px 32px;
-	border: 1px solid ${({ theme }) => theme.colors.gray_002};
-	border-radius: 16px;
 `;
 
 const SocialLoginBtnWrapper = styled.div`
