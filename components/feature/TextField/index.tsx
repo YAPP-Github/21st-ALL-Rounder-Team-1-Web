@@ -3,7 +3,7 @@ import * as S from './styled';
 
 type Props = {
 	name: string;
-	placeholder: string;
+	placeholder?: string;
 	flag: string; // normal , success , error
 	width: React.CSSProperties;
 	value?: string | undefined;

@@ -7,11 +7,11 @@ type Props = {
 	onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-const LargeBtn = (props: Props) => {
+const LargeBtn = ({ children, style, onClick }: Props) => {
 	return (
-		<LargeBtnContainer style={props.style} onClick={props.onClick}>
+		<LargeBtnContainer style={style} onClick={onClick}>
 			<Typography variant="span" aggressive="button_001">
-				{props.children}
+				{children}
 			</Typography>
 		</LargeBtnContainer>
 	);

@@ -22,4 +22,3 @@ export { default as TextField } from './TextField';
 export { default as BusinessLicenseTextField } from './BusinessLicenseTextField';
 export { default as DropDownList } from './DropDownList';
 export { default as RegistrationHeader } from './RegistrationHeader';
-export { default as TextFieldSection } from './TextFieldSection';
