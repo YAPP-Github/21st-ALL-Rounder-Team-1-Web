@@ -11,9 +11,6 @@ export const SmallBtnContainer = styled.button<{ width: number }>`
 	&:hover {
 		background-color: ${({ theme }) => theme.colors.gray_000};
 	}
-	& > span {
-		display: block;
-		color: ${({ theme }) => theme.colors.gray_007};
-		${({ theme }) => theme.fonts.button_001};
-	}
+
+	color: ${({ theme }) => theme.colors.gray_007};
 `;

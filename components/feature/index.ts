@@ -19,6 +19,7 @@ export { default as ProductAddBtn } from './Button/ProductAddBtn';
 export { default as ScrollTopDownFloatingBtn } from './Button/ScrollTopDownFloatingBtn';
 export { default as ProductImageBtn } from './Button/ProductImageBtn';
 export { default as StoreImageBtn } from './Button/StoreImageBtn';
+export { default as Tab } from './Tab';
 export { default as SocialLoginBtn } from './Button/SocialLoginBtn';
 export { default as RadioBtn } from './Button/RadioBtn';
 

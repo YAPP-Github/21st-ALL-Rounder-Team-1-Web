@@ -1,13 +1,16 @@
+import { Typography } from 'components/shared';
 import { SmallBtnContainer } from './styled';
 
 type Props = {
 	width: number;
 	btnText: string;
-}
-const StoreResistrationSmallBtn = (props: Props) => {
+};
+const StoreResistrationSmallBtn = ({ width, btnText }: Props) => {
 	return (
-		<SmallBtnContainer width={props.width}>
-			<span>{props.btnText}</span>
+		<SmallBtnContainer width={width}>
+			<Typography variant="span" aggressive="button_001">
+				{btnText}
+			</Typography>
 		</SmallBtnContainer>
 	);
 };
