@@ -1,10 +1,12 @@
 import React from 'react';
 import { StyledLayout } from 'components/shared';
 import * as S from './styled';
+import Link from 'next/link';
 
 const userNavigationItems = [
 	{
 		id: 1,
+		path: '/login',
 		renderText: '로그인',
 	},
 ] as const;
@@ -12,7 +14,7 @@ const userNavigationItems = [
 const Header = () => {
 	return (
 		<S.Container>
-			<StyledLayout.MaxContainer>
+			<StyledLayout.SubMaxContainer>
 				<S.GlobalNavigation>
 					<S.LogoWrapper href={'/'} hrefLang={'ko'}>
 						<span className="visually-hidden">Pump 사이트 로고 이미지</span>
@@ -21,11 +23,15 @@ const Header = () => {
 
 					<StyledLayout.UnorderList>
 						{userNavigationItems.map((useNavigationItem) => {
-							return <S.NavigationItem key={useNavigationItem.id}>{useNavigationItem.renderText}</S.NavigationItem>;
+							return (
+								<S.NavigationItem key={useNavigationItem.id}>
+									<Link href={useNavigationItem.path}>{useNavigationItem.renderText}</Link>
+								</S.NavigationItem>
+							);
 						})}
 					</StyledLayout.UnorderList>
 				</S.GlobalNavigation>
-			</StyledLayout.MaxContainer>
+			</StyledLayout.SubMaxContainer>
 		</S.Container>
 	);
 };

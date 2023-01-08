@@ -11,7 +11,7 @@ const LeaveMemberConfirmModal = () => {
 					onCancel: () => {},
 				},
 				confirm: {
-					text: '나가기',
+					text: '탈퇴하기',
 					onConfirm: () => {},
 				},
 			}}

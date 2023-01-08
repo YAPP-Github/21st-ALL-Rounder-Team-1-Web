@@ -1,6 +1,6 @@
 import { ConfirmModal } from 'components/feature/Modal';
 
-const StoreResistrationConfirmModal = () => {
+const StoreRegistrationConfirmModal = () => {
 	return (
 		<ConfirmModal
 			modalTitle="입력하신 정보로 입점신청 하시겠습니까?"
@@ -11,7 +11,7 @@ const StoreResistrationConfirmModal = () => {
 					onCancel: () => {},
 				},
 				confirm: {
-					text: '신청',
+					text: '신청하기',
 					onConfirm: () => {},
 				},
 			}}
@@ -19,4 +19,4 @@ const StoreResistrationConfirmModal = () => {
 	);
 };
 
-export default StoreResistrationConfirmModal;
+export default StoreRegistrationConfirmModal;

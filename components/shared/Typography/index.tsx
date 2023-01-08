@@ -5,10 +5,13 @@ type Props = {
 	variant: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'caption' | 'span' | 'div';
 	aggressive:
 		| 'headline_oneline_001'
+		| 'headline_oneline_002'
+		| 'headline_oneline_003'
+		| 'headline_oneline_004'
+		| 'headline_oneline_005'
 		| 'headline_multiline_001'
-		| 'headline_002'
-		| 'headline_003'
-		| 'headline_004'
+		| 'headline_multiline_002'
+		| 'body_oneline_000'
 		| 'body_oneline_001'
 		| 'body_oneline_002'
 		| 'body_oneline_003'
@@ -17,6 +20,7 @@ type Props = {
 		| 'body_multiline_001'
 		| 'body_multiline_002'
 		| 'body_multiline_003'
+		| 'body_multiline_005'
 		| 'button_001'
 		| 'tab_001'
 		| 'tab_002';

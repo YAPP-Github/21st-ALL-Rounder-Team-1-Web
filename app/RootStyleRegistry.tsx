@@ -1,14 +1,26 @@
-import { useServerInsertedHTML } from 'next/navigation';
-import { useStyledComponentsRegistry } from 'lib/styled-components';
+'use client';
 
-const RootStyleRegistry = ({ children }: { children: React.ReactNode }) => {
-	const [StyledComponentsRegistry, styledComponentsFlushEffect] = useStyledComponentsRegistry();
+import React, { PropsWithChildren, useState } from 'react';
+import { useServerInsertedHTML } from 'next/navigation';
+import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
+
+const StyledComponentsRegistry = ({ children }: PropsWithChildren) => {
+	const [styledComponentsStyleSheet] = useState(() => new ServerStyleSheet());
 
 	useServerInsertedHTML(() => {
-		return <>{styledComponentsFlushEffect()}</>;
+		const styles = styledComponentsStyleSheet.getStyleElement();
+
+		// @ts-expect-error
+		styledComponentsStyleSheet.instance.clearTag();
+
+		return <>{styles}</>;
 	});
 
-	return <StyledComponentsRegistry>{children}</StyledComponentsRegistry>;
+	if (typeof window !== 'undefined') {
+		return <>{children}</>;
+	}
+
+	return <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>{children}</StyleSheetManager>;
 };
 
-export default RootStyleRegistry;
+export default StyledComponentsRegistry;

@@ -21,10 +21,13 @@ declare module 'styled-components' {
 		};
 		fonts: {
 			headline_oneline_001: FlattenSimpleInterpolation;
+			headline_oneline_002: FlattenSimpleInterpolation;
+			headline_oneline_003: FlattenSimpleInterpolation;
+			headline_oneline_004: FlattenSimpleInterpolation;
+			headline_oneline_005: FlattenSimpleInterpolation;
 			headline_multiline_001: FlattenSimpleInterpolation;
-			headline_002: FlattenSimpleInterpolation;
-			headline_003: FlattenSimpleInterpolation;
-			headline_004: FlattenSimpleInterpolation;
+			headline_multiline_002: FlattenSimpleInterpolation;
+			body_oneline_000: FlattenSimpleInterpolation;
 			body_oneline_001: FlattenSimpleInterpolation;
 			body_oneline_002: FlattenSimpleInterpolation;
 			body_oneline_003: FlattenSimpleInterpolation;
@@ -33,6 +36,7 @@ declare module 'styled-components' {
 			body_multiline_001: FlattenSimpleInterpolation;
 			body_multiline_002: FlattenSimpleInterpolation;
 			body_multiline_003: FlattenSimpleInterpolation;
+			body_multiline_005: FlattenSimpleInterpolation;
 			button_001: FlattenSimpleInterpolation;
 			tab_001: FlattenSimpleInterpolation;
 			tab_002: FlattenSimpleInterpolation;
