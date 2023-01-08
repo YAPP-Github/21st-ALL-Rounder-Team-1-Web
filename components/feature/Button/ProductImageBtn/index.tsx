@@ -1,10 +1,9 @@
 import { AddPhotoIcon } from 'public/static/icons';
-import { ProductErrorMeassage, ProductImageContainer } from './styled';
-
+import { ProductImageContainer } from './styled';
 
 type Props = {
 	isError: boolean;
-}
+};
 const ProductImageBtn = (props: Props) => {
 	return (
 		<>

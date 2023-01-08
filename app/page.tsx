@@ -34,7 +34,7 @@ const Root = () => {
 				<br />더 많은 사람에게 리필스테이션의 가치를 전해보세요.
 			</Typography>
 
-			<LargeBtn style={style.btnStyle.blue_btn_002} onClick={() => {}}>
+			<LargeBtn style={style.btnStyle.primary_btn_002} onClick={() => {}}>
 				입점 신청하기
 			</LargeBtn>
 

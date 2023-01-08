@@ -1,6 +1,5 @@
 'use client';
-import style from 'styles/style';
-import { BusinessLicenseTextField, DropDownList, TextField } from 'components/feature';
+import { DropDownList } from 'components/feature';
 
 const Registration = () => {
 	return (
