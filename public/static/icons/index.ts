@@ -4,6 +4,6 @@ export { default as SearchIcon } from './search.svg';
 export { default as RemoveIcon } from './remove.svg';
 export { default as AddIcon } from './add.svg';
 export { default as TopIcon } from './top.svg';
-export { default as BottonIcon } from './bottom.svg';
+export { default as BottomIcon } from './bottom.svg';
 export { default as CancelIcon } from './cancel.svg';
 export { default as ArrowRight } from './arrow_right.svg';

@@ -1,7 +1,7 @@
-import { BottonIcon, TopIcon } from 'public/static/icons';
+import { BottomIcon, TopIcon } from 'public/static/icons';
 import { FloatingBtnContainer } from './styled';
 
-interface Props {
+type Props = {
 	isTop: boolean; // true->to top, false->to bottom
 }
 const ScrollTopDownFloatingBtn = (props: Props) => {
@@ -20,7 +20,7 @@ const ScrollTopDownFloatingBtn = (props: Props) => {
 				</FloatingBtnContainer>
 			) : (
 				<FloatingBtnContainer onClick={() => handleScroll('down')}>
-					<BottonIcon />
+					<BottomIcon />
 				</FloatingBtnContainer>
 			)}
 		</>

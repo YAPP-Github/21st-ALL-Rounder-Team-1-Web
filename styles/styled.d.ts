@@ -49,5 +49,11 @@ declare module 'styled-components' {
 			blue_btn_001: React.CSSProperties;
 			blue_btn_002: React.CSSProperties;
 		};
+		textFieldWidth: {
+			textField_width_001: React.CSSProperties;
+			textField_width_002: React.CSSProperties;
+			textField_width_003: React.CSSProperties;
+			textField_width_004: React.CSSProperties;
+		};
 	}
 }

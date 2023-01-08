@@ -14,6 +14,6 @@ export const SmallBtnContainer = styled.button<{ width: number }>`
 	& > span {
 		display: block;
 		color: ${({ theme }) => theme.colors.gray_007};
-		font: ${({ theme }) => theme.fonts.button_001};
+		${({ theme }) => theme.fonts.button_001};
 	}
 `;
