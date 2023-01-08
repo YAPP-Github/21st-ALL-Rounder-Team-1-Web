@@ -6,5 +6,4 @@ export const LargeBtnContainer = styled.button`
 	padding: 16px 0;
 	border-radius: 10px;
 	display: block;
-	font: ${({ theme }) => theme.fonts.button_001};
 `;

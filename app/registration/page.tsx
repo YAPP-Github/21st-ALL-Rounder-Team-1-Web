@@ -1,15 +1,11 @@
 'use client';
+
 import { DropDownList } from 'components/feature';
 
-const Registration = () => {
+const Registration = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<>
-			<DropDownList
-				dropdownElements={[
-					[0, 'g당'],
-					[1, 'ml당'],
-				]}
-			/>
+			<div>{children}</div>
 		</>
 	);
 };
