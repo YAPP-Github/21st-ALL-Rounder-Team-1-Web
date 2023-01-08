@@ -67,3 +67,7 @@ export const ImageBox = styled.div<ImageBoxProps>`
 	background: ${({ backgroundImageSrc, theme }) => (backgroundImageSrc ? `url(${backgroundImageSrc})` : theme.colors.gray_001)};
 	background-repeat: no-repeat;
 `;
+
+export const EmptyBoxDivider = styled.div<CSSProperties>`
+	height: ${({ height }) => height};
+`;

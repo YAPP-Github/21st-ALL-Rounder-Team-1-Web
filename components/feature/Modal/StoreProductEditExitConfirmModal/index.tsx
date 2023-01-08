@@ -1,10 +1,10 @@
 import { ConfirmModal } from 'components/feature/Modal';
 
-const ExitConfirmModal = () => {
+const StoreProductEditExitConfirmModal = () => {
 	return (
 		<ConfirmModal
 			modalTitle="사이트에서 나가시겠습니까?"
-			modalDescription="변경사항이 저장되지 않을 수 있습니다"
+			modalDescription="임시저장을 하지 않으면 변경사항이 저장되지 않습니다."
 			modalBtn={{
 				cancel: {
 					text: '취소',
@@ -19,4 +19,4 @@ const ExitConfirmModal = () => {
 	);
 };
 
-export default ExitConfirmModal;
+export default StoreProductEditExitConfirmModal;

@@ -13,12 +13,26 @@ export const InnerWrapper = styled(FlexBox)`
 `;
 
 export const LegalDescWrapper = styled.div`
+	display: flex;
+	align-items: center;
 	height: 100%;
 `;
 
 type AnchorProps = {};
 
-export const Anchor = styled.a<AnchorProps>``;
+export const Anchor = styled.a<AnchorProps>`
+	display: flex;
+	align-items: center;
+	height: inherit;
+
+	&:hover {
+		text-decoration: underline;
+	}
+
+	& > .service-introduce-btn > path {
+		fill: ${({ theme }) => theme.colors.gray_006};
+	}
+`;
 
 type DividerProps = {
 	direction: 'vertical' | 'horizontal';
@@ -37,6 +51,5 @@ export const Divider = styled.span<DividerProps>`
 `;
 
 export const ChannelDescWrapper = styled(FlexBox)`
-	gap: 22px;
 	height: 100%;
 `;

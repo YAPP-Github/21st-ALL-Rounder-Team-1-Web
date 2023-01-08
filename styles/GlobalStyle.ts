@@ -218,7 +218,7 @@ const GlobalStyle = styled.createGlobalStyle`
 
 	.modal-title {
 		padding-bottom: 8px;
-		font: ${theme.fonts.headline_003};
+		font: ${theme.fonts.headline_oneline_004};
 	}
 
 	.modal-description {
@@ -266,7 +266,7 @@ const GlobalStyle = styled.createGlobalStyle`
 
 	.modal-social-title {
 		padding-bottom: 16px;
-		font: ${theme.fonts.headline_003};
+		font: ${theme.fonts.headline_multiline_002};
 	}
 
 	.modal-social-btn-wrapper {
@@ -277,27 +277,24 @@ const GlobalStyle = styled.createGlobalStyle`
 		height: 130px;
 		margin-top: 68px;
 
-		& > :nth-of-type(1) {
+		& > .social-login-btn {
 			flex: 1;
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			gap: 8px;
 			height: 60px;
-			border-radius: 10px;
-			background: #06bd34;
+			border-radius: 8px;
 			font: ${theme.fonts.button_001};
+		}
+
+		& > .social-login-btn.naver {
+			background: #06bd34;
 			color: #ffffff;
 		}
 
-		& > :nth-of-type(2) {
-			flex: 1;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			height: 60px;
-			border-radius: 10px;
+		& > .social-login-btn.kakao {
 			background: #fbe54d;
-			font: ${theme.fonts.button_001};
 			color: #351d1c;
 		}
 	}
