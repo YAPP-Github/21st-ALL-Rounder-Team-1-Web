@@ -24,13 +24,26 @@ export const Anchor = styled.a<AnchorProps>`
 	display: flex;
 	align-items: center;
 	height: inherit;
+	color: ${({ theme }) => theme.colors.primary_010};
 
-	&:hover {
-		text-decoration: underline;
+	& > span {
+		color: ${({ theme }) => theme.colors.gray_006};
 	}
 
 	& > .service-introduce-btn > path {
 		fill: ${({ theme }) => theme.colors.gray_006};
+	}
+
+	&:hover {
+		text-decoration: underline;
+
+		& > span {
+			color: ${({ theme }) => theme.colors.primary_010};
+		}
+
+		& > .service-introduce-btn > path {
+			fill: ${({ theme }) => theme.colors.primary_010};
+		}
 	}
 `;
 

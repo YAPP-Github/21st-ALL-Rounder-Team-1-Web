@@ -1,7 +1,9 @@
 import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import { StyledLayout } from 'components/shared';
 import * as S from './styled';
-import Link from 'next/link';
+import { PumpLogo } from 'public/static/images';
 
 const userNavigationItems = [
 	{
@@ -18,7 +20,7 @@ const Header = () => {
 				<S.GlobalNavigation>
 					<S.LogoWrapper href={'/'} hrefLang={'ko'}>
 						<span className="visually-hidden">Pump 사이트 로고 이미지</span>
-						<StyledLayout.ImageBox width="160px" height="58px" backgroundImageSrc="" />
+						<Image src={PumpLogo} alt="Pump Logo" width={110} height={50} />
 					</S.LogoWrapper>
 
 					<StyledLayout.UnorderList>
