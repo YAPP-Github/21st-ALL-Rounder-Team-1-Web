@@ -1,12 +1,13 @@
 'use client';
 
-import { DropDownList } from 'components/feature';
+import { StyledLayout } from 'components/shared';
+
 
 const Registration = ({ children }: { children: React.ReactNode }) => {
 	return (
-		<>
-			<div>{children}</div>
-		</>
+		<StyledLayout.FlexBox flex-direction="column" gap="24px">
+			{children}
+		</StyledLayout.FlexBox>
 	);
 };
 
