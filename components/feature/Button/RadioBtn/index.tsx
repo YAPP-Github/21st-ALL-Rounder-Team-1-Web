@@ -4,7 +4,7 @@ import { RadioBtnContainer } from './styled';
 type Props = {
 	value: string;
 	name: string;
-}
+};
 const RadioBtn = ({ value, name }: Props) => {
 	return (
 		<RadioBtnContainer htmlFor={value}>
