@@ -5,6 +5,7 @@ import { theme } from 'styles';
 import { TabContainer, TabElement } from './styled';
 
 const Tab = () => {
+	const addBorderRight = true;
 	const pathname = usePathname();
 	const tabElementArr = [
 		{ id: 1, step: 'Step1', title: '운영자 기본정보' },
@@ -13,8 +14,8 @@ const Tab = () => {
 	];
 	const [currentStep, setCurrentStep] = useState(1);
 	const checkDetailUI = (elementId: number) => {
-		if (elementId === 3 || elementId + 1 === currentStep) return false;
-		return true;
+		if (elementId === 3 || elementId + 1 === currentStep) return !addBorderRight;
+		return addBorderRight;
 	};
 	useEffect(() => {
 		if (pathname !== '/registration' && pathname !== null) {
@@ -28,7 +29,7 @@ const Tab = () => {
 					<TabElement borderRight={checkDetailUI(id)} key={step} isSelected={id === currentStep}>
 						<Typography
 							variant="h2"
-							color={id === currentStep ? theme.colors.primary_003 : theme.colors.gray_003}
+							color={id === currentStep ? theme.colors.primary_010 : theme.colors.gray_003}
 							aggressive="body_oneline_005"
 						>
 							{step}

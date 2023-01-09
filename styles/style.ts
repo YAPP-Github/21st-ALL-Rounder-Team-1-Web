@@ -16,12 +16,12 @@ const style: Styles = {
 		},
 
 		primary_btn_001: {
-			width: `${200}px`,
+			width: `200px`,
 			backgroundColor: `${theme.colors.primary_010}`,
 			color: `${theme.colors.white}`,
 		},
 		primary_btn_002: {
-			width: `${240}px`,
+			width: `240px`,
 			backgroundColor: `${theme.colors.primary_010}`,
 
 			color: `${theme.colors.white}`,

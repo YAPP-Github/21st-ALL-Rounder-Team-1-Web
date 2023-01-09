@@ -38,7 +38,8 @@ export const RegistrationContentContainer = styled.main`
 	display: flex;
 	flex-direction: column;
 	padding: 40px 32px;
-	width: 996px;
+	max-width: 996px;
+	margin: 0 auto;
 	height: fit-content;
 	background-color: ${({ theme }) => theme.colors.white};
 	box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.06);

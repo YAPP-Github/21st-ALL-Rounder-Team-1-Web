@@ -1,53 +1,79 @@
 'use client';
 
 import { TextField } from 'components/feature';
-import { StyledLayout, Typography } from 'components/shared';
-import { ChangeEvent } from 'react';
+import { LargeBtn, StyledLayout, Typography } from 'components/shared';
+import { ChangeEvent, useState } from 'react';
 import { theme } from 'styles';
 import style from 'styles/style';
 
 const Step1 = () => {
+	const [inputs, setInputs] = useState({
+		managerName: '',
+		managerEmail: '',
+		managerPhonenumber: '',
+	});
+	const { managerName, managerEmail, managerPhonenumber } = inputs;
+	const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const { value, name } = e.target;
+		setInputs({
+			...inputs,
+			[name]: value,
+		});
+	};
+	const handleOnClick = () => {
+		console.log(inputs.managerEmail);
+		console.log(inputs.managerName);
+		console.log(inputs.managerPhonenumber);
+	};
 	return (
 		<>
 			<StyledLayout.TextFieldSection>
-				<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
-					대표자명
-				</Typography>
+				<label htmlFor="managerName">
+					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
+						대표자명
+					</Typography>
+				</label>
 				<TextField
-					name="대표자명"
+					name="managerName"
 					flag="normal"
 					width={style.textFieldWidth.textField_width_320}
-					onChange={function (event: ChangeEvent<HTMLInputElement>): void {
-						throw new Error('Function not implemented.');
-					}}
+					onChange={handleOnChange}
+					value={managerName}
 				/>
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
-				<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
-					이메일
-				</Typography>
+				<label htmlFor="managerEmail">
+					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
+						이메일
+					</Typography>
+				</label>
 				<TextField
-					name="이메일"
+					name="managerEmail"
 					flag="normal"
+					value={managerEmail}
 					width={style.textFieldWidth.textField_width_320}
-					onChange={function (event: ChangeEvent<HTMLInputElement>): void {
-						throw new Error('Function not implemented.');
-					}}
+					onChange={handleOnChange}
 				/>
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
-				<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
-					전화번호
-				</Typography>
+				<label htmlFor="managerPhonenumber">
+					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
+						전화번호
+					</Typography>
+				</label>
 				<TextField
-					name="전화번호"
+					name="managerPhonenumber"
 					flag="normal"
+					value={managerPhonenumber}
 					width={style.textFieldWidth.textField_width_320}
-					onChange={function (event: ChangeEvent<HTMLInputElement>): void {
-						throw new Error('Function not implemented.');
-					}}
+					onChange={handleOnChange}
 				/>
 			</StyledLayout.TextFieldSection>
+			<StyledLayout.FlexBox justifyContent="center" style={{ marginTop: '16px' }}>
+				<LargeBtn style={style.btnStyle.primary_btn_002} onClick={handleOnClick}>
+					다음단계
+				</LargeBtn>
+			</StyledLayout.FlexBox>
 		</>
 	);
 };
