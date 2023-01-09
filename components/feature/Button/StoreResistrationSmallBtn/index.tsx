@@ -3,13 +3,13 @@ import { SmallBtnContainer } from './styled';
 
 type Props = {
 	width: number;
-	btnText: string;
+	children: React.ReactNode;
 };
-const StoreResistrationSmallBtn = ({ width, btnText }: Props) => {
+const StoreResistrationSmallBtn = ({ width, children }: Props) => {
 	return (
 		<SmallBtnContainer width={width}>
 			<Typography variant="span" aggressive="button_001">
-				{btnText}
+				{children}
 			</Typography>
 		</SmallBtnContainer>
 	);
