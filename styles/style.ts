@@ -14,14 +14,16 @@ const style: Styles = {
 			backgroundColor: `${theme.colors.gray_007}`,
 			color: `${theme.colors.white}`,
 		},
-		blue_btn_001: {
-			width: `200px`,
-			backgroundColor: `${theme.colors.primary_003}`,
+
+		primary_btn_001: {
+			width: `${200}px`,
+			backgroundColor: `${theme.colors.primary_010}`,
 			color: `${theme.colors.white}`,
 		},
-		blue_btn_002: {
-			width: `240px`,
-			backgroundColor: `${theme.colors.primary_003}`,
+		primary_btn_002: {
+			width: `${240}px`,
+			backgroundColor: `${theme.colors.primary_010}`,
+
 			color: `${theme.colors.white}`,
 		},
 	},

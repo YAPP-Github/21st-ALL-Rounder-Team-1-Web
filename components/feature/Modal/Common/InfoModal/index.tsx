@@ -20,7 +20,7 @@ const InfoMoal = (props: Props) => {
 
 			<div className={props.modalBtn.type === 'primary' ? 'modal-primary-btn-single-wrapper' : 'modal-btn-single-wrapper'}>
 				<LargeBtn
-					style={props.modalBtn.type === 'primary' ? style.btnStyle.blue_btn_001 : style.btnStyle.black_btn}
+					style={props.modalBtn.type === 'primary' ? style.btnStyle.primary_btn_001 : style.btnStyle.black_btn}
 					onClick={props.modalBtn.onClick}
 				>
 					{props.modalBtn.text}
