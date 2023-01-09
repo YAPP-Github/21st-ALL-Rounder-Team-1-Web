@@ -11,7 +11,7 @@ export const StyledTextFiled = styled.input<{ flag: string }>`
 
 	height: 48px;
 	border-radius: 10px;
-	font: ${({ theme }) => theme.fonts.body_oneline_002};
+	${({ theme }) => theme.fonts.body_oneline_002};
 	&:focus {
 		border: 1px solid ${({ theme }) => theme.colors.gray_004};
 	}

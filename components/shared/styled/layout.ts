@@ -43,6 +43,7 @@ export const RegistrationContentContainer = styled.main`
 	background-color: ${({ theme }) => theme.colors.white};
 	box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.06);
 	border-radius: 0px 0px 16px 16px;
+	margin-bottom: 96px;
 `;
 
 export const TextFieldSection = styled.article`
@@ -53,6 +54,7 @@ export const TextFieldSection = styled.article`
 	align-items: flex-start;
 	border-bottom: 1px solid ${({ theme }) => theme.colors.gray_002};
 	gap: 12px;
+	margin-bottom: 24px;
 `;
 
 type ImageBoxProps = {
