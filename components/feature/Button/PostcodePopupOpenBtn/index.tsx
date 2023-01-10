@@ -1,31 +1,36 @@
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { LargeBtn } from 'components/shared';
 import style from 'styles/style';
+import { DomainType } from 'types';
 
-const PostcodePopupOpenBtn = () => {
+type Props = {
+	onExtractedPostCode: (extractedPostcode: string[]) => void;
+};
+
+const PostcodePopupOpenBtn = (props: Props) => {
 	const openPostcodePopup = useDaumPostcodePopup();
 
 	const handlePostcodePopupOpenBtnClick = () => {
 		openPostcodePopup({ onComplete: handleComplete }).catch(() => console.error(`Daum Postcode Popup Error !`));
 	};
 
-	const handleComplete = (data: any) => {
-		let fullAddress = data.address;
-		let extraAddress = '';
-
-		if (data.addressType === 'R') {
-			if (data.bname !== '') {
-				extraAddress = extraAddress + data.bname;
-			}
-
-			if (data.buildingName !== '') {
-				extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
-			}
-
-			fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+	const handleComplete = (data: DomainType.DaumPostcodeAttributes) => {
+		// R(도로명) / J(지번)
+		if (data.userSelectedType === 'R') {
+			props.onExtractedPostCode(generateAddress(data));
+		} else {
+			props.onExtractedPostCode(generateJibunAddress(data));
 		}
+	};
 
-		console.info(fullAddress);
+	const generateAddress = (data: DomainType.AddressPostcodeAttributes) => {
+		const { zonecode, address, buildingName } = data;
+		return [zonecode, `${address} ${buildingName && `(${buildingName})`}`];
+	};
+
+	const generateJibunAddress = (data: DomainType.JibunAddressPostcodeAttributes) => {
+		const { zonecode, jibunAddress } = data;
+		return [zonecode, jibunAddress];
 	};
 
 	return (
