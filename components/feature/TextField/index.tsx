@@ -3,14 +3,16 @@ import * as S from './styled';
 
 type Props = {
 	name: string;
+	readonly?: boolean;
 	placeholder?: string;
-	flag: string; // normal , success , error
+	flag: 'normal' | 'success' | 'error';
 	width: React.CSSProperties;
 	value?: string | undefined;
-	onChange: React.ChangeEventHandler<HTMLInputElement>;
-};
-const TextField = ({ placeholder, width, name, value, onChange, ...props }: Props) => {
+} & React.HTMLAttributes<HTMLInputElement>;
+
+const TextField = ({ readonly, placeholder, width, name, value, ...props }: Props) => {
 	const [flag, setFlag] = useState<string>(props.flag);
+
 	const handleError = () => {
 		if (flag === 'normal') return;
 		setFlag('normal');
@@ -19,11 +21,12 @@ const TextField = ({ placeholder, width, name, value, onChange, ...props }: Prop
 	return (
 		<S.TextFieldContainer>
 			<S.StyledTextFiled
+				readOnly={readonly}
 				name={name}
 				id={name}
 				onFocus={handleError}
 				flag={flag}
-				onChange={onChange}
+				onChange={props.onChange}
 				style={width}
 				value={value}
 				placeholder={placeholder ?? '입력해주세요'}

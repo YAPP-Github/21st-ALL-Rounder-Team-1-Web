@@ -3,7 +3,7 @@ import { FloatingBtnContainer } from './styled';
 
 type Props = {
 	isTop: boolean; // true->to top, false->to bottom
-}
+};
 const ScrollTopDownFloatingBtn = (props: Props) => {
 	const handleScroll = (moveTo: 'top' | 'down') => {
 		window.scrollTo({
