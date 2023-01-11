@@ -6,8 +6,9 @@ import * as S from '../TextField/styled';
 // 이유2: 하이픈 넣어준 것 제외한 값을 서버에 넘겨야 함
 type Props = {
 	name: string;
-	flag: string; // normal , success , error
+	flag: 'normal' | 'success' | 'error';
 };
+
 const BusinessLicenseTextField = ({ name, ...props }: Props) => {
 	const [flag, setFlag] = useState<string>(props.flag);
 	const [businessLicense, setBusinessLicense] = useState<string>('');
