@@ -50,12 +50,13 @@ export const RegistrationContentContainer = styled.main`
 export const TextFieldSection = styled.article`
 	display: flex;
 	width: 932px;
-	height: 100px;
+	min-height: 100px;
 	flex-direction: column;
 	align-items: flex-start;
 	border-bottom: 1px solid ${({ theme }) => theme.colors.gray_002};
 	gap: 12px;
 	margin-bottom: 24px;
+	padding-bottom: 24px;
 `;
 
 type ImageBoxProps = {

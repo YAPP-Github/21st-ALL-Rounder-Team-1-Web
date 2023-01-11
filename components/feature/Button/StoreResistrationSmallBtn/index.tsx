@@ -2,12 +2,12 @@ import { Typography } from 'components/shared';
 import { SmallBtnContainer } from './styled';
 
 type Props = {
-	width: number;
 	children: string;
-};
-const StoreResistrationSmallBtn = ({ width, children }: Props) => {
+	width: React.CSSProperties;
+} & React.ComponentProps<'button'>;
+const StoreResistrationSmallBtn = ({ children, ...props }: Props) => {
 	return (
-		<SmallBtnContainer width={width}>
+		<SmallBtnContainer onClick={props.onClick} style={props.width}>
 			<Typography variant="span" aggressive="button_001">
 				{children}
 			</Typography>

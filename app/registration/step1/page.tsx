@@ -2,7 +2,7 @@
 
 import { TextField } from 'components/feature';
 import { LargeBtn, StyledLayout, Typography } from 'components/shared';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { theme } from 'styles';
 import style from 'styles/style';
 
@@ -20,13 +20,12 @@ const Step1 = () => {
 			[name]: value,
 		});
 	};
-	const handleOnClick = () => {
-		console.log(inputs.managerEmail);
-		console.log(inputs.managerName);
-		console.log(inputs.managerPhonenumber);
+	const handleOnClick = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		alert('저장');
 	};
 	return (
-		<>
+		<form onSubmit={handleOnClick}>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="managerName">
 					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
@@ -69,12 +68,12 @@ const Step1 = () => {
 					onChange={handleOnChange}
 				/>
 			</StyledLayout.TextFieldSection>
-			<StyledLayout.FlexBox justifyContent="center" style={{ marginTop: '16px' }}>
-				<LargeBtn style={style.btnStyle.primary_btn_002} onClick={handleOnClick}>
+			<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '16px' }}>
+				<LargeBtn style={style.btnStyle.primary_btn_002} type="submit">
 					다음단계
 				</LargeBtn>
 			</StyledLayout.FlexBox>
-		</>
+		</form>
 	);
 };
 
