@@ -4,12 +4,11 @@ import { LargeBtnContainer } from './styled';
 type Props = {
 	children: string;
 	style: React.CSSProperties;
-	onClick: React.MouseEventHandler<HTMLButtonElement>;
-};
+} & React.ComponentProps<'button'>;
 
-const LargeBtn = ({ children, style, onClick }: Props) => {
+const LargeBtn = ({ children, style, ...props }: Props) => {
 	return (
-		<LargeBtnContainer style={style} onClick={onClick}>
+		<LargeBtnContainer style={style} onClick={props.onClick} type={props.type}>
 			<Typography variant="span" aggressive="button_001">
 				{children}
 			</Typography>
