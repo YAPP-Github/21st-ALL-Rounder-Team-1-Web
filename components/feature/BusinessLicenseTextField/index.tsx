@@ -5,11 +5,10 @@ import * as S from '../TextField/styled';
 // 이유 1: 입력할 때 하이픈을 넣어줘야 함
 // 이유2: 하이픈 넣어준 것 제외한 값을 서버에 넘겨야 함
 type Props = {
-	name: string;
 	flag: 'normal' | 'success' | 'error';
-};
+} & React.ComponentProps<'input'>;
 
-const BusinessLicenseTextField = ({ name, ...props }: Props) => {
+const BusinessLicenseTextField = (props: Props) => {
 	const [flag, setFlag] = useState<string>(props.flag);
 	const [businessLicense, setBusinessLicense] = useState<string>('');
 	const [currentKey, setCurrentKey] = useState<string>('');
@@ -38,11 +37,11 @@ const BusinessLicenseTextField = ({ name, ...props }: Props) => {
 	return (
 		<S.TextFieldContainer>
 			<S.StyledTextFiled
+				readOnly={false}
 				onFocus={handleError}
-				name={name}
+				name={props.name}
 				flag={flag}
-				style={style.textFieldWidth.textField_width_003}
-				placeholder="입력해주세요"
+				style={style.textFieldWidth.textField_width_123}
 				type="search"
 				value={businessLicense}
 				onChange={handleBusinessLicense}

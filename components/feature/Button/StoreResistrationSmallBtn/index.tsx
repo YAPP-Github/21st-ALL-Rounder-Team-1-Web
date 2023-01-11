@@ -3,7 +3,7 @@ import { SmallBtnContainer } from './styled';
 
 type Props = {
 	width: number;
-	children: React.ReactNode;
+	children: string;
 };
 const StoreResistrationSmallBtn = ({ width, children }: Props) => {
 	return (

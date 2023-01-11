@@ -2,7 +2,7 @@ import Typography from 'components/shared/Typography';
 import { LargeBtnContainer } from './styled';
 
 type Props = {
-	children: React.ReactNode;
+	children: string;
 	style: React.CSSProperties;
 	onClick: React.MouseEventHandler<HTMLButtonElement>;
 };

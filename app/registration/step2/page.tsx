@@ -30,7 +30,7 @@ const Step2 = () => {
 	return (
 		<>
 			<TextField
-				readonly={true}
+				readOnly={true}
 				flag="normal"
 				name="store-postcode"
 				placeholder="우편번호"
@@ -39,7 +39,7 @@ const Step2 = () => {
 			/>
 			<PostcodePopupOpenBtn onExtractedPostCode={handleExtractedPostCode} />
 			<TextField
-				readonly={true}
+				readOnly={true}
 				flag="normal"
 				name="store-address"
 				placeholder="주소"
