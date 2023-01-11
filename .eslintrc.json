@@ -22,6 +22,8 @@
 		"@typescript-eslint/triple-slash-reference": "off",
 		"@typescript-eslint/consistent-type-definitions": "off",
 		"@typescript-eslint/strict-boolean-expressions": "off",
+		"@typescript-eslint/restrict-plus-operands": "off",	// 빈 데이터에 대한 "+=" 연산자를 방지하는 룰  
+		"@typescript-eslint/restrict-template-expressions": "off",	// any 타입 데이터를 literal template 에 사용하려고 하면 발동하는 룰
 		"no-useless-return": "off",
 		"react/react-in-jsx-scope": "off",
 		"no-var": "error",

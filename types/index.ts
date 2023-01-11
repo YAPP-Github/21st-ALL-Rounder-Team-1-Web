@@ -1,1 +1,1 @@
-export {};
+export * as DomainType from './domain';
