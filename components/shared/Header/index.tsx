@@ -14,7 +14,7 @@ const Header = () => {
 				<S.GlobalNavigation>
 					<S.LogoWrapper href={'/'} hrefLang={'ko'}>
 						<span className="visually-hidden">Pump 사이트 로고 이미지</span>
-						<Image src={PumpLogo} alt="Pump Logo" width={110} height={50} />
+						<Image src={PumpLogo} alt="Pump Logo" width={110} height={50} priority />
 					</S.LogoWrapper>
 
 					<StyledLayout.UnorderList gap={'40px'}>
