@@ -1,14 +1,20 @@
 'use client';
 
 import Image from 'next/image';
+import { signIn } from 'next-auth/react';
 import styled from 'styled-components';
 import { StyledLayout, Typography } from 'components/shared';
 import { SocialLoginBtn } from 'components/feature';
 import { KakaoSymbolImg, NaverSymbolImg } from 'public/static/images';
 
-const Login = () => {
-	const handleSocialLogin = (social: 'kakao' | 'naver') => {
+const Signin = () => {
+	const handleSocialLogin = async (social: 'kakao' | 'naver') => {
 		// social login routing
+		try {
+			await signIn(social);
+		} catch (err) {
+			console.error(err);
+		}
 	};
 
 	return (
@@ -40,7 +46,7 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default Signin;
 
 const InnerContainer = styled(StyledLayout.FlexBox)`
 	display: flex;
