@@ -24,12 +24,16 @@ export const SubMaxContainer = styled.div`
 	margin: 0 auto;
 `;
 
-export const UnorderList = styled.ul`
+export const UnorderList = styled.ul<CSSProperties>`
 	display: flex;
 	align-items: center;
+	gap: ${({ gap }) => gap};
 `;
 
-export const LinkWrapper = styled(Link)`
+export const LinkWrapper = styled(Link)<CSSProperties>`
+	display: flex;
+	height: 100%;
+	align-items: center;
 	text-decoration: none;
 	cursor: pointer;
 `;
