@@ -20,6 +20,7 @@ const Step1 = () => {
 			[name]: value,
 		});
 	};
+
 	const handleOnClick = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 	};

@@ -12,7 +12,6 @@ const BusinessLicenseTextField = ({ onMouseDown, businessLicenseTextFieldRef, na
 	const [businessLicense, setBusinessLicense] = useState<string>('');
 	const [currentKey, setCurrentKey] = useState<string>('');
 	const handleBusinessLicense = (e: ChangeEvent<HTMLInputElement>) => {
-		// 나중에 한 번 더 체크
 		let newText = e.target.value;
 		const num = /[-0-9]/;
 		if (newText.length > 0 && !num.test(newText[newText.length - 1])) return;
