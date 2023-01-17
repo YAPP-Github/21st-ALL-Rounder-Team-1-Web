@@ -1,6 +1,5 @@
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { StoreResistrationSmallBtn } from 'components/feature';
-import style from 'styles/style';
 import { DomainType } from 'types';
 
 type Props = {

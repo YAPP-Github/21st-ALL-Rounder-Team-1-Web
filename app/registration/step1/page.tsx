@@ -22,7 +22,6 @@ const Step1 = () => {
 	};
 	const handleOnClick = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		alert('저장');
 	};
 	return (
 		<form onSubmit={handleOnClick}>

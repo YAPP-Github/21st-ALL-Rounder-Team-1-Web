@@ -1,9 +1,29 @@
 'use client';
 
-import { TextField, PostcodePopupOpenBtn } from 'components/feature';
-import { StyledLayout, Typography, LargeBtn } from 'components/shared';
-import { FormEvent, useState } from 'react';
-import { theme, style } from 'styles';
+import { RefObject, useState, useRef, FormEvent } from 'react';
+import axios from 'axios';
+import { LargeBtn, StyledLayout, Typography } from 'components/shared';
+import { TextField, PostcodePopupOpenBtn, BusinessLicenseTextField, StoreResistrationSmallBtn } from 'components/feature';
+import { extractBusinessLicenseExceptHyhpen } from 'core/storeRegistrationService';
+import style from 'styles/style';
+import { theme } from 'styles';
+
+interface IBusinessLicenseStatusResponse {
+	match_cnt: number;
+	request_cnt: number;
+	status_code: string;
+	data: Array<{
+		b_no: string;
+		b_stt: '01' | '02' | '03';
+		b_stt_cd: '01' | '02' | '03';
+		tax_type: string;
+		tax_type_cd: '1' | '2' | '3' | '4' | '5' | '6' | '7';
+		end_dt: string;
+		utcc_yn: 'Y' | 'N';
+		tax_type_change_dt: string;
+		invoice_apply_at: string;
+	}>;
+}
 
 const Step2 = () => {
 	const [storePostcodeInputs, setStorePostcodeInputs] = useState({
@@ -28,12 +48,67 @@ const Step2 = () => {
 			addressDetail: event.target.value,
 		});
 	};
+
+	const businessLicenseInputRef = useRef() as RefObject<HTMLInputElement>;
+	const [businessLicenseStatus, setBusinessLicenseStatus] = useState<'normal' | 'success' | 'error'>('normal');
+	const handleHoverState = async () => {
+		if (businessLicenseStatus === 'error') setBusinessLicenseStatus('normal');
+	};
+
+	const handleBusinessLicenseStatusCheck = async () => {
+		if (!businessLicenseInputRef.current) return;
+
+		const businessLicenseStatusResponse = await axios.post<IBusinessLicenseStatusResponse>(
+			`${process.env.NEXT_PUBLIC_NTS_API_BASE_URL}/status${
+				process.env.NEXT_PUBLIC_NTS_API_KEY && `?serviceKey=${process.env.NEXT_PUBLIC_NTS_API_KEY}`
+			}`,
+			{
+				b_no: [extractBusinessLicenseExceptHyhpen(businessLicenseInputRef.current?.value)],
+			},
+		);
+
+		const { b_stt_cd } = businessLicenseStatusResponse.data.data[0];
+
+		if (businessLicenseStatusResponse.data.data[0].tax_type === '국세청에 등록되지 않은 사업자등록번호입니다.') {
+			setBusinessLicenseStatus('error');
+		}
+		if (b_stt_cd === '01') {
+			// 활성사업자
+			setBusinessLicenseStatus('success');
+		}
+
+		if (b_stt_cd === '02') {
+			// 휴업자
+		}
+
+		if (b_stt_cd === '03') {
+			// 폐업자
+		}
+	};
+
 	const handleOnClick = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		alert('저장');
 	};
 	return (
 		<form onSubmit={handleOnClick}>
+			<StyledLayout.TextFieldSection>
+				<label htmlFor="businessLicense">
+					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
+						사업자번호
+					</Typography>
+				</label>
+				<StyledLayout.FlexBox gap={'6px'}>
+					<BusinessLicenseTextField
+						businessLicenseTextFieldRef={businessLicenseInputRef}
+						name="businessLicense"
+						inputFlag={businessLicenseStatus}
+						onMouseDown={handleHoverState}
+					/>
+					<StoreResistrationSmallBtn width={{ width: '106px' }} onClick={handleBusinessLicenseStatusCheck}>
+						번호 조회
+					</StoreResistrationSmallBtn>
+				</StyledLayout.FlexBox>
+			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="storeName">
 					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
@@ -132,9 +207,7 @@ const Step2 = () => {
 				</StyledLayout.FlexBox>
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '16px' }}>
-				<LargeBtn style={style.btnStyle.primary_btn_002} type="submit">
-					다음단계
-				</LargeBtn>
+				<LargeBtn style={style.btnStyle.primary_btn_002}>다음단계</LargeBtn>
 			</StyledLayout.FlexBox>
 		</form>
 	);
