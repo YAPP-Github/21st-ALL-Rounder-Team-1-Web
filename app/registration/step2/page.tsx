@@ -143,7 +143,7 @@ const Step2 = () => {
 						매장 주소
 					</Typography>
 				</label>
-				<StyledLayout.FlexBox gap={'6px'}>
+				<StyledLayout.FlexBox gap="6px">
 					<TextField
 						readOnly={true}
 						flag="normal"
@@ -174,10 +174,9 @@ const Step2 = () => {
 				<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
 					매장 사진
 				</Typography>
-
 				<StyledLayout.FlexBox style={{ paddingTop: '8px', paddingBottom: '12px' }}>
 					<RadioBtn name="storeImage" value="defaultImage" onChange={handleRadioBtn} defaultChecked />
-					<StyledLayout.FlexBox style={{ paddingLeft: '8px', gap: '8px' }} flexDirection="column">
+					<StyledLayout.FlexBox style={{ paddingLeft: '8px' }} gap="8px" flexDirection="column">
 						<label htmlFor="defaultImage">
 							<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
 								기본 이미지 등록
@@ -193,7 +192,7 @@ const Step2 = () => {
 				</StyledLayout.FlexBox>
 				<StyledLayout.FlexBox>
 					<RadioBtn name="storeImage" value="registerImage" onChange={handleRadioBtn} />
-					<StyledLayout.FlexBox style={{ paddingLeft: '8px', gap: '8px' }} flexDirection="column">
+					<StyledLayout.FlexBox style={{ paddingLeft: '8px' }} gap="8px" flexDirection="column">
 						<label htmlFor="registerImage">
 							<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
 								직접 등록
@@ -218,6 +217,29 @@ const Step2 = () => {
 				<Typography variant="p" aggressive="body_oneline_004" color={theme.colors.gray_005}>
 					인스타그램, 블로그, 홈페이지 중 가장 활발히 사용하고 있는 채널 하나를 선택해서 링크 입력해주세요
 				</Typography>
+			</StyledLayout.TextFieldSection>
+			<StyledLayout.TextFieldSection>
+				<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
+					운영 시간
+				</Typography>
+				<StyledLayout.FlexBox gap="24px" style={{ padding: '4px 0' }}>
+					<StyledLayout.FlexBox gap="8px" alignItems="center">
+						<RadioBtn name="businessHour" value="weekDaysWeekEnd" onChange={handleRadioBtn} defaultChecked />
+						<label htmlFor="weekDaysWeekEnd">
+							<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
+								평일 / 주말 달라요
+							</Typography>
+						</label>
+					</StyledLayout.FlexBox>
+					<StyledLayout.FlexBox gap="8px" alignItems="center">
+						<RadioBtn name="businessHour" value="eachDays" onChange={handleRadioBtn} />
+						<label htmlFor="eachDays">
+							<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
+								요일별로 달라요
+							</Typography>
+						</label>
+					</StyledLayout.FlexBox>
+				</StyledLayout.FlexBox>
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="dayOff">
