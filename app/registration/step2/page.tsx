@@ -172,7 +172,7 @@ const Step2 = () => {
 					</Typography>
 				</label>
 				<StyledLayout.FlexBox style={{ paddingTop: '8px' }}>
-					<RadioBtn name="storeImage" value="defaultImage" />
+					<RadioBtn name="storeImage" value="defaultImage" defaultChecked />
 					<StyledLayout.FlexBox style={{ paddingLeft: '8px', gap: '8px' }} flexDirection="column">
 						<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
 							기본 이미지 등록
