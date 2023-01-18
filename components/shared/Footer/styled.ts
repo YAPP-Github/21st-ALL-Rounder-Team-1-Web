@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styled from 'styled-components';
 import { FlexBox } from 'components/shared/styled/layout';
 
@@ -18,9 +19,7 @@ export const LegalDescWrapper = styled.div`
 	height: 100%;
 `;
 
-type AnchorProps = {};
-
-export const Anchor = styled.a<AnchorProps>`
+export const Anchor = styled(Link)`
 	display: flex;
 	align-items: center;
 	height: inherit;
