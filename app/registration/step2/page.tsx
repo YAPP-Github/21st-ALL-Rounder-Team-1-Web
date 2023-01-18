@@ -1,6 +1,7 @@
 'use client';
 
 import { RefObject, useState, useRef, FormEvent } from 'react';
+import Image from 'next/image';
 import axios from 'axios';
 import { LargeBtn, StyledLayout, Typography } from 'components/shared';
 import {
@@ -9,10 +10,12 @@ import {
 	BusinessLicenseTextField,
 	StoreResistrationSmallBtn,
 	RadioBtn,
+	StoreImageBtn,
 } from 'components/feature';
 import { extractBusinessLicenseExceptHyhpen } from 'core/storeRegistrationService';
 import style from 'styles/style';
 import { theme } from 'styles';
+import { EmptyStoreImage } from 'public/static/images';
 
 interface IBusinessLicenseStatusResponse {
 	match_cnt: number;
@@ -37,7 +40,13 @@ const Step2 = () => {
 		address: '', // 기본 주소
 		addressDetail: '', // 상세 주소
 	});
-
+	const businessLicenseInputRef = useRef() as RefObject<HTMLInputElement>;
+	const [businessLicenseStatus, setBusinessLicenseStatus] = useState<'normal' | 'success' | 'error'>('normal');
+	const [selectedRadioBtn, setSelectedRadioBtn] = useState<string>('defaultImage');
+	const handleRadioBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (selectedRadioBtn === e.target.value) return;
+		setSelectedRadioBtn(e.target.value);
+	};
 	const handleExtractedPostCode = (extractedPostcode: string[]) => {
 		const [zonecode, address] = extractedPostcode;
 
@@ -47,16 +56,12 @@ const Step2 = () => {
 			address,
 		});
 	};
-
 	const handleStoreAddressDetailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setStorePostcodeInputs({
 			...storePostcodeInputs,
 			addressDetail: event.target.value,
 		});
 	};
-
-	const businessLicenseInputRef = useRef() as RefObject<HTMLInputElement>;
-	const [businessLicenseStatus, setBusinessLicenseStatus] = useState<'normal' | 'success' | 'error'>('normal');
 	const handleHoverState = async () => {
 		if (businessLicenseStatus === 'error') setBusinessLicenseStatus('normal');
 	};
@@ -166,31 +171,40 @@ const Step2 = () => {
 				/>
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
-				<label htmlFor="storeImage">
-					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
-						매장 사진
-					</Typography>
-				</label>
-				<StyledLayout.FlexBox style={{ paddingTop: '8px' }}>
-					<RadioBtn name="storeImage" value="defaultImage" defaultChecked />
+				<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
+					매장 사진
+				</Typography>
+
+				<StyledLayout.FlexBox style={{ paddingTop: '8px', paddingBottom: '12px' }}>
+					<RadioBtn name="storeImage" value="defaultImage" onChange={handleRadioBtn} defaultChecked />
 					<StyledLayout.FlexBox style={{ paddingLeft: '8px', gap: '8px' }} flexDirection="column">
-						<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
-							기본 이미지 등록
-						</Typography>
+						<label htmlFor="defaultImage">
+							<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
+								기본 이미지 등록
+							</Typography>
+						</label>
 						<Typography variant="p" aggressive="body_oneline_004" color={theme.colors.gray_005}>
 							가게 사진이 없다면 기본 이미지로 등록해드려요
 						</Typography>
+						{selectedRadioBtn === 'defaultImage' && (
+							<Image src={EmptyStoreImage} alt="기본가게이미지" width={343} height={160} style={{ paddingTop: '8px' }} />
+						)}
 					</StyledLayout.FlexBox>
 				</StyledLayout.FlexBox>
-				<StyledLayout.FlexBox style={{ paddingTop: '8px' }}>
-					<RadioBtn name="storeImage" value="registerImage" />
+				<StyledLayout.FlexBox>
+					<RadioBtn name="storeImage" value="registerImage" onChange={handleRadioBtn} />
 					<StyledLayout.FlexBox style={{ paddingLeft: '8px', gap: '8px' }} flexDirection="column">
-						<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
-							직접 등록
-						</Typography>
+						<label htmlFor="registerImage">
+							<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
+								직접 등록
+							</Typography>
+						</label>
 						<Typography variant="p" aggressive="body_oneline_004" color={theme.colors.gray_005}>
 							준비하신 이미지로 가게 사진을 등록해드려요
 						</Typography>
+
+						<StyledLayout.EmptyBoxDivider height="0" />
+						{selectedRadioBtn === 'registerImage' && <StoreImageBtn />}
 					</StyledLayout.FlexBox>
 				</StyledLayout.FlexBox>
 			</StyledLayout.TextFieldSection>

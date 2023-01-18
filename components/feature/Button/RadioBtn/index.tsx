@@ -8,7 +8,14 @@ type Props = {
 const RadioBtn = ({ value, name, ...props }: Props) => {
 	return (
 		<RadioBtnContainer htmlFor={value}>
-			<input type="radio" name={name} id={value} value={value} defaultChecked={props.defaultChecked ?? false} />
+			<input
+				type="radio"
+				name={name}
+				id={value}
+				value={value}
+				onChange={props.onChange}
+				defaultChecked={props.defaultChecked ?? false}
+			/>
 			<span />
 		</RadioBtnContainer>
 	);

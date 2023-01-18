@@ -12,7 +12,7 @@ const Tab = () => {
 		{ id: 2, step: 'Step2', title: '매장정보' },
 		{ id: 3, step: 'Step3', title: '상품정보' },
 	];
-	const [currentStep, setCurrentStep] = useState(1);
+	const [currentStep, setCurrentStep] = useState(0);
 	const checkDetailUI = (elementId: number) => {
 		if (elementId === 3 || elementId + 1 === currentStep) return !addBorderRight;
 		return addBorderRight;
