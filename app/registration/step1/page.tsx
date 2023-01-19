@@ -2,43 +2,23 @@
 
 import { TextField } from 'components/feature';
 import { LargeBtn, StyledLayout, Typography } from 'components/shared';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { FormEvent } from 'react';
 import { theme } from 'styles';
 import style from 'styles/style';
 
 const Step1 = () => {
-	const [inputs, setInputs] = useState({
-		managerName: '',
-		managerEmail: '',
-		managerPhonenumber: '',
-	});
-	const { managerName, managerEmail, managerPhonenumber } = inputs;
-	const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-		const { value, name } = e.target;
-		setInputs({
-			...inputs,
-			[name]: value,
-		});
-	};
-
-	const handleOnClick = (e: FormEvent<HTMLFormElement>) => {
+	const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 	};
 	return (
-		<form onSubmit={handleOnClick}>
+		<form onSubmit={handleOnSubmit}>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="managerName">
 					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
 						대표자명
 					</Typography>
 				</label>
-				<TextField
-					name="managerName"
-					flag="normal"
-					width={style.textFieldWidth.textField_width_320}
-					onChange={handleOnChange}
-					value={managerName}
-				/>
+				<TextField id="managerName" name="step1" flag="normal" width={style.textFieldWidth.textField_width_320} />
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="managerEmail">
@@ -46,13 +26,7 @@ const Step1 = () => {
 						이메일
 					</Typography>
 				</label>
-				<TextField
-					name="managerEmail"
-					flag="normal"
-					value={managerEmail}
-					width={style.textFieldWidth.textField_width_320}
-					onChange={handleOnChange}
-				/>
+				<TextField id="managerEmail" name="step1" flag="normal" width={style.textFieldWidth.textField_width_320} />
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="managerPhonenumber">
@@ -60,13 +34,7 @@ const Step1 = () => {
 						전화번호
 					</Typography>
 				</label>
-				<TextField
-					name="managerPhonenumber"
-					flag="normal"
-					value={managerPhonenumber}
-					width={style.textFieldWidth.textField_width_320}
-					onChange={handleOnChange}
-				/>
+				<TextField id="managerPhonenumber" name="step1" flag="normal" width={style.textFieldWidth.textField_width_320} />
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '16px' }}>
 				<LargeBtn style={style.btnStyle.primary_btn_002} type="submit">

@@ -42,10 +42,15 @@ const Step2 = () => {
 	});
 	const businessLicenseInputRef = useRef() as RefObject<HTMLInputElement>;
 	const [businessLicenseStatus, setBusinessLicenseStatus] = useState<'normal' | 'success' | 'error'>('normal');
-	const [selectedRadioBtn, setSelectedRadioBtn] = useState<string>('defaultImage');
-	const handleRadioBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (selectedRadioBtn === e.target.value) return;
-		setSelectedRadioBtn(e.target.value);
+	const [selectedStoreImageBtn, setSelectedStoreImageBtn] = useState('defaultImage');
+	const [selectedBusinessHourBtn, setSelectedBusinessHourBtn] = useState('weekDaysWeekEnd');
+	const handleSelectedStoreImageBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (selectedStoreImageBtn === e.target.value) return;
+		setSelectedStoreImageBtn(e.target.value);
+	};
+	const handleSelectedBusinessHourBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (selectedBusinessHourBtn === e.target.value) return;
+		setSelectedBusinessHourBtn(e.target.value);
 	};
 	const handleExtractedPostCode = (extractedPostcode: string[]) => {
 		const [zonecode, address] = extractedPostcode;
@@ -175,7 +180,7 @@ const Step2 = () => {
 					매장 사진
 				</Typography>
 				<StyledLayout.FlexBox style={{ paddingTop: '8px', paddingBottom: '12px' }}>
-					<RadioBtn name="storeImage" value="defaultImage" onChange={handleRadioBtn} defaultChecked />
+					<RadioBtn name="storeImage" value="defaultImage" onChange={handleSelectedStoreImageBtn} defaultChecked />
 					<StyledLayout.FlexBox style={{ paddingLeft: '8px' }} gap="8px" flexDirection="column">
 						<label htmlFor="defaultImage">
 							<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
@@ -185,13 +190,13 @@ const Step2 = () => {
 						<Typography variant="p" aggressive="body_oneline_004" color={theme.colors.gray_005}>
 							가게 사진이 없다면 기본 이미지로 등록해드려요
 						</Typography>
-						{selectedRadioBtn === 'defaultImage' && (
+						{selectedStoreImageBtn === 'defaultImage' && (
 							<Image src={EmptyStoreImage} alt="기본가게이미지" width={343} height={160} style={{ paddingTop: '8px' }} />
 						)}
 					</StyledLayout.FlexBox>
 				</StyledLayout.FlexBox>
 				<StyledLayout.FlexBox>
-					<RadioBtn name="storeImage" value="registerImage" onChange={handleRadioBtn} />
+					<RadioBtn name="storeImage" value="registerImage" onChange={handleSelectedStoreImageBtn} />
 					<StyledLayout.FlexBox style={{ paddingLeft: '8px' }} gap="8px" flexDirection="column">
 						<label htmlFor="registerImage">
 							<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
@@ -203,7 +208,7 @@ const Step2 = () => {
 						</Typography>
 
 						<StyledLayout.EmptyBoxDivider height="0" />
-						{selectedRadioBtn === 'registerImage' && <StoreImageBtn />}
+						{selectedStoreImageBtn === 'registerImage' && <StoreImageBtn />}
 					</StyledLayout.FlexBox>
 				</StyledLayout.FlexBox>
 			</StyledLayout.TextFieldSection>
@@ -224,7 +229,7 @@ const Step2 = () => {
 				</Typography>
 				<StyledLayout.FlexBox gap="24px" style={{ padding: '4px 0' }}>
 					<StyledLayout.FlexBox gap="8px" alignItems="center">
-						<RadioBtn name="businessHour" value="weekDaysWeekEnd" onChange={handleRadioBtn} defaultChecked />
+						<RadioBtn name="businessHour" value="weekDaysWeekEnd" onChange={handleSelectedBusinessHourBtn} defaultChecked />
 						<label htmlFor="weekDaysWeekEnd">
 							<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
 								평일 / 주말 달라요
@@ -232,7 +237,7 @@ const Step2 = () => {
 						</label>
 					</StyledLayout.FlexBox>
 					<StyledLayout.FlexBox gap="8px" alignItems="center">
-						<RadioBtn name="businessHour" value="eachDays" onChange={handleRadioBtn} />
+						<RadioBtn name="businessHour" value="eachDays" onChange={handleSelectedBusinessHourBtn} />
 						<label htmlFor="eachDays">
 							<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
 								요일별로 달라요

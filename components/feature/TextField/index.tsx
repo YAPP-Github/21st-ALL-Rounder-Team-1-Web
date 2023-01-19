@@ -19,7 +19,7 @@ const TextField = ({ width, ...props }: Props) => {
 			<S.StyledTextFiled
 				readOnly={props.readOnly ?? false}
 				name={props.name}
-				id={props.name}
+				id={props.id}
 				onFocus={handleError}
 				flag={flag}
 				onChange={props.onChange}
