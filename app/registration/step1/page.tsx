@@ -9,9 +9,10 @@ import style from 'styles/style';
 const Step1 = () => {
 	const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		const step1Inputs = e.target.step1;
 	};
 	return (
-		<form onSubmit={handleOnSubmit}>
+		<form onSubmit={(e) => handleOnSubmit}>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="managerName">
 					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>

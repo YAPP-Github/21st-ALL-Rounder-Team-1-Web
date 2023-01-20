@@ -83,9 +83,9 @@ const Step2 = () => {
 			},
 		);
 
-		const { b_stt_cd } = businessLicenseStatusResponse.data.data[0];
+		const { b_stt_cd, tax_type } = businessLicenseStatusResponse.data.data[0];
 
-		if (businessLicenseStatusResponse.data.data[0].tax_type === '국세청에 등록되지 않은 사업자등록번호입니다.') {
+		if (tax_type === '국세청에 등록되지 않은 사업자등록번호입니다.') {
 			setBusinessLicenseStatus('error');
 		}
 		if (b_stt_cd === '01') {
@@ -210,7 +210,6 @@ const Step2 = () => {
 						<Typography variant="p" aggressive="body_oneline_004" color={theme.colors.gray_005}>
 							준비하신 이미지로 가게 사진을 등록해드려요
 						</Typography>
-
 						<StyledLayout.EmptyBoxDivider height="0" />
 						{selectedStoreImageBtn === 'registerImage' && <StoreImageBtn />}
 					</StyledLayout.FlexBox>
