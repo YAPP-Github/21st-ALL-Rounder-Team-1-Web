@@ -67,7 +67,7 @@ const Step2 = () => {
 			addressDetail: event.target.value,
 		});
 	};
-	const handleHoverState = async () => {
+	const handleHoverState = () => {
 		if (businessLicenseStatus === 'error') setBusinessLicenseStatus('normal');
 	};
 
@@ -120,7 +120,7 @@ const Step2 = () => {
 						name="step2"
 						id="businessLicense"
 						inputFlag={businessLicenseStatus}
-						onMouseDown={handleHoverState}
+						onFocus={handleHoverState}
 					/>
 					<StoreResistrationSmallBtn width={{ width: '106px' }} onClick={handleBusinessLicenseStatusCheck}>
 						번호 조회
@@ -133,7 +133,7 @@ const Step2 = () => {
 						상호
 					</Typography>
 				</label>
-				<TextField name="step2" id="storeName" flag="normal" width="320px" />
+				<TextField name="step2" id="storeName" inputFlag="normal" width="320px" />
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="storeTelephoneNumber">
@@ -141,7 +141,7 @@ const Step2 = () => {
 						매장 전화번호
 					</Typography>
 				</label>
-				<TextField name="step2" id="storeTelephoneNumber" flag="normal" width="320px" />
+				<TextField name="step2" id="storeTelephoneNumber" inputFlag="normal" width="320px" />
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="store-address-detail">
@@ -152,7 +152,7 @@ const Step2 = () => {
 				<StyledLayout.FlexBox gap="6px">
 					<TextField
 						readOnly={true}
-						flag="normal"
+						inputFlag="normal"
 						name="step2"
 						id="store-postcode"
 						value={storePostcodeInputs.zonecode}
@@ -163,14 +163,14 @@ const Step2 = () => {
 
 				<TextField
 					readOnly={true}
-					flag="normal"
+					inputFlag="normal"
 					name="step2"
 					id="store-address"
 					value={storePostcodeInputs.address}
 					width="560px"
 				/>
 				<TextField
-					flag="normal"
+					inputFlag="normal"
 					name="step2"
 					id="store-address-detail"
 					placeholder="(필수) 상세주소를 입력해주세요"
@@ -221,7 +221,7 @@ const Step2 = () => {
 						홍보 채널 (선택)
 					</Typography>
 				</label>
-				<TextField name="step2" id="PromotionalChannel" flag="normal" width="320px" />
+				<TextField name="step2" id="PromotionalChannel" inputFlag="normal" width="320px" />
 				<Typography variant="p" aggressive="body_oneline_004" color={theme.colors.gray_005}>
 					인스타그램, 블로그, 홈페이지 중 가장 활발히 사용하고 있는 채널 하나를 선택해서 링크 입력해주세요
 				</Typography>
@@ -255,7 +255,7 @@ const Step2 = () => {
 						휴무일
 					</Typography>
 				</label>
-				<TextField name="step2" id="dayOff" flag="normal" width="320px" />
+				<TextField name="step2" id="dayOff" inputFlag="normal" width="320px" />
 				<StyledLayout.FlexBox style={{ paddingTop: '4px' }}>
 					<Typography variant="p" aggressive="body_oneline_004" color={theme.colors.gray_005}>
 						ex) 연중 무휴, 매주 토요일, 매달 둘째 및 넷째주 토요일 등

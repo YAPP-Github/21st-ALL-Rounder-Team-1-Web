@@ -43,7 +43,7 @@ const BusinessLicenseTextField = ({ businessLicenseTextFieldRef, inputFlag, ...p
 				disabled={inputFlag === 'success'}
 				onChange={handleBusinessLicense}
 				onKeyDown={checkKey}
-				onMouseDown={props.onMouseDown}
+				onFocus={props.onFocus}
 			/>
 
 			{inputFlag === 'error' && <S.StyledMessage>사업자 번호를 확인해주세요</S.StyledMessage>}

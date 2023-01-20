@@ -7,19 +7,21 @@ import { theme } from 'styles';
 import style from 'styles/style';
 
 const Step1 = () => {
+	const { inputArr, changeError, changeNormal } = useStep1Store();
+
 	const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const step1Inputs = e.target.step1;
 	};
+	const handleCheckError = (inputArr: object[]) => {};
 	return (
-		<form onSubmit={(e) => handleOnSubmit}>
+		<form onSubmit={handleOnSubmit}>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="managerName">
 					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
 						대표자명
 					</Typography>
 				</label>
-				<TextField id="managerName" name="step1" flag="normal" width="320px" />
+				<TextField id="managerName" name="step1" inputFlag="normal" width="320px" />
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="managerEmail">
@@ -27,7 +29,7 @@ const Step1 = () => {
 						이메일
 					</Typography>
 				</label>
-				<TextField id="managerEmail" name="step1" flag="normal" width="320px" />
+				<TextField id="managerEmail" name="step1" inputFlag="normal" width="320px" />
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="managerPhonenumber">
@@ -35,7 +37,7 @@ const Step1 = () => {
 						전화번호
 					</Typography>
 				</label>
-				<TextField id="managerPhonenumber" name="step1" flag="normal" width="320px" />
+				<TextField id="managerPhonenumber" name="step1" inputFlag="normal" width="320px" />
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '16px' }}>
 				<LargeBtn style={style.btnStyle.primary_btn_002} type="submit">
@@ -47,3 +49,6 @@ const Step1 = () => {
 };
 
 export default Step1;
+function useStep1Store() {
+	throw new Error('Function not implemented.');
+}
