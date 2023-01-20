@@ -1,19 +1,15 @@
 import { ChangeEvent, KeyboardEvent, RefObject, useState } from 'react';
 import * as S from '../TextField/styled';
-import style from 'styles/style';
 
 type Props = {
 	inputFlag: 'normal' | 'success' | 'error';
 	businessLicenseTextFieldRef: RefObject<HTMLInputElement>;
-	name: string;
-} & React.InputHTMLAttributes<HTMLInputElement>;
+} & React.ComponentProps<'input'>;
 
-const BusinessLicenseTextField = ({ businessLicenseTextFieldRef, name, inputFlag, ...props }: Props) => {
+const BusinessLicenseTextField = ({ businessLicenseTextFieldRef, inputFlag, ...props }: Props) => {
 	const [businessLicense, setBusinessLicense] = useState<string>('');
 	const [currentKey, setCurrentKey] = useState<string>('');
-
 	const handleBusinessLicense = (e: ChangeEvent<HTMLInputElement>) => {
-		// 나중에 한 번 더 체크
 		let newText = e.target.value;
 		const num = /[-0-9]/;
 		if (newText.length > 0 && !num.test(newText[newText.length - 1])) return;
@@ -35,16 +31,19 @@ const BusinessLicenseTextField = ({ businessLicenseTextFieldRef, name, inputFlag
 	return (
 		<S.TextFieldContainer>
 			<S.StyledTextFiled
-				style={style.textFieldWidth.textField_width_123}
+				readOnly={false}
+				style={{ width: '320px' }}
 				flag={inputFlag}
 				ref={businessLicenseTextFieldRef}
 				type="search"
 				placeholder="입력해주세요"
-				name={name}
+				name={props.name}
+				id={props.id}
 				value={businessLicense}
 				disabled={inputFlag === 'success'}
 				onChange={handleBusinessLicense}
 				onKeyDown={checkKey}
+				onMouseDown={props.onMouseDown}
 			/>
 
 			{inputFlag === 'error' && <S.StyledMessage>사업자 번호를 확인해주세요</S.StyledMessage>}

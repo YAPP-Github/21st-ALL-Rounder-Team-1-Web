@@ -17,8 +17,10 @@ import {
 	StoreProductRequiredWarningModal,
 } from 'components/feature';
 import style from 'styles/style';
+import { useRouter } from 'next/navigation';
 
 const Root = () => {
+	const router = useRouter();
 	return (
 		<Container display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'}>
 			{false && <Toast open={false} duration={3} />}
@@ -34,7 +36,7 @@ const Root = () => {
 				<br />더 많은 사람에게 리필스테이션의 가치를 전해보세요.
 			</Typography>
 
-			<LargeBtn style={style.btnStyle.primary_btn_002} onClick={() => {}}>
+			<LargeBtn style={style.btnStyle.primary_btn_002} onClick={() => router.push('/registration/step1')}>
 				입점 신청하기
 			</LargeBtn>
 

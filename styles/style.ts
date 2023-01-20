@@ -16,23 +16,15 @@ const style: Styles = {
 		},
 
 		primary_btn_001: {
-			width: `${200}px`,
+			width: `200px`,
 			backgroundColor: `${theme.colors.primary_010}`,
 			color: `${theme.colors.white}`,
 		},
 		primary_btn_002: {
-			width: `${240}px`,
+			width: `240px`,
 			backgroundColor: `${theme.colors.primary_010}`,
-
 			color: `${theme.colors.white}`,
 		},
-	},
-
-	textFieldWidth: {
-		textField_width_123: { width: `123px` },
-		textField_width_278: { width: `278px` },
-		textField_width_320: { width: `320px` },
-		textField_width_560: { width: `560px` },
 	},
 };
 export default style;

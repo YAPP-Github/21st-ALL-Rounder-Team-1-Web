@@ -1,9 +1,10 @@
 import { Typography } from 'components/shared';
+import { EmptyBoxDivider } from 'components/shared/styled/layout';
 import * as S from './styled';
 const RegistrationHeader = () => {
 	return (
 		<>
-			<div style={{ height: '32px' }} />
+			<EmptyBoxDivider height="32px" />
 			<S.RegistrationHeaderContainer>
 				<Typography variant="h1" aggressive="headline_oneline_002">
 					입점신청서

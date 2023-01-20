@@ -5,15 +5,14 @@ export const TextFieldContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 `;
-export const StyledTextFiled = styled.input<{ flag: string }>`
+export const StyledTextFiled = styled.input<{ flag: string; readOnly: boolean }>`
 	border: 1px solid ${({ theme, flag }) => (flag === 'error' ? theme.colors.error : theme.colors.gray_002)};
 	padding: 8px 16px;
-
 	height: 48px;
 	border-radius: 10px;
-	font: ${({ theme }) => theme.fonts.body_oneline_002};
+	${({ theme }) => theme.fonts.body_oneline_002};
 	&:focus {
-		border: 1px solid ${({ theme }) => theme.colors.gray_004};
+		border: ${({ theme, readOnly }) => !readOnly && `1px solid ${theme.colors.gray_004}`};
 	}
 	::-webkit-search-cancel-button {
 		-webkit-appearance: none;
