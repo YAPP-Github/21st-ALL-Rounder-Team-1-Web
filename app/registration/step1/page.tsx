@@ -3,6 +3,7 @@
 import { TextField } from 'components/feature';
 import { LargeBtn, StyledLayout, Typography } from 'components/shared';
 import { FormEvent } from 'react';
+import { useStep1Store } from 'store/actions/storeRegistrationStore';
 import { theme } from 'styles';
 import style from 'styles/style';
 
@@ -11,8 +12,14 @@ const Step1 = () => {
 
 	const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		handleCheckError(e.target.step1);
 	};
-	const handleCheckError = (inputArr: object[]) => {};
+	const handleCheckError = (inputArr: RadioNodeList) => {
+		for (let i = 0; i < inputArr.length; i++) {
+			if (inputArr[i].value === '') changeError(i);
+		}
+	};
+
 	return (
 		<form onSubmit={handleOnSubmit}>
 			<StyledLayout.TextFieldSection>
@@ -21,7 +28,7 @@ const Step1 = () => {
 						대표자명
 					</Typography>
 				</label>
-				<TextField id="managerName" name="step1" inputFlag="normal" width="320px" />
+				<TextField id="managerName" name="step1" onFocus={() => changeNormal(0)} inputFlag={inputArr[0]} width="320px" />
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="managerEmail">
@@ -29,7 +36,7 @@ const Step1 = () => {
 						이메일
 					</Typography>
 				</label>
-				<TextField id="managerEmail" name="step1" inputFlag="normal" width="320px" />
+				<TextField id="managerEmail" name="step1" onFocus={() => changeNormal(1)} inputFlag={inputArr[1]} width="320px" />
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="managerPhonenumber">
@@ -37,7 +44,7 @@ const Step1 = () => {
 						전화번호
 					</Typography>
 				</label>
-				<TextField id="managerPhonenumber" name="step1" inputFlag="normal" width="320px" />
+				<TextField id="managerPhonenumber" name="step1" onFocus={() => changeNormal(2)} inputFlag={inputArr[2]} width="320px" />
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '16px' }}>
 				<LargeBtn style={style.btnStyle.primary_btn_002} type="submit">
@@ -49,6 +56,3 @@ const Step1 = () => {
 };
 
 export default Step1;
-function useStep1Store() {
-	throw new Error('Function not implemented.');
-}

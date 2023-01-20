@@ -1,1 +1,1 @@
-export {};
+export * as storeRegistrationStore from './storeRegistrationStore';

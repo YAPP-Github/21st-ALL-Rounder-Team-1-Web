@@ -1,16 +1,13 @@
 import { create } from 'zustand';
-
-interface stepInputs {
-	inputArr: string[];
+import { devtools } from 'zustand/middleware';
+export interface stepInputs {
+	inputArr: Array<'normal' | 'success' | 'error'>;
 	changeError: (id: number) => void;
 	changeNormal: (id: number) => void;
 }
 
-const useStep1Store = create<stepInputs>((set) => ({
+export const useStep1Store = create<stepInputs>((set) => ({
 	inputArr: ['normal', 'normal', 'normal'],
-	changeError: (id) =>
-		set((state) => ({ inputArr: state.inputArr.map((inputFlag: string, idx: number) => (idx === id ? 'error' : inputFlag)) })),
-
-	changeNormal: (id) =>
-		set((state) => ({ inputArr: state.inputArr.map((inputFlag: string, idx: number) => (idx === id ? 'normal' : inputFlag)) })),
+	changeError: (id) => set((state) => ({ inputArr: { ...state.inputArr, [id]: 'error' } })),
+	changeNormal: (id) => set((state) => ({ inputArr: { ...state.inputArr, [id]: 'normal' } })),
 }));
