@@ -18,7 +18,7 @@ const Step1 = () => {
 						대표자명
 					</Typography>
 				</label>
-				<TextField id="managerName" name="step1" flag="normal" width={style.textFieldWidth.textField_width_320} />
+				<TextField id="managerName" name="step1" flag="normal" width="320px" />
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="managerEmail">
@@ -26,7 +26,7 @@ const Step1 = () => {
 						이메일
 					</Typography>
 				</label>
-				<TextField id="managerEmail" name="step1" flag="normal" width={style.textFieldWidth.textField_width_320} />
+				<TextField id="managerEmail" name="step1" flag="normal" width="320px" />
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="managerPhonenumber">
@@ -34,7 +34,7 @@ const Step1 = () => {
 						전화번호
 					</Typography>
 				</label>
-				<TextField id="managerPhonenumber" name="step1" flag="normal" width={style.textFieldWidth.textField_width_320} />
+				<TextField id="managerPhonenumber" name="step1" flag="normal" width="320px" />
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '16px' }}>
 				<LargeBtn style={style.btnStyle.primary_btn_002} type="submit">

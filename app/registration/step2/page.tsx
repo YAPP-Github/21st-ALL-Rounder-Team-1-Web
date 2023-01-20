@@ -15,7 +15,7 @@ import {
 import { extractBusinessLicenseExceptHyhpen } from 'core/storeRegistrationService';
 import style from 'styles/style';
 import { theme } from 'styles';
-import { EmptyStoreImage } from 'public/static/images';
+import { EmptyStoreImg } from 'public/static/images';
 
 interface IBusinessLicenseStatusResponse {
 	match_cnt: number;
@@ -117,7 +117,8 @@ const Step2 = () => {
 				<StyledLayout.FlexBox gap={'6px'}>
 					<BusinessLicenseTextField
 						businessLicenseTextFieldRef={businessLicenseInputRef}
-						name="businessLicense"
+						name="step2"
+						id="businessLicense"
 						inputFlag={businessLicenseStatus}
 						onMouseDown={handleHoverState}
 					/>
@@ -132,7 +133,7 @@ const Step2 = () => {
 						상호
 					</Typography>
 				</label>
-				<TextField name="storeName" flag="normal" width={style.textFieldWidth.textField_width_320} />
+				<TextField name="step2" id="storeName" flag="normal" width="320px" />
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="storeTelephoneNumber">
@@ -140,7 +141,7 @@ const Step2 = () => {
 						매장 전화번호
 					</Typography>
 				</label>
-				<TextField name="storeTelephoneNumber" flag="normal" width={style.textFieldWidth.textField_width_320} />
+				<TextField name="step2" id="storeTelephoneNumber" flag="normal" width="320px" />
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="store-address-detail">
@@ -152,9 +153,10 @@ const Step2 = () => {
 					<TextField
 						readOnly={true}
 						flag="normal"
-						name="store-postcode"
+						name="step2"
+						id="store-postcode"
 						value={storePostcodeInputs.zonecode}
-						width={style.textFieldWidth.textField_width_320}
+						width="320px"
 					/>
 					<PostcodePopupOpenBtn onExtractedPostCode={handleExtractedPostCode} />
 				</StyledLayout.FlexBox>
@@ -162,16 +164,18 @@ const Step2 = () => {
 				<TextField
 					readOnly={true}
 					flag="normal"
-					name="store-address"
+					name="step2"
+					id="store-address"
 					value={storePostcodeInputs.address}
-					width={style.textFieldWidth.textField_width_560}
+					width="560px"
 				/>
 				<TextField
 					flag="normal"
-					name="store-address-detail"
+					name="step2"
+					id="store-address-detail"
 					placeholder="(필수) 상세주소를 입력해주세요"
 					value={storePostcodeInputs.addressDetail}
-					width={style.textFieldWidth.textField_width_560}
+					width="560px"
 					onChange={handleStoreAddressDetailChange}
 				/>
 			</StyledLayout.TextFieldSection>
@@ -191,7 +195,7 @@ const Step2 = () => {
 							가게 사진이 없다면 기본 이미지로 등록해드려요
 						</Typography>
 						{selectedStoreImageBtn === 'defaultImage' && (
-							<Image src={EmptyStoreImage} alt="기본가게이미지" width={343} height={160} style={{ paddingTop: '8px' }} />
+							<Image src={EmptyStoreImg} alt="기본가게이미지" width={343} height={160} style={{ paddingTop: '8px' }} />
 						)}
 					</StyledLayout.FlexBox>
 				</StyledLayout.FlexBox>
@@ -218,7 +222,7 @@ const Step2 = () => {
 						홍보 채널 (선택)
 					</Typography>
 				</label>
-				<TextField name="PromotionalChannel" flag="normal" width={style.textFieldWidth.textField_width_320} />
+				<TextField name="step2" id="PromotionalChannel" flag="normal" width="320px" />
 				<Typography variant="p" aggressive="body_oneline_004" color={theme.colors.gray_005}>
 					인스타그램, 블로그, 홈페이지 중 가장 활발히 사용하고 있는 채널 하나를 선택해서 링크 입력해주세요
 				</Typography>
@@ -252,7 +256,7 @@ const Step2 = () => {
 						휴무일
 					</Typography>
 				</label>
-				<TextField name="dayOff" flag="normal" width={style.textFieldWidth.textField_width_320} />
+				<TextField name="step2" id="dayOff" flag="normal" width="320px" />
 				<StyledLayout.FlexBox style={{ paddingTop: '4px' }}>
 					<Typography variant="p" aggressive="body_oneline_004" color={theme.colors.gray_005}>
 						ex) 연중 무휴, 매주 토요일, 매달 둘째 및 넷째주 토요일 등

@@ -3,10 +3,9 @@ import * as S from './styled';
 
 type Props = {
 	flag: 'normal' | 'success' | 'error';
-	width: React.CSSProperties;
-} & Omit<React.ComponentProps<'input'>, 'width'>;
+} & React.ComponentProps<'input'>;
 
-const TextField = ({ width, ...props }: Props) => {
+const TextField = (props: Props) => {
 	const [flag, setFlag] = useState<string>(props.flag);
 
 	const handleError = () => {
@@ -23,7 +22,7 @@ const TextField = ({ width, ...props }: Props) => {
 				onFocus={handleError}
 				flag={flag}
 				onChange={props.onChange}
-				style={width}
+				style={{ width: props.width }}
 				value={props.value}
 				placeholder={props.placeholder ?? '입력해주세요'}
 				type="search"
