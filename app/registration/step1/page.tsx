@@ -2,6 +2,7 @@
 
 import { TextField } from 'components/feature';
 import { LargeBtn, StyledLayout, Typography } from 'components/shared';
+import { checkEmptyInputError } from 'core/storeRegistrationService';
 import { FormEvent } from 'react';
 import { useStep1Store } from 'store/actions/storeRegistrationStore';
 import { theme } from 'styles';
@@ -9,15 +10,11 @@ import style from 'styles/style';
 
 const Step1 = () => {
 	const { inputArr, changeError, changeNormal } = useStep1Store();
-
 	const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		handleCheckError(e.target.step1);
-	};
-	const handleCheckError = (inputArr: RadioNodeList) => {
-		for (let i = 0; i < inputArr.length; i++) {
-			if (inputArr[i].value === '') changeError(i);
-		}
+		const emptyInput = checkEmptyInputError(e.currentTarget.step1, changeError);
+		if (emptyInput !== 0) return;
+		// 여기서부터 서버 api 연결 로직
 	};
 
 	return (

@@ -12,10 +12,11 @@ import {
 	RadioBtn,
 	StoreImageBtn,
 } from 'components/feature';
-import { extractBusinessLicenseExceptHyhpen } from 'core/storeRegistrationService';
+import { checkEmptyInputError, extractBusinessLicenseExceptHyhpen } from 'core/storeRegistrationService';
 import style from 'styles/style';
 import { theme } from 'styles';
 import { EmptyStoreImg } from 'public/static/images';
+import { useStep2Store } from 'store/actions/storeRegistrationStore';
 
 interface IBusinessLicenseStatusResponse {
 	match_cnt: number;
@@ -44,6 +45,14 @@ const Step2 = () => {
 	const [businessLicenseStatus, setBusinessLicenseStatus] = useState<'normal' | 'success' | 'error'>('normal');
 	const [selectedStoreImageBtn, setSelectedStoreImageBtn] = useState('defaultImage');
 	const [selectedBusinessHourBtn, setSelectedBusinessHourBtn] = useState('weekDaysWeekEnd');
+	const { inputArr, changeError, changeNormal } = useStep2Store();
+	const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		const emptyInput = checkEmptyInputError(e.currentTarget.step2, changeError);
+		if (emptyInput !== 0) return;
+
+		// 여기서부터 서버 api 연결 로직
+	};
 	const handleSelectedStoreImageBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (selectedStoreImageBtn === e.target.value) return;
 		setSelectedStoreImageBtn(e.target.value);
@@ -54,7 +63,8 @@ const Step2 = () => {
 	};
 	const handleExtractedPostCode = (extractedPostcode: string[]) => {
 		const [zonecode, address] = extractedPostcode;
-
+		if (zonecode !== '') changeNormal(3);
+		if (address !== '') changeNormal(4);
 		setStorePostcodeInputs({
 			...storePostcodeInputs,
 			zonecode,
@@ -68,7 +78,10 @@ const Step2 = () => {
 		});
 	};
 	const handleHoverState = () => {
-		if (businessLicenseStatus === 'error') setBusinessLicenseStatus('normal');
+		if (businessLicenseStatus === 'error') {
+			setBusinessLicenseStatus('normal');
+		}
+		changeNormal(0);
 	};
 
 	const handleBusinessLicenseStatusCheck = async () => {
@@ -103,11 +116,8 @@ const Step2 = () => {
 		businessLicenseInputRef.current.blur();
 	};
 
-	const handleOnClick = (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-	};
 	return (
-		<form onSubmit={handleOnClick}>
+		<form onSubmit={handleOnSubmit}>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="businessLicense">
 					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
@@ -119,7 +129,8 @@ const Step2 = () => {
 						businessLicenseTextFieldRef={businessLicenseInputRef}
 						name="step2"
 						id="businessLicense"
-						inputFlag={businessLicenseStatus}
+						inputFlag={inputArr[0]}
+						isAuthorizedNumber={businessLicenseStatus}
 						onFocus={handleHoverState}
 					/>
 					<StoreResistrationSmallBtn width={{ width: '106px' }} onClick={handleBusinessLicenseStatusCheck}>
@@ -133,7 +144,7 @@ const Step2 = () => {
 						상호
 					</Typography>
 				</label>
-				<TextField name="step2" id="storeName" inputFlag="normal" width="320px" />
+				<TextField name="step2" id="storeName" onFocus={() => changeNormal(1)} inputFlag={inputArr[1]} width="320px" />
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="storeTelephoneNumber">
@@ -141,7 +152,7 @@ const Step2 = () => {
 						매장 전화번호
 					</Typography>
 				</label>
-				<TextField name="step2" id="storeTelephoneNumber" inputFlag="normal" width="320px" />
+				<TextField name="step2" id="storeTelephoneNumber" onFocus={() => changeNormal(2)} inputFlag={inputArr[2]} width="320px" />
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="store-address-detail">
@@ -152,7 +163,7 @@ const Step2 = () => {
 				<StyledLayout.FlexBox gap="6px">
 					<TextField
 						readOnly={true}
-						inputFlag="normal"
+						inputFlag={inputArr[3]}
 						name="step2"
 						id="store-postcode"
 						value={storePostcodeInputs.zonecode}
@@ -163,14 +174,15 @@ const Step2 = () => {
 
 				<TextField
 					readOnly={true}
-					inputFlag="normal"
+					inputFlag={inputArr[4]}
 					name="step2"
 					id="store-address"
 					value={storePostcodeInputs.address}
 					width="560px"
 				/>
 				<TextField
-					inputFlag="normal"
+					onFocus={() => changeNormal(5)}
+					inputFlag={inputArr[5]}
 					name="step2"
 					id="store-address-detail"
 					placeholder="(필수) 상세주소를 입력해주세요"
@@ -255,7 +267,7 @@ const Step2 = () => {
 						휴무일
 					</Typography>
 				</label>
-				<TextField name="step2" id="dayOff" inputFlag="normal" width="320px" />
+				<TextField name="step2" id="dayOff" inputFlag={inputArr[6]} onFocus={() => changeNormal(6)} width="320px" />
 				<StyledLayout.FlexBox style={{ paddingTop: '4px' }}>
 					<Typography variant="p" aggressive="body_oneline_004" color={theme.colors.gray_005}>
 						ex) 연중 무휴, 매주 토요일, 매달 둘째 및 넷째주 토요일 등

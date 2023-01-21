@@ -12,7 +12,7 @@ const TextField = ({ inputFlag, ...props }: Props) => {
 				name={props.name}
 				id={props.id}
 				onFocus={props.onFocus}
-				flag={inputFlag}
+				inputFlag={inputFlag}
 				onChange={props.onChange}
 				onMouseDown={props.onMouseDown}
 				style={{ width: props.width }}
