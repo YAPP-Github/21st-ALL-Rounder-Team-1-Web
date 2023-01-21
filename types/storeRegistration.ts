@@ -3,7 +3,7 @@ export interface Step1ManagerInfo {
 	email: string; // 이메일
 	phoneNumber: string; // 전화번호
 }
-export interface DaumPostcodeAttributes {
+export interface Step2StoreInfo {
 	registrationNumber: string; // 사업자번호
 	name: string; // 상호
 	callNumber: string; // 매장 전화번호
