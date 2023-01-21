@@ -3,7 +3,7 @@ import * as S from '../TextField/styled';
 
 type Props = {
 	inputFlag: 'normal' | 'error';
-	isAuthorizedNumber: 'normal' | 'success' | 'error';
+	isAuthorizedNumber: 'normal' | 'success' | 'error' | 'notClicked';
 	businessLicenseTextFieldRef: RefObject<HTMLInputElement>;
 } & React.ComponentProps<'input'>;
 
@@ -47,8 +47,9 @@ const BusinessLicenseTextField = ({ isAuthorizedNumber, businessLicenseTextField
 				onKeyDown={checkKey}
 				onFocus={props.onFocus}
 			/>
-
-			{(inputFlag === 'error' || isAuthorizedNumber === 'error') && <S.StyledMessage>사업자 번호를 확인해주세요</S.StyledMessage>}
+			{inputFlag === 'error' && <S.StyledMessage>사업자 번호를 입력해주세요</S.StyledMessage>}
+			{props.value !== '' && isAuthorizedNumber === 'notClicked' && <S.StyledMessage>사업자 번호를 조회해주세요</S.StyledMessage>}
+			{isAuthorizedNumber === 'error' && <S.StyledMessage>사업자 번호를 확인해주세요</S.StyledMessage>}
 			{isAuthorizedNumber === 'success' && <S.SuccessMessage>✓ 입점가능한 사업자 번호입니다.</S.SuccessMessage>}
 		</S.TextFieldContainer>
 	);
