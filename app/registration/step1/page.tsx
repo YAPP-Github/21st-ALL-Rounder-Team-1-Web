@@ -25,7 +25,14 @@ const Step1 = () => {
 						대표자명
 					</Typography>
 				</label>
-				<TextField id="managerName" name="step1" onFocus={() => changeNormal(0)} inputFlag={inputArr[0]} width="320px" />
+				<TextField
+					id="managerName"
+					name="step1"
+					emptyErrorMessage="대표자명을"
+					onFocus={() => changeNormal(0)}
+					inputFlag={inputArr[0]}
+					width="320px"
+				/>
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="managerEmail">
@@ -33,7 +40,14 @@ const Step1 = () => {
 						이메일
 					</Typography>
 				</label>
-				<TextField id="managerEmail" name="step1" onFocus={() => changeNormal(1)} inputFlag={inputArr[1]} width="320px" />
+				<TextField
+					emptyErrorMessage="이메일을"
+					id="managerEmail"
+					name="step1"
+					onFocus={() => changeNormal(1)}
+					inputFlag={inputArr[1]}
+					width="320px"
+				/>
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="managerPhonenumber">
@@ -41,7 +55,14 @@ const Step1 = () => {
 						전화번호
 					</Typography>
 				</label>
-				<TextField id="managerPhonenumber" name="step1" onFocus={() => changeNormal(2)} inputFlag={inputArr[2]} width="320px" />
+				<TextField
+					emptyErrorMessage="전화번호를"
+					id="managerPhonenumber"
+					name="step1"
+					onFocus={() => changeNormal(2)}
+					inputFlag={inputArr[2]}
+					width="320px"
+				/>
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '16px' }}>
 				<LargeBtn style={style.btnStyle.primary_btn_002} type="submit">

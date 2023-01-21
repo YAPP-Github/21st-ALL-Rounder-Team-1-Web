@@ -2,9 +2,10 @@ import * as S from './styled';
 
 type Props = {
 	inputFlag: 'normal' | 'success' | 'error';
+	emptyErrorMessage?: string;
 } & React.ComponentProps<'input'>;
 
-const TextField = ({ inputFlag, ...props }: Props) => {
+const TextField = ({ inputFlag, emptyErrorMessage, ...props }: Props) => {
 	return (
 		<S.TextFieldContainer>
 			<S.StyledTextFiled
@@ -20,7 +21,7 @@ const TextField = ({ inputFlag, ...props }: Props) => {
 				placeholder={props.placeholder ?? '입력해주세요'}
 				type="search"
 			/>
-			{inputFlag === 'error' && <S.StyledMessage>경고메시지 자리에요</S.StyledMessage>}
+			{inputFlag === 'error' && <S.StyledMessage>{`${emptyErrorMessage} 입력해주세요`}</S.StyledMessage>}
 		</S.TextFieldContainer>
 	);
 };

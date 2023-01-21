@@ -145,7 +145,14 @@ const Step2 = () => {
 						상호
 					</Typography>
 				</label>
-				<TextField name="step2" id="storeName" onFocus={() => changeNormal(1)} inputFlag={inputArr[1]} width="320px" />
+				<TextField
+					emptyErrorMessage="상호를"
+					name="step2"
+					id="storeName"
+					onFocus={() => changeNormal(1)}
+					inputFlag={inputArr[1]}
+					width="320px"
+				/>
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="storeTelephoneNumber">
@@ -153,7 +160,14 @@ const Step2 = () => {
 						매장 전화번호
 					</Typography>
 				</label>
-				<TextField name="step2" id="storeTelephoneNumber" onFocus={() => changeNormal(2)} inputFlag={inputArr[2]} width="320px" />
+				<TextField
+					emptyErrorMessage="매장 전화번호를"
+					name="step2"
+					id="storeTelephoneNumber"
+					onFocus={() => changeNormal(2)}
+					inputFlag={inputArr[2]}
+					width="320px"
+				/>
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="store-address-detail">
@@ -163,6 +177,7 @@ const Step2 = () => {
 				</label>
 				<StyledLayout.FlexBox gap="6px">
 					<TextField
+						emptyErrorMessage="매장 주소를"
 						readOnly={true}
 						inputFlag={inputArr[3]}
 						name="step2"
@@ -174,6 +189,7 @@ const Step2 = () => {
 				</StyledLayout.FlexBox>
 
 				<TextField
+					emptyErrorMessage="매장 주소를"
 					readOnly={true}
 					inputFlag={inputArr[4]}
 					name="step2"
@@ -182,6 +198,7 @@ const Step2 = () => {
 					width="560px"
 				/>
 				<TextField
+					emptyErrorMessage="상세 주소를"
 					onFocus={() => changeNormal(5)}
 					inputFlag={inputArr[5]}
 					name="step2"
@@ -268,7 +285,14 @@ const Step2 = () => {
 						휴무일
 					</Typography>
 				</label>
-				<TextField name="step2" id="dayOff" inputFlag={inputArr[6]} onFocus={() => changeNormal(6)} width="320px" />
+				<TextField
+					emptyErrorMessage="휴무일을"
+					name="step2"
+					id="dayOff"
+					inputFlag={inputArr[7]}
+					onFocus={() => changeNormal(7)}
+					width="320px"
+				/>
 				<StyledLayout.FlexBox style={{ paddingTop: '4px' }}>
 					<Typography variant="p" aggressive="body_oneline_004" color={theme.colors.gray_005}>
 						ex) 연중 무휴, 매주 토요일, 매달 둘째 및 넷째주 토요일 등
