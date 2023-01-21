@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import styled, { CSSProperties } from 'styled-components';
 import { Checkbox, LargeBtn, Typography } from 'components/shared';
-import { TextField } from 'components/feature';
+import { SignuptextField } from 'components/feature';
 import style from 'styles/style';
 import { getSocialPlatformType, isValidatedSignupFormAgreement } from 'core/signupService';
 import { SERVICE_TERMS_DESC, SERVICE_POLICY_DESC_001, SERVICE_POLICY_DESC_002 } from 'constants/signup';
@@ -87,7 +87,7 @@ const SignUp = () => {
 				{getSocialPlatformType(data?.user?.email)} 계정으로 Pump!를 이용하실 수 있습니다.
 			</Typography>
 
-			<TextField readonly={true} name="signup-email" flag="normal" width={{ width: '100%' }} value={data?.user?.email} />
+			<SignuptextField type="text" readOnly={true} defaultValue={data?.user?.email as string} />
 
 			<Checkbox
 				aggressive="headline_oneline_004"

@@ -20,5 +20,5 @@ export const ProductErrorMeassage = styled.span`
 	display: inline-block;
 	margin-top: 6px;
 	padding: 0;
-	font: ${({ theme }) => theme.fonts.body_oneline_005};
+	${({ theme }) => theme.fonts.body_oneline_005};
 `;

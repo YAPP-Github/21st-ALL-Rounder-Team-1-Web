@@ -29,3 +29,6 @@ export { default as BusinessLicenseTextField } from './BusinessLicenseTextField'
 export { default as DropDownList } from './DropDownList';
 export { default as RegistrationHeader } from './RegistrationHeader';
 export { default as PostcodePopupOpenBtn } from './Button/PostcodePopupOpenBtn';
+
+// Related. SignUp
+export { default as SignuptextField } from './SignupTextField';

@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-export const SmallBtnContainer = styled.button<{ width: number }>`
+export const SmallBtnContainer = styled.button`
 	text-align: center;
-	width: ${({ width }) => `${width}px`};
+	min-width: 106px;
 	height: 48px;
 	border-radius: 10px;
 	background-color: ${({ theme }) => theme.colors.white};
@@ -11,6 +11,6 @@ export const SmallBtnContainer = styled.button<{ width: number }>`
 	&:hover {
 		background-color: ${({ theme }) => theme.colors.gray_000};
 	}
-
+	${({ theme }) => theme.fonts.button_001};
 	color: ${({ theme }) => theme.colors.gray_007};
 `;

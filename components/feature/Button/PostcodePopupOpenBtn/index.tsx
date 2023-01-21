@@ -1,6 +1,5 @@
 import { useDaumPostcodePopup } from 'react-daum-postcode';
-import { LargeBtn } from 'components/shared';
-import style from 'styles/style';
+import { StoreResistrationSmallBtn } from 'components/feature';
 import { DomainType } from 'types';
 
 type Props = {
@@ -34,9 +33,9 @@ const PostcodePopupOpenBtn = (props: Props) => {
 	};
 
 	return (
-		<LargeBtn style={style.btnStyle.white_btn} onClick={handlePostcodePopupOpenBtnClick}>
-			우편번호 찾기
-		</LargeBtn>
+		<StoreResistrationSmallBtn width={{ width: '106px' }} onClick={handlePostcodePopupOpenBtnClick}>
+			주소 조회
+		</StoreResistrationSmallBtn>
 	);
 };
 

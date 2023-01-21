@@ -4,11 +4,18 @@ import { RadioBtnContainer } from './styled';
 type Props = {
 	value: string;
 	name: string;
-};
-const RadioBtn = ({ value, name }: Props) => {
+} & React.ComponentProps<'input'>;
+const RadioBtn = ({ value, name, ...props }: Props) => {
 	return (
 		<RadioBtnContainer htmlFor={value}>
-			<input type="radio" name={name} id={value} value={value} />
+			<input
+				type="radio"
+				name={name}
+				id={value}
+				value={value}
+				onChange={props.onChange}
+				defaultChecked={props.defaultChecked ?? false}
+			/>
 			<span />
 		</RadioBtnContainer>
 	);

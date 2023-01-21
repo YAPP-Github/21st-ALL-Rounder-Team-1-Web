@@ -3,7 +3,7 @@ import { ButtonHTMLAttributes } from 'react';
 import { LargeBtnContainer } from './styled';
 
 type Props = {
-	children: React.ReactNode;
+	children: string;
 	style: React.CSSProperties;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
