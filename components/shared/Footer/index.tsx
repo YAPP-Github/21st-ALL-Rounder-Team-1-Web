@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyledLayout, Typography } from 'components/shared';
+import { Divider } from 'components/shared/styled/layout';
 import * as S from './styled';
 import { ArrowRightIcon } from 'public/static/icons';
 import theme from 'styles/theme';
@@ -21,7 +22,7 @@ const Footer = () => {
 								서비스 이용약관
 							</Typography>
 						</S.Anchor>
-						<S.Divider direction="vertical" width="18px" border="0.5px solid #D9D9D9" margin="10px" backgroundColor="#000000" />
+						<Divider direction="vertical" width="18px" height="1px" margin="0 10px 0 10px" color="#D9D9D9" />
 						<S.Anchor href={REFERCENCE_LINKS.SERVICE_POLICY} target="_blank" rel="noreferrer">
 							<Typography variant="span" aggressive="tab_001" color={theme.colors.gray_006}>
 								개인정보 처리방침

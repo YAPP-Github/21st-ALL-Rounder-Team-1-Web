@@ -46,22 +46,6 @@ export const Anchor = styled(Link)`
 	}
 `;
 
-type DividerProps = {
-	direction: 'vertical' | 'horizontal';
-	width: string;
-	border: string;
-	margin: string;
-	backgroundColor: string;
-};
-
-export const Divider = styled.span<DividerProps>`
-	width: ${({ width }) => width};
-	border: ${({ border }) => border};
-	margin: ${({ margin }) => margin};
-	background-color: ${({ backgroundColor }) => backgroundColor};
-	transform: ${({ direction }) => (direction === 'horizontal' ? `rotate(0)` : `rotate(90deg)`)};
-`;
-
 export const ChannelDescWrapper = styled(FlexBox)`
 	height: 100%;
 `;

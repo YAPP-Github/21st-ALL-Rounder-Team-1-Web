@@ -75,3 +75,19 @@ export const ImageBox = styled.div<ImageBoxProps>`
 export const EmptyBoxDivider = styled.div<CSSProperties>`
 	height: ${({ height }) => height};
 `;
+
+type DividerProps = {
+	direction: 'vertical' | 'horizontal';
+	width: string;
+	height: string;
+	margin: string;
+	color: string;
+};
+
+export const Divider = styled.span<DividerProps>`
+	min-width: ${({ width }) => width};
+	min-height: ${({ height }) => height};
+	margin: ${({ margin }) => margin};
+	background-color: ${({ color }) => color};
+	transform: ${({ direction }) => (direction === 'horizontal' ? `rotate(0deg)` : `rotate(90deg)`)};
+`;
