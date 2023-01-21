@@ -79,9 +79,10 @@ const Step2 = () => {
 		});
 	};
 	const handleHoverState = () => {
-		if (businessLicenseStatus === 'error') {
+		if (businessLicenseStatus === 'error' || businessLicenseStatus === 'notClicked') {
 			setBusinessLicenseStatus('normal');
 		}
+
 		changeNormal(0);
 	};
 
@@ -134,7 +135,7 @@ const Step2 = () => {
 						isAuthorizedNumber={businessLicenseStatus}
 						onFocus={handleHoverState}
 					/>
-					<StoreResistrationSmallBtn width={{ width: '106px' }} onClick={handleBusinessLicenseStatusCheck}>
+					<StoreResistrationSmallBtn type="button" width={{ width: '106px' }} onClick={handleBusinessLicenseStatusCheck}>
 						번호 조회
 					</StoreResistrationSmallBtn>
 				</StyledLayout.FlexBox>
@@ -300,7 +301,9 @@ const Step2 = () => {
 				</StyledLayout.FlexBox>
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '16px' }}>
-				<LargeBtn style={style.btnStyle.primary_btn_002}>다음단계</LargeBtn>
+				<LargeBtn type="submit" style={style.btnStyle.primary_btn_002}>
+					다음단계
+				</LargeBtn>
 			</StyledLayout.FlexBox>
 		</form>
 	);
