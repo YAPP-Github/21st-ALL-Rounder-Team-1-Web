@@ -7,7 +7,7 @@ type Props = {
 	placeholder?: string;
 	flag: 'normal' | 'success' | 'error';
 	width: React.CSSProperties;
-	value?: string | undefined;
+	value?: string | null | undefined;
 } & React.HTMLAttributes<HTMLInputElement>;
 
 const TextField = ({ readonly, placeholder, width, name, value, ...props }: Props) => {
@@ -28,7 +28,7 @@ const TextField = ({ readonly, placeholder, width, name, value, ...props }: Prop
 				flag={flag}
 				onChange={props.onChange}
 				style={width}
-				value={value}
+				value={value ?? ''}
 				placeholder={placeholder ?? '입력해주세요'}
 				type="search"
 			/>
