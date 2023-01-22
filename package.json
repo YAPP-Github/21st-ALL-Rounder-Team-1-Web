@@ -25,7 +25,8 @@
 		"react-dom": "18.2.0",
 		"styled-components": "^5.3.6",
 		"styled-normalize": "^8.0.7",
-		"typescript": "*"
+		"typescript": "*",
+		"zustand": "^4.3.2"
 	},
 	"devDependencies": {
 		"@svgr/webpack": "^6.5.1",

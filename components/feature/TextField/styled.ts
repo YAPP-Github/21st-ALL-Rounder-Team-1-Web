@@ -5,8 +5,12 @@ export const TextFieldContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 `;
-export const StyledTextFiled = styled.input<{ flag: string; readOnly: boolean }>`
-	border: 1px solid ${({ theme, flag }) => (flag === 'error' ? theme.colors.error : theme.colors.gray_002)};
+export const StyledTextFiled = styled.input<{ inputFlag: string; readOnly: boolean; isAuthorizedNumber?: string | undefined }>`
+	border: 1px solid
+		${({ theme, inputFlag, isAuthorizedNumber }) =>
+			inputFlag === 'error' || isAuthorizedNumber === 'error' || isAuthorizedNumber === 'notClicked'
+				? theme.colors.error
+				: theme.colors.gray_002};
 	padding: 8px 16px;
 	height: 48px;
 	border-radius: 10px;

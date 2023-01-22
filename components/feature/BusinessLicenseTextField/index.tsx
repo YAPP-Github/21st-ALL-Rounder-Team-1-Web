@@ -2,11 +2,12 @@ import { ChangeEvent, KeyboardEvent, RefObject, useState } from 'react';
 import * as S from '../TextField/styled';
 
 type Props = {
-	inputFlag: 'normal' | 'success' | 'error';
+	inputFlag: 'normal' | 'error';
+	isAuthorizedNumber: 'normal' | 'success' | 'error' | 'notClicked';
 	businessLicenseTextFieldRef: RefObject<HTMLInputElement>;
 } & React.ComponentProps<'input'>;
 
-const BusinessLicenseTextField = ({ businessLicenseTextFieldRef, inputFlag, ...props }: Props) => {
+const BusinessLicenseTextField = ({ isAuthorizedNumber, businessLicenseTextFieldRef, inputFlag, ...props }: Props) => {
 	const [businessLicense, setBusinessLicense] = useState<string>('');
 	const [currentKey, setCurrentKey] = useState<string>('');
 	const handleBusinessLicense = (e: ChangeEvent<HTMLInputElement>) => {
@@ -33,21 +34,27 @@ const BusinessLicenseTextField = ({ businessLicenseTextFieldRef, inputFlag, ...p
 			<S.StyledTextFiled
 				readOnly={false}
 				style={{ width: '320px' }}
-				flag={inputFlag}
+				inputFlag={inputFlag}
+				isAuthorizedNumber={isAuthorizedNumber}
 				ref={businessLicenseTextFieldRef}
 				type="search"
 				placeholder="입력해주세요"
 				name={props.name}
 				id={props.id}
 				value={businessLicense}
-				disabled={inputFlag === 'success'}
+				disabled={isAuthorizedNumber === 'success'}
 				onChange={handleBusinessLicense}
 				onKeyDown={checkKey}
-				onMouseDown={props.onMouseDown}
+				onFocus={props.onFocus}
 			/>
-
-			{inputFlag === 'error' && <S.StyledMessage>사업자 번호를 확인해주세요</S.StyledMessage>}
-			{inputFlag === 'success' && <S.SuccessMessage>✓ 입점가능한 사업자 번호입니다.</S.SuccessMessage>}
+			{(inputFlag === 'error' || (isAuthorizedNumber === 'error' && businessLicense === '')) && (
+				<S.StyledMessage>사업자 번호를 입력해주세요</S.StyledMessage>
+			)}
+			{businessLicense !== '' && isAuthorizedNumber === 'notClicked' && (
+				<S.StyledMessage>우측의 버튼을 눌러 조회해주세요</S.StyledMessage>
+			)}
+			{isAuthorizedNumber === 'error' && businessLicense !== '' && <S.StyledMessage>사업자 번호를 확인해주세요</S.StyledMessage>}
+			{isAuthorizedNumber === 'success' && <S.SuccessMessage>✓ 입점가능한 사업자 번호입니다.</S.SuccessMessage>}
 		</S.TextFieldContainer>
 	);
 };

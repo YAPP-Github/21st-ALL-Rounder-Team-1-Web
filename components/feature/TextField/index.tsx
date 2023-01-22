@@ -1,33 +1,27 @@
-import { useState } from 'react';
 import * as S from './styled';
 
 type Props = {
-	flag: 'normal' | 'success' | 'error';
+	inputFlag: 'normal' | 'success' | 'error';
+	emptyErrorMessage?: string;
 } & React.ComponentProps<'input'>;
 
-const TextField = (props: Props) => {
-	const [flag, setFlag] = useState<string>(props.flag);
-
-	const handleError = () => {
-		if (flag === 'normal') return;
-		setFlag('normal');
-	};
-
+const TextField = ({ inputFlag, emptyErrorMessage, ...props }: Props) => {
 	return (
 		<S.TextFieldContainer>
 			<S.StyledTextFiled
 				readOnly={props.readOnly ?? false}
 				name={props.name}
 				id={props.id}
-				onFocus={handleError}
-				flag={flag}
+				onFocus={props.onFocus}
+				inputFlag={inputFlag}
 				onChange={props.onChange}
+				onMouseDown={props.onMouseDown}
 				style={{ width: props.width }}
 				value={props.value}
 				placeholder={props.placeholder ?? '입력해주세요'}
 				type="search"
 			/>
-			{flag === 'error' && <S.StyledMessage>경고메시지 자리에요</S.StyledMessage>}
+			{inputFlag === 'error' && <S.StyledMessage>{`${emptyErrorMessage} 입력해주세요`}</S.StyledMessage>}
 		</S.TextFieldContainer>
 	);
 };

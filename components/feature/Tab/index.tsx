@@ -12,31 +12,32 @@ const Tab = () => {
 		{ id: 2, step: 'Step2', title: '매장정보' },
 		{ id: 3, step: 'Step3', title: '상품정보' },
 	];
-	const [currentStep, setCurrentStep] = useState(0);
-	const checkDetailUI = (elementId: number) => {
-		if (elementId === 3 || elementId + 1 === currentStep) return !addBorderRight;
+	const [selectedStep, setSelectedStep] = useState(0);
+	const checkDetailUI = (curElement: number) => {
+		const nextElement = curElement + 1;
+		if (curElement === 3 || nextElement === selectedStep) return !addBorderRight;
 		return addBorderRight;
 	};
 	useEffect(() => {
 		if (pathname !== '/registration' && pathname !== null) {
-			setCurrentStep(() => Number(pathname[pathname.length - 1]));
+			setSelectedStep(Number(pathname[pathname.length - 1]));
 		}
 	}, [pathname]);
 	return (
 		<TabContainer>
 			{tabElementArr.map(({ id, step, title }) => {
 				return (
-					<TabElement borderRight={checkDetailUI(id)} key={step} isSelected={id === currentStep}>
+					<TabElement borderRight={checkDetailUI(id)} key={step} isSelected={id === selectedStep}>
 						<Typography
 							variant="h2"
-							color={id === currentStep ? theme.colors.primary_010 : theme.colors.gray_003}
+							color={id === selectedStep ? theme.colors.primary_010 : theme.colors.gray_003}
 							aggressive="body_oneline_005"
 						>
 							{step}
 						</Typography>
 						<Typography
 							variant="span"
-							color={id === currentStep ? theme.colors.gray_007 : theme.colors.gray_004}
+							color={id === selectedStep ? theme.colors.gray_007 : theme.colors.gray_004}
 							aggressive="tab_002"
 						>
 							{title}
