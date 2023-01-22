@@ -14,6 +14,7 @@ export const Container = styled.header`
 
 export const GlobalNavigation = styled.nav`
 	display: flex;
+	align-items: center;
 	justify-content: space-between;
 	width: 100%;
 	min-height: 78px;
@@ -28,5 +29,12 @@ export const NavigationItem = styled.li`
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	height: 100%;
+`;
+
+export const LogoutBtn = styled.button`
+	display: flex;
+	align-items: center;
+	height: 100%;
 	cursor: pointer;
 `;

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styled from 'styled-components';
 import { FlexBox } from 'components/shared/styled/layout';
 
@@ -18,9 +19,7 @@ export const LegalDescWrapper = styled.div`
 	height: 100%;
 `;
 
-type AnchorProps = {};
-
-export const Anchor = styled.a<AnchorProps>`
+export const Anchor = styled(Link)`
 	display: flex;
 	align-items: center;
 	height: inherit;
@@ -45,22 +44,6 @@ export const Anchor = styled.a<AnchorProps>`
 			fill: ${({ theme }) => theme.colors.primary_010};
 		}
 	}
-`;
-
-type DividerProps = {
-	direction: 'vertical' | 'horizontal';
-	width: string;
-	border: string;
-	margin: string;
-	backgroundColor: string;
-};
-
-export const Divider = styled.span<DividerProps>`
-	width: ${({ width }) => width};
-	border: ${({ border }) => border};
-	margin: ${({ margin }) => margin};
-	background-color: ${({ backgroundColor }) => backgroundColor};
-	transform: ${({ direction }) => (direction === 'horizontal' ? `rotate(0)` : `rotate(90deg)`)};
 `;
 
 export const ChannelDescWrapper = styled(FlexBox)`

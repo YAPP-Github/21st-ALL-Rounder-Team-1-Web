@@ -1,14 +1,17 @@
 import Typography from 'components/shared/Typography';
+import { ButtonHTMLAttributes } from 'react';
 import { LargeBtnContainer } from './styled';
 
 type Props = {
 	children: string;
 	style: React.CSSProperties;
-} & React.ComponentProps<'button'>;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
 
 const LargeBtn = ({ children, style, ...props }: Props) => {
+	const { type, disabled, onClick } = props;
+
 	return (
-		<LargeBtnContainer style={style} onClick={props.onClick} type={props.type}>
+		<LargeBtnContainer style={style} type={type ?? 'button'} disabled={disabled} onClick={onClick}>
 			<Typography variant="span" aggressive="button_001">
 				{children}
 			</Typography>

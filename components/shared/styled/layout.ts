@@ -24,12 +24,16 @@ export const SubMaxContainer = styled.div`
 	margin: 0 auto;
 `;
 
-export const UnorderList = styled.ul`
+export const UnorderList = styled.ul<CSSProperties>`
 	display: flex;
 	align-items: center;
+	gap: ${({ gap }) => gap};
 `;
 
-export const LinkWrapper = styled(Link)`
+export const LinkWrapper = styled(Link)<CSSProperties>`
+	display: flex;
+	height: 100%;
+	align-items: center;
 	text-decoration: none;
 	cursor: pointer;
 `;
@@ -74,4 +78,20 @@ export const ImageBox = styled.div<ImageBoxProps>`
 
 export const EmptyBoxDivider = styled.div<CSSProperties>`
 	height: ${({ height }) => height};
+`;
+
+type DividerProps = {
+	direction: 'vertical' | 'horizontal';
+	width: string;
+	height: string;
+	margin: string;
+	color: string;
+};
+
+export const Divider = styled.span<DividerProps>`
+	min-width: ${({ width }) => width};
+	min-height: ${({ height }) => height};
+	margin: ${({ margin }) => margin};
+	background-color: ${({ color }) => color};
+	transform: ${({ direction }) => (direction === 'horizontal' ? `rotate(0deg)` : `rotate(90deg)`)};
 `;

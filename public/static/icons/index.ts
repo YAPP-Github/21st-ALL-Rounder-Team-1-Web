@@ -6,4 +6,5 @@ export { default as AddIcon } from './add.svg';
 export { default as TopIcon } from './top.svg';
 export { default as BottomIcon } from './bottom.svg';
 export { default as CancelIcon } from './cancel.svg';
-export { default as ArrowRight } from './arrow_right.svg';
+export { default as ArrowRightIcon } from './arrow_right.svg';
+export { default as CheckboxCheckedIcon } from './checkbox_checked.svg';

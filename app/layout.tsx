@@ -1,6 +1,7 @@
 'use client';
 
 import { Provider } from 'jotai';
+import { SessionProvider } from 'next-auth/react';
 import styled, { ThemeProvider } from 'styled-components';
 import QueryProvider from 'app/Provider';
 import RootStyleRegistry from 'app/RootStyleRegistry';
@@ -14,15 +15,17 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
 			<body>
 				<Provider>
 					<QueryProvider>
-						<RootStyleRegistry>
-							<ThemeProvider theme={theme}>
-								<GlobalStyle />
-								<div id="modal-portal" />
-								<Header />
-								<ChildrenContainer>{children}</ChildrenContainer>
-								<Footer />
-							</ThemeProvider>
-						</RootStyleRegistry>
+						<SessionProvider>
+							<RootStyleRegistry>
+								<ThemeProvider theme={theme}>
+									<GlobalStyle />
+									<div id="modal-portal" />
+									<Header />
+									<ChildrenContainer>{children}</ChildrenContainer>
+									<Footer />
+								</ThemeProvider>
+							</RootStyleRegistry>
+						</SessionProvider>
 					</QueryProvider>
 				</Provider>
 			</body>
