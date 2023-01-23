@@ -7,7 +7,13 @@ type Props = {
 } & React.ComponentProps<'button'>;
 const StoreResistrationSmallBtn = ({ children, ...props }: Props) => {
 	return (
-		<SmallBtnContainer onClick={props.onClick} type={props.type} style={props.width} disabled={props.disabled}>
+		<SmallBtnContainer
+			value={props.value}
+			onClick={props.onClick}
+			type={props.type}
+			style={props.width}
+			disabled={props.disabled}
+		>
 			<Typography variant="span" aggressive="button_001">
 				{children}
 			</Typography>

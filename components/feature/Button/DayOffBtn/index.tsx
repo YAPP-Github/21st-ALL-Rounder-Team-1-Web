@@ -1,12 +1,12 @@
 import { DayOffBtnContainer } from './styled';
 
 type Props = {
-	disabled: boolean;
-};
+	dayOff: boolean;
+} & React.ComponentProps<'button'>;
 
-const DayOffBtn = ({ disabled }: Props) => {
+const DayOffBtn = ({ dayOff, ...props }: Props) => {
 	return (
-		<DayOffBtnContainer type="button" disabled={disabled}>
+		<DayOffBtnContainer type="button" dayOff={dayOff} onClick={props.onClick}>
 			휴무일로 지정
 		</DayOffBtnContainer>
 	);
