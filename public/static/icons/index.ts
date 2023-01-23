@@ -8,3 +8,7 @@ export { default as BottomIcon } from './bottom.svg';
 export { default as CancelIcon } from './cancel.svg';
 export { default as ArrowRightIcon } from './arrow_right.svg';
 export { default as CheckboxCheckedIcon } from './checkbox_checked.svg';
+export { default as EmblemKakaoIcon } from './emblem_kakao.svg';
+export { default as EmblemNaverIcon } from './emblem_naver.svg';
+export { default as SymbolKakaoIcon } from './symbol_kakao.svg';
+export { default as SymbolNaverIcon } from './symbol_naver.svg';
