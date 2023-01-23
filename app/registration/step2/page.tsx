@@ -12,6 +12,7 @@ import {
 	RadioBtn,
 	StoreImageBtn,
 	TimePicker,
+	DayOffBtn,
 } from 'components/feature';
 import { checkEmptyInputError, extractBusinessLicenseExceptHyhpen } from 'core/storeRegistrationService';
 import style from 'styles/style';
@@ -281,6 +282,7 @@ const Step2 = () => {
 					</StyledLayout.FlexBox>
 				</StyledLayout.FlexBox>
 				<TimePicker />
+				<DayOffBtn disabled={false} />
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="dayOff">

@@ -22,6 +22,7 @@ export { default as StoreImageBtn } from './Button/StoreImageBtn';
 export { default as Tab } from './Tab';
 export { default as SocialLoginBtn } from './Button/SocialLoginBtn';
 export { default as RadioBtn } from './Button/RadioBtn';
+export { default as DayOffBtn } from './Button/DayOffBtn';
 
 // Related. StoreRegistration
 export { default as TextField } from './TextField';

@@ -1,17 +1,6 @@
 import styled from 'styled-components';
-export const TimePickerContainer = styled.button`
-	text-align: center;
-	height: 48px;
-	border-radius: 10px;
-	background-color: ${({ theme }) => theme.colors.white};
-	border: 1px solid ${({ theme }) => theme.colors.gray_002};
-	padding: 15px 0;
-	&:hover {
-		background-color: ${({ theme }) => theme.colors.gray_000};
-	}
-	${({ theme }) => theme.fonts.button_001};
-	color: ${({ theme }) => theme.colors.gray_007};
-	width: 320px;
+import { SmallBtnContainer } from '../Button/StoreResistrationSmallBtn/styled';
+export const TimePickerContainer = styled(SmallBtnContainer)`
 	padding: 15px 82px;
 	${({ theme }) => theme.fonts.button_001};
 	&:disabled {
