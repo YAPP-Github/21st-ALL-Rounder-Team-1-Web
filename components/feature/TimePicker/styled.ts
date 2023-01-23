@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-
 export const TimePickerContainer = styled.button`
 	text-align: center;
 	height: 48px;
@@ -19,6 +18,9 @@ export const TimePickerContainer = styled.button`
 		background-color: ${({ theme }) => theme.colors.gray_001};
 		color: ${({ theme }) => theme.colors.gray_003};
 	}
+	&:focus-within {
+		border: 1px solid ${({ theme }) => theme.colors.gray_004};
+	}
 `;
 export const TimeInput = styled.input`
 	width: 24px;
@@ -31,9 +33,6 @@ export const TimeInput = styled.input`
 	&:focus {
 		background-color: ${({ theme }) => theme.colors.gray_006};
 		color: ${({ theme }) => theme.colors.white};
-		& {
-			border: 1px solid ${({ theme }) => theme.colors.gray_004};
-		}
 	}
 	&:disabled {
 		background-color: ${({ theme }) => theme.colors.gray_001};
