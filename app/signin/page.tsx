@@ -1,11 +1,10 @@
 'use client';
 
-import Image from 'next/image';
 import { signIn } from 'next-auth/react';
 import styled from 'styled-components';
 import { StyledLayout, Typography } from 'components/shared';
 import { SocialLoginBtn } from 'components/feature';
-import { KakaoSymbolImg, NaverSymbolImg } from 'public/static/images';
+import { SymbolKakaoIcon, SymbolNaverIcon } from 'public/static/icons';
 
 const Signin = () => {
 	const handleSocialLogin = async (social: 'kakao' | 'naver') => {
@@ -30,13 +29,13 @@ const Signin = () => {
 				<SocialLoginBtnWrapper>
 					<SocialLoginBtn social="naver" onSocialLogin={handleSocialLogin}>
 						<SoicalLoginBtnContents>
-							<Image src={NaverSymbolImg} alt="" />
+							<SymbolNaverIcon />
 							네이버로 로그인하기
 						</SoicalLoginBtnContents>
 					</SocialLoginBtn>
 					<SocialLoginBtn social="kakao" onSocialLogin={handleSocialLogin}>
 						<SoicalLoginBtnContents>
-							<Image src={KakaoSymbolImg} alt="" />
+							<SymbolKakaoIcon />
 							카카오로 로그인하기
 						</SoicalLoginBtnContents>
 					</SocialLoginBtn>
@@ -67,7 +66,6 @@ const SoicalLoginBtnContents = styled.span`
 	display: flex;
 	align-items: center;
 	gap: 8px;
-	height: fit-content;
 	font-size: 18px;
 	font-weight: 600;
 	line-height: 24px;
