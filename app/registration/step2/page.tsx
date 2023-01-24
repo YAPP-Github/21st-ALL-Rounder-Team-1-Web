@@ -11,6 +11,8 @@ import {
 	StoreResistrationSmallBtn,
 	RadioBtn,
 	StoreImageBtn,
+	TimePicker,
+	DayOffBtn,
 } from 'components/feature';
 import { checkEmptyInputError, extractBusinessLicenseExceptHyhpen } from 'core/storeRegistrationService';
 import style from 'styles/style';
@@ -42,6 +44,8 @@ const Step2 = () => {
 		addressDetail: '', // 상세 주소
 	});
 	const businessLicenseInputRef = useRef() as RefObject<HTMLInputElement>;
+	const dayOffRef = useRef() as RefObject<HTMLButtonElement>;
+	const [dayOffStatus, setDayOffStatus] = useState<boolean>(false);
 	const [businessLicenseStatus, setBusinessLicenseStatus] = useState<'normal' | 'success' | 'error' | 'notClicked'>('normal');
 	const [selectedStoreImageBtn, setSelectedStoreImageBtn] = useState('defaultImage');
 	const [selectedBusinessHourBtn, setSelectedBusinessHourBtn] = useState('weekDaysWeekEnd');
@@ -85,7 +89,9 @@ const Step2 = () => {
 
 		changeNormal(0);
 	};
-
+	const handleTimePickerInput = () => {
+		setDayOffStatus((dayOffStatus) => !dayOffStatus);
+	};
 	const handleBusinessLicenseStatusCheck = async () => {
 		if (!businessLicenseInputRef.current) return;
 
@@ -279,6 +285,8 @@ const Step2 = () => {
 						</label>
 					</StyledLayout.FlexBox>
 				</StyledLayout.FlexBox>
+				<TimePicker dayOffRef={dayOffRef} name="monday" disabled={dayOffStatus} />
+				<DayOffBtn dayOff={dayOffStatus} onClick={handleTimePickerInput} />
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="dayOff">
