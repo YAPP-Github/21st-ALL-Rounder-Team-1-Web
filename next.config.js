@@ -17,6 +17,9 @@ const nextConfig = {
     })
     return config
   },
+	images: {
+		domains: ["images.unsplash.com"],	// S3 버킷 이미지 리소스 출처 오픈 시 연결 필요
+	}
 };
 
 module.exports = nextConfig;

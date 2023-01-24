@@ -2,19 +2,30 @@ import Link from 'next/link';
 import styled, { CSSProperties } from 'styled-components';
 
 export const FlexBox = styled.div<CSSProperties>`
+	flex: ${({ flex }) => flex};
 	display: ${({ display }) => display ?? 'flex'};
 	flex-direction: ${({ flexDirection }) => flexDirection ?? 'row'};
 	align-items: ${({ alignItems }) => alignItems ?? 'stretch'};
 	justify-content: ${({ justifyContent }) => justifyContent ?? 'flex-start'};
 	flex-wrap: ${({ flexWrap }) => flexWrap ?? 'nowrap'};
 	gap: ${({ gap }) => gap ?? 0};
+	width: ${({ width }) => width};
+	height: ${({ height }) => height};
+	margin: ${({ margin }) => margin};
+	padding: ${({ padding }) => padding};
+	border: ${({ border }) => border};
+	border-top: ${({ borderTop }) => borderTop};
+	border-right: ${({ borderRight }) => borderRight};
+	border-bottom: ${({ borderBottom }) => borderBottom};
+	border-left: ${({ borderLeft }) => borderLeft};
 `;
 
-export const MaxContainer = styled.div`
+export const MaxContainer = styled.div<CSSProperties>`
 	position: relative;
 	width: 100%;
 	max-width: 1200px;
 	margin: 0 auto;
+	background-color: ${({ backgroundColor }) => backgroundColor};
 `;
 
 export const SubMaxContainer = styled.div`

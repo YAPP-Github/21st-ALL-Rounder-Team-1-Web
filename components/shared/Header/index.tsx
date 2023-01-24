@@ -27,7 +27,7 @@ const Header = () => {
 						{status === 'authenticated' && (
 							<>
 								<S.NavigationItem>
-									<StyledLayout.LinkWrapper href={'/mypage'}>마이페이지</StyledLayout.LinkWrapper>
+									<StyledLayout.LinkWrapper href={'/mypage/store'}>마이페이지</StyledLayout.LinkWrapper>
 								</S.NavigationItem>
 								<S.NavigationItem>
 									<S.LogoutBtn type="button" onClick={async () => await signOut()}>

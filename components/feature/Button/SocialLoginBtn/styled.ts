@@ -11,6 +11,6 @@ export const SocialLoginBtn = styled.button<SocialLoginBtnProps>`
 	width: 100%;
 	height: ${({ height }) => height ?? '60px'};
 	border-radius: 8px;
-	background-color: ${({ social }) => (social === 'kakao' ? '#FBE54D' : '#06BD34')};
+	background-color: ${({ social }) => (social === 'kakao' ? '#FBE54D' : '#03C75A')};
 	color: ${({ social }) => (social === 'kakao' ? '#191608' : '#FFFFFF')};
 `;

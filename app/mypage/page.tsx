@@ -1,7 +1,7 @@
 'use client';
 
-const MyPage = () => {
-	return <>MyPage 👋🏻</>;
+const MyPage = ({ children }: { children: React.ReactNode }) => {
+	return <>{children}</>;
 };
 
 export default MyPage;
