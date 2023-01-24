@@ -17,9 +17,10 @@ const nextConfig = {
     })
     return config
   },
-	images: {
-		domains: ["images.unsplash.com"],	// S3 버킷 이미지 리소스 출처 오픈 시 연결 필요
-	}
+  images: {
+	domains: ['https://pump-img-bucket.s3.ap-northeast-2.amazonaws.com/store/']
+}
+
 };
 
 module.exports = nextConfig;
