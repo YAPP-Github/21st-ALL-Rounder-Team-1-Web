@@ -1,9 +1,12 @@
-import Image from 'next/image';
+import ShowImageContent from 'components/feature/ShowImageContent';
 import { AddPhotoIcon } from 'public/static/icons';
 import { ChangeEvent, RefObject, useRef, useState } from 'react';
 import { StoreImageContainer } from './styled';
 
-const StoreImageBtn = () => {
+type Props = {
+	isError: boolean;
+};
+const StoreImageBtn = ({ isError }: Props) => {
 	const storeImgRef = useRef() as RefObject<HTMLInputElement>;
 	// file 데이터
 	const [storeImage, setStoreImage] = useState('');
@@ -38,16 +41,26 @@ const StoreImageBtn = () => {
 	};
 	return (
 		<>
-			<StoreImageContainer
-				type="button"
-				onClick={() => {
-					storeImgRef.current?.click();
-				}}
-			>
-				<AddPhotoIcon />
-				<input type="file" ref={storeImgRef} onChange={uploadToClient} style={{ display: 'none' }} />
-			</StoreImageContainer>
-			<Image src={createObjectURL} alt="기본가게이미지" width={343} height={160} />
+			{createObjectURL !== '' ? (
+				<ShowImageContent
+					onClick={() => setCreateObjectURL('')}
+					width={343}
+					height={160}
+					src={createObjectURL}
+					alt={'사용자가 지정한 가게사진'}
+				/>
+			) : (
+				<StoreImageContainer
+					type="button"
+					onClick={() => {
+						storeImgRef.current?.click();
+					}}
+					isError={isError}
+				>
+					<AddPhotoIcon />
+					<input type="file" ref={storeImgRef} onChange={uploadToClient} style={{ display: 'none' }} />
+				</StoreImageContainer>
+			)}
 		</>
 	);
 };

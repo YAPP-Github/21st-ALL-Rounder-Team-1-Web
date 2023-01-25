@@ -13,6 +13,7 @@ import {
 	StoreImageBtn,
 	TimePicker,
 	DayOffBtn,
+	ProductImageBtn,
 } from 'components/feature';
 import { checkEmptyInputError, extractBusinessLicenseExceptHyhpen } from 'core/storeRegistrationService';
 import style from 'styles/style';
@@ -248,7 +249,8 @@ const Step2 = () => {
 							준비하신 이미지로 가게 사진을 등록해드려요
 						</Typography>
 						<StyledLayout.EmptyBoxDivider height="0" />
-						{selectedStoreImageBtn === 'registerImage' && <StoreImageBtn />}
+						{selectedStoreImageBtn === 'registerImage' && <StoreImageBtn isError={false} />}
+						{/* {selectedStoreImageBtn === 'registerImage' && <ProductImageBtn />} */}
 					</StyledLayout.FlexBox>
 				</StyledLayout.FlexBox>
 			</StyledLayout.TextFieldSection>
