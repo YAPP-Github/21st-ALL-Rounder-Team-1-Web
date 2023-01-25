@@ -47,6 +47,7 @@ const StoreImageBtn = () => {
 				<AddPhotoIcon />
 				<input type="file" ref={storeImgRef} onChange={uploadToClient} style={{ display: 'none' }} />
 			</StoreImageContainer>
+			<Image src={createObjectURL} alt="기본가게이미지" width={343} height={160} />
 		</>
 	);
 };
