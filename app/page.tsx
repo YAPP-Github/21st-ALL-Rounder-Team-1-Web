@@ -2,25 +2,12 @@
 
 import styled from 'styled-components';
 import { StyledLayout, Typography, Toast, LargeBtn } from 'components/shared';
-import {
-	StoreProductEditExitConfirmModal,
-	LeaveMemberConfirmModal,
-	StoreRegistrationConfirmModal,
-	StoreRegistrationExitConfirmModal,
-	StoreEditCompletionConfirmModal,
-	StoreRegistrationCancelConfirmModal,
-	StoreRegistrationStepChangeConfirmModal,
-	StoreRegistrationCancelSuccessModal,
-	LeaveMemberSuccessModal,
-	StoreEditSuccessModal,
-	StoreProductEditSuccessModal,
-	StoreProductRequiredWarningModal,
-} from 'components/feature';
 import style from 'styles/style';
 import { useRouter } from 'next/navigation';
 
 const Root = () => {
 	const router = useRouter();
+
 	return (
 		<Container display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'}>
 			{false && <Toast open={false} duration={3} />}
@@ -39,20 +26,6 @@ const Root = () => {
 			<LargeBtn style={style.btnStyle.primary_btn_002} onClick={() => router.push('/registration/step1')}>
 				입점 신청하기
 			</LargeBtn>
-
-			{false && <StoreProductEditExitConfirmModal />}
-			{false && <LeaveMemberConfirmModal />}
-			{false && <StoreRegistrationConfirmModal />}
-			{false && <StoreRegistrationExitConfirmModal />}
-			{false && <StoreEditCompletionConfirmModal />}
-			{false && <StoreRegistrationCancelConfirmModal />}
-			{false && <StoreRegistrationStepChangeConfirmModal />}
-
-			{false && <StoreRegistrationCancelSuccessModal />}
-			{false && <LeaveMemberSuccessModal />}
-			{false && <StoreEditSuccessModal />}
-			{false && <StoreProductEditSuccessModal />}
-			{false && <StoreProductRequiredWarningModal />}
 		</Container>
 	);
 };
