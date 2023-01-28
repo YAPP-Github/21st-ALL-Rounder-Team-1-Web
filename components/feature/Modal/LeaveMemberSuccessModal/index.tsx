@@ -1,6 +1,7 @@
 import { InfoModal } from 'components/feature/Modal';
+import { InfoModalEvent } from 'components/feature/Modal/Common/InfoModal';
 
-const LeaveMemberSuccessModal = () => {
+const LeaveMemberSuccessModal = ({ onClick }: InfoModalEvent) => {
 	return (
 		<InfoModal
 			modalTitle="회원 탈퇴가 되었습니다."
@@ -8,7 +9,7 @@ const LeaveMemberSuccessModal = () => {
 			modalBtn={{
 				type: 'primary',
 				text: '확인',
-				onClick: () => {},
+				onClick,
 			}}
 		/>
 	);
