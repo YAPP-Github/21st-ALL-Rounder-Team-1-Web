@@ -1,6 +1,7 @@
 import { InfoModal } from 'components/feature/Modal';
+import { InfoModalEvent } from 'components/feature/Modal/Common/InfoModal';
 
-const StoreRegistrationCancelSuccessModal = () => {
+const StoreRegistrationCancelSuccessModal = ({ onClick }: InfoModalEvent) => {
 	return (
 		<InfoModal
 			modalTitle="입점 철회되었습니다."
@@ -8,7 +9,7 @@ const StoreRegistrationCancelSuccessModal = () => {
 			modalBtn={{
 				type: 'primary',
 				text: '확인',
-				onClick: () => {},
+				onClick,
 			}}
 		/>
 	);

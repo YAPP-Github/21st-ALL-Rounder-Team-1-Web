@@ -12,7 +12,7 @@ const myPageNavigations = [
 	{
 		id: 1,
 		path: '/mypage/store',
-		renderText: '가게 및 상품 정보 관리',
+		renderText: '매장 및 상품 정보 관리',
 	},
 	{
 		id: 2,

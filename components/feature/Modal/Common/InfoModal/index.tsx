@@ -2,6 +2,10 @@ import { ReactNode } from 'react';
 import { ModalFrame, LargeBtn } from 'components/shared';
 import style from 'styles/style';
 
+export type InfoModalEvent = {
+	onClick: () => void;
+};
+
 type Props = {
 	modalTitle: ReactNode;
 	modalDescription: ReactNode;
