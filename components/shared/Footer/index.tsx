@@ -44,12 +44,12 @@ const Footer = () => {
 						bardchoi.pump@gmail.com
 					</Typography>
 					<Typography variant="h4" aggressive="body_oneline_003" color={theme.colors.gray_004}>
-						Copyright, Pump. All rights reserved.
+						Copyright 2023. Pump All rights reserved.
 					</Typography>
 
 					<S.ChannelWrapper>
 						<S.Anchor href={SOCIAL_LINKS.INSTAGRAM} target="_blank" rel="noreferrer">
-							<InstagramIcon />
+							<InstagramIcon className="social" />
 						</S.Anchor>
 					</S.ChannelWrapper>
 				</S.InnerWrapper>
