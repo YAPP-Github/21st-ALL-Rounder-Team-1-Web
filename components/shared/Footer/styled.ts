@@ -10,13 +10,15 @@ export const Container = styled.footer`
 `;
 
 export const InnerWrapper = styled(FlexBox)`
+	position: relative;
 	padding-top: 24px;
 `;
 
-export const LegalDescWrapper = styled.div`
+export const LinkContentsWrapper = styled.div`
 	display: flex;
 	align-items: center;
 	height: 100%;
+	margin-bottom: 14px;
 `;
 
 export const Anchor = styled(Link)`
@@ -46,6 +48,8 @@ export const Anchor = styled(Link)`
 	}
 `;
 
-export const ChannelDescWrapper = styled(FlexBox)`
-	height: 100%;
+export const ChannelWrapper = styled(FlexBox)`
+	position: absolute;
+	bottom: 0;
+	right: 0;
 `;
