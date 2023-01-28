@@ -2,6 +2,11 @@ import { ReactNode } from 'react';
 import { ModalFrame, LargeBtn } from 'components/shared';
 import style from 'styles/style';
 
+export type ConfirmModalEvent = {
+	onCancel: () => void;
+	onConfirm: () => void;
+};
+
 type Props = {
 	modalTitle: ReactNode;
 	modalDescription: ReactNode;
