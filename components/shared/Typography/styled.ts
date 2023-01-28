@@ -15,10 +15,12 @@ type ComponentProps = {
 		| 'body_oneline_003'
 		| 'body_oneline_004'
 		| 'body_oneline_005'
+		| 'body_multiline_000'
 		| 'body_multiline_001'
 		| 'body_multiline_002'
 		| 'body_multiline_003'
 		| 'body_multiline_005'
+		| 'button_000'
 		| 'button_001'
 		| 'tab_001'
 		| 'tab_002';
