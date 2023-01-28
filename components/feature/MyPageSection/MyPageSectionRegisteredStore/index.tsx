@@ -3,8 +3,11 @@ import { MyPageActionBtn } from 'components/feature';
 import * as S from './styled';
 import { theme } from 'styles';
 import { TrashIcon } from 'public/static/icons';
+import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
 
 const MyPageSectionRegisteredStore = () => {
+	const { changeModalKey } = useModalStore();
+
 	return (
 		<S.RegisteredStoreContainer>
 			<S.RegisteredStoreContentWrapper>
@@ -60,9 +63,7 @@ const MyPageSectionRegisteredStore = () => {
 				<StyledLayout.FlexBox flexDirection={'column'} justifyContent={'flex-start'} margin={'0 0 0 30px'}>
 					<S.RegisteredStoreDeleteBtn
 						type="button"
-						onClick={() => {
-							console.info('입점상점 삭제 GO');
-						}}
+						onClick={() => changeModalKey(MODAL_KEY.ON_STORE_REGISTRATION_CANCEL_CONFIRM_MODAL)}
 					>
 						<TrashIcon />
 					</S.RegisteredStoreDeleteBtn>
