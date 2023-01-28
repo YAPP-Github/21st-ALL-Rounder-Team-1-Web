@@ -44,11 +44,15 @@ declare module 'styled-components' {
 			body_multiline_001: FlattenSimpleInterpolation;
 			body_multiline_002: FlattenSimpleInterpolation;
 			body_multiline_003: FlattenSimpleInterpolation;
+			body_multiline_004: FlattenSimpleInterpolation;
 			body_multiline_005: FlattenSimpleInterpolation;
 			button_000: FlattenSimpleInterpolation;
 			button_001: FlattenSimpleInterpolation;
 			tab_001: FlattenSimpleInterpolation;
 			tab_002: FlattenSimpleInterpolation;
+			caption_large: FlattenSimpleInterpolation;
+			caption_medium: FlattenSimpleInterpolation;
+			caption_small: FlattenSimpleInterpolation;
 		};
 	}
 	export interface Styles {
