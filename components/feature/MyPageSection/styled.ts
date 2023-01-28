@@ -14,7 +14,6 @@ export const MyPageOneActionDescriptionWrapper = styled.div`
 	flex-direction: column;
 	align-items: center;
 	gap: 24px;
-	margin-top: 40px;
 	padding: 65px 0 73px 0;
 	border: 1px solid ${({ theme }) => theme.colors.gray_002};
 	border-radius: 4px;
