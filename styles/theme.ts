@@ -154,6 +154,13 @@ const theme: DefaultTheme = {
 			spacing: -0.4,
 			fontFamily: pretendard.style.fontFamily,
 		}),
+		body_multiline_000: fontStyleGenerator({
+			weight: 400,
+			size: 19,
+			height: 30,
+			spacing: -0.4,
+			fontFamily: pretendard.style.fontFamily,
+		}),
 		body_multiline_001: fontStyleGenerator({
 			weight: 400,
 			size: 17,
@@ -182,6 +189,7 @@ const theme: DefaultTheme = {
 			spacing: -0.4,
 			fontFamily: pretendard.style.fontFamily,
 		}),
+		button_000: fontStyleGenerator({ weight: 500, size: 18, height: 20, spacing: -0.4, fontFamily: pretendard.style.fontFamily }),
 		button_001: fontStyleGenerator({ weight: 500, size: 16, height: 18, spacing: -0.4, fontFamily: pretendard.style.fontFamily }),
 		tab_001: fontStyleGenerator({ weight: 600, size: 15, height: 17, spacing: -0.4, fontFamily: pretendard.style.fontFamily }),
 		tab_002: fontStyleGenerator({ weight: 500, size: 15, height: 17, spacing: -0.4, fontFamily: pretendard.style.fontFamily }),
