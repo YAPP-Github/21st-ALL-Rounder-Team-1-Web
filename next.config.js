@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 
+const withImages = require("next-images");
 const nextConfig = {
+	
 	experimental: {
 		appDir: true,
 	},
@@ -15,11 +17,15 @@ const nextConfig = {
       issuer: /\.[jt]sx?$/,
       use: ['@svgr/webpack'],
     })
+	withImages({
+		images: {
+		  disableStaticImages: true,
+		  domains: ['https://pump-img-bucket.s3.ap-northeast-2.amazonaws.com/store/'],
+		},
+	  });
     return config
   },
-  images: {
-	domains: ['https://pump-img-bucket.s3.ap-northeast-2.amazonaws.com/store/']
-}
+
 
 };
 

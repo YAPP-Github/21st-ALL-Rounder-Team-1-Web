@@ -2,46 +2,39 @@ import ShowImageContent from 'components/feature/ShowImageContent';
 import { AddPhotoIcon } from 'public/static/icons';
 import { ChangeEvent, RefObject, useRef, useState } from 'react';
 import { StoreImageContainer } from './styled';
+import { useS3Upload } from 'next-s3-upload';
 
 type Props = {
 	isError: boolean;
 };
 const StoreImageBtn = ({ isError }: Props) => {
 	const storeImgRef = useRef() as RefObject<HTMLInputElement>;
-	// file 데이터
-	const [storeImage, setStoreImage] = useState('');
-	// 화면 표시를 위한 임시 url
 	const [createObjectURL, setCreateObjectURL] = useState('');
-	// 화면 상단에 이미지 표시
-	const uploadToClient = (e: ChangeEvent<HTMLInputElement>) => {
-		// 기존에 첨부한 이미지가 있을 경우 createObjectUrl 해제
-		if (createObjectURL) {
-			URL.revokeObjectURL(createObjectURL);
-		}
-		/*
-	input에 이미지 파일을 첨부하게 되면 e.target.files 배열에 이미지가 추가된다.
-	단일 파일을 추가할 것이므로 0번 인덱스만 이용
-  
-	e.target.files[0]은 File객체로 Blob의 일종이다 자세한 것은 mdn 참고
-	https://developer.mozilla.org/ko/docs/Web/API/File
-	*/
+	const { uploadToS3 } = useS3Upload();
 
-		if (e.target.files?.[0]) {
-			const i = e.target.files[0];
-			setStoreImage(i.toString());
+	const handleFileChange = async (fileList: FileList) => {
+		const files = Array.from(fileList);
+		const file = files[0];
+		console.log(file.name);
+		const { url } = await uploadToS3(file);
+		console.log(url);
+		return url;
+	};
 
-			/*
-	  화면 상단에 현재 input에 추가한 파일 표시
-	  실제 S3 업로드X, 클라이언트에서만 처리하는 것으로
-	  URL.createObjectURL : file객체를 이용하여 임시 url 생성하여 이미지 표시한다
-	  mdn : https://developer.mozilla.org/ko/docs/Web/API/URL/createObjectURL
-	  */
-			setCreateObjectURL(URL.createObjectURL(i));
+	const uploadToClient = async (e: ChangeEvent<HTMLInputElement>) => {
+		if (createObjectURL) URL.revokeObjectURL(createObjectURL);
+		if (e.target.files !== null) {
+			setCreateObjectURL(URL.createObjectURL(e.target.files[0]));
+
+			handleFileChange(e.target.files)
+				.then(() => console.log('성공'))
+				.catch((err) => console.log(err));
 		}
 	};
+
 	return (
 		<>
-			{createObjectURL !== '' ? (
+			{createObjectURL ? (
 				<ShowImageContent
 					onClick={() => setCreateObjectURL('')}
 					width={343}

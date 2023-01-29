@@ -13,7 +13,6 @@ import {
 	StoreImageBtn,
 	TimePicker,
 	DayOffBtn,
-	ProductImageBtn,
 } from 'components/feature';
 import { checkEmptyInputError, extractBusinessLicenseExceptHyhpen } from 'core/storeRegistrationService';
 import style from 'styles/style';
