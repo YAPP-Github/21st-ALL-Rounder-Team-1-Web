@@ -18,6 +18,8 @@ export const FlexBox = styled.div<CSSProperties>`
 	border-right: ${({ borderRight }) => borderRight};
 	border-bottom: ${({ borderBottom }) => borderBottom};
 	border-left: ${({ borderLeft }) => borderLeft};
+	background: ${({ background }) => background};
+	white-space: ${({ whiteSpace }) => whiteSpace};
 `;
 
 export const MaxContainer = styled.div<CSSProperties>`
@@ -100,6 +102,8 @@ type DividerProps = {
 };
 
 export const Divider = styled.span<DividerProps>`
+	width: ${({ width }) => width};
+	height: ${({ height }) => height};
 	min-width: ${({ width }) => width};
 	min-height: ${({ height }) => height};
 	margin: ${({ margin }) => margin};
