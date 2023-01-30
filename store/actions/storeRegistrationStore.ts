@@ -15,7 +15,7 @@ export const useStep1Store = create<stepInputs>()(
 );
 export const useStep2Store = create<stepInputs>()(
 	devtools((set, get) => ({
-		inputArr: ['normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal'],
+		inputArr: ['normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal'],
 		changeError: (id) => set((state) => ({ inputArr: { ...state.inputArr, [id]: 'error' } })),
 		changeNormal: (id) => get().inputArr[id] === 'error' && set((state) => ({ inputArr: { ...state.inputArr, [id]: 'normal' } })),
 	})),

@@ -1,6 +1,6 @@
 'use client';
 
-import { RefObject, useState, useRef, FormEvent } from 'react';
+import { RefObject, useState, useRef, FormEvent, ChangeEvent } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
 import { LargeBtn, StyledLayout, Typography } from 'components/shared';
@@ -48,6 +48,7 @@ const Step2 = () => {
 	const [dayOffStatus, setDayOffStatus] = useState<boolean>(false);
 	const [businessLicenseStatus, setBusinessLicenseStatus] = useState<'normal' | 'success' | 'error' | 'notClicked'>('normal');
 	const [selectedStoreImageBtn, setSelectedStoreImageBtn] = useState('defaultImage');
+	const [clientStoreImageURL, setClientStoreImageURL] = useState('');
 	const [selectedBusinessHourBtn, setSelectedBusinessHourBtn] = useState('weekDaysWeekEnd');
 	const { inputArr, changeError, changeNormal } = useStep2Store();
 	const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -61,6 +62,7 @@ const Step2 = () => {
 	const handleSelectedStoreImageBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (selectedStoreImageBtn === e.target.value) return;
 		setSelectedStoreImageBtn(e.target.value);
+		if (e.target.value === 'defaultImage') setClientStoreImageURL('');
 	};
 	const handleSelectedBusinessHourBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (selectedBusinessHourBtn === e.target.value) return;
@@ -123,7 +125,13 @@ const Step2 = () => {
 		}
 		businessLicenseInputRef.current.blur();
 	};
-
+	const handleUploadToClient = async (e: ChangeEvent<HTMLInputElement>) => {
+		if (clientStoreImageURL) URL.revokeObjectURL(clientStoreImageURL);
+		if (e.target.files !== null) {
+			setClientStoreImageURL(URL.createObjectURL(e.target.files[0]));
+		}
+		changeNormal(6);
+	};
 	return (
 		<form onSubmit={handleOnSubmit}>
 			<StyledLayout.TextFieldSection>
@@ -237,7 +245,12 @@ const Step2 = () => {
 					</StyledLayout.FlexBox>
 				</StyledLayout.FlexBox>
 				<StyledLayout.FlexBox>
-					<RadioBtn name="storeImage" value="registerImage" onChange={handleSelectedStoreImageBtn} />
+					<RadioBtn
+						onClick={() => changeNormal(6)}
+						name="storeImage"
+						value="registerImage"
+						onChange={handleSelectedStoreImageBtn}
+					/>
 					<StyledLayout.FlexBox style={{ paddingLeft: '8px' }} gap="8px" flexDirection="column">
 						<label htmlFor="registerImage">
 							<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
@@ -248,8 +261,17 @@ const Step2 = () => {
 							준비하신 이미지로 가게 사진을 등록해드려요
 						</Typography>
 						<StyledLayout.EmptyBoxDivider height="0" />
-						{selectedStoreImageBtn === 'registerImage' && <StoreImageBtn isError={false} />}
-						{/* {selectedStoreImageBtn === 'registerImage' && <ProductImageBtn />} */}
+						{selectedStoreImageBtn === 'registerImage' && (
+							<StoreImageBtn
+								name="step2"
+								id="registerImage"
+								deleteImage={() => setClientStoreImageURL('')}
+								onChange={handleUploadToClient}
+								clientStoreImageURL={clientStoreImageURL}
+								inputFlag={inputArr[6]}
+								value={clientStoreImageURL}
+							/>
+						)}
 					</StyledLayout.FlexBox>
 				</StyledLayout.FlexBox>
 			</StyledLayout.TextFieldSection>
@@ -299,8 +321,8 @@ const Step2 = () => {
 					emptyErrorMessage="휴무일을"
 					name="step2"
 					id="dayOff"
-					inputFlag={inputArr[7]}
-					onFocus={() => changeNormal(7)}
+					inputFlag={selectedStoreImageBtn === 'defaultImage' ? inputArr[7] : inputArr[8]}
+					onFocus={() => (selectedStoreImageBtn === 'defaultImage' ? changeNormal(7) : changeNormal(8))}
 					width="320px"
 				/>
 				<StyledLayout.FlexBox style={{ paddingTop: '4px' }}>

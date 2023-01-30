@@ -1,58 +1,48 @@
 import ShowImageContent from 'components/feature/ShowImageContent';
 import { AddPhotoIcon } from 'public/static/icons';
-import { ChangeEvent, RefObject, useRef, useState } from 'react';
-import { StoreImageContainer } from './styled';
-import { useS3Upload } from 'next-s3-upload';
+import { RefObject, useRef } from 'react';
+import { ErrorMessage, StoreImageContainer } from './styled';
+import { StyledMessage } from 'components/feature/TextField/styled';
 
 type Props = {
-	isError: boolean;
-};
-const StoreImageBtn = ({ isError }: Props) => {
+	inputFlag: 'normal' | 'error';
+	clientStoreImageURL: string;
+	deleteImage: () => void;
+} & React.ComponentProps<'input'>;
+const StoreImageBtn = ({ inputFlag, clientStoreImageURL, deleteImage, ...props }: Props) => {
 	const storeImgRef = useRef() as RefObject<HTMLInputElement>;
-	const [createObjectURL, setCreateObjectURL] = useState('');
-	const { uploadToS3 } = useS3Upload();
-
-	const handleFileChange = async (fileList: FileList) => {
-		const files = Array.from(fileList);
-		const file = files[0];
-		console.log(file.name);
-		const { url } = await uploadToS3(file);
-		console.log(url);
-		return url;
-	};
-
-	const uploadToClient = async (e: ChangeEvent<HTMLInputElement>) => {
-		if (createObjectURL) URL.revokeObjectURL(createObjectURL);
-		if (e.target.files !== null) {
-			setCreateObjectURL(URL.createObjectURL(e.target.files[0]));
-
-			handleFileChange(e.target.files)
-				.then(() => console.log('성공'))
-				.catch((err) => console.log(err));
-		}
-	};
 
 	return (
 		<>
-			{createObjectURL ? (
-				<ShowImageContent
-					onClick={() => setCreateObjectURL('')}
-					width={343}
-					height={160}
-					src={createObjectURL}
-					alt={'사용자가 지정한 가게사진'}
-				/>
+			{clientStoreImageURL ? (
+				<button disabled type="button" name={props.name} value={clientStoreImageURL}>
+					<ShowImageContent
+						name={props.name}
+						id={props.id}
+						onClick={deleteImage}
+						width={343}
+						height={160}
+						src={clientStoreImageURL}
+						alt="사용자가 지정한 가게사진"
+					/>
+				</button>
 			) : (
-				<StoreImageContainer
-					type="button"
-					onClick={() => {
-						storeImgRef.current?.click();
-					}}
-					isError={isError}
-				>
-					<AddPhotoIcon />
-					<input type="file" ref={storeImgRef} onChange={uploadToClient} style={{ display: 'none' }} />
-				</StoreImageContainer>
+				<>
+					<StoreImageContainer
+						name={props.name}
+						id={props.id}
+						value={props.value}
+						type="button"
+						onClick={() => {
+							storeImgRef.current?.click();
+						}}
+						inputFlag={inputFlag}
+					>
+						<AddPhotoIcon />
+						<input type="file" ref={storeImgRef} onChange={props.onChange} style={{ display: 'none' }} />
+					</StoreImageContainer>
+					{inputFlag === 'error' && <ErrorMessage>사진을 업로드하세요</ErrorMessage>}
+				</>
 			)}
 		</>
 	);

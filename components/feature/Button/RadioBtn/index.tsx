@@ -9,6 +9,7 @@ const RadioBtn = ({ value, name, ...props }: Props) => {
 	return (
 		<RadioBtnContainer htmlFor={value}>
 			<input
+				onClick={props.onClick}
 				type="radio"
 				name={name}
 				id={value}
