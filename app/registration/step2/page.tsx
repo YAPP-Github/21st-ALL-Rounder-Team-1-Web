@@ -38,6 +38,15 @@ interface IBusinessLicenseStatusResponse {
 }
 
 const Step2 = () => {
+	const businessHourDays = [
+		{ id: 2, day: '월' },
+		{ id: 3, day: '화' },
+		{ id: 4, day: '수' },
+		{ id: 5, day: '목' },
+		{ id: 6, day: '금' },
+		{ id: 7, day: '토' },
+		{ id: 8, day: '일' },
+	];
 	const [storePostcodeInputs, setStorePostcodeInputs] = useState({
 		zonecode: '', // 우편번호
 		address: '', // 기본 주소
@@ -311,7 +320,7 @@ const Step2 = () => {
 						</label>
 					</StyledLayout.FlexBox>
 				</StyledLayout.FlexBox>
-				{selectedBusinessHourBtn === 'weekDaysWeekEnd' && (
+				{selectedBusinessHourBtn === 'weekDaysWeekEnd' ? (
 					<StyledLayout.FlexBox flexDirection="column" gap="12px">
 						<StyledLayout.FlexBox>
 							<StyledLayout.FlexBox flexDirection="column" gap="6px">
@@ -340,6 +349,25 @@ const Step2 = () => {
 							/>
 							<DayOffBtn dayOff={dayOffStatus} onClick={handleTimePickerInput} style={{ marginLeft: '6px' }} />
 						</StyledLayout.FlexBox>
+					</StyledLayout.FlexBox>
+				) : (
+					<StyledLayout.FlexBox flexDirection="column" gap="12px">
+						{businessHourDays.map(({ id, day }) => {
+							return (
+								<StyledLayout.FlexBox key={id}>
+									<StyledLayout.FlexBox flexDirection="column" gap="6px">
+										<Typography variant="h3" aggressive="button_001" color="gray_007" margin="0 20px 0 0">
+											{day}
+										</Typography>
+									</StyledLayout.FlexBox>
+									<TimePicker
+										dayOffRef={(el: RefObject<HTMLButtonElement>) => (dayOffRef.current[id] = el)}
+										disabled={dayOffStatus}
+									/>
+									<DayOffBtn dayOff={dayOffStatus} onClick={handleTimePickerInput} style={{ marginLeft: '6px' }} />
+								</StyledLayout.FlexBox>
+							);
+						})}
 					</StyledLayout.FlexBox>
 				)}
 			</StyledLayout.TextFieldSection>
