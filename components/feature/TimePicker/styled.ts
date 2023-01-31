@@ -19,7 +19,8 @@ export const TimeInput = styled.input`
 	margin: 0;
 	padding: 0;
 	${({ theme }) => theme.fonts.button_001};
-	&:focus {
+	&:focus,
+	&:hover {
 		background-color: ${({ theme }) => theme.colors.gray_006};
 		color: ${({ theme }) => theme.colors.white};
 	}

@@ -64,6 +64,7 @@ const Step1 = () => {
 					width="320px"
 				/>
 			</StyledLayout.TextFieldSection>
+
 			<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '16px' }}>
 				<LargeBtn style={style.btnStyle.primary_btn_002} type="submit">
 					다음단계

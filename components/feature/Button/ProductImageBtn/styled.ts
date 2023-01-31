@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-export const ProductImageContainer = styled.button<{ isError: boolean }>`
+export const ProductImageContainer = styled.button`
 	width: 96px;
 	height: 108px;
 	border-radius: 8px;
-	border: 1px solid ${({ theme, isError }) => (isError ? theme.colors.error : theme.colors.gray_002)};
+	border: 1px solid ${({ theme }) => theme.colors.gray_002};
 	background-color: ${({ theme }) => theme.colors.white};
 	svg {
 		display: block;
