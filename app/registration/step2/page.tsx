@@ -1,6 +1,6 @@
 'use client';
 
-import { RefObject, useState, useRef, FormEvent, ChangeEvent } from 'react';
+import { RefObject, useState, useRef, FormEvent, ChangeEvent, useEffect } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
 import { LargeBtn, StyledLayout, Typography } from 'components/shared';
@@ -44,7 +44,7 @@ const Step2 = () => {
 		addressDetail: '', // 상세 주소
 	});
 	const businessLicenseInputRef = useRef() as RefObject<HTMLInputElement>;
-	const dayOffRef = useRef() as RefObject<HTMLButtonElement>;
+	const dayOffRef = useRef<null[] | Array<RefObject<HTMLButtonElement>>>([]);
 	const [dayOffStatus, setDayOffStatus] = useState<boolean>(false);
 	const [businessLicenseStatus, setBusinessLicenseStatus] = useState<'normal' | 'success' | 'error' | 'notClicked'>('normal');
 	const [selectedStoreImageBtn, setSelectedStoreImageBtn] = useState('defaultImage');
@@ -132,6 +132,9 @@ const Step2 = () => {
 		}
 		changeNormal(6);
 	};
+	useEffect(() => {
+		console.log(dayOffRef);
+	}, [dayOffRef.current[0]]);
 	return (
 		<form onSubmit={handleOnSubmit}>
 			<StyledLayout.TextFieldSection>
@@ -308,8 +311,37 @@ const Step2 = () => {
 						</label>
 					</StyledLayout.FlexBox>
 				</StyledLayout.FlexBox>
-				<TimePicker dayOffRef={dayOffRef} name="monday" disabled={dayOffStatus} />
-				<DayOffBtn dayOff={dayOffStatus} onClick={handleTimePickerInput} />
+				{selectedBusinessHourBtn === 'weekDaysWeekEnd' && (
+					<StyledLayout.FlexBox flexDirection="column" gap="12px">
+						<StyledLayout.FlexBox>
+							<StyledLayout.FlexBox flexDirection="column" gap="6px">
+								<Typography variant="h3" aggressive="button_001" color="gray_007">
+									평일
+								</Typography>
+								<Typography variant="h4" aggressive="body_oneline_004" color="gray_005" margin="0 20px 0 0">
+									(월~금)
+								</Typography>
+							</StyledLayout.FlexBox>
+							<TimePicker dayOffRef={(el: RefObject<HTMLButtonElement>) => (dayOffRef.current[0] = el)} name="weekDays" />
+						</StyledLayout.FlexBox>
+						<StyledLayout.FlexBox>
+							<StyledLayout.FlexBox flexDirection="column" gap="6px">
+								<Typography variant="h3" aggressive="button_001" color="gray_007">
+									주말
+								</Typography>
+								<Typography variant="h4" aggressive="body_oneline_004" color="gray_005" margin="0 20px 0 0">
+									(토~일)
+								</Typography>
+							</StyledLayout.FlexBox>
+							<TimePicker
+								dayOffRef={(el: RefObject<HTMLButtonElement>) => (dayOffRef.current[1] = el)}
+								name="WeekEnd"
+								disabled={dayOffStatus}
+							/>
+							<DayOffBtn dayOff={dayOffStatus} onClick={handleTimePickerInput} style={{ marginLeft: '6px' }} />
+						</StyledLayout.FlexBox>
+					</StyledLayout.FlexBox>
+				)}
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="dayOff">

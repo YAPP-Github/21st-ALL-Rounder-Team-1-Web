@@ -2,10 +2,9 @@ import { ChangeEvent, FocusEvent, RefObject, useEffect, useState } from 'react';
 import { TimePickerContainer, TimeInput, CenterSpan } from './styled';
 
 type Props = {
-	name: string;
-	dayOffRef: RefObject<HTMLButtonElement>;
+	dayOffRef: (el: RefObject<HTMLButtonElement>) => RefObject<HTMLButtonElement>;
 } & React.ComponentProps<'button'>;
-const TimePicker = ({ name, dayOffRef, ...props }: Props) => {
+const TimePicker = ({ dayOffRef, ...props }: Props) => {
 	const [timePickerValue, setTimePickerValue] = useState('');
 	const [timeValues, setTimeValues] = useState({
 		startHour: '10',
@@ -32,7 +31,14 @@ const TimePicker = ({ name, dayOffRef, ...props }: Props) => {
 		setTimePickerValue(`${timeValues.startHour}:${timeValues.startMinutes}~${timeValues.endHour}:${timeValues.endMinutes}`);
 	}, [timeValues]);
 	return (
-		<TimePickerContainer name={name} value={timePickerValue} type="button" ref={dayOffRef} disabled={props.disabled}>
+		<TimePickerContainer
+			name={props.name}
+			id={props.id}
+			value={props.disabled === true ? 'null' : timePickerValue}
+			type="button"
+			ref={dayOffRef}
+			disabled={props.disabled ?? false}
+		>
 			<TimeInput
 				onBlur={handleOnBlur}
 				value={timeValues.startHour}
@@ -40,7 +46,7 @@ const TimePicker = ({ name, dayOffRef, ...props }: Props) => {
 				type="text"
 				maxLength={2}
 				onChange={handleTimePickerValue}
-				disabled={props.disabled}
+				disabled={props.disabled ?? false}
 			/>
 			<span>:</span>
 			<TimeInput
@@ -50,7 +56,7 @@ const TimePicker = ({ name, dayOffRef, ...props }: Props) => {
 				type="text"
 				maxLength={2}
 				onChange={handleTimePickerValue}
-				disabled={props.disabled}
+				disabled={props.disabled ?? false}
 			/>
 			<CenterSpan>~</CenterSpan>
 			<TimeInput
@@ -60,7 +66,7 @@ const TimePicker = ({ name, dayOffRef, ...props }: Props) => {
 				type="text"
 				maxLength={2}
 				onChange={handleTimePickerValue}
-				disabled={props.disabled}
+				disabled={props.disabled ?? false}
 			/>
 			<span>:</span>
 			<TimeInput
@@ -70,7 +76,7 @@ const TimePicker = ({ name, dayOffRef, ...props }: Props) => {
 				type="text"
 				maxLength={2}
 				onChange={handleTimePickerValue}
-				disabled={props.disabled}
+				disabled={props.disabled ?? false}
 			/>
 		</TimePickerContainer>
 	);
