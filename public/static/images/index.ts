@@ -2,3 +2,9 @@ export { default as KakaoSymbolImg } from './kakao_symbol.png';
 export { default as NaverSymbolImg } from './naver_symbol.png';
 export { default as PumpLogo } from './pump_logo.png';
 export { default as EmptyStoreImg } from './emptyStoreImage.png';
+export { default as LandingAppImg } from './landing_app.png';
+export { default as LandingFeature001Img } from "./landing_feature_001.png"
+export { default as LandingFeature002Img } from "./landing_feature_002.png"
+export { default as LandingFeature003Img } from "./landing_feature_003.png"
+export { default as LandingAdvantage001Img } from "./landing_advantage_001.png";
+export { default as LandingAdvantage002Img } from "./landing_advantage.002.png"

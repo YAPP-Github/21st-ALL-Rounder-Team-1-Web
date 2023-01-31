@@ -30,11 +30,21 @@ export const NavigationItem = styled.li`
 	align-items: center;
 	justify-content: center;
 	height: 100%;
+	color: ${({ theme }) => theme.colors.gray_005};
+
+	&:hover {
+		color: ${({ theme }) => theme.colors.gray_007};
+	}
 `;
 
 export const LogoutBtn = styled.button`
 	display: flex;
 	align-items: center;
 	height: 100%;
+	color: ${({ theme }) => theme.colors.gray_005};
 	cursor: pointer;
+
+	&:hover {
+		color: ${({ theme }) => theme.colors.gray_007};
+	}
 `;
