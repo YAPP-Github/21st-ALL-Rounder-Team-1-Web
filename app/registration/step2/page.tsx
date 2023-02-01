@@ -14,7 +14,12 @@ import {
 	TimePicker,
 	DayOffBtn,
 } from 'components/feature';
-import { checkEmptyInputError, extractBusinessLicenseExceptHyhpen } from 'core/storeRegistrationService';
+import {
+	businessHourDays,
+	checkEmptyInputError,
+	extractBusinessLicenseExceptHyhpen,
+	makeBusinessHourData,
+} from 'core/storeRegistrationService';
 import style from 'styles/style';
 import { theme } from 'styles';
 import { EmptyStoreImg } from 'public/static/images';
@@ -38,23 +43,14 @@ interface IBusinessLicenseStatusResponse {
 }
 
 const Step2 = () => {
-	const businessHourDays = [
-		{ id: 2, day: '월' },
-		{ id: 3, day: '화' },
-		{ id: 4, day: '수' },
-		{ id: 5, day: '목' },
-		{ id: 6, day: '금' },
-		{ id: 7, day: '토' },
-		{ id: 8, day: '일' },
-	];
 	const [storePostcodeInputs, setStorePostcodeInputs] = useState({
 		zonecode: '', // 우편번호
 		address: '', // 기본 주소
 		addressDetail: '', // 상세 주소
 	});
 	const businessLicenseInputRef = useRef() as RefObject<HTMLInputElement>;
-	const dayOffRef = useRef<null[] | Array<RefObject<HTMLButtonElement>>>([]);
-	const [dayOffStatus, setDayOffStatus] = useState<boolean>(false);
+	const dayOffRef = useRef<null[] | Array<RefObject<HTMLButtonElement>> | HTMLButtonElement[]>([]);
+	const [dayOffStatus, setDayOffStatus] = useState<boolean[]>([false, false, false, false, false, false, false, false]);
 	const [businessLicenseStatus, setBusinessLicenseStatus] = useState<'normal' | 'success' | 'error' | 'notClicked'>('normal');
 	const [selectedStoreImageBtn, setSelectedStoreImageBtn] = useState('defaultImage');
 	const [clientStoreImageURL, setClientStoreImageURL] = useState('');
@@ -65,7 +61,8 @@ const Step2 = () => {
 		const emptyInput = checkEmptyInputError(e.currentTarget.step2, changeError);
 		if (e.currentTarget.step2[0].value !== '' && businessLicenseStatus === 'normal') setBusinessLicenseStatus('notClicked');
 		if (emptyInput !== 0) return;
-
+		// 운영시간 form data stringfy
+		makeBusinessHourData(dayOffRef, selectedBusinessHourBtn);
 		// 여기서부터 서버 api 연결 로직
 	};
 	const handleSelectedStoreImageBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,8 +97,8 @@ const Step2 = () => {
 
 		changeNormal(0);
 	};
-	const handleTimePickerInput = () => {
-		setDayOffStatus((dayOffStatus) => !dayOffStatus);
+	const handleTimePickerInput = (arrIndex: number) => {
+		setDayOffStatus({ ...dayOffStatus, [arrIndex]: !dayOffStatus[arrIndex] });
 	};
 	const handleBusinessLicenseStatusCheck = async () => {
 		if (!businessLicenseInputRef.current) return;
@@ -141,9 +138,6 @@ const Step2 = () => {
 		}
 		changeNormal(6);
 	};
-	useEffect(() => {
-		console.log(dayOffRef);
-	}, [dayOffRef.current[0]]);
 	return (
 		<form onSubmit={handleOnSubmit}>
 			<StyledLayout.TextFieldSection>
@@ -331,7 +325,7 @@ const Step2 = () => {
 									(월~금)
 								</Typography>
 							</StyledLayout.FlexBox>
-							<TimePicker dayOffRef={(el: RefObject<HTMLButtonElement>) => (dayOffRef.current[0] = el)} name="weekDays" />
+							<TimePicker dayOffRef={(el) => (dayOffRef.current[0] = el)} name="weekDays" />
 						</StyledLayout.FlexBox>
 						<StyledLayout.FlexBox>
 							<StyledLayout.FlexBox flexDirection="column" gap="6px">
@@ -342,12 +336,8 @@ const Step2 = () => {
 									(토~일)
 								</Typography>
 							</StyledLayout.FlexBox>
-							<TimePicker
-								dayOffRef={(el: RefObject<HTMLButtonElement>) => (dayOffRef.current[1] = el)}
-								name="WeekEnd"
-								disabled={dayOffStatus}
-							/>
-							<DayOffBtn dayOff={dayOffStatus} onClick={handleTimePickerInput} style={{ marginLeft: '6px' }} />
+							<TimePicker dayOffRef={(el) => (dayOffRef.current[1] = el)} name="WeekEnd" disabled={dayOffStatus[0]} />
+							<DayOffBtn dayOff={dayOffStatus[0]} onClick={() => handleTimePickerInput(0)} style={{ marginLeft: '6px' }} />
 						</StyledLayout.FlexBox>
 					</StyledLayout.FlexBox>
 				) : (
@@ -360,11 +350,12 @@ const Step2 = () => {
 											{day}
 										</Typography>
 									</StyledLayout.FlexBox>
-									<TimePicker
-										dayOffRef={(el: RefObject<HTMLButtonElement>) => (dayOffRef.current[id] = el)}
-										disabled={dayOffStatus}
+									<TimePicker dayOffRef={(el) => (dayOffRef.current[id] = el)} disabled={dayOffStatus[id - 1]} />
+									<DayOffBtn
+										dayOff={dayOffStatus[id - 1]}
+										onClick={() => handleTimePickerInput(id - 1)}
+										style={{ marginLeft: '6px' }}
 									/>
-									<DayOffBtn dayOff={dayOffStatus} onClick={handleTimePickerInput} style={{ marginLeft: '6px' }} />
 								</StyledLayout.FlexBox>
 							);
 						})}
