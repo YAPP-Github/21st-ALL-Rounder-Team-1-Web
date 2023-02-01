@@ -121,14 +121,6 @@ const Step2 = () => {
 			// 활성사업자
 			setBusinessLicenseStatus('success');
 		}
-
-		if (b_stt_cd === '02') {
-			// 휴업자
-		}
-
-		if (b_stt_cd === '03') {
-			// 폐업자
-		}
 		businessLicenseInputRef.current.blur();
 	};
 	const handleUploadToClient = async (e: ChangeEvent<HTMLInputElement>) => {
