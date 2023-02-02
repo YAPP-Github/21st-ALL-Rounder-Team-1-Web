@@ -22,6 +22,6 @@
 		],
 		"baseUrl": "."
 	},
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "**/*.d.ts", "env.d.ts"],
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "**/*.d.ts", "env.d.ts", "kakao.maps.d.ts"],
 	"exclude": ["node_modules"]
 }

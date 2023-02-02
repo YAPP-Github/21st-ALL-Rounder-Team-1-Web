@@ -19,6 +19,7 @@ import style from 'styles/style';
 import { theme } from 'styles';
 import { EmptyStoreImg } from 'public/static/images';
 import { useStep2Store } from 'store/actions/storeRegistrationStore';
+import Script from 'next/script';
 
 interface IBusinessLicenseStatusResponse {
 	match_cnt: number;
@@ -53,9 +54,11 @@ const Step2 = () => {
 	const { inputArr, changeError, changeNormal } = useStep2Store();
 	const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const emptyInput = checkEmptyInputError(e.currentTarget.step2, changeError);
-		if (e.currentTarget.step2[0].value !== '' && businessLicenseStatus === 'normal') setBusinessLicenseStatus('notClicked');
-		if (emptyInput !== 0) return;
+		// const emptyInput = checkEmptyInputError(e.currentTarget.step2, changeError);
+		// if (e.currentTarget.step2[0].value !== '' && businessLicenseStatus === 'normal') setBusinessLicenseStatus('notClicked');
+		// if (emptyInput !== 0) return;
+		// 운영시간 form data stringfy
+		// makeBusinessHourData(dayOffRef, selectedBusinessHourBtn);
 
 		// 여기서부터 서버 api 연결 로직
 	};
@@ -132,8 +135,10 @@ const Step2 = () => {
 		}
 		changeNormal(6);
 	};
+
 	return (
 		<form onSubmit={handleOnSubmit}>
+			<Script src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_KAKAO_MAP_KEY}`} />
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="businessLicense">
 					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
