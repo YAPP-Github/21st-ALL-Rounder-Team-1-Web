@@ -59,7 +59,7 @@ const Step2 = () => {
 		// if (emptyInput !== 0) return;
 		// 운영시간 form data stringfy
 		// makeBusinessHourData(dayOffRef, selectedBusinessHourBtn);
-
+		findCoords(storePostcodeInputs.address);
 		// 여기서부터 서버 api 연결 로직
 	};
 	const handleSelectedStoreImageBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -135,10 +135,24 @@ const Step2 = () => {
 		}
 		changeNormal(6);
 	};
+	const findCoords = (storeAddress: string) => {
+		const geocoder = new kakao.maps.services.Geocoder();
+
+		geocoder.addressSearch(storeAddress, (result, status) => {
+			// 정상적으로 검색이 완료됐으면
+			if (status === kakao.maps.services.Status.OK) {
+				const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+				console.log(coords);
+			}
+		});
+	};
 
 	return (
 		<form onSubmit={handleOnSubmit}>
-			<Script src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_KAKAO_MAP_KEY}`} />
+			<Script
+				strategy="beforeInteractive"
+				src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_KEY}&libraries=services&autoload=false`}
+			/>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="businessLicense">
 					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>

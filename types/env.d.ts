@@ -7,6 +7,6 @@ namespace NodeJS {
 		S3_UPLOAD_SECRET: string;
 		S3_UPLOAD_BUCKET: string;
 		S3_UPLOAD_REGION: string;
-		NEXT_KAKAO_MAP_KEY: string;
+		NEXT_PUBLIC_KAKAO_MAP_KEY: string;
 	}
 }
