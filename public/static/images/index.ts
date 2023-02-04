@@ -7,4 +7,5 @@ export { default as LandingFeature001Img } from "./landing_feature_001.png"
 export { default as LandingFeature002Img } from "./landing_feature_002.png"
 export { default as LandingFeature003Img } from "./landing_feature_003.png"
 export { default as LandingAdvantage001Img } from "./landing_advantage_001.png";
-export { default as LandingAdvantage002Img } from "./landing_advantage.002.png"
+export { default as LandingAdvantage002Img } from "./landing_advantage.002.png";
+export { default as StoreDefaultImg } from "./store_default_image.png";

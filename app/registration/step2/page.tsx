@@ -1,6 +1,6 @@
 'use client';
 
-import { RefObject, useState, useRef, FormEvent, ChangeEvent, useEffect } from 'react';
+import { RefObject, useState, useRef, FormEvent, ChangeEvent } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
 import { LargeBtn, StyledLayout, Typography } from 'components/shared';
@@ -22,7 +22,7 @@ import {
 } from 'core/storeRegistrationService';
 import style from 'styles/style';
 import { theme } from 'styles';
-import { EmptyStoreImg } from 'public/static/images';
+import { StoreDefaultImg } from 'public/static/images';
 import { useStep2Store } from 'store/actions/storeRegistrationStore';
 
 interface IBusinessLicenseStatusResponse {
@@ -238,7 +238,7 @@ const Step2 = () => {
 							가게 사진이 없다면 기본 이미지로 등록해드려요
 						</Typography>
 						{selectedStoreImageBtn === 'defaultImage' && (
-							<Image src={EmptyStoreImg} alt="기본가게이미지" width={343} height={160} style={{ paddingTop: '8px' }} />
+							<Image src={StoreDefaultImg} alt="기본가게이미지" width={343} height={160} style={{ paddingTop: '8px' }} />
 						)}
 					</StyledLayout.FlexBox>
 				</StyledLayout.FlexBox>
