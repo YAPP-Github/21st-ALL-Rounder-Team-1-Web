@@ -1,9 +1,12 @@
 'use client';
 
-const Step3 = () => {
-	// const [count, setCount] = useAtom(countAtom);
+import { FormEvent } from 'react';
 
-	return <>안녕 여긴 스텝3</>;
+const Step3 = () => {
+	const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+	};
+	return <form onSubmit={handleOnSubmit}></form>;
 };
 
 export default Step3;
