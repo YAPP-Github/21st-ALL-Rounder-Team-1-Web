@@ -1,6 +1,6 @@
 'use client';
 
-import { RefObject, useState, useRef, FormEvent, ChangeEvent } from 'react';
+import { RefObject, useState, useRef, FormEvent, ChangeEvent, useEffect } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
 import { LargeBtn, StyledLayout, Typography } from 'components/shared';
@@ -14,7 +14,12 @@ import {
 	TimePicker,
 	DayOffBtn,
 } from 'components/feature';
-import { checkEmptyInputError, extractBusinessLicenseExceptHyhpen } from 'core/storeRegistrationService';
+import {
+	businessHourDays,
+	checkEmptyInputError,
+	extractBusinessLicenseExceptHyhpen,
+	makeBusinessHourData,
+} from 'core/storeRegistrationService';
 import style from 'styles/style';
 import { theme } from 'styles';
 import { EmptyStoreImg } from 'public/static/images';
@@ -44,8 +49,8 @@ const Step2 = () => {
 		addressDetail: '', // 상세 주소
 	});
 	const businessLicenseInputRef = useRef() as RefObject<HTMLInputElement>;
-	const dayOffRef = useRef() as RefObject<HTMLButtonElement>;
-	const [dayOffStatus, setDayOffStatus] = useState<boolean>(false);
+	const dayOffRef = useRef<null[] | Array<RefObject<HTMLButtonElement>> | HTMLButtonElement[]>([]);
+	const [dayOffStatus, setDayOffStatus] = useState<boolean[]>([false, false, false, false, false, false, false, false]);
 	const [businessLicenseStatus, setBusinessLicenseStatus] = useState<'normal' | 'success' | 'error' | 'notClicked'>('normal');
 	const [selectedStoreImageBtn, setSelectedStoreImageBtn] = useState('defaultImage');
 	const [clientStoreImageURL, setClientStoreImageURL] = useState('');
@@ -56,7 +61,8 @@ const Step2 = () => {
 		const emptyInput = checkEmptyInputError(e.currentTarget.step2, changeError);
 		if (e.currentTarget.step2[0].value !== '' && businessLicenseStatus === 'normal') setBusinessLicenseStatus('notClicked');
 		if (emptyInput !== 0) return;
-
+		// 운영시간 form data stringfy
+		makeBusinessHourData(dayOffRef, selectedBusinessHourBtn);
 		// 여기서부터 서버 api 연결 로직
 	};
 	const handleSelectedStoreImageBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,8 +97,8 @@ const Step2 = () => {
 
 		changeNormal(0);
 	};
-	const handleTimePickerInput = () => {
-		setDayOffStatus((dayOffStatus) => !dayOffStatus);
+	const handleTimePickerInput = (arrIndex: number) => {
+		setDayOffStatus({ ...dayOffStatus, [arrIndex]: !dayOffStatus[arrIndex] });
 	};
 	const handleBusinessLicenseStatusCheck = async () => {
 		if (!businessLicenseInputRef.current) return;
@@ -114,14 +120,6 @@ const Step2 = () => {
 		if (b_stt_cd === '01') {
 			// 활성사업자
 			setBusinessLicenseStatus('success');
-		}
-
-		if (b_stt_cd === '02') {
-			// 휴업자
-		}
-
-		if (b_stt_cd === '03') {
-			// 폐업자
 		}
 		businessLicenseInputRef.current.blur();
 	};
@@ -308,8 +306,53 @@ const Step2 = () => {
 						</label>
 					</StyledLayout.FlexBox>
 				</StyledLayout.FlexBox>
-				<TimePicker dayOffRef={dayOffRef} name="monday" disabled={dayOffStatus} />
-				<DayOffBtn dayOff={dayOffStatus} onClick={handleTimePickerInput} />
+				{selectedBusinessHourBtn === 'weekDaysWeekEnd' ? (
+					<StyledLayout.FlexBox flexDirection="column" gap="12px">
+						<StyledLayout.FlexBox>
+							<StyledLayout.FlexBox flexDirection="column" gap="6px">
+								<Typography variant="h3" aggressive="button_001" color="gray_007">
+									평일
+								</Typography>
+								<Typography variant="h4" aggressive="body_oneline_004" color="gray_005" margin="0 20px 0 0">
+									(월~금)
+								</Typography>
+							</StyledLayout.FlexBox>
+							<TimePicker dayOffRef={(el) => (dayOffRef.current[0] = el)} name="weekDays" />
+						</StyledLayout.FlexBox>
+						<StyledLayout.FlexBox>
+							<StyledLayout.FlexBox flexDirection="column" gap="6px">
+								<Typography variant="h3" aggressive="button_001" color="gray_007">
+									주말
+								</Typography>
+								<Typography variant="h4" aggressive="body_oneline_004" color="gray_005" margin="0 20px 0 0">
+									(토~일)
+								</Typography>
+							</StyledLayout.FlexBox>
+							<TimePicker dayOffRef={(el) => (dayOffRef.current[1] = el)} name="WeekEnd" disabled={dayOffStatus[0]} />
+							<DayOffBtn dayOff={dayOffStatus[0]} onClick={() => handleTimePickerInput(0)} style={{ marginLeft: '6px' }} />
+						</StyledLayout.FlexBox>
+					</StyledLayout.FlexBox>
+				) : (
+					<StyledLayout.FlexBox flexDirection="column" gap="12px">
+						{businessHourDays.map(({ id, day }) => {
+							return (
+								<StyledLayout.FlexBox key={id}>
+									<StyledLayout.FlexBox flexDirection="column" gap="6px">
+										<Typography variant="h3" aggressive="button_001" color="gray_007" margin="0 20px 0 0">
+											{day}
+										</Typography>
+									</StyledLayout.FlexBox>
+									<TimePicker dayOffRef={(el) => (dayOffRef.current[id] = el)} disabled={dayOffStatus[id - 1]} />
+									<DayOffBtn
+										dayOff={dayOffStatus[id - 1]}
+										onClick={() => handleTimePickerInput(id - 1)}
+										style={{ marginLeft: '6px' }}
+									/>
+								</StyledLayout.FlexBox>
+							);
+						})}
+					</StyledLayout.FlexBox>
+				)}
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="dayOff">

@@ -6,7 +6,7 @@ type Props = {
 
 const DayOffBtn = ({ dayOff, ...props }: Props) => {
 	return (
-		<DayOffBtnContainer type="button" dayOff={dayOff} onClick={props.onClick}>
+		<DayOffBtnContainer type="button" dayOff={dayOff} style={props.style} onClick={props.onClick}>
 			휴무일로 지정
 		</DayOffBtnContainer>
 	);
