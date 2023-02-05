@@ -1,13 +1,11 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { MyPageSectionLeaveMember, LeaveMemberConfirmModal, LeaveMemberSuccessModal } from 'components/feature';
 import { StyledLayout, Typography } from 'components/shared';
 import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
 
 const MemberManagement = () => {
-	const { data } = useSession();
 	const router = useRouter();
 
 	const { modalKey, changeModalKey } = useModalStore();
@@ -28,7 +26,7 @@ const MemberManagement = () => {
 				내 정보 관리
 			</Typography>
 
-			<MyPageSectionLeaveMember memberEmail={data?.user?.email} />
+			<MyPageSectionLeaveMember memberEmail={'forzero100@naver.com'} />
 
 			{modalKey === MODAL_KEY.ON_LEAVE_MEMBER_CONFIRM_MODAL && (
 				<LeaveMemberConfirmModal onCancel={() => changeModalKey(MODAL_KEY.OFF)} onConfirm={handleLeaveMemberConfirm} />

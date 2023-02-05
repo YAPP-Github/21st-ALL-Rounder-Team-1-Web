@@ -1,18 +1,23 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import styled, { CSSProperties } from 'styled-components';
 import { Checkbox, LargeBtn, Typography } from 'components/shared';
 import { SignuptextField } from 'components/feature';
 import style from 'styles/style';
-import { getSocialPlatformType, isValidatedSignupFormAgreement } from 'core/signupService';
+import { isValidatedSignupFormAgreement } from 'core/signupService';
 import { SERVICE_TERMS_DESC, SERVICE_POLICY_DESC_001, SERVICE_POLICY_DESC_002 } from 'constants/signup';
+import useOAuthResponseStore from 'store/actions/oauthStore';
+import { useRouter } from 'next/navigation';
+import { postJwtTokenByOAuthResponse } from 'hooks/api/auth/useSignup';
+import { setUserTokenInLocalStorage } from 'utils/storage';
 
 const SignUp = () => {
 	const router = useRouter();
-	const { data } = useSession();
+
+	const [isLoadingPostJwtToken, setIsLoadingPostJwtToken] = useState(false);
+	const { oauthResponse } = useOAuthResponseStore();
+	const { email, oauthType } = oauthResponse;
 
 	const [signupAgreementForm, setSignupAgreementForm] = useState<{ [key: string]: boolean }>({
 		serviceAll: true,
@@ -64,14 +69,17 @@ const SignUp = () => {
 		}
 	};
 
-	const handleSignupFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+	const handleSignupFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
+		setIsLoadingPostJwtToken(true);
 
 		// TODO: SERVER 로 회원가입 POST API Call
 		// 사용자 정보(by. OAUTH) - 이메일(Required), 닉네임(Required), 프로필 이미지(optional) & 가입 동의 항목 획득
 		// POST API Call Response Status Code 를 기반으로 분기
 		try {
 			// Success
+			const token = await postJwtTokenByOAuthResponse(oauthResponse);
+			setUserTokenInLocalStorage(token);
 			router.push('/');
 		} catch (error) {
 			// Fail
@@ -84,10 +92,10 @@ const SignUp = () => {
 				Pump!에 오신 것을 환영합니다!
 			</Typography>
 			<Typography variant="p" aggressive="body_oneline_000" padding="0 0 32px 0">
-				{getSocialPlatformType(data?.user?.email)} 계정으로 Pump!를 이용하실 수 있습니다.
+				{oauthType} 계정으로 Pump!를 이용하실 수 있습니다.
 			</Typography>
 
-			<SignuptextField type="text" readOnly={true} defaultValue={data?.user?.email as string} />
+			<SignuptextField type="text" readOnly={true} defaultValue={email} />
 
 			<Checkbox
 				aggressive="headline_oneline_004"
@@ -144,7 +152,7 @@ const SignUp = () => {
 					type="submit"
 					disabled={!isValidatedSignupFormAgreement(signupAgreementForm)}
 				>
-					회원가입 완료
+					{isLoadingPostJwtToken ? `회원가입 진행중` : `회원가입 완료`}
 				</LargeBtn>
 			</BtnWrapper>
 		</Container>
