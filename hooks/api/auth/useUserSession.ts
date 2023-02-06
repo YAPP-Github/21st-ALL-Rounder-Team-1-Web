@@ -18,7 +18,7 @@ interface UserSessionResponse {
 	imgPath: string;
 }
 
-const queryKey = '/user';
+export const getUserSessionQueryKey = '/getUserSession';
 
 export const getUserSession = async () => {
 	const {
@@ -37,7 +37,23 @@ export const getUserSession = async () => {
 };
 
 export const useGetUserSession = () => {
-	return useQuery([queryKey], async () => await getUserSession(), {
+	return useQuery([getUserSessionQueryKey], async () => await getUserSession(), {
 		retry: 1,
 	});
+};
+
+export const deleteUserSession = async () => {
+	const {
+		user: { index },
+	} = API_PATH;
+
+	const response = await pumpClientRequester<number>({
+		method: HTTP_METHOD.DELETE,
+		url: `${index}`,
+		headers: {
+			Authorization: `Bearer ${getUserTokenFromLocalStorage()}`,
+		},
+	});
+
+	return response.status;
 };

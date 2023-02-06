@@ -4,15 +4,20 @@ import { useRouter } from 'next/navigation';
 import { MyPageSectionLeaveMember, LeaveMemberConfirmModal, LeaveMemberSuccessModal } from 'components/feature';
 import { StyledLayout, Typography } from 'components/shared';
 import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
+import { deleteUserSession } from 'hooks/api/auth/useUserSession';
 
 const MemberManagement = () => {
 	const router = useRouter();
 
 	const { modalKey, changeModalKey } = useModalStore();
 
-	const handleLeaveMemberConfirm = () => {
-		// 회원 탈퇴 API 요청 성공 시
-		changeModalKey(MODAL_KEY.ON_LEAVE_MEMBER_SUCCESS_MODAL);
+	const handleLeaveMemberConfirm = async () => {
+		try {
+			await deleteUserSession();
+			changeModalKey(MODAL_KEY.ON_LEAVE_MEMBER_SUCCESS_MODAL);
+		} catch (error) {
+			// 회원탈퇴 에러 처리
+		}
 	};
 
 	const handleLeaveMemberSuccess = () => {
