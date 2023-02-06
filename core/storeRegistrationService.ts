@@ -12,6 +12,7 @@ export const checkEmptyInputError = (inputArr: RadioNodeList, changeError: (id: 
 		if ((inputArr[i] as HTMLInputElement).value === '') {
 			changeError(i);
 			emptyInput++;
+			console.log((inputArr[i] as HTMLInputElement).id);
 		}
 	}
 	return emptyInput;

@@ -41,3 +41,4 @@ export { default as MyPageActionBtn } from './Button/MyPageActionBtn';
 export { default as MyPageSectionEmptyStore } from './MyPageSection/MyPageSectionEmptyStore';
 export { default as MyPageSectionRegisteredStore } from './MyPageSection/MyPageSectionRegisteredStore';
 export { default as MyPageSectionLeaveMember } from './MyPageSection/MyPageSectionLeaveMember';
+export { default as ProductInfoElement } from './ProductInfoElement';
