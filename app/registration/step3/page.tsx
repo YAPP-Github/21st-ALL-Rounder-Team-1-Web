@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import { theme } from 'styles';
 
 const Step3 = () => {
-	const { baseMakeUp, bodyHair, cleanser, ingredient, etc, addProduct } = useProductStore();
+	const { baseMakeUp, bodyHair, detergent, ingredient, etc } = useProductStore();
 	const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
@@ -35,10 +35,11 @@ const Step3 = () => {
 						return (
 							<ProductInfoElement
 								key={`${brandName}${index}${isProductEmptyError}`}
+								elementIdx={index}
 								brandName={brandName}
 								productName={productName}
 								isProductEmptyError={isProductEmptyError}
-								onClick={() => addProduct(baseMakeUp)}
+								productArr={baseMakeUp}
 							/>
 						);
 					})}
@@ -56,10 +57,11 @@ const Step3 = () => {
 						return (
 							<ProductInfoElement
 								key={`${brandName}${index}${isProductEmptyError}`}
+								elementIdx={index}
 								brandName={brandName}
 								productName={productName}
 								isProductEmptyError={isProductEmptyError}
-								onClick={() => addProduct(bodyHair)}
+								productArr={bodyHair}
 							/>
 						);
 					})}
@@ -72,7 +74,18 @@ const Step3 = () => {
 					</Typography>
 				</StAccordionSummary>
 				<StAccordionDetails>
-					<ProductInfoElement elementIndex={0} onClick={undefined} />
+					{detergent.map(({ brandName, productName, isProductEmptyError }, index) => {
+						return (
+							<ProductInfoElement
+								key={`${brandName}${index}${isProductEmptyError}`}
+								elementIdx={index}
+								brandName={brandName}
+								productName={productName}
+								isProductEmptyError={isProductEmptyError}
+								productArr={detergent}
+							/>
+						);
+					})}
 				</StAccordionDetails>
 			</StAccordion>
 			<StAccordion>
@@ -82,7 +95,18 @@ const Step3 = () => {
 					</Typography>
 				</StAccordionSummary>
 				<StAccordionDetails>
-					<ProductInfoElement elementIndex={0} onClick={undefined} />
+					{ingredient.map(({ brandName, productName, isProductEmptyError }, index) => {
+						return (
+							<ProductInfoElement
+								key={`${brandName}${index}${isProductEmptyError}`}
+								elementIdx={index}
+								brandName={brandName}
+								productName={productName}
+								isProductEmptyError={isProductEmptyError}
+								productArr={ingredient}
+							/>
+						);
+					})}
 				</StAccordionDetails>
 			</StAccordion>
 			<StAccordion>
@@ -92,7 +116,18 @@ const Step3 = () => {
 					</Typography>
 				</StAccordionSummary>
 				<StAccordionDetails>
-					<ProductInfoElement elementIndex={0} onClick={undefined} />
+					{etc.map(({ brandName, productName, isProductEmptyError }, index) => {
+						return (
+							<ProductInfoElement
+								key={`${brandName}${index}${isProductEmptyError}`}
+								elementIdx={index}
+								brandName={brandName}
+								productName={productName}
+								isProductEmptyError={isProductEmptyError}
+								productArr={etc}
+							/>
+						);
+					})}
 				</StAccordionDetails>
 			</StAccordion>
 		</form>

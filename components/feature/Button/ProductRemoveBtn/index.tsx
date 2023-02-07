@@ -6,7 +6,7 @@ type Props = {
 };
 const ProductRemoveBtn = ({ onClick }: Props) => {
 	return (
-		<ProductBtnContainer>
+		<ProductBtnContainer onClick={onClick}>
 			<RemoveIcon />
 		</ProductBtnContainer>
 	);

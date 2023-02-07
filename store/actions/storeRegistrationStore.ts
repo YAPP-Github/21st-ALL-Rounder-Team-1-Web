@@ -26,24 +26,25 @@ export interface Product {
 export interface Products {
 	baseMakeUp: Array<Product['product']>;
 	bodyHair: Array<Product['product']>;
-	cleanser: Array<Product['product']>;
+	detergent: Array<Product['product']>;
 	ingredient: Array<Product['product']>;
 	etc: Array<Product['product']>;
 	addProduct: (productArr: Array<Product['product']>) => void;
+	removeProduct: (productArr: Array<Product['product']>, elementIdx: number) => void;
 	// changeProductEmptyError: (productArr: Product[], id: any) => void;
 }
 
 export const useProductStore = create<Products>()(
-	devtools((set) => ({
+	devtools((set, get) => ({
 		baseMakeUp: [{ category: 'baseMakeUp', brandName: '', productName: '', isProductEmptyError: 'normal' }],
 		bodyHair: [{ category: 'bodyHair', brandName: '', productName: '', isProductEmptyError: 'normal' }],
-		cleanser: [{ category: 'cleanser', brandName: '', productName: '', isProductEmptyError: 'normal' }],
+		detergent: [{ category: 'detergent', brandName: '', productName: '', isProductEmptyError: 'normal' }],
 		ingredient: [{ category: 'ingredient', brandName: '', productName: '', isProductEmptyError: 'normal' }],
 		etc: [{ category: 'etc', brandName: '', productName: '', isProductEmptyError: 'normal' }],
 		addProduct: (productArr: Array<Product['product']>) => {
 			switch (productArr[0].category) {
 				case 'baseMakeUp':
-					 set((state) => ({
+					set((state) => ({
 						baseMakeUp: [
 							{ category: 'baseMakeUp', brandName: '', productName: '', isProductEmptyError: 'normal' },
 							...state.baseMakeUp,
@@ -58,9 +59,12 @@ export const useProductStore = create<Products>()(
 						],
 					}));
 					break;
-				case 'cleanser':
+				case 'detergent':
 					set((state) => ({
-						cleanser: [{ category: 'cleanser', brandName: '', productName: '', isProductEmptyError: 'normal' }, ...state['세제']],
+						detergent: [
+							{ category: 'detergent', brandName: '', productName: '', isProductEmptyError: 'normal' },
+							...state.detergent,
+						],
 					}));
 					break;
 				case 'ingredient':
@@ -73,13 +77,39 @@ export const useProductStore = create<Products>()(
 					break;
 				case 'etc':
 					set((state) => ({
-						etc: [{ category: 'etc', brandName: '', productName: '', isProductEmptyError: 'normal' }, ...state['기타']],
+						etc: [{ category: 'etc', brandName: '', productName: '', isProductEmptyError: 'normal' }, ...state.etc],
 					}));
 					break;
 			}
 		},
-
-		// changeProductEmptyError: (productArr: any, id: any) =>productArr===get
-		// 	set((state) => ({: { ...state.productArr, [id]: { ...state.productArr[id], isProductEmptyError: 'error' } } })),
+		removeProduct: (productArr: Array<Product['product']>, elementIdx: number) => {
+			switch (productArr[0].category) {
+				case 'baseMakeUp':
+					set(() => ({
+						baseMakeUp: get().baseMakeUp.filter((_, idx) => idx !== elementIdx),
+					}));
+					break;
+				case 'bodyHair':
+					set(() => ({
+						bodyHair: get().bodyHair.filter((_, idx) => idx !== elementIdx),
+					}));
+					break;
+				case 'detergent':
+					set(() => ({
+						detergent: get().detergent.filter((_, idx) => idx !== elementIdx),
+					}));
+					break;
+				case 'ingredient':
+					set(() => ({
+						ingredient: get().ingredient.filter((_, idx) => idx !== elementIdx),
+					}));
+					break;
+				case 'etc':
+					set(() => ({
+						etc: get().etc.filter((_, idx) => idx !== elementIdx),
+					}));
+					break;
+			}
+		},
 	})),
 );

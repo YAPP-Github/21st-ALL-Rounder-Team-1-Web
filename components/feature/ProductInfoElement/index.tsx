@@ -1,19 +1,27 @@
 import { StyledLayout } from 'components/shared';
+import { Product, useProductStore } from 'store/actions/storeRegistrationStore';
 import ProductAddBtn from '../Button/ProductAddBtn';
+import ProductRemoveBtn from '../Button/ProductRemoveBtn';
 import TextField from '../TextField';
 
 type Props = {
+	elementIdx: number;
 	brandName: string;
 	productName: string;
 	isProductEmptyError: 'normal' | 'error';
-	onClick: () => void;
+	productArr: Array<Product['product']>;
 } & React.ComponentProps<'div'>;
-const ProductInfoElement = ({ brandName, productName, isProductEmptyError, onClick, ...props }: Props) => {
+const ProductInfoElement = ({ elementIdx, brandName, productName, isProductEmptyError, productArr, ...props }: Props) => {
+	const { addProduct, removeProduct } = useProductStore();
 	return (
 		<StyledLayout.FlexBox className={props.className} width="932px" gap="7px">
 			<TextField value={brandName} inputFlag={'normal'} width="276px" placeholder="브랜드명" />
 			<TextField value={productName} inputFlag={isProductEmptyError} width="594px" placeholder="상품명" />
-			<ProductAddBtn onClick={onClick} />
+			{elementIdx === 0 ? (
+				<ProductAddBtn onClick={() => addProduct(productArr)} />
+			) : (
+				<ProductRemoveBtn onClick={() => removeProduct(productArr, elementIdx)} />
+			)}
 		</StyledLayout.FlexBox>
 	);
 };
