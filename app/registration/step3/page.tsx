@@ -5,10 +5,12 @@ import { ExpandMore } from '@material-ui/icons';
 import ProductInfoElement from 'components/feature/ProductInfoElement';
 import { Typography } from 'components/shared';
 import { FormEvent } from 'react';
+import { useProductStore } from 'store/actions/storeRegistrationStore';
 import styled from 'styled-components';
 import { theme } from 'styles';
 
 const Step3 = () => {
+	const { baseMakeUp, bodyHair, cleanser, ingredient, etc, addProduct } = useProductStore();
 	const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
@@ -29,7 +31,17 @@ const Step3 = () => {
 					</Typography>
 				</StAccordionSummary>
 				<StAccordionDetails>
-					<ProductInfoElement elementIndex={0} onClick={undefined} />
+					{baseMakeUp.map(({ brandName, productName, isProductEmptyError }, index) => {
+						return (
+							<ProductInfoElement
+								key={`${brandName}${index}${isProductEmptyError}`}
+								brandName={brandName}
+								productName={productName}
+								isProductEmptyError={isProductEmptyError}
+								onClick={() => addProduct(baseMakeUp)}
+							/>
+						);
+					})}
 				</StAccordionDetails>
 			</StAccordion>
 
@@ -40,7 +52,17 @@ const Step3 = () => {
 					</Typography>
 				</StAccordionSummary>
 				<StAccordionDetails>
-					<ProductInfoElement elementIndex={0} onClick={undefined} />
+					{bodyHair.map(({ brandName, productName, isProductEmptyError }, index) => {
+						return (
+							<ProductInfoElement
+								key={`${brandName}${index}${isProductEmptyError}`}
+								brandName={brandName}
+								productName={productName}
+								isProductEmptyError={isProductEmptyError}
+								onClick={() => addProduct(bodyHair)}
+							/>
+						);
+					})}
 				</StAccordionDetails>
 			</StAccordion>
 			<StAccordion>
@@ -88,7 +110,7 @@ const StAccordion = withStyles({
 	root: {
 		textAlign: 'center',
 		width: '932px',
-		height: '72px',
+		minHeight: '72px',
 		boxShadow: 'none',
 		borderBottom: `1px solid ${theme.colors.gray_002}`,
 		borderBottomRightRadius: 'none',
@@ -110,12 +132,15 @@ const StAccordion = withStyles({
 const StAccordionSummary = withStyles({
 	root: {
 		margin: 0,
-		height: '72px',
+		minHeight: '72px',
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
 		padding: '26px 0',
 		border: 'none',
+		'&$expanded': {
+			padding: 0,
+		},
 	},
 	content: {
 		margin: 0,
@@ -132,6 +157,9 @@ const StAccordionSummary = withStyles({
 const StAccordionDetails = withStyles({
 	root: {
 		padding: 0,
+		display: 'flex',
+		flexDirection: 'column',
+		gap: '16px',
 		marginBottom: '24px',
 	},
 	expanded: {},
