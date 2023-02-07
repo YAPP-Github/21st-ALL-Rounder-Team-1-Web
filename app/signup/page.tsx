@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled, { CSSProperties } from 'styled-components';
 import { Checkbox, LargeBtn, Typography } from 'components/shared';
 import { SignuptextField } from 'components/feature';
@@ -8,12 +8,13 @@ import style from 'styles/style';
 import { isValidatedSignupFormAgreement } from 'core/signupService';
 import { SERVICE_TERMS_DESC, SERVICE_POLICY_DESC_001, SERVICE_POLICY_DESC_002 } from 'constants/signup';
 import useOAuthResponseStore from 'store/actions/oauthStore';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { postJwtTokenByOAuthResponse } from 'hooks/api/auth/useSignup';
 import { setUserTokenInLocalStorage } from 'utils/storage';
 
 const SignUp = () => {
 	const router = useRouter();
+	const pathname = usePathname();
 
 	const [isLoadingPostJwtToken, setIsLoadingPostJwtToken] = useState(false);
 	const { oauthResponse } = useOAuthResponseStore();
@@ -85,6 +86,37 @@ const SignUp = () => {
 			// Fail
 		}
 	};
+
+	const handleWindowBeforeUnload = (event: BeforeUnloadEvent) => {
+		event.preventDefault();
+		event.returnValue = '뭔데';
+	};
+
+	const handleWindowPopState = (event: PopStateEvent) => {
+		event.preventDefault();
+
+		if (confirm('회원가입을 그만 두시겠습니까 ?')) {
+			router.push('/');
+		} else {
+			router.push('/signup');
+		}
+	};
+
+	const handleWindowReload = () => {
+		router.push('/');
+	};
+
+	useEffect(() => {
+		window.addEventListener('beforeunload', handleWindowBeforeUnload, { capture: true });
+		window.addEventListener('popstate', handleWindowPopState);
+		window.addEventListener('unload', handleWindowReload);
+
+		return () => {
+			window.removeEventListener('beforeunload', handleWindowBeforeUnload, { capture: true });
+			window.removeEventListener('popstate', handleWindowPopState);
+			window.removeEventListener('unload', handleWindowReload);
+		};
+	}, []);
 
 	return (
 		<Container onSubmit={handleSignupFormSubmit}>
