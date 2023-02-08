@@ -12,6 +12,8 @@ import { useRouter } from 'next/navigation';
 import { postJwtTokenByOAuthResponse } from 'hooks/api/auth/useSignup';
 import { setUserTokenInLocalStorage } from 'utils/storage';
 import useRouteChangeAndRefreshDetect from 'hooks/useRouteChangeAndRefreshDetect';
+import { getUserSession } from 'hooks/api/auth/useUserSession';
+import useUserSessionStore from 'store/actions/userSessionStore';
 
 const SignUp = () => {
 	useRouteChangeAndRefreshDetect({
@@ -25,6 +27,8 @@ const SignUp = () => {
 	const [isLoadingPostJwtToken, setIsLoadingPostJwtToken] = useState(false);
 	const { oauthResponse } = useOAuthResponseStore();
 	const { email, oauthType } = oauthResponse;
+
+	const { setUserSession } = useUserSessionStore();
 
 	const [signupAgreementForm, setSignupAgreementForm] = useState<{ [key: string]: boolean }>({
 		serviceAll: true,
@@ -87,10 +91,17 @@ const SignUp = () => {
 			// Success
 			const token = await postJwtTokenByOAuthResponse(oauthResponse);
 			setUserTokenInLocalStorage(token);
-			router.push('/');
+
+			const userSession = await getUserSession();
+			setUserSession(userSession);
+			router.replace('/');
 		} catch (error) {
 			// Fail
 		}
+	};
+
+	const handleSignupCencel = () => {
+		router.replace('/');
 	};
 
 	return (
@@ -146,12 +157,7 @@ const SignUp = () => {
 			</AgreeDescriptionWrapper>
 
 			<BtnWrapper>
-				<LargeBtn
-					style={style.btnStyle.white_btn}
-					onClick={() => {
-						console.info('취소 클릭 !');
-					}}
-				>
+				<LargeBtn style={style.btnStyle.white_btn} onClick={handleSignupCencel}>
 					취소
 				</LargeBtn>
 				<LargeBtn

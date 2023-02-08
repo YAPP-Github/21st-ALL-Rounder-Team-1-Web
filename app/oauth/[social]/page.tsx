@@ -11,12 +11,17 @@ import { usePathname, useRouter } from 'next/navigation';
 import { isIncludedURLPattern } from 'utils/urlPattern';
 import { setUserTokenInLocalStorage } from 'utils/storage';
 import useOAuthResponseStore from 'store/actions/oauthStore';
+import useUserSessionStore from 'store/actions/userSessionStore';
+import { getUserSession } from 'hooks/api/auth/useUserSession';
+import { LoadingCircleLottie } from 'components/shared';
+import { FlexBox } from 'components/shared/styled/layout';
 
 const OAuthCallbackPage = () => {
 	const router = useRouter();
 	const pathname = usePathname() as string;
 	const [isMounted, setIsMounted] = useState(false);
 	const { setOAuthResponse } = useOAuthResponseStore();
+	const { setUserSession } = useUserSessionStore();
 
 	const handleOAuthCallback = async () => {
 		if (!isMounted) {
@@ -40,7 +45,11 @@ const OAuthCallbackPage = () => {
 		const { name, email, imgPath, oauthIdentity } = userInfoWithJwtToken;
 		if (userInfoWithJwtToken.jwt) {
 			setUserTokenInLocalStorage(userInfoWithJwtToken.jwt, userInfoWithJwtToken.refreshToken ?? '');
-			router.push(`/`);
+
+			const userSession = await getUserSession();
+			setUserSession(userSession);
+
+			router.replace(`/`);
 		} else {
 			setOAuthResponse({
 				name,
@@ -49,7 +58,7 @@ const OAuthCallbackPage = () => {
 				oauthIdentity,
 				oauthType: social.toUpperCase(),
 			});
-			router.push(`/signup`);
+			router.replace(`/signup`);
 		}
 	};
 
@@ -65,7 +74,13 @@ const OAuthCallbackPage = () => {
 		handleOAuthCallback();
 	}, [isMounted]);
 
-	return <div>loading</div>;
+	return (
+		<FlexBox width={'100%'} height={'calc(100vh - 257px)'} justifyContent={'center'} alignItems={'center'}>
+			<div style={{ width: '4rem' }}>
+				<LoadingCircleLottie />
+			</div>
+		</FlexBox>
+	);
 };
 
 export default OAuthCallbackPage;

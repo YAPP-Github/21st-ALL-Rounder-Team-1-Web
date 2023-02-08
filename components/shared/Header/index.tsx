@@ -1,17 +1,19 @@
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import Image from 'next/image';
 import { StyledLayout } from 'components/shared';
 import * as S from './styled';
 import { PumpLogo } from 'public/static/images';
 import { removeUserTokenInLocalStorage } from 'utils/storage';
+import useUserSessionStore, { initialState } from 'store/actions/userSessionStore';
+import { useRouter } from 'next/navigation';
 import { useGetUserSession } from 'hooks/api/auth/useUserSession';
+import Link from 'next/link';
 
 const Header = () => {
-	const { data: userSession } = useGetUserSession();
+	const { userSession } = useUserSessionStore();
 
 	const handleLogoutClick = () => {
 		removeUserTokenInLocalStorage();
-		window.location.reload();
 	};
 
 	return (
@@ -24,21 +26,23 @@ const Header = () => {
 					</S.LogoWrapper>
 
 					<StyledLayout.UnorderList gap={'40px'}>
-						{!userSession && (
+						{!userSession?.id && (
 							<S.NavigationItem>
-								<StyledLayout.LinkWrapper href={'/signin'}>로그인</StyledLayout.LinkWrapper>
+								<StyledLayout.LinkWrapper href={'/signin'} replace>
+									로그인
+								</StyledLayout.LinkWrapper>
 							</S.NavigationItem>
 						)}
 
-						{userSession && (
+						{userSession?.id && (
 							<>
 								<S.NavigationItem>
 									<StyledLayout.LinkWrapper href={'/mypage/store'}>마이페이지</StyledLayout.LinkWrapper>
 								</S.NavigationItem>
 								<S.NavigationItem>
-									<S.LogoutBtn type="button" onClick={handleLogoutClick}>
+									<Link href="/" target="_top" onClick={handleLogoutClick}>
 										로그아웃
-									</S.LogoutBtn>
+									</Link>
 								</S.NavigationItem>
 							</>
 						)}
