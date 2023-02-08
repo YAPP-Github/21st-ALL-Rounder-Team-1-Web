@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import pumpClientRequester from 'core/apis/axios';
 import { API_PATH, HTTP_METHOD, THIRD_PARTY_URL } from 'core/apis/constants';
+import { APIResponse } from 'types/api';
 
 export type OAuthSigninData = {
 	name: string;
@@ -12,9 +13,7 @@ export type OAuthSigninData = {
 	refreshToken: null;
 };
 
-export interface IOAuthSigninResponse {
-	message: string;
-	status: number;
+export interface IOAuthSigninResponse extends APIResponse {
 	data: OAuthSigninData;
 }
 
@@ -23,12 +22,12 @@ export const getOAuthSigninKakaoApi = async (accessToken: string) => {
 		login: { kakao },
 	} = API_PATH;
 
-	const { payload } = await pumpClientRequester<IOAuthSigninResponse>({
+	const response = await pumpClientRequester<IOAuthSigninResponse>({
 		method: HTTP_METHOD.GET,
 		url: `${kakao}?accessToken=${accessToken}`,
 	});
 
-	return payload.data;
+	return response.data.data;
 };
 
 export const getOAuthSigninNaverApi = async (accessToken: string) => {
@@ -36,12 +35,12 @@ export const getOAuthSigninNaverApi = async (accessToken: string) => {
 		login: { naver },
 	} = API_PATH;
 
-	const { payload } = await pumpClientRequester<IOAuthSigninResponse>({
+	const response = await pumpClientRequester<IOAuthSigninResponse>({
 		method: HTTP_METHOD.GET,
 		url: `${naver}?accessToken=${accessToken}`,
 	});
 
-	return payload.data;
+	return response.data.data;
 };
 
 const authSigninQueryKey = '/auth/signin';

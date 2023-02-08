@@ -2,20 +2,24 @@ import { API_PATH, HTTP_METHOD } from 'core/apis/constants';
 import pumpClientRequester from 'core/apis/axios';
 import { useQuery } from '@tanstack/react-query';
 import { getUserTokenFromLocalStorage } from 'utils/storage';
+import { APIResponse } from 'types/api';
 
-interface UserSessionResponse {
-	createdAt: string;
-	modifiedAt: string;
+export type UserSession = {
+	createdAt: string | null;
+	modifiedAt: string | null;
 	id: number | null;
-	name: string;
-	nickname: string;
-	email: string;
-	phoneNumber: string;
-	type: string; // 'USER' | 'BOSS';
-	oauthType: string; // KAKAO | NAVER
-	oauthIdentity: string;
-	rating: number;
-	imgPath: string;
+	name: string | null;
+	nickname: string | null;
+	email: string | null;
+	phoneNumber: string | null;
+	type: string | null; // 'USER' | 'BOSS';
+	oauthType: string | null; // KAKAO | NAVER
+	oauthIdentity: string | null;
+	rating: number | null;
+	imgPath: string | null;
+};
+export interface UserSessionResponse extends APIResponse {
+	data: UserSession;
 }
 
 export const getUserSessionQueryKey = '/getUserSession';
@@ -33,7 +37,7 @@ export const getUserSession = async () => {
 		},
 	});
 
-	return response;
+	return response.data.data;
 };
 
 export const useGetUserSession = () => {

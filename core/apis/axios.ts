@@ -21,6 +21,6 @@ export default async function pumpClientRequester<Payload>(option: AxiosRequestC
 	return {
 		status: response.status,
 		headers: response.headers,
-		payload: response.data,
+		data: response.data,
 	};
 }

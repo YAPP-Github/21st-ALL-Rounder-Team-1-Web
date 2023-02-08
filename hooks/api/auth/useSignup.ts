@@ -13,5 +13,5 @@ export const postJwtTokenByOAuthResponse = async (oauthResponse: OAuthResponse) 
 		data: oauthResponse,
 	});
 
-	return response.payload.data;
+	return response.data.data;
 };
