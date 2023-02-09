@@ -31,7 +31,8 @@ export interface Products {
 	etc: Array<Product['product']>;
 	addProduct: (productArr: Array<Product['product']>) => void;
 	removeProduct: (productArr: Array<Product['product']>, elementIdx: number) => void;
-	// changeProductEmptyError: (productArr: Product[], id: any) => void;
+	onChangeBrandName: (productArr: Array<Product['product']>, elementIdx: number, value: string) => void;
+	onChangeProductName: (productArr: Array<Product['product']>, elementIdx: number, value: string) => void;
 }
 
 export const useProductStore = create<Products>()(
@@ -107,6 +108,64 @@ export const useProductStore = create<Products>()(
 				case 'etc':
 					set(() => ({
 						etc: get().etc.filter((_, idx) => idx !== elementIdx),
+					}));
+					break;
+			}
+		},
+		onChangeBrandName: (productArr: Array<Product['product']>, elementIdx: number, value: string) => {
+			switch (productArr[0].category) {
+				case 'baseMakeUp':
+					set(() => ({
+						baseMakeUp: get().baseMakeUp.map((item, idx) => (idx === elementIdx ? { ...item, brandName: value } : item)),
+					}));
+					break;
+				case 'bodyHair':
+					set(() => ({
+						bodyHair: get().bodyHair.map((item, idx) => (idx === elementIdx ? { ...item, brandName: value } : item)),
+					}));
+					break;
+				case 'detergent':
+					set(() => ({
+						detergent: get().detergent.map((item, idx) => (idx === elementIdx ? { ...item, brandName: value } : item)),
+					}));
+					break;
+				case 'ingredient':
+					set(() => ({
+						ingredient: get().ingredient.map((item, idx) => (idx === elementIdx ? { ...item, brandName: value } : item)),
+					}));
+					break;
+				case 'etc':
+					set(() => ({
+						etc: get().etc.map((item, idx) => (idx === elementIdx ? { ...item, brandName: value } : item)),
+					}));
+					break;
+			}
+		},
+		onChangeProductName: (productArr: Array<Product['product']>, elementIdx: number, value: string) => {
+			switch (productArr[0].category) {
+				case 'baseMakeUp':
+					set(() => ({
+						baseMakeUp: get().baseMakeUp.map((item, idx) => (idx === elementIdx ? { ...item, productName: value } : item)),
+					}));
+					break;
+				case 'bodyHair':
+					set(() => ({
+						bodyHair: get().bodyHair.map((item, idx) => (idx === elementIdx ? { ...item, productName: value } : item)),
+					}));
+					break;
+				case 'detergent':
+					set(() => ({
+						detergent: get().detergent.map((item, idx) => (idx === elementIdx ? { ...item, productName: value } : item)),
+					}));
+					break;
+				case 'ingredient':
+					set(() => ({
+						ingredient: get().ingredient.map((item, idx) => (idx === elementIdx ? { ...item, productName: value } : item)),
+					}));
+					break;
+				case 'etc':
+					set(() => ({
+						etc: get().etc.map((item, idx) => (idx === elementIdx ? { ...item, productName: value } : item)),
 					}));
 					break;
 			}

@@ -34,7 +34,7 @@ const Step3 = () => {
 					{baseMakeUp.map(({ brandName, productName, isProductEmptyError }, index) => {
 						return (
 							<ProductInfoElement
-								key={`${brandName}${index}${isProductEmptyError}`}
+								key={`${index}${isProductEmptyError}`}
 								elementIdx={index}
 								brandName={brandName}
 								productName={productName}
@@ -56,7 +56,7 @@ const Step3 = () => {
 					{bodyHair.map(({ brandName, productName, isProductEmptyError }, index) => {
 						return (
 							<ProductInfoElement
-								key={`${brandName}${index}${isProductEmptyError}`}
+								key={`${index}${isProductEmptyError}`}
 								elementIdx={index}
 								brandName={brandName}
 								productName={productName}
@@ -77,7 +77,7 @@ const Step3 = () => {
 					{detergent.map(({ brandName, productName, isProductEmptyError }, index) => {
 						return (
 							<ProductInfoElement
-								key={`${brandName}${index}${isProductEmptyError}`}
+								key={`${index}${isProductEmptyError}`}
 								elementIdx={index}
 								brandName={brandName}
 								productName={productName}
@@ -98,7 +98,7 @@ const Step3 = () => {
 					{ingredient.map(({ brandName, productName, isProductEmptyError }, index) => {
 						return (
 							<ProductInfoElement
-								key={`${brandName}${index}${isProductEmptyError}`}
+								key={`${index}${isProductEmptyError}`}
 								elementIdx={index}
 								brandName={brandName}
 								productName={productName}
@@ -119,7 +119,7 @@ const Step3 = () => {
 					{etc.map(({ brandName, productName, isProductEmptyError }, index) => {
 						return (
 							<ProductInfoElement
-								key={`${brandName}${index}${isProductEmptyError}`}
+								key={`${index}${isProductEmptyError}`}
 								elementIdx={index}
 								brandName={brandName}
 								productName={productName}
