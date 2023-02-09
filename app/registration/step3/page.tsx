@@ -3,14 +3,14 @@
 import { Accordion, AccordionDetails, AccordionSummary, withStyles } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
 import ProductInfoElement from 'components/feature/ProductInfoElement';
-import { Typography } from 'components/shared';
+import { LargeBtn, StyledLayout, Typography } from 'components/shared';
 import { FormEvent } from 'react';
 import { useProductStore } from 'store/actions/storeRegistrationStore';
 import styled from 'styled-components';
-import { theme } from 'styles';
+import { style, theme } from 'styles';
 
 const Step3 = () => {
-	const { baseMakeUp, bodyHair, detergent, ingredient, etc } = useProductStore();
+	const { baseMakeUp, bodyHair, detergent, ingredient, etc, changeError } = useProductStore();
 	const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
@@ -130,6 +130,14 @@ const Step3 = () => {
 					})}
 				</StAccordionDetails>
 			</StAccordion>
+			<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '40px' }} gap="8px">
+				<LargeBtn type="button" style={style.btnStyle.white_btn}>
+					임시저장
+				</LargeBtn>
+				<LargeBtn type="button" style={style.btnStyle.primary_btn_001} onClick={changeError}>
+					입점신청
+				</LargeBtn>
+			</StyledLayout.FlexBox>
 		</form>
 	);
 };

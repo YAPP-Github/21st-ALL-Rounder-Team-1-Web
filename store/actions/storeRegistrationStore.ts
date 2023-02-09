@@ -88,28 +88,28 @@ export const useProductStore = create<Products>()(
 		removeProduct: (productArr: Array<Product['product']>, elementIdx: number) => {
 			switch (productArr[0].category) {
 				case 'baseMakeUp':
-					set((state) => ({
-						baseMakeUp: { ...state.baseMakeUp.filter((_, idx) => idx !== elementIdx) },
+					set(() => ({
+						baseMakeUp: get().baseMakeUp.filter((_, idx) => idx !== elementIdx),
 					}));
 					break;
 				case 'bodyHair':
-					set((state) => ({
-						bodyHair: { ...state.bodyHair.filter((_, idx) => idx !== elementIdx) },
+					set(() => ({
+						bodyHair: get().bodyHair.filter((_, idx) => idx !== elementIdx),
 					}));
 					break;
 				case 'detergent':
-					set((state) => ({
-						detergent: { ...state.detergent.filter((_, idx) => idx !== elementIdx) },
+					set(() => ({
+						detergent: get().detergent.filter((_, idx) => idx !== elementIdx),
 					}));
 					break;
 				case 'ingredient':
-					set((state) => ({
-						ingredient: { ...state.ingredient.filter((_, idx) => idx !== elementIdx) },
+					set(() => ({
+						ingredient: get().ingredient.filter((_, idx) => idx !== elementIdx),
 					}));
 					break;
 				case 'etc':
-					set((state) => ({
-						etc: { ...state.etc.filter((_, idx) => idx !== elementIdx) },
+					set(() => ({
+						etc: get().etc.filter((_, idx) => idx !== elementIdx),
 					}));
 					break;
 			}
@@ -184,38 +184,40 @@ export const useProductStore = create<Products>()(
 			switch (productArr[0].category) {
 				case 'baseMakeUp':
 					get().baseMakeUp[elementIdx].isProductEmptyError === 'error' &&
-						set((state) => ({
-							baseMakeUp: {
-								...state.baseMakeUp,
-								[elementIdx]: { ...state.baseMakeUp[elementIdx], isProductEmptyError: 'normal' },
-							},
+						set(() => ({
+							baseMakeUp: get().baseMakeUp.map((item, idx) =>
+								idx === elementIdx ? { ...item, isProductEmptyError: 'normal' } : item,
+							),
 						}));
 					break;
 				case 'bodyHair':
 					get().bodyHair[elementIdx].isProductEmptyError === 'error' &&
-						set((state) => ({
-							bodyHair: { ...state.bodyHair, [elementIdx]: { ...state.bodyHair[elementIdx], isProductEmptyError: 'normal' } },
+						set(() => ({
+							bodyHair: get().bodyHair.map((item, idx) =>
+								idx === elementIdx ? { ...item, isProductEmptyError: 'normal' } : item,
+							),
 						}));
 					break;
 				case 'detergent':
 					get().detergent[elementIdx].isProductEmptyError === 'error' &&
-						set((state) => ({
-							detergent: { ...state.detergent, [elementIdx]: { ...state.detergent[elementIdx], isProductEmptyError: 'normal' } },
+						set(() => ({
+							detergent: get().detergent.map((item, idx) =>
+								idx === elementIdx ? { ...item, isProductEmptyError: 'normal' } : item,
+							),
 						}));
 					break;
 				case 'ingredient':
 					get().ingredient[elementIdx].isProductEmptyError === 'error' &&
-						set((state) => ({
-							ingredient: {
-								...state.ingredient,
-								[elementIdx]: { ...state.ingredient[elementIdx], isProductEmptyError: 'normal' },
-							},
+						set(() => ({
+							ingredient: get().ingredient.map((item, idx) =>
+								idx === elementIdx ? { ...item, isProductEmptyError: 'normal' } : item,
+							),
 						}));
 					break;
 				case 'etc':
 					get().etc[elementIdx].isProductEmptyError === 'error' &&
-						set((state) => ({
-							etc: { ...state.etc, [elementIdx]: { ...state.etc[elementIdx], isProductEmptyError: 'normal' } },
+						set(() => ({
+							etc: get().etc.map((item, idx) => (idx === elementIdx ? { ...item, isProductEmptyError: 'normal' } : item)),
 						}));
 					break;
 			}

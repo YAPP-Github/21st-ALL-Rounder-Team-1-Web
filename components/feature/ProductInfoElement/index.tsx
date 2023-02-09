@@ -12,7 +12,7 @@ type Props = {
 	productArr: Array<Product['product']>;
 } & React.ComponentProps<'div'>;
 const ProductInfoElement = ({ elementIdx, brandName, productName, isProductEmptyError, productArr, ...props }: Props) => {
-	const { addProduct, removeProduct, onChangeBrandName, onChangeProductName } = useProductStore();
+	const { addProduct, removeProduct, onChangeBrandName, onChangeProductName, changeNormal } = useProductStore();
 	return (
 		<StyledLayout.FlexBox className={props.className} width="932px" gap="7px">
 			<TextField
@@ -29,6 +29,7 @@ const ProductInfoElement = ({ elementIdx, brandName, productName, isProductEmpty
 				inputFlag={isProductEmptyError}
 				width="594px"
 				placeholder="상품명"
+				onFocus={() => changeNormal(productArr, elementIdx)}
 			/>
 			{elementIdx === 0 ? (
 				<ProductAddBtn onClick={() => addProduct(productArr)} />
