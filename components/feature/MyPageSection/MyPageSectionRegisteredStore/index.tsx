@@ -12,14 +12,7 @@ const MyPageSectionRegisteredStore = () => {
 		<S.RegisteredStoreContainer>
 			<S.RegisteredStoreContentWrapper>
 				<StyledLayout.FlexBox>
-					<S.RegisteredStoreImage
-						src={
-							'https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80'
-						}
-						alt={`${'서버데이터 - 상점 이름'}상점`}
-						width={100}
-						height={140}
-					/>
+					<S.RegisteredStoreImage src={''} alt={`${'서버데이터 - 상점 이름'}상점`} width={100} height={140} />
 				</StyledLayout.FlexBox>
 
 				<StyledLayout.FlexBox flexDirection={'column'} flex={'1'} margin="0 16px">

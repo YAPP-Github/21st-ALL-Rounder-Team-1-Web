@@ -26,11 +26,13 @@
 		"@typescript-eslint/restrict-template-expressions": "off",	// any 타입 데이터를 literal template 에 사용하려고 하면 발동하는 룰
 		"@typescript-eslint/naming-convention": "off",	// 외부 API Response 는 Naming Convention 이 다를 수 있음
 		"@typescript-eslint/no-misused-promises": ["error", { "checksVoidReturn": { "attributes": false }}],
+		"@typescript-eslint/no-floating-promises": "off",
+		"@typescript-eslint/no-unused-vars": "off",
 		"no-constant-condition": "off",
 		"no-useless-return": "off",
+		"no-unused-vars": "off",
 		"react/react-in-jsx-scope": "off",
 		"no-var": "error",
-		"no-unused-vars": ["error", { "args": "none" }],
 		"eqeqeq": "error",
 		"no-console": ["error", { "allow": ["info", "warn", "error"] }]
 	}
