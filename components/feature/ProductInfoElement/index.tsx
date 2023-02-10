@@ -1,5 +1,5 @@
 import { StyledLayout } from 'components/shared';
-import { Product, useProductStore } from 'store/actions/storeRegistrationStore';
+import { useProductStore } from 'store/actions/storeRegistrationStore';
 import ProductAddBtn from '../Button/ProductAddBtn';
 import ProductRemoveBtn from '../Button/ProductRemoveBtn';
 import TextField from '../TextField';

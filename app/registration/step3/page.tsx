@@ -2,7 +2,11 @@
 
 import { Accordion, AccordionDetails, AccordionSummary, withStyles } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
-import { StoreProductRequiredSaveWarningModal, StoreProductRequiredWarningModal } from 'components/feature';
+import {
+	StoreProductRequiredSaveWarningModal,
+	StoreProductRequiredWarningModal,
+	StoreRegistrationConfirmModal,
+} from 'components/feature';
 import ProductInfoElement from 'components/feature/ProductInfoElement';
 import { LargeBtn, StyledLayout, Typography } from 'components/shared';
 import { FormEvent } from 'react';
@@ -35,6 +39,9 @@ const Step3 = () => {
 			[...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc].filter((item) => item.productName !== '').length === 0
 		) {
 			changeModalKey(MODAL_KEY.ON_STORE_PRODUCT_REQUIRED_SAVE_WARNING_MODAL);
+			return;
+		} else {
+			changeModalKey(MODAL_KEY.ON_STORE_REGISTRATION_CONFIRM_MODAL);
 			return;
 		}
 	};
@@ -164,6 +171,9 @@ const Step3 = () => {
 			)}
 			{modalKey === MODAL_KEY.ON_STORE_PRODUCT_REQUIRED_SAVE_WARNING_MODAL && (
 				<StoreProductRequiredSaveWarningModal onClick={() => changeModalKey(MODAL_KEY.OFF)} />
+			)}
+			{modalKey === MODAL_KEY.ON_STORE_REGISTRATION_CONFIRM_MODAL && (
+				<StoreRegistrationConfirmModal onCancel={() => changeModalKey(MODAL_KEY.OFF)} onConfirm={() => {}} />
 			)}
 		</>
 	);
