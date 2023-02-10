@@ -9,7 +9,7 @@ type Props = {
 	brandName: string;
 	productName: string;
 	isProductEmptyError: 'normal' | 'error';
-	productArr: Array<Product['product']>;
+	productArr: string;
 } & React.ComponentProps<'div'>;
 const ProductInfoElement = ({ elementIdx, brandName, productName, isProductEmptyError, productArr, ...props }: Props) => {
 	const { addProduct, removeProduct, onChangeBrandName, onChangeProductName, changeNormal } = useProductStore();

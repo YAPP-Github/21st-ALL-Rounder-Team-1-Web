@@ -60,7 +60,7 @@ const Step3 = () => {
 								brandName={brandName}
 								productName={productName}
 								isProductEmptyError={isProductEmptyError}
-								productArr={baseMakeUp}
+								productArr={'baseMakeUp'}
 							/>
 						);
 					})}
@@ -82,7 +82,7 @@ const Step3 = () => {
 								brandName={brandName}
 								productName={productName}
 								isProductEmptyError={isProductEmptyError}
-								productArr={bodyHair}
+								productArr={'bodyHair'}
 							/>
 						);
 					})}
@@ -103,7 +103,7 @@ const Step3 = () => {
 								brandName={brandName}
 								productName={productName}
 								isProductEmptyError={isProductEmptyError}
-								productArr={detergent}
+								productArr={'detergent'}
 							/>
 						);
 					})}
@@ -124,7 +124,7 @@ const Step3 = () => {
 								brandName={brandName}
 								productName={productName}
 								isProductEmptyError={isProductEmptyError}
-								productArr={ingredient}
+								productArr={'ingredient'}
 							/>
 						);
 					})}
@@ -145,7 +145,7 @@ const Step3 = () => {
 								brandName={brandName}
 								productName={productName}
 								isProductEmptyError={isProductEmptyError}
-								productArr={etc}
+								productArr={'etc'}
 							/>
 						);
 					})}
