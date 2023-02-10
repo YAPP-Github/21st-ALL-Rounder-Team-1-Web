@@ -35,6 +35,7 @@ export interface Products {
 	onChangeProductName: (productArr: Array<Product['product']>, elementIdx: number, value: string) => void;
 	changeError: () => void;
 	changeNormal: (productArr: Array<Product['product']>, elementIdx: number) => void;
+	setError: (arrName: string) => void;
 }
 
 export const useProductStore = create<Products>()(
@@ -231,6 +232,13 @@ export const useProductStore = create<Products>()(
 						}));
 					break;
 			}
+		},
+		setError: (arrName: string) => {
+			set(() => ({
+				[arrName]: get()[arrName].map((item: { productName: string; brandName: string }) =>
+					item.productName === '' && item.brandName !== '' ? { ...item, isProductEmptyError: 'error' } : item,
+				),
+			}));
 		},
 	})),
 );

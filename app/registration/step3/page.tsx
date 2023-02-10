@@ -12,39 +12,41 @@ import styled from 'styled-components';
 import { style, theme } from 'styles';
 
 const Step3 = () => {
-	const { baseMakeUp, bodyHair, detergent, ingredient, etc, changeError } = useProductStore();
+	const { baseMakeUp, bodyHair, detergent, ingredient, etc, changeError, setError } = useProductStore();
 	const { modalKey, changeModalKey } = useModalStore();
 	const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		console.log((document.querySelector('.step3')?.children[0] as HTMLInputElement).value);
-		console.log(e.target.step3);
+		// console.log((document.querySelector('.step3')?.children[0] as HTMLInputElement).value);
+		// console.log(e.target.step3);
 	};
 	const handleTemporarySave = () => {
 		changeError();
-		// if (
-		// 	[...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc].filter((item) => item.isProductEmptyError === 'error')
-		// 		.length !== 0
-		// )
-		// 	return;
 		if (
-			[...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc].filter(
-				(item) => item.brandName !== '' && item.productName !== '',
-			).length === 0
+			[...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc].filter((item) => item.productName !== '').length === 0
+		) {
+			changeModalKey(MODAL_KEY.ON_STORE_PRODUCT_REQUIRED_WARNING_MODAL);
+			return;
+		}
+	};
+	const handleSaveItems = () => {
+		changeError();
+		if (
+			[...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc].filter((item) => item.productName !== '').length === 0
 		) {
 			changeModalKey(MODAL_KEY.ON_STORE_PRODUCT_REQUIRED_WARNING_MODAL);
 			return;
 		}
 	};
 	return (
-		<form onSubmit={handleOnSubmit}>
+		<>
 			<GuideWrapper>
 				<Typography variant={'h2'} aggressive={'body_multiline_001'} color={theme.colors.gray_005}>
 					※ 매장에서 판매 중인 “리필” 제품만 등록 부탁드립니다. 각 제품의 상품명은 필수 입력 사항입니다.
 				</Typography>
 			</GuideWrapper>
 			<StAccordion>
-				<StAccordionSummary expandIcon={<ExpandMore />}>
+				<StAccordionSummary expandIcon={<ExpandMore />} onClick={() => setError('baseMakeUp')}>
 					<Typography variant={'h3'} aggressive={'headline_oneline_004'} color={theme.colors.gray_007}>
 						기초화장 / 세안
 					</Typography>
@@ -66,7 +68,7 @@ const Step3 = () => {
 			</StAccordion>
 
 			<StAccordion>
-				<StAccordionSummary expandIcon={<ExpandMore />}>
+				<StAccordionSummary expandIcon={<ExpandMore />} onClick={() => setError('bodyHair')}>
 					<Typography variant={'h3'} aggressive={'headline_oneline_004'} color={theme.colors.gray_007}>
 						바디 / 헤어
 					</Typography>
@@ -87,7 +89,7 @@ const Step3 = () => {
 				</StAccordionDetails>
 			</StAccordion>
 			<StAccordion>
-				<StAccordionSummary expandIcon={<ExpandMore />}>
+				<StAccordionSummary expandIcon={<ExpandMore />} onClick={() => setError('detergent')}>
 					<Typography variant={'h3'} aggressive={'headline_oneline_004'} color={theme.colors.gray_007}>
 						세제
 					</Typography>
@@ -108,7 +110,7 @@ const Step3 = () => {
 				</StAccordionDetails>
 			</StAccordion>
 			<StAccordion>
-				<StAccordionSummary expandIcon={<ExpandMore />}>
+				<StAccordionSummary expandIcon={<ExpandMore />} onClick={() => setError('ingredient')}>
 					<Typography variant={'h3'} aggressive={'headline_oneline_004'} color={theme.colors.gray_007}>
 						식재료
 					</Typography>
@@ -129,7 +131,7 @@ const Step3 = () => {
 				</StAccordionDetails>
 			</StAccordion>
 			<StAccordion>
-				<StAccordionSummary expandIcon={<ExpandMore />}>
+				<StAccordionSummary expandIcon={<ExpandMore />} onClick={() => setError('etc')}>
 					<Typography variant={'h3'} aggressive={'headline_oneline_004'} color={theme.colors.gray_007}>
 						기타
 					</Typography>
@@ -153,14 +155,14 @@ const Step3 = () => {
 				<LargeBtn type="button" style={style.btnStyle.white_btn} onClick={handleTemporarySave}>
 					임시저장
 				</LargeBtn>
-				<LargeBtn type="button" style={style.btnStyle.primary_btn_001} onClick={changeError}>
+				<LargeBtn type="button" style={style.btnStyle.primary_btn_001} onClick={handleSaveItems}>
 					입점신청
 				</LargeBtn>
 			</StyledLayout.FlexBox>
 			{modalKey === MODAL_KEY.ON_STORE_PRODUCT_REQUIRED_WARNING_MODAL && (
 				<StoreProductRequiredWarningModal onClick={() => changeModalKey(MODAL_KEY.OFF)} />
 			)}
-		</form>
+		</>
 	);
 };
 
