@@ -12,6 +12,7 @@ export { default as StoreEditSuccessModal } from './Modal/StoreEditSuccessModal'
 export { default as StoreProductEditSuccessModal } from './Modal/StoreProductEditSuccessModal';
 export { default as StoreRegistrationCancelSuccessModal } from './Modal/StoreRegistrationCancelSuccessModal';
 export { default as StoreProductRequiredWarningModal } from './Modal/StoreProductRequiredWarningModal';
+export { default as StoreProductRequiredSaveWarningModal } from './Modal/StoreProductRequiredSaveWarningModal';
 
 export { default as StoreResistrationSmallBtn } from './Button/StoreResistrationSmallBtn';
 export { default as ProductRemoveBtn } from './Button/ProductRemoveBtn';
