@@ -47,12 +47,20 @@ export const useProductStore = create<Products>()(
 		ingredient: [{ category: 'ingredient', brandName: '', productName: '', isProductEmptyError: 'normal' }],
 		etc: [{ category: 'etc', brandName: '', productName: '', isProductEmptyError: 'normal' }],
 		addProduct: (productArrName: string) => {
-			set((state) => ({
-				[productArrName]: [
-					{ category: { productArrName }, brandName: '', productName: '', isProductEmptyError: 'normal' },
-					...state[productArrName],
-				],
-			}));
+			if (get()[productArrName][0].productName !== '') {
+				set((state) => ({
+					[productArrName]: [
+						{ category: { productArrName }, brandName: '', productName: '', isProductEmptyError: 'normal' },
+						...state[productArrName],
+					],
+				}));
+			} else {
+				set(() => ({
+					[productArrName]: get()[productArrName].map((item: Product['product'], idx: number) =>
+						idx === 0 ? { ...item, isProductEmptyError: 'error' } : item,
+					),
+				}));
+			}
 		},
 		removeProduct: (productArrName: string, elementIdx: number) => {
 			set(() => ({
