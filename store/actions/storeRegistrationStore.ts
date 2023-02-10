@@ -34,9 +34,9 @@ export interface Products {
 	removeProduct: (productArrName: string, elementIdx: number) => void;
 	onChangeBrandName: (productArrName: string, elementIdx: number, value: string) => void;
 	onChangeProductName: (productArrName: string, elementIdx: number, value: string) => void;
-	changeError: () => void;
+	changeError: () => number;
 	changeNormal: (productArrName: string, elementIdx: number) => void;
-	setError: (productArrName: string) => void;
+	setError: (productArrName: string) => number;
 }
 
 export const useProductStore = create<Products>()(
@@ -81,7 +81,7 @@ export const useProductStore = create<Products>()(
 				),
 			}));
 		},
-		changeError: () =>
+		changeError: () =>{
 			set(() => ({
 				baseMakeUp: get().baseMakeUp.map((item) =>
 					item.productName === '' && item.brandName !== '' ? { ...item, isProductEmptyError: 'error' } : item,
@@ -99,6 +99,8 @@ export const useProductStore = create<Products>()(
 					item.productName === '' && item.brandName !== '' ? { ...item, isProductEmptyError: 'error' } : item,
 				),
 			})),
+			return {...get().baseMakeUp,...get().bodyHair,...get().detergent,...get().ingredient,...get().etc}.filter((item)=>item.isProductEmptyError==='error').length;
+		},
 		changeNormal: (productArrName: string, elementIdx: number) => {
 			get()[productArrName][elementIdx].isProductEmptyError === 'error' &&
 				set(() => ({
@@ -113,6 +115,7 @@ export const useProductStore = create<Products>()(
 					item.productName === '' && item.brandName !== '' ? { ...item, isProductEmptyError: 'error' } : item,
 				),
 			}));
+			return get()[productArrName].filter((item) => item.isProductEmptyError === 'error').length;
 		},
 	})),
 );
