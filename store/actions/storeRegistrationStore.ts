@@ -174,11 +174,21 @@ export const useProductStore = create<Products>()(
 		},
 		changeError: () =>
 			set(() => ({
-				baseMakeUp: get().baseMakeUp.map((item) => (item.productName === '' ? { ...item, isProductEmptyError: 'error' } : item)),
-				bodyHair: get().bodyHair.map((item) => (item.productName === '' ? { ...item, isProductEmptyError: 'error' } : item)),
-				detergent: get().detergent.map((item) => (item.productName === '' ? { ...item, isProductEmptyError: 'error' } : item)),
-				ingredient: get().ingredient.map((item) => (item.productName === '' ? { ...item, isProductEmptyError: 'error' } : item)),
-				etc: get().etc.map((item) => (item.productName === '' ? { ...item, isProductEmptyError: 'error' } : item)),
+				baseMakeUp: get().baseMakeUp.map((item) =>
+					item.productName === '' && item.brandName !== '' ? { ...item, isProductEmptyError: 'error' } : item,
+				),
+				bodyHair: get().bodyHair.map((item) =>
+					item.productName === '' && item.brandName !== '' ? { ...item, isProductEmptyError: 'error' } : item,
+				),
+				detergent: get().detergent.map((item) =>
+					item.productName === '' && item.brandName !== '' ? { ...item, isProductEmptyError: 'error' } : item,
+				),
+				ingredient: get().ingredient.map((item) =>
+					item.productName === '' && item.brandName !== '' ? { ...item, isProductEmptyError: 'error' } : item,
+				),
+				etc: get().etc.map((item) =>
+					item.productName === '' && item.brandName !== '' ? { ...item, isProductEmptyError: 'error' } : item,
+				),
 			})),
 		changeNormal: (productArr: Array<Product['product']>, elementIdx: number) => {
 			switch (productArr[0].category) {

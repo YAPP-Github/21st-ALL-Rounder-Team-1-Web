@@ -1,6 +1,7 @@
 import { InfoModal } from 'components/feature/Modal';
+import { InfoModalEvent } from '../Common/InfoModal';
 
-const StoreProductRequiredWarningModal = () => {
+const StoreProductRequiredWarningModal = ({ onClick }: InfoModalEvent) => {
 	return (
 		<InfoModal
 			modalTitle="상품 정보를 입력해야 임시저장이 가능합니다."
@@ -8,7 +9,7 @@ const StoreProductRequiredWarningModal = () => {
 			modalBtn={{
 				type: 'normal',
 				text: '확인',
-				onClick: () => {},
+				onClick,
 			}}
 		/>
 	);

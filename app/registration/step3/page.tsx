@@ -2,20 +2,39 @@
 
 import { Accordion, AccordionDetails, AccordionSummary, withStyles } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
+import { StoreProductRequiredWarningModal } from 'components/feature';
 import ProductInfoElement from 'components/feature/ProductInfoElement';
 import { LargeBtn, StyledLayout, Typography } from 'components/shared';
 import { FormEvent } from 'react';
+import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
 import { useProductStore } from 'store/actions/storeRegistrationStore';
 import styled from 'styled-components';
 import { style, theme } from 'styles';
 
 const Step3 = () => {
 	const { baseMakeUp, bodyHair, detergent, ingredient, etc, changeError } = useProductStore();
+	const { modalKey, changeModalKey } = useModalStore();
 	const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		console.log((document.querySelector('.step3')?.children[0] as HTMLInputElement).value);
 		console.log(e.target.step3);
+	};
+	const handleTemporarySave = () => {
+		changeError();
+		// if (
+		// 	[...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc].filter((item) => item.isProductEmptyError === 'error')
+		// 		.length !== 0
+		// )
+		// 	return;
+		if (
+			[...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc].filter(
+				(item) => item.brandName !== '' && item.productName !== '',
+			).length === 0
+		) {
+			changeModalKey(MODAL_KEY.ON_STORE_PRODUCT_REQUIRED_WARNING_MODAL);
+			return;
+		}
 	};
 	return (
 		<form onSubmit={handleOnSubmit}>
@@ -131,13 +150,16 @@ const Step3 = () => {
 				</StAccordionDetails>
 			</StAccordion>
 			<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '40px' }} gap="8px">
-				<LargeBtn type="button" style={style.btnStyle.white_btn}>
+				<LargeBtn type="button" style={style.btnStyle.white_btn} onClick={handleTemporarySave}>
 					임시저장
 				</LargeBtn>
 				<LargeBtn type="button" style={style.btnStyle.primary_btn_001} onClick={changeError}>
 					입점신청
 				</LargeBtn>
 			</StyledLayout.FlexBox>
+			{modalKey === MODAL_KEY.ON_STORE_PRODUCT_REQUIRED_WARNING_MODAL && (
+				<StoreProductRequiredWarningModal onClick={() => changeModalKey(MODAL_KEY.OFF)} />
+			)}
 		</form>
 	);
 };
