@@ -23,7 +23,6 @@
 		"jotai": "^1.11.0",
 		"lottie-react": "^2.3.1",
 		"next": "^13.1.1",
-		"next-images": "^1.8.4",
 		"next-s3-upload": "^0.2.9",
 		"react": "^18.2.0",
 		"react-aws-s3": "^1.5.0",
