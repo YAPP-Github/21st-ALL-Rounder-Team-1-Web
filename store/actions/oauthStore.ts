@@ -5,6 +5,7 @@ export type OAuthResponse = {
 	name: string;
 	email: string;
 	imgPath: string;
+	type: string;
 	oauthType: string; // KAKAO | NAVER
 	oauthIdentity: string;
 };
@@ -18,6 +19,7 @@ const initialState: OAuthResponse = {
 	name: '',
 	email: '',
 	imgPath: '',
+	type: '',
 	oauthType: '',
 	oauthIdentity: '',
 };
