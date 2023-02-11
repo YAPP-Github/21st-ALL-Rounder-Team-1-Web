@@ -10,14 +10,32 @@ import { StyledLayout, Typography } from 'components/shared';
 import { MyPageSectionDescriptionWarpper, MyPageSectionDescription } from 'components/feature/MyPageSection/styled';
 import { theme } from 'styles';
 import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
+import { useGetStore } from 'hooks/api/store/useGetStore';
+import { useDeleteStore } from 'hooks/api/store/useDeleteStore';
+import { useState } from 'react';
 
 const StoreManagement = () => {
+	const [refetchStoreToggle, setRefetchStoreToggle] = useState(false);
+	const { data: store } = useGetStore(refetchStoreToggle);
 	const { modalKey, changeModalKey } = useModalStore();
+	const storeDeleteMutation = useDeleteStore();
 
 	const handleStoreRegistrationCancelConfirm = () => {
 		// 입점 매장 철회 API 요청 & Mutation
+		try {
+			storeDeleteMutation.mutate(store?.id as number, {
+				onSuccess: () => {
+					setRefetchStoreToggle(!refetchStoreToggle);
+				},
+			});
+			changeModalKey(MODAL_KEY.ON_STORE_REGISTRATION_CANCEL_SUCCESS_MODAL);
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
-		changeModalKey(MODAL_KEY.ON_STORE_REGISTRATION_CANCEL_SUCCESS_MODAL);
+	const handleStoreRegistrationCancelSuccess = () => {
+		changeModalKey(MODAL_KEY.OFF);
 	};
 
 	return (
@@ -26,7 +44,7 @@ const StoreManagement = () => {
 				매장 및 상품 정보 관리
 			</Typography>
 			<MyPageSectionDescriptionWarpper>
-				{true ? (
+				{store ? (
 					<>
 						<MyPageSectionDescription>
 							입점한 매장의 매장 정보와 상품 정보를 직접 관리(추가, 삭제, 수정 등)할 수 있습니다.
@@ -47,7 +65,8 @@ const StoreManagement = () => {
 			<Typography variant="h3" aggressive="body_oneline_004" color={theme.colors.gray_005} margin="0 0 14px 0">
 				매장
 			</Typography>
-			{true ? <MyPageSectionRegisteredStore /> : <MyPageSectionEmptyStore />}
+
+			{store ? <MyPageSectionRegisteredStore store={store} /> : <MyPageSectionEmptyStore />}
 
 			{modalKey === MODAL_KEY.ON_STORE_REGISTRATION_CANCEL_CONFIRM_MODAL && (
 				<StoreRegistrationCancelConfirmModal
@@ -57,7 +76,7 @@ const StoreManagement = () => {
 			)}
 
 			{modalKey === MODAL_KEY.ON_STORE_REGISTRATION_CANCEL_SUCCESS_MODAL && (
-				<StoreRegistrationCancelSuccessModal onClick={() => changeModalKey(MODAL_KEY.OFF)} />
+				<StoreRegistrationCancelSuccessModal onClick={handleStoreRegistrationCancelSuccess} />
 			)}
 		</StyledLayout.FlexBox>
 	);

@@ -3,6 +3,7 @@ export const API_PATH = {
 		index: '/user',
 		register: '/user/register',
 		manager: '/user/manager',
+		store: '/user/store',
 	},
 	login: {
 		index: '/login',

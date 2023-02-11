@@ -56,6 +56,7 @@ const OAuthCallbackPage = () => {
 				email,
 				imgPath,
 				oauthIdentity,
+				type: 'BOSS',
 				oauthType: social.toUpperCase(),
 			});
 			router.replace(`/signup`);
