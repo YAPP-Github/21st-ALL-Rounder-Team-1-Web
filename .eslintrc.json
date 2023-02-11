@@ -28,6 +28,7 @@
 		"@typescript-eslint/no-misused-promises": ["error", { "checksVoidReturn": { "attributes": false }}],
 		"@typescript-eslint/no-floating-promises": "off",
 		"@typescript-eslint/no-unused-vars": "off",
+		"@typescript-eslint/no-unnecessary-boolean-literal-compare": "off",	// boolean eqeqeq 비교시 에러 발생 X
 		"no-constant-condition": "off",
 		"no-useless-return": "off",
 		"no-unused-vars": "off",
