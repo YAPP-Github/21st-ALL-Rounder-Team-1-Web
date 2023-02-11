@@ -6,6 +6,7 @@ import { theme } from 'styles';
 import { EmblemKakaoIcon, EmblemNaverIcon } from 'public/static/icons';
 import { getSocialPlatformType } from 'core/signupService';
 import { usePathname } from 'next/navigation';
+import useUserSessionStore from 'store/actions/userSessionStore';
 
 const myPageNavigations = [
 	{
@@ -22,19 +23,20 @@ const myPageNavigations = [
 
 const MyPageSideBar = () => {
 	const pathname = usePathname();
+	const { userSession } = useUserSessionStore();
 
 	return (
 		<S.MyPageSideBar>
 			<StyledLayout.FlexBox flexDirection="column" margin="0 0 46px 0">
 				<Typography variant="span" aggressive="headline_oneline_004" margin="0 0 4px 0">
-					{'사장'}님
+					{userSession.name ?? userSession.nickname}님
 				</Typography>
 				<StyledLayout.FlexBox alignItems="center" gap="4px">
 					<Typography variant="span" aggressive="body_oneline_004" color={theme.colors.gray_005}>
-						{'forzero100@naver.com'}
+						{userSession.email}
 					</Typography>
 
-					{getSocialPlatformType('forzero100@naver.com') === 'Naver' ? <EmblemNaverIcon /> : <EmblemKakaoIcon />}
+					{getSocialPlatformType(userSession.email) === 'Naver' ? <EmblemNaverIcon /> : <EmblemKakaoIcon />}
 				</StyledLayout.FlexBox>
 			</StyledLayout.FlexBox>
 
