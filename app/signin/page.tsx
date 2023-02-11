@@ -37,12 +37,6 @@ const Signin = () => {
 					계정을 선택해주세요.
 				</Typography>
 				<SocialLoginBtnWrapper>
-					<SocialLoginBtn social="naver" onSocialLogin={handleSocialLogin}>
-						<SoicalLoginBtnContents>
-							<SymbolNaverIcon />
-							네이버로 로그인하기
-						</SoicalLoginBtnContents>
-					</SocialLoginBtn>
 					<SocialLoginBtn social="kakao" onSocialLogin={handleSocialLogin}>
 						<SoicalLoginBtnContents>
 							<SymbolKakaoIcon />
