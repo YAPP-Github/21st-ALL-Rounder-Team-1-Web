@@ -14,34 +14,7 @@ import {
 	LandingAdvantage002Img,
 } from 'public/static/images';
 import { Divider } from 'components/shared/styled/layout';
-
-type LinkBtnProps = {
-	borderradius?: string;
-	backgroundcolor?: string;
-} & CSSProperties;
-
-const StyledLinkBtn = styled(Link)<LinkBtnProps>`
-	flex: ${({ flex }) => flex};
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: ${({ padding }) => padding};
-	border: ${({ border }) => border};
-	border-radius: ${({ borderradius }) => borderradius};
-	background-color: ${({ backgroundcolor }) => backgroundcolor};
-	color: ${({ color }) => color};
-`;
-
-const Card = styled.div`
-	flex: 1;
-`;
-
-const BackgroundBox = styled(StyledLayout.FlexBox)`
-	position: relative;
-	border-radius: 12px;
-	background-color: ${({ backgroundColor }) => backgroundColor};
-	object-fit: contain;
-`;
+import { MotionShowBox } from 'components/shared/Motion';
 
 const SERVICE_INTRODUCE_PDF_LINK = 'https://drive.google.com/file/d/1ey4jGVBu7cLLtTeCRYaoy8mP_4B9GsTu/view?usp=share_link';
 
@@ -152,7 +125,9 @@ const Root = () => {
 				</StyledLayout.FlexBox>
 
 				<StyledLayout.FlexBox>
-					<Image src={LandingAppImg} alt="" width={440} height={504} loading="lazy" />
+					<MotionShowBox showDirection={'up'}>
+						<Image src={LandingAppImg} alt="" width={440} height={504} loading="lazy" />
+					</MotionShowBox>
 				</StyledLayout.FlexBox>
 			</StyledLayout.FlexBox>
 
@@ -174,7 +149,9 @@ const Root = () => {
 									margin="0 0 32px 0"
 									backgroundColor={theme.colors.gray_000}
 								>
-									<Image src={imageSrc} alt={''} width={300} height={300} loading="lazy" />
+									<MotionShowBox showDirection={'up'} delay={id}>
+										<Image src={imageSrc} alt={''} width={300} height={300} loading="lazy" />
+									</MotionShowBox>
 								</BackgroundBox>
 
 								<Typography
@@ -211,7 +188,9 @@ const Root = () => {
 								height="280px"
 								backgroundColor={theme.colors.gray_000}
 							>
-								<Image src={imageSrc} alt={''} width={500} height={280} loading="lazy" />
+								<MotionShowBox showDirection={'up'} delay={id}>
+									<Image src={imageSrc} alt={''} width={500} height={280} loading="lazy" />
+								</MotionShowBox>
 							</BackgroundBox>
 
 							<StyledLayout.FlexBox flexDirection="column" justifyContent="center">
@@ -287,3 +266,31 @@ const Root = () => {
 };
 
 export default Root;
+
+type LinkBtnProps = {
+	borderradius?: string;
+	backgroundcolor?: string;
+} & CSSProperties;
+
+const StyledLinkBtn = styled(Link)<LinkBtnProps>`
+	flex: ${({ flex }) => flex};
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: ${({ padding }) => padding};
+	border: ${({ border }) => border};
+	border-radius: ${({ borderradius }) => borderradius};
+	background-color: ${({ backgroundcolor }) => backgroundcolor};
+	color: ${({ color }) => color};
+`;
+
+const Card = styled.div`
+	flex: 1;
+`;
+
+const BackgroundBox = styled(StyledLayout.FlexBox)`
+	position: relative;
+	border-radius: 12px;
+	background-color: ${({ backgroundColor }) => backgroundColor};
+	object-fit: contain;
+`;
