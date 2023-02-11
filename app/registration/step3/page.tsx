@@ -7,8 +7,8 @@ import {
 	StoreRegistrationConfirmModal,
 } from 'components/feature';
 import ProductInfoElement from 'components/feature/ProductInfoElement';
-import { LargeBtn, StyledLayout, Typography } from 'components/shared';
-import { AddIcon, ExpandLessIcon, ExpandMoreIcon } from 'public/static/icons';
+import { LargeBtn, StyledLayout, Toast, Typography } from 'components/shared';
+import { ExpandLessIcon } from 'public/static/icons';
 import { FormEvent, useState } from 'react';
 import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
 import { useProductStore } from 'store/actions/storeRegistrationStore';
@@ -19,6 +19,7 @@ const Step3 = () => {
 	const { baseMakeUp, bodyHair, detergent, ingredient, etc, changeError, setError } = useProductStore();
 	const { modalKey, changeModalKey } = useModalStore();
 	const [expandedSummary, setExpandedSummary] = useState([false, false, false, false, false]);
+	const [temporarySaveToast, setTemporarySaveToast] = useState(false);
 	const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		// console.log((document.querySelector('.step3')?.children[0] as HTMLInputElement).value);
@@ -32,6 +33,11 @@ const Step3 = () => {
 			changeModalKey(MODAL_KEY.ON_STORE_PRODUCT_REQUIRED_WARNING_MODAL);
 			return;
 		}
+		// 여기서부터 서버 통신
+		// ...
+		// 완료후
+		setTemporarySaveToast(true);
+		setTimeout(() => setTemporarySaveToast(false), 2000);
 	};
 	const handleSaveItems = () => {
 		if (changeError() !== 0) return;
@@ -173,6 +179,7 @@ const Step3 = () => {
 					입점신청
 				</LargeBtn>
 			</StyledLayout.FlexBox>
+			<Toast duration={2} open={temporarySaveToast} />
 			{modalKey === MODAL_KEY.ON_STORE_PRODUCT_REQUIRED_WARNING_MODAL && (
 				<StoreProductRequiredWarningModal onClick={() => changeModalKey(MODAL_KEY.OFF)} />
 			)}

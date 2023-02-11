@@ -1,6 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 
 type Props = {
+	open: boolean;
 	duration: number; // second
 };
 
@@ -19,6 +20,8 @@ const toastShowAndHideSlide = keyframes`
 `;
 
 export const Container = styled.div<Props>`
+	margin-top: 126px;
+	visibility: ${(props) => (props.open ? 'visible' : 'hidden')};
 	position: fixed;
 	top: 0px;
 	left: 50%;
@@ -33,5 +36,5 @@ export const Container = styled.div<Props>`
 	color: ${({ theme }) => theme.colors.white};
 	transform: translate3d(-50%, 0, 0);
 	animation: ${toastShowAndHideSlide} ${({ duration }) => (duration ? `${duration}s` : `1s`)} ease-in 1 alternate;
-	z-index: 50;
+	z-index: 10000;
 `;
