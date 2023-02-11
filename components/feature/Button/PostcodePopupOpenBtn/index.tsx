@@ -33,7 +33,7 @@ const PostcodePopupOpenBtn = (props: Props) => {
 	};
 
 	return (
-		<StoreResistrationSmallBtn width={{ width: '106px' }} onClick={handlePostcodePopupOpenBtnClick}>
+		<StoreResistrationSmallBtn type="button" width={{ width: '106px' }} onClick={handlePostcodePopupOpenBtnClick}>
 			주소 조회
 		</StoreResistrationSmallBtn>
 	);
