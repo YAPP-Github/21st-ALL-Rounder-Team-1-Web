@@ -1,3 +1,6 @@
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
+
 export interface Product {
 	category: string;
 	brandName: string;
@@ -37,7 +40,7 @@ export const productStore = create<Products>()(
 				}));
 			} else {
 				set(() => ({
-					[productArrName]: get()[productArrName].map((item: Product['product'], idx: number) =>
+					[productArrName]: get()[productArrName].map((item: Product, idx: number) =>
 						idx === 0 ? { ...item, isProductEmptyError: 'error' } : item,
 					),
 				}));
@@ -45,19 +48,19 @@ export const productStore = create<Products>()(
 		},
 		removeProduct: (productArrName: string, elementIdx: number) => {
 			set(() => ({
-				[productArrName]: get()[productArrName].filter((_: Product['product'], idx: number) => idx !== elementIdx),
+				[productArrName]: get()[productArrName].filter((_, idx: number) => idx !== elementIdx),
 			}));
 		},
 		onChangeBrandName: (productArrName: string, elementIdx: number, value: string) => {
 			set(() => ({
-				[productArrName]: get()[productArrName].map((item: Product['product'], idx: number) =>
+				[productArrName]: get()[productArrName].map((item: Product, idx: number) =>
 					idx === elementIdx ? { ...item, brandName: value } : item,
 				),
 			}));
 		},
 		onChangeProductName: (productArrName: string, elementIdx: number, value: string) => {
 			set(() => ({
-				[productArrName]: get()[productArrName].map((item: Product['product'], idx: number) =>
+				[productArrName]: get()[productArrName].map((item: Product, idx: number) =>
 					idx === elementIdx ? { ...item, productName: value } : item,
 				),
 			}));
@@ -87,7 +90,7 @@ export const productStore = create<Products>()(
 		changeNormal: (productArrName: string, elementIdx: number) => {
 			get()[productArrName][elementIdx].isProductEmptyError === 'error' &&
 				set(() => ({
-					[productArrName]: get()[productArrName].map((item: Product['product'], idx: number) =>
+					[productArrName]: get()[productArrName].map((item: Product, idx: number) =>
 						idx === elementIdx ? { ...item, isProductEmptyError: 'normal' } : item,
 					),
 				}));
@@ -98,7 +101,7 @@ export const productStore = create<Products>()(
 					item.productName === '' && item.brandName !== '' ? { ...item, isProductEmptyError: 'error' } : item,
 				),
 			}));
-			return get()[productArrName].filter((item) => item.isProductEmptyError === 'error').length;
+			return get()[productArrName].filter((item: Product) => item.isProductEmptyError === 'error').length;
 		},
 	})),
 );

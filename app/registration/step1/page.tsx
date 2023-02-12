@@ -4,9 +4,7 @@ import { TextField } from 'components/feature';
 import { LargeBtn, StyledLayout, Typography } from 'components/shared';
 import { checkEmptyInputError } from 'core/storeRegistrationService';
 import { useRouter } from 'next/navigation';
-import { Router } from 'next/router';
 import { FormEvent } from 'react';
-import { useStep1Store } from 'store/actions/storeRegistrationStore';
 import { theme } from 'styles';
 import style from 'styles/style';
 
@@ -80,3 +78,6 @@ const Step1 = () => {
 };
 
 export default Step1;
+function useStep1Store(): { inputArr: any; changeError: any; changeNormal: any } {
+	throw new Error('Function not implemented.');
+}
