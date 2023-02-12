@@ -1,5 +1,5 @@
 import { StyledLayout } from 'components/shared';
-import { useProductStore } from 'store/actions/storeRegistrationStore';
+import { productStore } from 'store/actions/productStore';
 import ProductAddBtn from '../Button/ProductAddBtn';
 import ProductRemoveBtn from '../Button/ProductRemoveBtn';
 import TextField from '../TextField';
@@ -12,7 +12,7 @@ type Props = {
 	productArr: string;
 } & React.ComponentProps<'div'>;
 const ProductInfoElement = ({ elementIdx, brandName, productName, isProductEmptyError, productArr, ...props }: Props) => {
-	const { addProduct, removeProduct, onChangeBrandName, onChangeProductName, changeNormal } = useProductStore();
+	const { addProduct, removeProduct, onChangeBrandName, onChangeProductName, changeNormal } = productStore();
 	return (
 		<StyledLayout.FlexBox className={props.className} width="932px" gap="7px">
 			<TextField
