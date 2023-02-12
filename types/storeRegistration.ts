@@ -1,3 +1,8 @@
+export interface StepInputs {
+	inputArr: Array<'normal' | 'error'>;
+	changeError: (id: number) => void;
+	changeNormal: (id: number) => void;
+}
 export interface Step1ManagerInfo {
 	name: string; // 대표자명
 	email: string; // 이메일
