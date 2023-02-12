@@ -23,6 +23,15 @@
 		"baseUrl": ".",
 		"types": ["kakao.maps.d.ts"]
 	},
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "**/*.d.ts", "env.d.ts", "kakao.maps.d.ts"],
+	"include": [
+		"next-env.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		".next/types/**/*.ts",
+		"**/*.d.ts",
+		"env.d.ts",
+		"kakao.maps.d.ts",
+		"pages/api/s3-upload.ts"
+	],
 	"exclude": ["node_modules"]
 }

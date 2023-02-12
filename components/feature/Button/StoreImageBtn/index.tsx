@@ -11,7 +11,7 @@ type Props = {
 } & React.ComponentProps<'input'>;
 const StoreImageBtn = ({ inputFlag, clientStoreImageURL, deleteImage, ...props }: Props) => {
 	const storeImgRef = useRef() as RefObject<HTMLInputElement>;
-
+	
 	return (
 		<>
 			{clientStoreImageURL ? (

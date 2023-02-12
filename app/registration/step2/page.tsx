@@ -24,8 +24,7 @@ import style from 'styles/style';
 import { theme } from 'styles';
 import { StoreDefaultImg } from 'public/static/images';
 import { useStep2Store } from 'store/actions/storeRegistrationStore';
-import Script from 'next/script';
-
+import { useS3Upload } from 'next-s3-upload';
 interface IBusinessLicenseStatusResponse {
 	match_cnt: number;
 	request_cnt: number;
@@ -59,8 +58,10 @@ const Step2 = () => {
 	const [businessLicenseStatus, setBusinessLicenseStatus] = useState<'normal' | 'success' | 'error' | 'notClicked'>('normal');
 	const [selectedStoreImageBtn, setSelectedStoreImageBtn] = useState('defaultImage');
 	const [clientStoreImageURL, setClientStoreImageURL] = useState('');
+	const [S3ImagePath, setS3ImagePath] = useState('');
 	const [selectedBusinessHourBtn, setSelectedBusinessHourBtn] = useState('weekDaysWeekEnd');
 	const { inputArr, changeNormal } = useStep2Store();
+	const { uploadToS3 } = useS3Upload();
 	const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		// const emptyInput = checkEmptyInputError(e.currentTarget.step2, changeError);
@@ -133,9 +134,12 @@ const Step2 = () => {
 		if (clientStoreImageURL) URL.revokeObjectURL(clientStoreImageURL);
 		if (e.target.files !== null) {
 			setClientStoreImageURL(URL.createObjectURL(e.target.files[0]));
+			const { url } = await uploadToS3(e.target.files[0]);
+			setS3ImagePath(url);
 		}
 		changeNormal(6);
 	};
+
 	const handleFindCoords = async (storeAddress: string) => {
 		await axios
 			.get(`https://dapi.kakao.com/v2/local/search/address.json?query=${storeAddress}`, {
@@ -257,9 +261,9 @@ const Step2 = () => {
 							<Typography variant="p" aggressive="body_oneline_004" color={theme.colors.gray_005}>
 								가게 사진이 없다면 기본 이미지로 등록해드려요
 							</Typography>
-	        {selectedStoreImageBtn === 'defaultImage' && (
-							<Image src={StoreDefaultImg} alt="기본가게이미지" width={343} height={160} style={{ paddingTop: '8px' }} />
-						)}
+							{selectedStoreImageBtn === 'defaultImage' && (
+								<Image src={StoreDefaultImg} alt="기본가게이미지" width={343} height={160} style={{ paddingTop: '8px' }} />
+							)}
 						</StyledLayout.FlexBox>
 					</StyledLayout.FlexBox>
 					<StyledLayout.FlexBox>
@@ -292,114 +296,114 @@ const Step2 = () => {
 							)}
 						</StyledLayout.FlexBox>
 					</StyledLayout.FlexBox>
-</StyledLayout.TextFieldSection>
-			<StyledLayout.TextFieldSection>
-				<label htmlFor="PromotionalChannel">
-					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
-						홍보 채널 (선택)
-					</Typography>
-				</label>
-				<TextField name="step2" id="PromotionalChannel" inputFlag="normal" width="320px" />
-				<Typography variant="p" aggressive="body_oneline_004" color={theme.colors.gray_005}>
-					인스타그램, 블로그, 홈페이지 중 가장 활발히 사용하고 있는 채널 하나를 선택해서 링크 입력해주세요
-				</Typography>
-			</StyledLayout.TextFieldSection>
-			<StyledLayout.TextFieldSection>
-				<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
-					운영 시간
-				</Typography>
-				<StyledLayout.FlexBox gap="24px" style={{ padding: '4px 0' }}>
-					<StyledLayout.FlexBox gap="8px" alignItems="center">
-						<RadioBtn name="businessHour" value="weekDaysWeekEnd" onChange={handleSelectedBusinessHourBtn} defaultChecked />
-						<label htmlFor="weekDaysWeekEnd">
-							<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
-								평일 / 주말 달라요
-							</Typography>
-						</label>
-					</StyledLayout.FlexBox>
-					<StyledLayout.FlexBox gap="8px" alignItems="center">
-						<RadioBtn name="businessHour" value="eachDays" onChange={handleSelectedBusinessHourBtn} />
-						<label htmlFor="eachDays">
-							<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
-								요일별로 달라요
-							</Typography>
-						</label>
-					</StyledLayout.FlexBox>
-				</StyledLayout.FlexBox>
-				{selectedBusinessHourBtn === 'weekDaysWeekEnd' ? (
-					<StyledLayout.FlexBox flexDirection="column" gap="12px">
-						<StyledLayout.FlexBox>
-							<StyledLayout.FlexBox flexDirection="column" gap="6px">
-								<Typography variant="h3" aggressive="button_001" color="gray_007">
-									평일
-								</Typography>
-								<Typography variant="h4" aggressive="body_oneline_004" color="gray_005" margin="0 20px 0 0">
-									(월~금)
-								</Typography>
-							</StyledLayout.FlexBox>
-							<TimePicker dayOffRef={(el) => (dayOffRef.current[0] = el)} name="weekDays" />
-						</StyledLayout.FlexBox>
-						<StyledLayout.FlexBox>
-							<StyledLayout.FlexBox flexDirection="column" gap="6px">
-								<Typography variant="h3" aggressive="button_001" color="gray_007">
-									주말
-								</Typography>
-								<Typography variant="h4" aggressive="body_oneline_004" color="gray_005" margin="0 20px 0 0">
-									(토~일)
-								</Typography>
-							</StyledLayout.FlexBox>
-							<TimePicker dayOffRef={(el) => (dayOffRef.current[1] = el)} name="WeekEnd" disabled={dayOffStatus[0]} />
-							<DayOffBtn dayOff={dayOffStatus[0]} onClick={() => handleTimePickerInput(0)} style={{ marginLeft: '6px' }} />
-						</StyledLayout.FlexBox>
-					</StyledLayout.FlexBox>
-				) : (
-					<StyledLayout.FlexBox flexDirection="column" gap="12px">
-						{businessHourDays.map(({ id, day }) => {
-							return (
-								<StyledLayout.FlexBox key={id}>
-									<StyledLayout.FlexBox flexDirection="column" gap="6px">
-										<Typography variant="h3" aggressive="button_001" color="gray_007" margin="0 20px 0 0">
-											{day}
-										</Typography>
-									</StyledLayout.FlexBox>
-									<TimePicker dayOffRef={(el) => (dayOffRef.current[id] = el)} disabled={dayOffStatus[id - 1]} />
-									<DayOffBtn
-										dayOff={dayOffStatus[id - 1]}
-										onClick={() => handleTimePickerInput(id - 1)}
-										style={{ marginLeft: '6px' }}
-									/>
-								</StyledLayout.FlexBox>
-							);
-						})}
-					</StyledLayout.FlexBox>
-				)}
-			</StyledLayout.TextFieldSection>
-			<StyledLayout.TextFieldSection>
-				<label htmlFor="dayOff">
-					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
-						휴무일
-					</Typography>
-				</label>
-				<TextField
-					emptyErrorMessage="휴무일을"
-					name="step2"
-					id="dayOff"
-					inputFlag={selectedStoreImageBtn === 'defaultImage' ? inputArr[7] : inputArr[8]}
-					onFocus={() => (selectedStoreImageBtn === 'defaultImage' ? changeNormal(7) : changeNormal(8))}
-					width="320px"
-				/>
-				<StyledLayout.FlexBox style={{ paddingTop: '4px' }}>
+				</StyledLayout.TextFieldSection>
+				<StyledLayout.TextFieldSection>
+					<label htmlFor="PromotionalChannel">
+						<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
+							홍보 채널 (선택)
+						</Typography>
+					</label>
+					<TextField name="step2" id="PromotionalChannel" inputFlag="normal" width="320px" />
 					<Typography variant="p" aggressive="body_oneline_004" color={theme.colors.gray_005}>
-						ex) 연중 무휴, 매주 토요일, 매달 둘째 및 넷째주 토요일 등
+						인스타그램, 블로그, 홈페이지 중 가장 활발히 사용하고 있는 채널 하나를 선택해서 링크 입력해주세요
 					</Typography>
+				</StyledLayout.TextFieldSection>
+				<StyledLayout.TextFieldSection>
+					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
+						운영 시간
+					</Typography>
+					<StyledLayout.FlexBox gap="24px" style={{ padding: '4px 0' }}>
+						<StyledLayout.FlexBox gap="8px" alignItems="center">
+							<RadioBtn name="businessHour" value="weekDaysWeekEnd" onChange={handleSelectedBusinessHourBtn} defaultChecked />
+							<label htmlFor="weekDaysWeekEnd">
+								<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
+									평일 / 주말 달라요
+								</Typography>
+							</label>
+						</StyledLayout.FlexBox>
+						<StyledLayout.FlexBox gap="8px" alignItems="center">
+							<RadioBtn name="businessHour" value="eachDays" onChange={handleSelectedBusinessHourBtn} />
+							<label htmlFor="eachDays">
+								<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
+									요일별로 달라요
+								</Typography>
+							</label>
+						</StyledLayout.FlexBox>
+					</StyledLayout.FlexBox>
+					{selectedBusinessHourBtn === 'weekDaysWeekEnd' ? (
+						<StyledLayout.FlexBox flexDirection="column" gap="12px">
+							<StyledLayout.FlexBox>
+								<StyledLayout.FlexBox flexDirection="column" gap="6px">
+									<Typography variant="h3" aggressive="button_001" color="gray_007">
+										평일
+									</Typography>
+									<Typography variant="h4" aggressive="body_oneline_004" color="gray_005" margin="0 20px 0 0">
+										(월~금)
+									</Typography>
+								</StyledLayout.FlexBox>
+								<TimePicker dayOffRef={(el) => (dayOffRef.current[0] = el)} name="weekDays" />
+							</StyledLayout.FlexBox>
+							<StyledLayout.FlexBox>
+								<StyledLayout.FlexBox flexDirection="column" gap="6px">
+									<Typography variant="h3" aggressive="button_001" color="gray_007">
+										주말
+									</Typography>
+									<Typography variant="h4" aggressive="body_oneline_004" color="gray_005" margin="0 20px 0 0">
+										(토~일)
+									</Typography>
+								</StyledLayout.FlexBox>
+								<TimePicker dayOffRef={(el) => (dayOffRef.current[1] = el)} name="WeekEnd" disabled={dayOffStatus[0]} />
+								<DayOffBtn dayOff={dayOffStatus[0]} onClick={() => handleTimePickerInput(0)} style={{ marginLeft: '6px' }} />
+							</StyledLayout.FlexBox>
+						</StyledLayout.FlexBox>
+					) : (
+						<StyledLayout.FlexBox flexDirection="column" gap="12px">
+							{businessHourDays.map(({ id, day }) => {
+								return (
+									<StyledLayout.FlexBox key={id}>
+										<StyledLayout.FlexBox flexDirection="column" gap="6px">
+											<Typography variant="h3" aggressive="button_001" color="gray_007" margin="0 20px 0 0">
+												{day}
+											</Typography>
+										</StyledLayout.FlexBox>
+										<TimePicker dayOffRef={(el) => (dayOffRef.current[id] = el)} disabled={dayOffStatus[id - 1]} />
+										<DayOffBtn
+											dayOff={dayOffStatus[id - 1]}
+											onClick={() => handleTimePickerInput(id - 1)}
+											style={{ marginLeft: '6px' }}
+										/>
+									</StyledLayout.FlexBox>
+								);
+							})}
+						</StyledLayout.FlexBox>
+					)}
+				</StyledLayout.TextFieldSection>
+				<StyledLayout.TextFieldSection>
+					<label htmlFor="dayOff">
+						<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
+							휴무일
+						</Typography>
+					</label>
+					<TextField
+						emptyErrorMessage="휴무일을"
+						name="step2"
+						id="dayOff"
+						inputFlag={selectedStoreImageBtn === 'defaultImage' ? inputArr[7] : inputArr[8]}
+						onFocus={() => (selectedStoreImageBtn === 'defaultImage' ? changeNormal(7) : changeNormal(8))}
+						width="320px"
+					/>
+					<StyledLayout.FlexBox style={{ paddingTop: '4px' }}>
+						<Typography variant="p" aggressive="body_oneline_004" color={theme.colors.gray_005}>
+							ex) 연중 무휴, 매주 토요일, 매달 둘째 및 넷째주 토요일 등
+						</Typography>
+					</StyledLayout.FlexBox>
+				</StyledLayout.TextFieldSection>
+				<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '16px' }}>
+					<LargeBtn type="submit" style={style.btnStyle.primary_btn_002}>
+						다음단계
+					</LargeBtn>
 				</StyledLayout.FlexBox>
-			</StyledLayout.TextFieldSection>
-			<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '16px' }}>
-				<LargeBtn type="submit" style={style.btnStyle.primary_btn_002}>
-					다음단계
-				</LargeBtn>
-			</StyledLayout.FlexBox>
-		</form>
+			</form>
 		</>
 	);
 };
