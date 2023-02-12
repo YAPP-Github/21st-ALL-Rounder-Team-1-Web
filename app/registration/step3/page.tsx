@@ -8,8 +8,8 @@ import {
 } from 'components/feature';
 import ProductInfoElement from 'components/feature/ProductInfoElement';
 import { LargeBtn, StyledLayout, Toast, Typography } from 'components/shared';
-import { ExpandLessIcon } from 'public/static/icons';
-import { FormEvent, useState } from 'react';
+import { ExpandMoreIcon } from 'public/static/icons';
+import { useState } from 'react';
 import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
 import { useProductStore } from 'store/actions/storeRegistrationStore';
 import styled from 'styled-components';
@@ -20,11 +20,6 @@ const Step3 = () => {
 	const { modalKey, changeModalKey } = useModalStore();
 	const [expandedSummary, setExpandedSummary] = useState([false, false, false, false, false]);
 	const [temporarySaveToast, setTemporarySaveToast] = useState(false);
-	const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		// console.log((document.querySelector('.step3')?.children[0] as HTMLInputElement).value);
-		// console.log(e.target.step3);
-	};
 	const handleTemporarySave = () => {
 		if (changeError() !== 0) return;
 		if (
@@ -66,7 +61,7 @@ const Step3 = () => {
 				</Typography>
 			</GuideWrapper>
 			<StAccordion expanded={expandedSummary[0]}>
-				<StAccordionSummary expandIcon={<ExpandLessIcon />} onClick={() => handleExpandedSummary('baseMakeUp', 0)}>
+				<StAccordionSummary expandIcon={<ExpandMoreIcon />} onClick={() => handleExpandedSummary('baseMakeUp', 0)}>
 					<Typography variant={'h3'} aggressive={'headline_oneline_004'} color={theme.colors.gray_007}>
 						기초화장 / 세안
 					</Typography>
@@ -88,7 +83,7 @@ const Step3 = () => {
 			</StAccordion>
 
 			<StAccordion expanded={expandedSummary[1]}>
-				<StAccordionSummary expandIcon={<ExpandLessIcon />} onClick={() => handleExpandedSummary('bodyHair', 1)}>
+				<StAccordionSummary expandIcon={<ExpandMoreIcon />} onClick={() => handleExpandedSummary('bodyHair', 1)}>
 					<Typography variant={'h3'} aggressive={'headline_oneline_004'} color={theme.colors.gray_007}>
 						바디 / 헤어
 					</Typography>
@@ -109,7 +104,7 @@ const Step3 = () => {
 				</StAccordionDetails>
 			</StAccordion>
 			<StAccordion expanded={expandedSummary[2]}>
-				<StAccordionSummary expandIcon={<ExpandLessIcon />} onClick={() => handleExpandedSummary('detergent', 2)}>
+				<StAccordionSummary expandIcon={<ExpandMoreIcon />} onClick={() => handleExpandedSummary('detergent', 2)}>
 					<Typography variant={'h3'} aggressive={'headline_oneline_004'} color={theme.colors.gray_007}>
 						세제
 					</Typography>
@@ -130,7 +125,7 @@ const Step3 = () => {
 				</StAccordionDetails>
 			</StAccordion>
 			<StAccordion expanded={expandedSummary[3]}>
-				<StAccordionSummary expandIcon={<ExpandLessIcon />} onClick={() => handleExpandedSummary('ingredient', 3)}>
+				<StAccordionSummary expandIcon={<ExpandMoreIcon />} onClick={() => handleExpandedSummary('ingredient', 3)}>
 					<Typography variant={'h3'} aggressive={'headline_oneline_004'} color={theme.colors.gray_007}>
 						식재료
 					</Typography>
@@ -151,7 +146,7 @@ const Step3 = () => {
 				</StAccordionDetails>
 			</StAccordion>
 			<StAccordion expanded={expandedSummary[4]}>
-				<StAccordionSummary expandIcon={<ExpandLessIcon />} onClick={() => handleExpandedSummary('etc', 4)}>
+				<StAccordionSummary expandIcon={<ExpandMoreIcon />} onClick={() => handleExpandedSummary('etc', 4)}>
 					<Typography variant={'h3'} aggressive={'headline_oneline_004'} color={theme.colors.gray_007}>
 						기타
 					</Typography>

@@ -21,15 +21,18 @@ export const useStep2Store = create<stepInputs>()(
 	})),
 );
 export interface Product {
-	product: { category: string; brandName: string; productName: string; isProductEmptyError: 'normal' | 'error' };
+	category: string;
+	brandName: string;
+	productName: string;
+	isProductEmptyError: 'normal' | 'error';
 }
 
 export interface Products {
-	baseMakeUp: Array<Product['product']>;
-	bodyHair: Array<Product['product']>;
-	detergent: Array<Product['product']>;
-	ingredient: Array<Product['product']>;
-	etc: Array<Product['product']>;
+	baseMakeUp: Product[];
+	bodyHair: Product[];
+	detergent: Product[];
+	ingredient: Product[];
+	etc: Product[];
 	addProduct: (productArrName: string) => void;
 	removeProduct: (productArrName: string, elementIdx: number) => void;
 	onChangeBrandName: (productArrName: string, elementIdx: number, value: string) => void;
