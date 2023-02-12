@@ -1,5 +1,5 @@
 import { MutableRefObject, RefObject } from 'react';
-import { step1Store } from 'store/actions/step1Store';
+import { step1RequestStore } from 'store/actions/step1Store';
 
 export const extractBusinessLicenseExceptHyhpen = (businessLicense: string) => {
 	return businessLicense
@@ -17,11 +17,11 @@ export const checkEmptyInputError = (inputArr: RadioNodeList, changeError: (inpu
 	}
 	return emptyInput;
 };
-export const saveUserStep1Input = (inputArr: RadioNodeList) => {
-	const { setStep1InputValue } = step1Store();
+export const saveUserStep1Input = (inputArr: RadioNodeList, setFunc: (inputId: string, inputValue: string) => void) => {
 	for (let i = 0; i < inputArr.length; i++) {
 		if ((inputArr[i] as HTMLInputElement).value !== '') {
-			setStep1InputValue((inputArr[i] as HTMLInputElement).id, (inputArr[i] as HTMLInputElement).value);
+			setFunc((inputArr[i] as HTMLInputElement).id, (inputArr[i] as HTMLInputElement).value);
+			console.log((inputArr[i] as HTMLInputElement).id, (inputArr[i] as HTMLInputElement).value);
 		}
 	}
 };

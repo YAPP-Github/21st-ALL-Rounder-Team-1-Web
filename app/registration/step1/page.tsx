@@ -2,22 +2,21 @@
 
 import { TextField } from 'components/feature';
 import { LargeBtn, StyledLayout, Typography } from 'components/shared';
-import { checkEmptyInputError } from 'core/storeRegistrationService';
+import { checkEmptyInputError, saveUserStep1Input } from 'core/storeRegistrationService';
 import { useRouter } from 'next/navigation';
-import { FormEvent } from 'react';
-import { step1Store } from 'store/actions/step1Store';
+import { FormEvent, useEffect } from 'react';
+import { step1RequestStore, step1ErrorStore } from 'store/actions/step1Store';
 import { theme } from 'styles';
 import style from 'styles/style';
 
 const Step1 = () => {
-	const { name, email, phoneNumber, setStep1InputValue, changeError, changeNormal } = step1Store();
+	const { name, email, phoneNumber, setStep1InputValue, changeError, changeNormal } = step1ErrorStore();
+	const { setStep1Request } = step1RequestStore();
 	const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const emptyInput = checkEmptyInputError(e.currentTarget.step1, changeError);
 		if (emptyInput !== 0) return;
-
-		
-		// 여기서부터 서버 api 연결 로직
+		saveUserStep1Input(e.currentTarget.step1, setStep1Request);
 	};
 	return (
 		<form onSubmit={handleOnSubmit}>
