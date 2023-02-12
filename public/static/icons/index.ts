@@ -13,3 +13,5 @@ export { default as EmblemNaverIcon } from './emblem_naver.svg';
 export { default as SymbolKakaoIcon } from './symbol_kakao.svg';
 export { default as SymbolNaverIcon } from './symbol_naver.svg';
 export { default as InstagramIcon } from './instagram.svg';
+export { default as ExpandMoreIcon } from './fold.svg';
+export { default as ExpandLessIcon } from './unfold.svg';

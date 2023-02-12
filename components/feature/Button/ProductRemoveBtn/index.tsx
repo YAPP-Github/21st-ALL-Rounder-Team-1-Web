@@ -1,9 +1,12 @@
 import { RemoveIcon } from 'public/static/icons';
 import { ProductBtnContainer } from './styled';
 
-const ProductRemoveBtn = () => {
+type Props = {
+	onClick: () => void;
+};
+const ProductRemoveBtn = ({ onClick }: Props) => {
 	return (
-		<ProductBtnContainer>
+		<ProductBtnContainer onClick={onClick}>
 			<RemoveIcon />
 		</ProductBtnContainer>
 	);

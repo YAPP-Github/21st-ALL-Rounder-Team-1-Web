@@ -12,7 +12,7 @@ export const Container = styled.div`
 `;
 
 export const ModalBackdrop = styled.div`
-	position: absolute;
+	position: fixed;
 	inset: 0;
 	background-color: ${({ theme }) => theme.colors.gray_007};
 	opacity: 0.5;
