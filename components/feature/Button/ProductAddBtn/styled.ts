@@ -5,9 +5,9 @@ export const ProductBtnContainer = styled.button`
 	height: 48px;
 	border-radius: 8px;
 	text-align: center;
-	display:flex;
-	align-items:center;
-	justify-content:center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	background-color: ${({ theme }) => theme.colors.gray_007};
 	svg {
 		display: block;
