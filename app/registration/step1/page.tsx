@@ -15,6 +15,8 @@ const Step1 = () => {
 		e.preventDefault();
 		const emptyInput = checkEmptyInputError(e.currentTarget.step1, changeError);
 		if (emptyInput !== 0) return;
+
+		
 		// 여기서부터 서버 api 연결 로직
 	};
 	return (

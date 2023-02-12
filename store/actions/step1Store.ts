@@ -1,23 +1,41 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-export interface Step1Inputs {
-	[index: string]: any;
-	name: { value: string; isError: 'normal' | 'error' };
-	email: { value: string; isError: 'normal' | 'error' };
-	phoneNumber: { value: string; isError: 'normal' | 'error' };
-	setStep1InputValue: (inputId: string, inputValue: string) => void;
+export type Step1Request = {
+	name: string;
+	email: string;
+	phoneNumber: string;
+};
+export interface Step1Store {
+	step1Request: Step1Request;
+	setStep1Request: (inputId: string, inputValue: string) => void;
+}
+export interface Step1Error {
+	[index: string]: Function | Object;
+	name: { isError: 'normal' | 'error' };
+	email: { isError: 'normal' | 'error' };
+	phoneNumber: { isError: 'normal' | 'error' };
 	changeError: (inputId: string) => void;
 	changeNormal: (inputId: string) => void;
 }
-export const step1Store = create<Step1Inputs>()(
+const initialState: Step1Request = {
+	name: '',
+	email: '',
+	phoneNumber: '',
+};
+
+export const step1ErrorStore = create<Step1Error>()(
 	devtools((set) => ({
-		name: { value: '', isError: 'normal' },
-		email: { value: '', isError: 'normal' },
-		phoneNumber: { value: '', isError: 'normal' },
-		setStep1InputValue: (inputId: string, inputValue: string) =>
-			set((state) => ({ [inputId]: { ...state[inputId], value: inputValue } })),
+		name: { isError: 'normal' },
+		email: { isError: 'normal' },
+		phoneNumber: { isError: 'normal' },
 		changeError: (inputId: string) => set((state) => ({ [inputId]: { ...state[inputId], isError: 'error' } })),
 		changeNormal: (inputId: string) => set((state) => ({ [inputId]: { ...state[inputId], isError: 'normal' } })),
+	})),
+);
+export const step1RequestStore = create<Step1Store>()(
+	devtools((set) => ({
+		step1Request: initialState,
+		setStep1Request: (inputId: string, inputValue: string) => set((state) => ({ [inputId]: { ...state, inputId: inputValue } })),
 	})),
 );
