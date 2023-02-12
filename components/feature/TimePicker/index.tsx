@@ -1,18 +1,25 @@
-import { ChangeEvent, FocusEvent, RefObject, useEffect, useState } from 'react';
+import { ChangeEvent, FocusEvent, useEffect, useState } from 'react';
 import { TimePickerContainer, TimeInput, CenterSpan } from './styled';
 
 type Props = {
-	name: string;
-	dayOffRef: RefObject<HTMLButtonElement>;
-} & React.ComponentProps<'button'>;
-const TimePicker = ({ name, dayOffRef, ...props }: Props) => {
+	value?: {
+		startHour: string;
+		startMinutes: string;
+		endHour: string;
+		endMinutes: string;
+	};
+	dayOffRef: (el: HTMLButtonElement) => void;
+} & Omit<React.ComponentProps<'button'>, 'value'>;
+const TimePicker = ({ value, dayOffRef, ...props }: Props) => {
 	const [timePickerValue, setTimePickerValue] = useState('');
-	const [timeValues, setTimeValues] = useState({
-		startHour: '10',
-		startMinutes: '00',
-		endHour: '22',
-		endMinutes: '00',
-	});
+	const [timeValues, setTimeValues] = useState(
+		value ?? {
+			startHour: '10',
+			startMinutes: '00',
+			endHour: '22',
+			endMinutes: '00',
+		},
+	);
 	const handleTimePickerValue = (e: ChangeEvent<HTMLInputElement>) => {
 		const { value, name } = e.target;
 
@@ -29,10 +36,21 @@ const TimePicker = ({ name, dayOffRef, ...props }: Props) => {
 		});
 	};
 	useEffect(() => {
-		setTimePickerValue(`${timeValues.startHour}:${timeValues.startMinutes}~${timeValues.endHour}:${timeValues.endMinutes}`);
-	}, [timeValues]);
+		if (props.disabled) {
+			setTimePickerValue('null');
+			return;
+		} else
+			setTimePickerValue(`${timeValues.startHour}:${timeValues.startMinutes}~${timeValues.endHour}:${timeValues.endMinutes}`);
+	}, [timeValues, props.disabled]);
 	return (
-		<TimePickerContainer name={name} value={timePickerValue} type="button" ref={dayOffRef} disabled={props.disabled}>
+		<TimePickerContainer
+			name={props.name}
+			id={props.id}
+			value={timePickerValue}
+			type="button"
+			ref={dayOffRef}
+			disabled={props.disabled ?? false}
+		>
 			<TimeInput
 				onBlur={handleOnBlur}
 				value={timeValues.startHour}
@@ -40,7 +58,7 @@ const TimePicker = ({ name, dayOffRef, ...props }: Props) => {
 				type="text"
 				maxLength={2}
 				onChange={handleTimePickerValue}
-				disabled={props.disabled}
+				disabled={props.disabled ?? false}
 			/>
 			<span>:</span>
 			<TimeInput
@@ -50,7 +68,7 @@ const TimePicker = ({ name, dayOffRef, ...props }: Props) => {
 				type="text"
 				maxLength={2}
 				onChange={handleTimePickerValue}
-				disabled={props.disabled}
+				disabled={props.disabled ?? false}
 			/>
 			<CenterSpan>~</CenterSpan>
 			<TimeInput
@@ -60,7 +78,7 @@ const TimePicker = ({ name, dayOffRef, ...props }: Props) => {
 				type="text"
 				maxLength={2}
 				onChange={handleTimePickerValue}
-				disabled={props.disabled}
+				disabled={props.disabled ?? false}
 			/>
 			<span>:</span>
 			<TimeInput
@@ -70,7 +88,7 @@ const TimePicker = ({ name, dayOffRef, ...props }: Props) => {
 				type="text"
 				maxLength={2}
 				onChange={handleTimePickerValue}
-				disabled={props.disabled}
+				disabled={props.disabled ?? false}
 			/>
 		</TimePickerContainer>
 	);

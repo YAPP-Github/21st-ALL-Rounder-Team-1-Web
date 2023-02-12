@@ -2,11 +2,11 @@
 
 import * as S from './styled';
 import { StyledLayout, Typography } from 'components/shared';
-import { useSession } from 'next-auth/react';
 import { theme } from 'styles';
 import { EmblemKakaoIcon, EmblemNaverIcon } from 'public/static/icons';
 import { getSocialPlatformType } from 'core/signupService';
 import { usePathname } from 'next/navigation';
+import useUserSessionStore from 'store/actions/userSessionStore';
 
 const myPageNavigations = [
 	{
@@ -22,21 +22,21 @@ const myPageNavigations = [
 ] as const;
 
 const MyPageSideBar = () => {
-	const { data } = useSession();
 	const pathname = usePathname();
+	const { userSession } = useUserSessionStore();
 
 	return (
 		<S.MyPageSideBar>
 			<StyledLayout.FlexBox flexDirection="column" margin="0 0 46px 0">
 				<Typography variant="span" aggressive="headline_oneline_004" margin="0 0 4px 0">
-					{data?.user?.name ?? '사장'}님
+					{userSession.name ?? userSession.nickname}님
 				</Typography>
 				<StyledLayout.FlexBox alignItems="center" gap="4px">
 					<Typography variant="span" aggressive="body_oneline_004" color={theme.colors.gray_005}>
-						{data?.user?.email}
+						{userSession.email}
 					</Typography>
 
-					{getSocialPlatformType(data?.user?.email) === 'Naver' ? <EmblemNaverIcon /> : <EmblemKakaoIcon />}
+					{getSocialPlatformType(userSession.email) === 'Naver' ? <EmblemNaverIcon /> : <EmblemKakaoIcon />}
 				</StyledLayout.FlexBox>
 			</StyledLayout.FlexBox>
 
