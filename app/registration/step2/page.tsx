@@ -37,11 +37,7 @@ interface IBusinessLicenseStatusResponse {
 		invoice_apply_at: string;
 	}>;
 }
-declare global {
-	interface Window {
-		kakao: any;
-	}
-}
+
 const Step2 = () => {
 	const [storePostcodeInputs, setStorePostcodeInputs] = useState({
 		zonecode: '', // 우편번호
