@@ -7,7 +7,13 @@ type Props = {
 	businessLicenseTextFieldRef: RefObject<HTMLInputElement>;
 } & React.ComponentProps<'input'>;
 
-const BusinessLicenseTextField = ({ isAuthorizedNumber, businessLicenseTextFieldRef, inputFlag, ...props }: Props) => {
+const BusinessLicenseTextField = ({
+	placeholder,
+	isAuthorizedNumber,
+	businessLicenseTextFieldRef,
+	inputFlag,
+	...props
+}: Props) => {
 	const [businessLicense, setBusinessLicense] = useState<string>('');
 	const [currentKey, setCurrentKey] = useState<string>('');
 	const handleBusinessLicense = (e: ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +44,7 @@ const BusinessLicenseTextField = ({ isAuthorizedNumber, businessLicenseTextField
 				isAuthorizedNumber={isAuthorizedNumber}
 				ref={businessLicenseTextFieldRef}
 				type="search"
-				placeholder="입력해주세요"
+				placeholder={placeholder}
 				name={props.name}
 				id={props.id}
 				value={businessLicense}

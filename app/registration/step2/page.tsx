@@ -23,7 +23,6 @@ import {
 import style from 'styles/style';
 import { theme } from 'styles';
 import { StoreDefaultImg } from 'public/static/images';
-import { useStep2Store } from 'store/actions/storeRegistrationStore';
 import { useS3Upload } from 'next-s3-upload';
 interface IBusinessLicenseStatusResponse {
 	match_cnt: number;
@@ -170,6 +169,7 @@ const Step2 = () => {
 							inputFlag={inputArr[0]}
 							isAuthorizedNumber={businessLicenseStatus}
 							onFocus={handleHoverState}
+							placeholder="‘-‘ 를 빼고 숫자만 입력해주세요"
 						/>
 						<StoreResistrationSmallBtn type="button" width={{ width: '106px' }} onClick={handleBusinessLicenseStatusCheck}>
 							번호 조회
@@ -189,6 +189,7 @@ const Step2 = () => {
 						onFocus={() => changeNormal(1)}
 						inputFlag={inputArr[1]}
 						width="320px"
+						placeholder="상호명을 입력해주세요"
 					/>
 				</StyledLayout.TextFieldSection>
 				<StyledLayout.TextFieldSection>
@@ -204,6 +205,7 @@ const Step2 = () => {
 						onFocus={() => changeNormal(2)}
 						inputFlag={inputArr[2]}
 						width="320px"
+						placeholder="‘-‘ 를 포함하여 입력해주세요"
 					/>
 				</StyledLayout.TextFieldSection>
 				<StyledLayout.TextFieldSection>
@@ -221,6 +223,7 @@ const Step2 = () => {
 							id="store-postcode"
 							value={storePostcodeInputs.zonecode}
 							width="320px"
+							placeholder="입력하기"
 						/>
 						<PostcodePopupOpenBtn onExtractedPostCode={handleExtractedPostCode} />
 					</StyledLayout.FlexBox>
@@ -233,6 +236,7 @@ const Step2 = () => {
 						id="store-address"
 						value={storePostcodeInputs.address}
 						width="560px"
+						placeholder="입력하기"
 					/>
 					<TextField
 						emptyErrorMessage="상세 주소를"
@@ -303,7 +307,7 @@ const Step2 = () => {
 							홍보 채널 (선택)
 						</Typography>
 					</label>
-					<TextField name="step2" id="PromotionalChannel" inputFlag="normal" width="320px" />
+					<TextField placeholder="링크를 입력해주세요" name="step2" id="PromotionalChannel" inputFlag="normal" width="320px" />
 					<Typography variant="p" aggressive="body_oneline_004" color={theme.colors.gray_005}>
 						인스타그램, 블로그, 홈페이지 중 가장 활발히 사용하고 있는 채널 하나를 선택해서 링크 입력해주세요
 					</Typography>
@@ -391,6 +395,7 @@ const Step2 = () => {
 						inputFlag={selectedStoreImageBtn === 'defaultImage' ? inputArr[7] : inputArr[8]}
 						onFocus={() => (selectedStoreImageBtn === 'defaultImage' ? changeNormal(7) : changeNormal(8))}
 						width="320px"
+						placeholder="휴무일을 자유롭게 입력해주세요"
 					/>
 					<StyledLayout.FlexBox style={{ paddingTop: '4px' }}>
 						<Typography variant="p" aggressive="body_oneline_004" color={theme.colors.gray_005}>

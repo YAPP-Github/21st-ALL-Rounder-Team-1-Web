@@ -36,6 +36,7 @@ const Step1 = () => {
 					inputFlag={name.isError}
 					width="320px"
 					value={name.value === '' ? undefined : name.value}
+					placeholder="이름을 입력해주세요"
 				/>
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
@@ -52,6 +53,7 @@ const Step1 = () => {
 					inputFlag={email.isError}
 					width="320px"
 					value={email.value === '' ? undefined : email.value}
+					placeholder="예: pump@pump.com"
 				/>
 			</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
@@ -68,6 +70,7 @@ const Step1 = () => {
 					inputFlag={phoneNumber.isError}
 					width="320px"
 					value={phoneNumber.value === '' ? undefined : phoneNumber.value}
+					placeholder="‘-‘ 를 빼고 숫자만 입력해주세요"
 				/>
 			</StyledLayout.TextFieldSection>
 
