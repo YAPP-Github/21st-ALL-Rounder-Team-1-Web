@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 export interface Product {
+	[index: number]: any;
 	category: string;
 	brandName: string;
 	productName: string;
@@ -9,6 +10,7 @@ export interface Product {
 }
 
 export interface Products {
+	[index: string]: any;
 	baseMakeUp: Product[];
 	bodyHair: Product[];
 	detergent: Product[];
@@ -31,7 +33,7 @@ export const productStore = create<Products>()(
 		ingredient: [{ category: 'ingredient', brandName: '', productName: '', isProductEmptyError: 'normal' }],
 		etc: [{ category: 'etc', brandName: '', productName: '', isProductEmptyError: 'normal' }],
 		addProduct: (productArrName: string) => {
-			if (get()[productArrName][0].productName !== '') {
+			if (get().productArrName[0].productName !== '') {
 				set((state) => ({
 					[productArrName]: [
 						{ category: { productArrName }, brandName: '', productName: '', isProductEmptyError: 'normal' },
@@ -40,7 +42,7 @@ export const productStore = create<Products>()(
 				}));
 			} else {
 				set(() => ({
-					[productArrName]: get()[productArrName].map((item: Product, idx: number) =>
+					[productArrName]: get().productArrName.map((item: Product, idx: number) =>
 						idx === 0 ? { ...item, isProductEmptyError: 'error' } : item,
 					),
 				}));
@@ -48,7 +50,7 @@ export const productStore = create<Products>()(
 		},
 		removeProduct: (productArrName: string, elementIdx: number) => {
 			set(() => ({
-				[productArrName]: get()[productArrName].filter((_, idx: number) => idx !== elementIdx),
+				[productArrName]: get()[productArrName].filter((_: any, idx: number) => idx !== elementIdx),
 			}));
 		},
 		onChangeBrandName: (productArrName: string, elementIdx: number, value: string) => {
@@ -60,7 +62,7 @@ export const productStore = create<Products>()(
 		},
 		onChangeProductName: (productArrName: string, elementIdx: number, value: string) => {
 			set(() => ({
-				[productArrName]: get()[productArrName].map((item: Product, idx: number) =>
+				[productArrName]: get().productArrName.map((item: Product, idx: number) =>
 					idx === elementIdx ? { ...item, productName: value } : item,
 				),
 			}));

@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 export interface Step1Inputs {
+	[index: string]: any;
 	name: { value: string; isError: 'normal' | 'error' };
 	email: { value: string; isError: 'normal' | 'error' };
 	phoneNumber: { value: string; isError: 'normal' | 'error' };
