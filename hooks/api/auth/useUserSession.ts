@@ -46,12 +46,18 @@ export const useGetUserSession = () => {
 	});
 };
 
+interface UserDeleteResponse extends APIResponse {
+	data: {
+		userId: number;
+	};
+}
+
 export const deleteUserSession = async () => {
 	const {
 		user: { index },
 	} = API_PATH;
 
-	const response = await pumpClientRequester<number>({
+	const response = await pumpClientRequester<UserDeleteResponse>({
 		method: HTTP_METHOD.DELETE,
 		url: `${index}`,
 		headers: {
@@ -59,5 +65,5 @@ export const deleteUserSession = async () => {
 		},
 	});
 
-	return response.status;
+	return response.data.data;
 };
