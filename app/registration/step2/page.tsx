@@ -24,8 +24,7 @@ import style from 'styles/style';
 import { theme } from 'styles';
 import { StoreDefaultImg } from 'public/static/images';
 import { useStep2Store } from 'store/actions/storeRegistrationStore';
-import Script from 'next/script';
-
+import { useS3Upload } from 'next-s3-upload';
 interface IBusinessLicenseStatusResponse {
 	match_cnt: number;
 	request_cnt: number;
@@ -61,6 +60,7 @@ const Step2 = () => {
 	const [clientStoreImageURL, setClientStoreImageURL] = useState('');
 	const [selectedBusinessHourBtn, setSelectedBusinessHourBtn] = useState('weekDaysWeekEnd');
 	const { inputArr, changeNormal } = useStep2Store();
+	const { uploadToS3 } = useS3Upload();
 	const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		// const emptyInput = checkEmptyInputError(e.currentTarget.step2, changeError);
@@ -133,9 +133,11 @@ const Step2 = () => {
 		if (clientStoreImageURL) URL.revokeObjectURL(clientStoreImageURL);
 		if (e.target.files !== null) {
 			setClientStoreImageURL(URL.createObjectURL(e.target.files[0]));
+			const { url } = await uploadToS3(e.target.files[0]);
 		}
 		changeNormal(6);
 	};
+
 	const handleFindCoords = async (storeAddress: string) => {
 		await axios
 			.get(`https://dapi.kakao.com/v2/local/search/address.json?query=${storeAddress}`, {
