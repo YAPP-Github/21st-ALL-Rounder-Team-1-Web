@@ -3,7 +3,7 @@
 import { Provider } from 'jotai';
 import styled, { ThemeProvider } from 'styled-components';
 import QueryProvider from 'app/Provider';
-import RootStyleRegistry from 'app/RootStyleRegistry';
+import StyledComponentsRegistry from './RootStyleRegistry';
 import { Footer, Header } from 'components/shared';
 import { GlobalStyle, theme } from 'styles';
 
@@ -14,14 +14,14 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
 			<body>
 				<Provider>
 					<QueryProvider>
-						<RootStyleRegistry>
+						<StyledComponentsRegistry>
 							<ThemeProvider theme={theme}>
 								<GlobalStyle />
 								<Header />
 								<ChildrenContainer>{children}</ChildrenContainer>
 								<Footer />
 							</ThemeProvider>
-						</RootStyleRegistry>
+						</StyledComponentsRegistry>
 					</QueryProvider>
 				</Provider>
 			</body>
