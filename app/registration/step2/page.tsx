@@ -58,6 +58,7 @@ const Step2 = () => {
 	const [businessLicenseStatus, setBusinessLicenseStatus] = useState<'normal' | 'success' | 'error' | 'notClicked'>('normal');
 	const [selectedStoreImageBtn, setSelectedStoreImageBtn] = useState('defaultImage');
 	const [clientStoreImageURL, setClientStoreImageURL] = useState('');
+	const [S3ImagePath, setS3ImagePath] = useState('');
 	const [selectedBusinessHourBtn, setSelectedBusinessHourBtn] = useState('weekDaysWeekEnd');
 	const { inputArr, changeNormal } = useStep2Store();
 	const { uploadToS3 } = useS3Upload();
@@ -134,6 +135,7 @@ const Step2 = () => {
 		if (e.target.files !== null) {
 			setClientStoreImageURL(URL.createObjectURL(e.target.files[0]));
 			const { url } = await uploadToS3(e.target.files[0]);
+			setS3ImagePath(url);
 		}
 		changeNormal(6);
 	};
