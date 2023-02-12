@@ -4,7 +4,7 @@ import { TextField } from 'components/feature';
 import { LargeBtn, StyledLayout, Typography } from 'components/shared';
 import { checkEmptyInputError, saveUserStep1Input } from 'core/storeRegistrationService';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useEffect } from 'react';
+import { ChangeEvent, FormEvent, KeyboardEvent, useState } from 'react';
 import { step1RequestStore, step1ErrorStore } from 'store/actions/step1Store';
 import { theme } from 'styles';
 import style from 'styles/style';
@@ -13,6 +13,25 @@ const Step1 = () => {
 	const router = useRouter();
 	const { name, email, phoneNumber, setStep1InputValue, changeError, changeNormal } = step1ErrorStore();
 	const { setStep1Request } = step1RequestStore();
+	const [customPhoneNum, setCustomPhoneNum] = useState('');
+	const [currentKey, setCurrentKey] = useState<string>('');
+	const handlePhoneNumber = (e: ChangeEvent<HTMLInputElement>) => {
+		let newText = e.target.value;
+		const num = /[-0-9]/;
+		if (newText.length > 0 && !num.test(newText[newText.length - 1])) return;
+		if (newText.length > 13) return;
+		if (newText.length === 13) {
+			setCustomPhoneNum(newText.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'));
+		}
+		if (currentKey !== 'Backspace' && (newText.length === 3 || newText.length === 8)) {
+			newText += '-';
+		}
+		setCustomPhoneNum(newText.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'));
+	};
+
+	const checkKey = (e: KeyboardEvent<HTMLInputElement>) => {
+		setCurrentKey(e.key);
+	};
 	const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const emptyInput = checkEmptyInputError(e.currentTarget.step1, changeError);
@@ -69,8 +88,10 @@ const Step1 = () => {
 					onFocus={() => changeNormal('phoneNumber')}
 					inputFlag={phoneNumber.isError}
 					width="320px"
-					value={phoneNumber.value === '' ? undefined : phoneNumber.value}
+					value={customPhoneNum}
 					placeholder="‘-‘ 를 빼고 숫자만 입력해주세요"
+					onChange={handlePhoneNumber}
+					onKeyDown={checkKey}
 				/>
 			</StyledLayout.TextFieldSection>
 
