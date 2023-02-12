@@ -1,6 +1,11 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
+export type ModalStore = {
+	modalKey: string;
+	changeModalKey: (changedModalKey: string) => void;
+};
+
 export const MODAL_KEY = {
 	OFF: 'OFF',
 	ON_LEAVE_MEMBER_CONFIRM_MODAL: 'ON_LEAVE_MEMBER_CONFIRM_MODAL',
@@ -17,14 +22,6 @@ export const MODAL_KEY = {
 	ON_STORE_REGISTRATION_EXIT_CONFIRM_MODAL: 'ON_STORE_REGISTRATION_EXIT_CONFIRM_MODAL',
 	ON_STORE_REGISTRATION_STEP_CHANGE_CONFIRM_MODAL: 'ON_STORE_REGISTRATION_STEP_CHANGE_CONFIRM_MODAL',
 } as const;
-
-export type ModalStore = {
-	modalKey: string;
-	changeModalKey: (changedModalKey: string) => void;
-};
-
-export type InitialState = { modalKey: string };
-export type setModal = { changeModal: (changedModalKey: string) => void };
 
 export const modalStore = (set) => ({
 	modalKey: MODAL_KEY.OFF,
