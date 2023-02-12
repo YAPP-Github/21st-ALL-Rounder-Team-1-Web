@@ -24,6 +24,7 @@ import style from 'styles/style';
 import { theme } from 'styles';
 import { StoreDefaultImg } from 'public/static/images';
 import { useStep2Store } from 'store/actions/storeRegistrationStore';
+import Script from 'next/script';
 
 interface IBusinessLicenseStatusResponse {
 	match_cnt: number;
@@ -49,20 +50,25 @@ const Step2 = () => {
 		addressDetail: '', // 상세 주소
 	});
 	const businessLicenseInputRef = useRef() as RefObject<HTMLInputElement>;
+	const [coords, setCoords] = useState({
+		longitude: '', // 경도
+		latitude: '', // 위도
+	});
 	const dayOffRef = useRef<null[] | Array<RefObject<HTMLButtonElement>> | HTMLButtonElement[]>([]);
 	const [dayOffStatus, setDayOffStatus] = useState<boolean[]>([false, false, false, false, false, false, false, false]);
 	const [businessLicenseStatus, setBusinessLicenseStatus] = useState<'normal' | 'success' | 'error' | 'notClicked'>('normal');
 	const [selectedStoreImageBtn, setSelectedStoreImageBtn] = useState('defaultImage');
 	const [clientStoreImageURL, setClientStoreImageURL] = useState('');
 	const [selectedBusinessHourBtn, setSelectedBusinessHourBtn] = useState('weekDaysWeekEnd');
-	const { inputArr, changeError, changeNormal } = useStep2Store();
-	const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
+	const { inputArr, changeNormal } = useStep2Store();
+	const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const emptyInput = checkEmptyInputError(e.currentTarget.step2, changeError);
-		if (e.currentTarget.step2[0].value !== '' && businessLicenseStatus === 'normal') setBusinessLicenseStatus('notClicked');
-		if (emptyInput !== 0) return;
+		// const emptyInput = checkEmptyInputError(e.currentTarget.step2, changeError);
+		// if (e.currentTarget.step2[0].value !== '' && businessLicenseStatus === 'normal') setBusinessLicenseStatus('notClicked');
+		// if (emptyInput !== 0) return;
 		// 운영시간 form data stringfy
-		makeBusinessHourData(dayOffRef, selectedBusinessHourBtn);
+		// makeBusinessHourData(dayOffRef, selectedBusinessHourBtn);
+		await handleFindCoords(storePostcodeInputs.address);
 		// 여기서부터 서버 api 연결 로직
 	};
 	const handleSelectedStoreImageBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -130,149 +136,163 @@ const Step2 = () => {
 		}
 		changeNormal(6);
 	};
+	const handleFindCoords = async (storeAddress: string) => {
+		await axios
+			.get(`https://dapi.kakao.com/v2/local/search/address.json?query=${storeAddress}`, {
+				headers: {
+					Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_MAP_REST_KEY}`, // REST API 키
+				},
+			})
+			.then((res) => {
+				const location = res.data.documents[0];
+				setCoords({ longitude: location.address.x, latitude: location.address.y });
+			});
+	};
+
 	return (
-		<form onSubmit={handleOnSubmit}>
-			<StyledLayout.TextFieldSection>
-				<label htmlFor="businessLicense">
-					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
-						사업자번호
-					</Typography>
-				</label>
-				<StyledLayout.FlexBox gap={'6px'}>
-					<BusinessLicenseTextField
-						businessLicenseTextFieldRef={businessLicenseInputRef}
+		<>
+			<form onSubmit={handleOnSubmit}>
+				<StyledLayout.TextFieldSection>
+					<label htmlFor="businessLicense">
+						<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
+							사업자번호
+						</Typography>
+					</label>
+					<StyledLayout.FlexBox gap={'6px'}>
+						<BusinessLicenseTextField
+							businessLicenseTextFieldRef={businessLicenseInputRef}
+							name="step2"
+							id="businessLicense"
+							inputFlag={inputArr[0]}
+							isAuthorizedNumber={businessLicenseStatus}
+							onFocus={handleHoverState}
+						/>
+						<StoreResistrationSmallBtn type="button" width={{ width: '106px' }} onClick={handleBusinessLicenseStatusCheck}>
+							번호 조회
+						</StoreResistrationSmallBtn>
+					</StyledLayout.FlexBox>
+				</StyledLayout.TextFieldSection>
+				<StyledLayout.TextFieldSection>
+					<label htmlFor="storeName">
+						<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
+							상호
+						</Typography>
+					</label>
+					<TextField
+						emptyErrorMessage="상호를"
 						name="step2"
-						id="businessLicense"
-						inputFlag={inputArr[0]}
-						isAuthorizedNumber={businessLicenseStatus}
-						onFocus={handleHoverState}
+						id="storeName"
+						onFocus={() => changeNormal(1)}
+						inputFlag={inputArr[1]}
+						width="320px"
 					/>
-					<StoreResistrationSmallBtn type="button" width={{ width: '106px' }} onClick={handleBusinessLicenseStatusCheck}>
-						번호 조회
-					</StoreResistrationSmallBtn>
-				</StyledLayout.FlexBox>
-			</StyledLayout.TextFieldSection>
-			<StyledLayout.TextFieldSection>
-				<label htmlFor="storeName">
-					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
-						상호
-					</Typography>
-				</label>
-				<TextField
-					emptyErrorMessage="상호를"
-					name="step2"
-					id="storeName"
-					onFocus={() => changeNormal(1)}
-					inputFlag={inputArr[1]}
-					width="320px"
-				/>
-			</StyledLayout.TextFieldSection>
-			<StyledLayout.TextFieldSection>
-				<label htmlFor="storeTelephoneNumber">
-					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
-						매장 전화번호
-					</Typography>
-				</label>
-				<TextField
-					emptyErrorMessage="매장 전화번호를"
-					name="step2"
-					id="storeTelephoneNumber"
-					onFocus={() => changeNormal(2)}
-					inputFlag={inputArr[2]}
-					width="320px"
-				/>
-			</StyledLayout.TextFieldSection>
-			<StyledLayout.TextFieldSection>
-				<label htmlFor="store-address-detail">
-					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
-						매장 주소
-					</Typography>
-				</label>
-				<StyledLayout.FlexBox gap="6px">
+				</StyledLayout.TextFieldSection>
+				<StyledLayout.TextFieldSection>
+					<label htmlFor="storeTelephoneNumber">
+						<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
+							매장 전화번호
+						</Typography>
+					</label>
+					<TextField
+						emptyErrorMessage="매장 전화번호를"
+						name="step2"
+						id="storeTelephoneNumber"
+						onFocus={() => changeNormal(2)}
+						inputFlag={inputArr[2]}
+						width="320px"
+					/>
+				</StyledLayout.TextFieldSection>
+				<StyledLayout.TextFieldSection>
+					<label htmlFor="store-address-detail">
+						<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
+							매장 주소
+						</Typography>
+					</label>
+					<StyledLayout.FlexBox gap="6px">
+						<TextField
+							emptyErrorMessage="매장 주소를"
+							readOnly={true}
+							inputFlag={inputArr[3]}
+							name="step2"
+							id="store-postcode"
+							value={storePostcodeInputs.zonecode}
+							width="320px"
+						/>
+						<PostcodePopupOpenBtn onExtractedPostCode={handleExtractedPostCode} />
+					</StyledLayout.FlexBox>
+
 					<TextField
 						emptyErrorMessage="매장 주소를"
 						readOnly={true}
-						inputFlag={inputArr[3]}
+						inputFlag={inputArr[4]}
 						name="step2"
-						id="store-postcode"
-						value={storePostcodeInputs.zonecode}
-						width="320px"
+						id="store-address"
+						value={storePostcodeInputs.address}
+						width="560px"
 					/>
-					<PostcodePopupOpenBtn onExtractedPostCode={handleExtractedPostCode} />
-				</StyledLayout.FlexBox>
-
-				<TextField
-					emptyErrorMessage="매장 주소를"
-					readOnly={true}
-					inputFlag={inputArr[4]}
-					name="step2"
-					id="store-address"
-					value={storePostcodeInputs.address}
-					width="560px"
-				/>
-				<TextField
-					emptyErrorMessage="상세 주소를"
-					onFocus={() => changeNormal(5)}
-					inputFlag={inputArr[5]}
-					name="step2"
-					id="store-address-detail"
-					placeholder="(필수) 상세주소를 입력해주세요"
-					value={storePostcodeInputs.addressDetail}
-					width="560px"
-					onChange={handleStoreAddressDetailChange}
-				/>
-			</StyledLayout.TextFieldSection>
-			<StyledLayout.TextFieldSection>
-				<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
-					매장 사진
-				</Typography>
-				<StyledLayout.FlexBox style={{ paddingTop: '8px', paddingBottom: '12px' }}>
-					<RadioBtn name="storeImage" value="defaultImage" onChange={handleSelectedStoreImageBtn} defaultChecked />
-					<StyledLayout.FlexBox style={{ paddingLeft: '8px' }} gap="8px" flexDirection="column">
-						<label htmlFor="defaultImage">
-							<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
-								기본 이미지 등록
+					<TextField
+						emptyErrorMessage="상세 주소를"
+						onFocus={() => changeNormal(5)}
+						inputFlag={inputArr[5]}
+						name="step2"
+						id="store-address-detail"
+						placeholder="(필수) 상세주소를 입력해주세요"
+						value={storePostcodeInputs.addressDetail}
+						width="560px"
+						onChange={handleStoreAddressDetailChange}
+					/>
+				</StyledLayout.TextFieldSection>
+				<StyledLayout.TextFieldSection>
+					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
+						매장 사진
+					</Typography>
+					<StyledLayout.FlexBox style={{ paddingTop: '8px', paddingBottom: '12px' }}>
+						<RadioBtn name="storeImage" value="defaultImage" onChange={handleSelectedStoreImageBtn} defaultChecked />
+						<StyledLayout.FlexBox style={{ paddingLeft: '8px' }} gap="8px" flexDirection="column">
+							<label htmlFor="defaultImage">
+								<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
+									기본 이미지 등록
+								</Typography>
+							</label>
+							<Typography variant="p" aggressive="body_oneline_004" color={theme.colors.gray_005}>
+								가게 사진이 없다면 기본 이미지로 등록해드려요
 							</Typography>
-						</label>
-						<Typography variant="p" aggressive="body_oneline_004" color={theme.colors.gray_005}>
-							가게 사진이 없다면 기본 이미지로 등록해드려요
-						</Typography>
-						{selectedStoreImageBtn === 'defaultImage' && (
+	        {selectedStoreImageBtn === 'defaultImage' && (
 							<Image src={StoreDefaultImg} alt="기본가게이미지" width={343} height={160} style={{ paddingTop: '8px' }} />
 						)}
+						</StyledLayout.FlexBox>
 					</StyledLayout.FlexBox>
-				</StyledLayout.FlexBox>
-				<StyledLayout.FlexBox>
-					<RadioBtn
-						onClick={() => changeNormal(6)}
-						name="storeImage"
-						value="registerImage"
-						onChange={handleSelectedStoreImageBtn}
-					/>
-					<StyledLayout.FlexBox style={{ paddingLeft: '8px' }} gap="8px" flexDirection="column">
-						<label htmlFor="registerImage">
-							<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
-								직접 등록
+					<StyledLayout.FlexBox>
+						<RadioBtn
+							onClick={() => changeNormal(6)}
+							name="storeImage"
+							value="registerImage"
+							onChange={handleSelectedStoreImageBtn}
+						/>
+						<StyledLayout.FlexBox style={{ paddingLeft: '8px' }} gap="8px" flexDirection="column">
+							<label htmlFor="registerImage">
+								<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
+									직접 등록
+								</Typography>
+							</label>
+							<Typography variant="p" aggressive="body_oneline_004" color={theme.colors.gray_005}>
+								준비하신 이미지로 가게 사진을 등록해드려요
 							</Typography>
-						</label>
-						<Typography variant="p" aggressive="body_oneline_004" color={theme.colors.gray_005}>
-							준비하신 이미지로 가게 사진을 등록해드려요
-						</Typography>
-						<StyledLayout.EmptyBoxDivider height="0" />
-						{selectedStoreImageBtn === 'registerImage' && (
-							<StoreImageBtn
-								name="step2"
-								id="registerImage"
-								deleteImage={() => setClientStoreImageURL('')}
-								onChange={handleUploadToClient}
-								clientStoreImageURL={clientStoreImageURL}
-								inputFlag={inputArr[6]}
-								value={clientStoreImageURL}
-							/>
-						)}
+							<StyledLayout.EmptyBoxDivider height="0" />
+							{selectedStoreImageBtn === 'registerImage' && (
+								<StoreImageBtn
+									name="step2"
+									id="registerImage"
+									deleteImage={() => setClientStoreImageURL('')}
+									onChange={handleUploadToClient}
+									clientStoreImageURL={clientStoreImageURL}
+									inputFlag={inputArr[6]}
+									value={clientStoreImageURL}
+								/>
+							)}
+						</StyledLayout.FlexBox>
 					</StyledLayout.FlexBox>
-				</StyledLayout.FlexBox>
-			</StyledLayout.TextFieldSection>
+</StyledLayout.TextFieldSection>
 			<StyledLayout.TextFieldSection>
 				<label htmlFor="PromotionalChannel">
 					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
@@ -380,6 +400,7 @@ const Step2 = () => {
 				</LargeBtn>
 			</StyledLayout.FlexBox>
 		</form>
+		</>
 	);
 };
 

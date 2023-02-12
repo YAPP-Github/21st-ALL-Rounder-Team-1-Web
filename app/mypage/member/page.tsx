@@ -1,25 +1,31 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { MyPageSectionLeaveMember, LeaveMemberConfirmModal, LeaveMemberSuccessModal } from 'components/feature';
 import { StyledLayout, Typography } from 'components/shared';
 import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
+import { deleteUserSession } from 'hooks/api/auth/useUserSession';
+import useUserSessionStore, { initialState } from 'store/actions/userSessionStore';
 
 const MemberManagement = () => {
-	const { data } = useSession();
 	const router = useRouter();
 
 	const { modalKey, changeModalKey } = useModalStore();
+	const { setUserSession } = useUserSessionStore();
 
-	const handleLeaveMemberConfirm = () => {
-		// 회원 탈퇴 API 요청 성공 시
-		changeModalKey(MODAL_KEY.ON_LEAVE_MEMBER_SUCCESS_MODAL);
+	const handleLeaveMemberConfirm = async () => {
+		try {
+			await deleteUserSession();
+			changeModalKey(MODAL_KEY.ON_LEAVE_MEMBER_SUCCESS_MODAL);
+		} catch (error) {
+			// 회원탈퇴 에러 처리
+		}
 	};
 
 	const handleLeaveMemberSuccess = () => {
-		router.push('/');
 		changeModalKey(MODAL_KEY.OFF);
+		setUserSession(initialState);
+		router.replace('/');
 	};
 
 	return (
@@ -28,7 +34,7 @@ const MemberManagement = () => {
 				내 정보 관리
 			</Typography>
 
-			<MyPageSectionLeaveMember memberEmail={data?.user?.email} />
+			<MyPageSectionLeaveMember memberEmail={'forzero100@naver.com'} />
 
 			{modalKey === MODAL_KEY.ON_LEAVE_MEMBER_CONFIRM_MODAL && (
 				<LeaveMemberConfirmModal onCancel={() => changeModalKey(MODAL_KEY.OFF)} onConfirm={handleLeaveMemberConfirm} />
