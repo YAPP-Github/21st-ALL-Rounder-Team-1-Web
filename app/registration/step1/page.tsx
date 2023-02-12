@@ -1,7 +1,7 @@
 'use client';
 
 import { TextField } from 'components/feature';
-import { LargeBtn, StyledLayout, Typography } from 'components/shared';
+import { LargeBtn, StyledLayout, Typography, PrivateRoute } from 'components/shared';
 import { checkEmptyInputError } from 'core/storeRegistrationService';
 import { FormEvent } from 'react';
 import { useStep1Store } from 'store/actions/storeRegistrationStore';
@@ -74,4 +74,4 @@ const Step1 = () => {
 	);
 };
 
-export default Step1;
+export default PrivateRoute(Step1);
