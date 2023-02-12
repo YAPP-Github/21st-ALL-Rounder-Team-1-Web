@@ -10,6 +10,7 @@ import { theme } from 'styles';
 import style from 'styles/style';
 
 const Step1 = () => {
+	const router = useRouter();
 	const { name, email, phoneNumber, setStep1InputValue, changeError, changeNormal } = step1ErrorStore();
 	const { setStep1Request } = step1RequestStore();
 	const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -17,6 +18,7 @@ const Step1 = () => {
 		const emptyInput = checkEmptyInputError(e.currentTarget.step1, changeError);
 		if (emptyInput !== 0) return;
 		saveUserStep1Input(e.currentTarget.step1, setStep1Request);
+		router.push('/registration/step2');
 	};
 	return (
 		<form onSubmit={handleOnSubmit}>
