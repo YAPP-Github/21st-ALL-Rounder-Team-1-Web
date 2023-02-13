@@ -1,6 +1,7 @@
 import { ConfirmModal } from 'components/feature/Modal';
+import { ConfirmModalEvent } from '../Common/ConfirmModal';
 
-const StoreRegistrationExitConfirmModal = () => {
+const StoreRegistrationExitConfirmModal = ({ onCancel, onConfirm }: ConfirmModalEvent) => {
 	return (
 		<ConfirmModal
 			modalTitle="사이트에서 나가시겠습니까?"
@@ -14,11 +15,11 @@ const StoreRegistrationExitConfirmModal = () => {
 			modalBtn={{
 				cancel: {
 					text: '취소',
-					onCancel: () => {},
+					onCancel,
 				},
 				confirm: {
 					text: '나가기',
-					onConfirm: () => {},
+					onConfirm,
 				},
 			}}
 		/>

@@ -25,6 +25,7 @@ import { theme } from 'styles';
 import { StoreDefaultImg } from 'public/static/images';
 import { useS3Upload } from 'next-s3-upload';
 import { patchManager } from 'hooks/api/user/usePatchManager';
+import { step1RequestStore } from 'store/actions/step1Store';
 interface IBusinessLicenseStatusResponse {
 	match_cnt: number;
 	request_cnt: number;
