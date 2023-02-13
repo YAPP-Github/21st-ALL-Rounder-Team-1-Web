@@ -2,7 +2,8 @@
 
 import { TextField } from 'components/feature';
 import { LargeBtn, StyledLayout, Typography } from 'components/shared';
-import { checkEmptyInputError, saveUserStep1Input } from 'core/storeRegistrationService';
+import { checkEmptyInputError, saveUserInput } from 'core/storeRegistrationService';
+import { patchManager } from 'hooks/api/user/usePatchManager';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, FormEvent, KeyboardEvent, useState } from 'react';
 import { step1RequestStore, step1ErrorStore } from 'store/actions/step1Store';
@@ -32,11 +33,11 @@ const Step1 = () => {
 	const checkKey = (e: KeyboardEvent<HTMLInputElement>) => {
 		setCurrentKey(e.key);
 	};
-	const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
+	const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const emptyInput = checkEmptyInputError(e.currentTarget.step1, changeError);
 		if (emptyInput !== 0) return;
-		saveUserStep1Input(e.currentTarget.step1, setStep1Request);
+		await saveUserInput(e.currentTarget.step1, setStep1Request);
 		router.push('/registration/step2');
 	};
 	return (

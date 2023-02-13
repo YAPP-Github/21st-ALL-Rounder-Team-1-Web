@@ -24,6 +24,7 @@ import style from 'styles/style';
 import { theme } from 'styles';
 import { StoreDefaultImg } from 'public/static/images';
 import { useS3Upload } from 'next-s3-upload';
+import { patchManager } from 'hooks/api/user/usePatchManager';
 interface IBusinessLicenseStatusResponse {
 	match_cnt: number;
 	request_cnt: number;
@@ -59,17 +60,19 @@ const Step2 = () => {
 	const [clientStoreImageURL, setClientStoreImageURL] = useState('');
 	const [S3ImagePath, setS3ImagePath] = useState('');
 	const [selectedBusinessHourBtn, setSelectedBusinessHourBtn] = useState('weekDaysWeekEnd');
-	const { inputArr, changeNormal } = useStep2Store();
+	// const { inputArr, changeNormal } = useStep2Store();
+	const { step1Request } = step1RequestStore();
 	const { uploadToS3 } = useS3Upload();
 	const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		// TODO: 서버로직 구현
 		// const emptyInput = checkEmptyInputError(e.currentTarget.step2, changeError);
 		// if (e.currentTarget.step2[0].value !== '' && businessLicenseStatus === 'normal') setBusinessLicenseStatus('notClicked');
 		// if (emptyInput !== 0) return;
 		// 운영시간 form data stringfy
 		// makeBusinessHourData(dayOffRef, selectedBusinessHourBtn);
 		await handleFindCoords(storePostcodeInputs.address);
-		// 여기서부터 서버 api 연결 로직
+		const result = await patchManager(step1Request);
 	};
 	const handleSelectedStoreImageBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (selectedStoreImageBtn === e.target.value) return;
