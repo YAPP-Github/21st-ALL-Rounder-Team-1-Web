@@ -6,7 +6,6 @@ import { checkEmptyInputError, saveUserInput } from 'core/storeRegistrationServi
 import { patchManager } from 'hooks/api/user/usePatchManager';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, FormEvent, KeyboardEvent, useEffect, useState } from 'react';
-import useModalStore from 'store/actions/modalStore';
 import { step1RequestStore, step1ErrorStore } from 'store/actions/step1Store';
 import { theme } from 'styles';
 import style from 'styles/style';
@@ -17,7 +16,6 @@ const Step1 = () => {
 	const { setStep1Request } = step1RequestStore();
 	const [customPhoneNum, setCustomPhoneNum] = useState('');
 	const [currentKey, setCurrentKey] = useState('');
-
 	const handlePhoneNumber = (e: ChangeEvent<HTMLInputElement>) => {
 		let newText = e.target.value;
 		const num = /[-0-9]/;
