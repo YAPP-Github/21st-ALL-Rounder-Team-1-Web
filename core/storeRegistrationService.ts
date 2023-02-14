@@ -37,7 +37,7 @@ export const makeBusinessHourData = (
 	refArr: MutableRefObject<Array<RefObject<HTMLButtonElement>> | null[] | HTMLButtonElement[]>,
 	selectedBusinessHourBtn: string,
 ) => {
-	const businessHourArr = [];
+	const businessHourArr: Array<{ day: string; time: string }> = [];
 	if (selectedBusinessHourBtn === 'weekDaysWeekEnd') {
 		for (let i = 0; i < 5; i++) {
 			businessHourArr.push({ day: businessHourDays[i].day, time: (refArr.current[0] as HTMLButtonElement).value });

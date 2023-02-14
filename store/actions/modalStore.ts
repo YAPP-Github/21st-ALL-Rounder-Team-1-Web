@@ -24,7 +24,7 @@ export const MODAL_KEY = {
 } as const;
 
 export const modalStore = (set) => ({
-	modalKey: MODAL_KEY.OFF,
+	modalKey: 'OFF',
 	changeModalKey: (changedModalKey: string) => set(() => ({ modalKey: changedModalKey })),
 });
 
