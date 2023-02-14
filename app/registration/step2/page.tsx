@@ -26,6 +26,7 @@ import { StoreDefaultImg } from 'public/static/images';
 import { useS3Upload } from 'next-s3-upload';
 import { patchManager } from 'hooks/api/user/usePatchManager';
 import { step1RequestStore } from 'store/actions/step1Store';
+import { useStep2Store } from 'store/actions/step2Store';
 interface IBusinessLicenseStatusResponse {
 	match_cnt: number;
 	request_cnt: number;
@@ -61,7 +62,7 @@ const Step2 = () => {
 	const [clientStoreImageURL, setClientStoreImageURL] = useState('');
 	const [S3ImagePath, setS3ImagePath] = useState('');
 	const [selectedBusinessHourBtn, setSelectedBusinessHourBtn] = useState('weekDaysWeekEnd');
-	// const { inputArr, changeNormal } = useStep2Store();
+	const { inputArr, changeNormal } = useStep2Store();
 	const { step1Request } = step1RequestStore();
 	const { uploadToS3 } = useS3Upload();
 	const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {

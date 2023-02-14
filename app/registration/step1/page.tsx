@@ -40,7 +40,7 @@ const Step1 = () => {
 		await saveUserInput(e.currentTarget.step1, setStep1Request);
 		router.push('/registration/step2');
 	};
-
+// 헤헤
 	return (
 		<>
 			<form onSubmit={handleOnSubmit}>
