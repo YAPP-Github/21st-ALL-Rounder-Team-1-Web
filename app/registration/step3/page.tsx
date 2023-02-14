@@ -11,12 +11,12 @@ import { LargeBtn, StyledLayout, Toast, Typography } from 'components/shared';
 import { ExpandMoreIcon } from 'public/static/icons';
 import { useState } from 'react';
 import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
-import { useProductStore } from 'store/actions/storeRegistrationStore';
+import { productStore } from 'store/actions/productStore';
 import styled from 'styled-components';
 import { style, theme } from 'styles';
 
 const Step3 = () => {
-	const { baseMakeUp, bodyHair, detergent, ingredient, etc, changeError, setError } = useProductStore();
+	const { baseMakeUp, bodyHair, detergent, ingredient, etc, changeError, setError } = productStore();
 	const { modalKey, changeModalKey } = useModalStore();
 	const [expandedSummary, setExpandedSummary] = useState([false, false, false, false, false]);
 	const [temporarySaveToast, setTemporarySaveToast] = useState(false);
