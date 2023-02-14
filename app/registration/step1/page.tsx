@@ -1,7 +1,7 @@
 'use client';
 
 import { TextField } from 'components/feature';
-import { LargeBtn, StyledLayout, Typography,PrivateRoute } from 'components/shared';
+import { LargeBtn, StyledLayout, Typography, PrivateRoute } from 'components/shared';
 import { checkEmptyInputError, saveUserInput } from 'core/storeRegistrationService';
 import { patchManager } from 'hooks/api/user/usePatchManager';
 import { useRouter } from 'next/navigation';
