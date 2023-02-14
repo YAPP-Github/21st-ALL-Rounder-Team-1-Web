@@ -1,26 +1,8 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-export interface stepInputs {
-	inputArr: Array<'normal' | 'error'>;
-	changeError: (id: number) => void;
-	changeNormal: (id: number) => void;
-}
 
-export const useStep1Store = create<stepInputs>()(
-	devtools((set, get) => ({
-		inputArr: ['normal', 'normal', 'normal'],
-		changeError: (id) => set((state) => ({ inputArr: { ...state.inputArr, [id]: 'error' } })),
-		changeNormal: (id) => get().inputArr[id] === 'error' && set((state) => ({ inputArr: { ...state.inputArr, [id]: 'normal' } })),
-	})),
-);
-export const useStep2Store = create<stepInputs>()(
-	devtools((set, get) => ({
-		inputArr: ['normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal'],
-		changeError: (id) => set((state) => ({ inputArr: { ...state.inputArr, [id]: 'error' } })),
-		changeNormal: (id) => get().inputArr[id] === 'error' && set((state) => ({ inputArr: { ...state.inputArr, [id]: 'normal' } })),
-	})),
-);
 export interface Product {
+	[index: number]: any;
 	category: string;
 	brandName: string;
 	productName: string;
@@ -28,6 +10,7 @@ export interface Product {
 }
 
 export interface Products {
+	[index: string]: any;
 	baseMakeUp: Product[];
 	bodyHair: Product[];
 	detergent: Product[];
@@ -42,7 +25,7 @@ export interface Products {
 	setError: (productArrName: string) => number;
 }
 
-export const useProductStore = create<Products>()(
+export const productStore = create<Products>()(
 	devtools((set, get) => ({
 		baseMakeUp: [{ category: 'baseMakeUp', brandName: '', productName: '', isProductEmptyError: 'normal' }],
 		bodyHair: [{ category: 'bodyHair', brandName: '', productName: '', isProductEmptyError: 'normal' }],
@@ -50,7 +33,7 @@ export const useProductStore = create<Products>()(
 		ingredient: [{ category: 'ingredient', brandName: '', productName: '', isProductEmptyError: 'normal' }],
 		etc: [{ category: 'etc', brandName: '', productName: '', isProductEmptyError: 'normal' }],
 		addProduct: (productArrName: string) => {
-			if (get()[productArrName][0].productName !== '') {
+			if (get().productArrName[0].productName !== '') {
 				set((state) => ({
 					[productArrName]: [
 						{ category: { productArrName }, brandName: '', productName: '', isProductEmptyError: 'normal' },
@@ -59,7 +42,7 @@ export const useProductStore = create<Products>()(
 				}));
 			} else {
 				set(() => ({
-					[productArrName]: get()[productArrName].map((item: Product['product'], idx: number) =>
+					[productArrName]: get().productArrName.map((item: Product, idx: number) =>
 						idx === 0 ? { ...item, isProductEmptyError: 'error' } : item,
 					),
 				}));
@@ -67,19 +50,19 @@ export const useProductStore = create<Products>()(
 		},
 		removeProduct: (productArrName: string, elementIdx: number) => {
 			set(() => ({
-				[productArrName]: get()[productArrName].filter((_: Product['product'], idx: number) => idx !== elementIdx),
+				[productArrName]: get()[productArrName].filter((_: any, idx: number) => idx !== elementIdx),
 			}));
 		},
 		onChangeBrandName: (productArrName: string, elementIdx: number, value: string) => {
 			set(() => ({
-				[productArrName]: get()[productArrName].map((item: Product['product'], idx: number) =>
+				[productArrName]: get()[productArrName].map((item: Product, idx: number) =>
 					idx === elementIdx ? { ...item, brandName: value } : item,
 				),
 			}));
 		},
 		onChangeProductName: (productArrName: string, elementIdx: number, value: string) => {
 			set(() => ({
-				[productArrName]: get()[productArrName].map((item: Product['product'], idx: number) =>
+				[productArrName]: get().productArrName.map((item: Product, idx: number) =>
 					idx === elementIdx ? { ...item, productName: value } : item,
 				),
 			}));
@@ -109,7 +92,7 @@ export const useProductStore = create<Products>()(
 		changeNormal: (productArrName: string, elementIdx: number) => {
 			get()[productArrName][elementIdx].isProductEmptyError === 'error' &&
 				set(() => ({
-					[productArrName]: get()[productArrName].map((item: Product['product'], idx: number) =>
+					[productArrName]: get()[productArrName].map((item: Product, idx: number) =>
 						idx === elementIdx ? { ...item, isProductEmptyError: 'normal' } : item,
 					),
 				}));
@@ -120,7 +103,7 @@ export const useProductStore = create<Products>()(
 					item.productName === '' && item.brandName !== '' ? { ...item, isProductEmptyError: 'error' } : item,
 				),
 			}));
-			return get()[productArrName].filter((item) => item.isProductEmptyError === 'error').length;
+			return get()[productArrName].filter((item: Product) => item.isProductEmptyError === 'error').length;
 		},
 	})),
 );

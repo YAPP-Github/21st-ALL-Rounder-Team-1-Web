@@ -12,6 +12,7 @@ const TextField = ({ inputFlag, emptyErrorMessage, ...props }: Props) => {
 				readOnly={props.readOnly ?? false}
 				name={props.name}
 				id={props.id}
+				onKeyDown={props.onKeyDown}
 				onFocus={props.onFocus}
 				inputFlag={inputFlag}
 				onChange={props.onChange}

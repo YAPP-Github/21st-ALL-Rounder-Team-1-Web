@@ -1,76 +1,110 @@
 'use client';
 
 import { TextField } from 'components/feature';
-import { LargeBtn, StyledLayout, Typography, PrivateRoute } from 'components/shared';
-import { checkEmptyInputError } from 'core/storeRegistrationService';
-import { FormEvent } from 'react';
-import { useStep1Store } from 'store/actions/storeRegistrationStore';
+import { LargeBtn, StyledLayout, Typography,PrivateRoute } from 'components/shared';
+import { checkEmptyInputError, saveUserInput } from 'core/storeRegistrationService';
+import { patchManager } from 'hooks/api/user/usePatchManager';
+import { useRouter } from 'next/navigation';
+import { ChangeEvent, FormEvent, KeyboardEvent, useEffect, useState } from 'react';
+import { step1RequestStore, step1ErrorStore } from 'store/actions/step1Store';
+
 import { theme } from 'styles';
 import style from 'styles/style';
 
 const Step1 = () => {
-	const { inputArr, changeError, changeNormal } = useStep1Store();
-	const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
+	const router = useRouter();
+	const { name, email, phoneNumber, setStep1InputValue, changeError, changeNormal } = step1ErrorStore();
+	const { setStep1Request } = step1RequestStore();
+	const [customPhoneNum, setCustomPhoneNum] = useState('');
+	const [currentKey, setCurrentKey] = useState('');
+	const handlePhoneNumber = (e: ChangeEvent<HTMLInputElement>) => {
+		let newText = e.target.value;
+		const num = /[-0-9]/;
+		if (newText.length > 0 && !num.test(newText[newText.length - 1])) return;
+		if (newText.length > 13) return;
+		if (newText.length === 13) {
+			setCustomPhoneNum(newText.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'));
+		}
+		if (currentKey !== 'Backspace' && (newText.length === 3 || newText.length === 8)) {
+			newText += '-';
+		}
+		setCustomPhoneNum(newText.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'));
+	};
+
+	const checkKey = (e: KeyboardEvent<HTMLInputElement>) => {
+		setCurrentKey(e.key);
+	};
+	const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const emptyInput = checkEmptyInputError(e.currentTarget.step1, changeError);
 		if (emptyInput !== 0) return;
-		// 여기서부터 서버 api 연결 로직
+		await saveUserInput(e.currentTarget.step1, setStep1Request);
+		router.push('/registration/step2');
 	};
-
 	return (
-		<form onSubmit={handleOnSubmit}>
-			<StyledLayout.TextFieldSection>
-				<label htmlFor="managerName">
-					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
-						대표자명
-					</Typography>
-				</label>
-				<TextField
-					id="managerName"
-					name="step1"
-					emptyErrorMessage="대표자명을"
-					onFocus={() => changeNormal(0)}
-					inputFlag={inputArr[0]}
-					width="320px"
-				/>
-			</StyledLayout.TextFieldSection>
-			<StyledLayout.TextFieldSection>
-				<label htmlFor="managerEmail">
-					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
-						이메일
-					</Typography>
-				</label>
-				<TextField
-					emptyErrorMessage="이메일을"
-					id="managerEmail"
-					name="step1"
-					onFocus={() => changeNormal(1)}
-					inputFlag={inputArr[1]}
-					width="320px"
-				/>
-			</StyledLayout.TextFieldSection>
-			<StyledLayout.TextFieldSection>
-				<label htmlFor="managerPhonenumber">
-					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
-						전화번호
-					</Typography>
-				</label>
-				<TextField
-					emptyErrorMessage="전화번호를"
-					id="managerPhonenumber"
-					name="step1"
-					onFocus={() => changeNormal(2)}
-					inputFlag={inputArr[2]}
-					width="320px"
-				/>
-			</StyledLayout.TextFieldSection>
+		<>
+			<form onSubmit={handleOnSubmit}>
+				<StyledLayout.TextFieldSection>
+					<label htmlFor="name">
+						<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
+							대표자명
+						</Typography>
+					</label>
+					<TextField
+						id="name"
+						name="step1"
+						emptyErrorMessage="대표자명을"
+						onFocus={() => changeNormal('name')}
+						inputFlag={name.isError}
+						width="320px"
+						value={name.value === '' ? undefined : name.value}
+						placeholder="이름을 입력해주세요"
+					/>
+				</StyledLayout.TextFieldSection>
+				<StyledLayout.TextFieldSection>
+					<label htmlFor="email">
+						<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
+							이메일
+						</Typography>
+					</label>
+					<TextField
+						emptyErrorMessage="이메일을"
+						id="email"
+						name="step1"
+						onFocus={() => changeNormal('email')}
+						inputFlag={email.isError}
+						width="320px"
+						value={email.value === '' ? undefined : email.value}
+						placeholder="예: pump@pump.com"
+					/>
+				</StyledLayout.TextFieldSection>
+				<StyledLayout.TextFieldSection>
+					<label htmlFor="phoneNumber">
+						<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
+							전화번호
+						</Typography>
+					</label>
+					<TextField
+						emptyErrorMessage="전화번호를"
+						id="phoneNumber"
+						name="step1"
+						onFocus={() => changeNormal('phoneNumber')}
+						inputFlag={phoneNumber.isError}
+						width="320px"
+						value={customPhoneNum}
+						placeholder="‘-‘ 를 빼고 숫자만 입력해주세요"
+						onChange={handlePhoneNumber}
+						onKeyDown={checkKey}
+					/>
+				</StyledLayout.TextFieldSection>
 
-			<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '16px' }}>
-				<LargeBtn style={style.btnStyle.primary_btn_002} type="submit">
-					다음단계
-				</LargeBtn>
-			</StyledLayout.FlexBox>
-		</form>
+				<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '16px' }}>
+					<LargeBtn style={style.btnStyle.primary_btn_002} type="submit">
+						다음단계
+					</LargeBtn>
+				</StyledLayout.FlexBox>
+			</form>
+		</>
 	);
 };
 

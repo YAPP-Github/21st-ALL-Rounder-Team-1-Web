@@ -1,4 +1,5 @@
 import { MutableRefObject, RefObject } from 'react';
+import { step1RequestStore } from 'store/actions/step1Store';
 
 export const extractBusinessLicenseExceptHyhpen = (businessLicense: string) => {
 	return businessLicense
@@ -6,15 +7,22 @@ export const extractBusinessLicenseExceptHyhpen = (businessLicense: string) => {
 		.filter((c) => c !== '-')
 		.join('');
 };
-export const checkEmptyInputError = (inputArr: RadioNodeList, changeError: (id: number) => void) => {
+export const checkEmptyInputError = (inputArr: RadioNodeList, changeError: (inputId: string) => void) => {
 	let emptyInput = 0;
 	for (let i = 0; i < inputArr.length; i++) {
 		if ((inputArr[i] as HTMLInputElement).value === '') {
-			changeError(i);
+			changeError((inputArr[i] as HTMLInputElement).id);
 			emptyInput++;
 		}
 	}
 	return emptyInput;
+};
+export const saveUserInput = async (inputArr: RadioNodeList, setFunc: (inputId: string, inputValue: string) => void) => {
+	for (let i = 0; i < inputArr.length; i++) {
+		if ((inputArr[i] as HTMLInputElement).value !== '') {
+			setFunc((inputArr[i] as HTMLInputElement).id, (inputArr[i] as HTMLInputElement).value);
+		}
+	}
 };
 export const businessHourDays = [
 	{ id: 2, day: '월' },
