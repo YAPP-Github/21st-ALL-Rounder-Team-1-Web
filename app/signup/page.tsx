@@ -174,14 +174,14 @@ const SignUp = () => {
 
 export default SignUp;
 
-export const Container = styled.form`
+const Container = styled.form`
 	position: relative;
 	width: 590px;
 	padding: 88px 0 104px 0;
 	text-align: center;
 `;
 
-export const AgreeDescriptionWrapper = styled.div<CSSProperties>`
+const AgreeDescriptionWrapper = styled.div<CSSProperties>`
 	width: 100%;
 	height: 208px;
 	margin: ${({ margin }) => margin};
@@ -194,7 +194,7 @@ export const AgreeDescriptionWrapper = styled.div<CSSProperties>`
 	overflow: scroll;
 `;
 
-export const BtnWrapper = styled.div`
+const BtnWrapper = styled.div`
 	display: flex;
 	width: 100%;
 	gap: 10px;

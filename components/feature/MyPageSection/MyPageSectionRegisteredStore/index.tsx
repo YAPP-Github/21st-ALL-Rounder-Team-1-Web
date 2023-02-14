@@ -7,9 +7,10 @@ import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
 import { Store } from 'hooks/api/store/useGetStore';
 import { convertToHyphenDateFromUTC } from 'utils/date';
 import { MyPageStoreDefualtImg } from 'public/static/images';
+import Link from 'next/link';
 
 const MyPageSectionRegisteredStore = ({ store }: { store: Store }) => {
-	const { name, address, callNumber, isReady, imgStore, modifiedAt } = store;
+	const { id, name, address, callNumber, isReady, imgStore, modifiedAt } = store;
 
 	const { changeModalKey } = useModalStore();
 
@@ -49,16 +50,37 @@ const MyPageSectionRegisteredStore = ({ store }: { store: Store }) => {
 				<StyledLayout.FlexBox flexDirection={'column'} justifyContent={'flex-start'} gap={'8px'}>
 					{isReady ? (
 						<>
-							<MyPageActionBtn buttonTheme="black" type="button" onClick={() => console.info('판매제품 수정 GO')}>
-								판매제품 수정
+							<MyPageActionBtn buttonTheme="black" type="button">
+								<Link
+									href={{
+										pathname: `/registration/step3`,
+										query: { id, isReady },
+									}}
+								>
+									판매제품 수정
+								</Link>
 							</MyPageActionBtn>
-							<MyPageActionBtn buttonTheme="white" type="button" onClick={() => console.info('가게정보 수정 GO')}>
-								가게정보 수정
+							<MyPageActionBtn buttonTheme="white" type="button">
+								<Link
+									href={{
+										pathname: `/registration/step2`,
+										query: { id, isReady },
+									}}
+								>
+									가게정보 수정
+								</Link>
 							</MyPageActionBtn>
 						</>
 					) : (
-						<MyPageActionBtn buttonTheme="black" onClick={() => console.info('수정하기 GO')}>
-							수정하기
+						<MyPageActionBtn buttonTheme="black">
+							<Link
+								href={{
+									pathname: `/registration/step3`,
+									query: { id, isReady },
+								}}
+							>
+								수정하기
+							</Link>
 						</MyPageActionBtn>
 					)}
 				</StyledLayout.FlexBox>

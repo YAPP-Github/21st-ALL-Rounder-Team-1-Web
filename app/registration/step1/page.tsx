@@ -1,12 +1,13 @@
 'use client';
 
 import { TextField } from 'components/feature';
-import { LargeBtn, StyledLayout, Typography } from 'components/shared';
+import { LargeBtn, StyledLayout, Typography,PrivateRoute } from 'components/shared';
 import { checkEmptyInputError, saveUserInput } from 'core/storeRegistrationService';
 import { patchManager } from 'hooks/api/user/usePatchManager';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, FormEvent, KeyboardEvent, useEffect, useState } from 'react';
 import { step1RequestStore, step1ErrorStore } from 'store/actions/step1Store';
+
 import { theme } from 'styles';
 import style from 'styles/style';
 
@@ -40,7 +41,6 @@ const Step1 = () => {
 		await saveUserInput(e.currentTarget.step1, setStep1Request);
 		router.push('/registration/step2');
 	};
-// 헤헤
 	return (
 		<>
 			<form onSubmit={handleOnSubmit}>
@@ -108,4 +108,4 @@ const Step1 = () => {
 	);
 };
 
-export default Step1;
+export default PrivateRoute(Step1);

@@ -8,6 +8,7 @@ export { default as ModalFrame } from 'components/shared/ModalFrame';
 export { default as Checkbox } from 'components/shared/Checkbox';
 export { default as Label } from 'components/shared/Label';
 export { default as LoadingCircleLottie } from 'components/shared/Lottie/LoadingCircleLottie';
+export { default as PrivateRoute } from './PrivateRoute';
 
 // Only Styled Components
 export * as StyledLayout from 'components/shared/styled/layout';
