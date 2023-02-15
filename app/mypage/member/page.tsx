@@ -11,7 +11,7 @@ const MemberManagement = () => {
 	const router = useRouter();
 
 	const { modalKey, changeModalKey } = useModalStore();
-	const { setUserSession } = useUserSessionStore();
+	const { userSession, setUserSession } = useUserSessionStore();
 
 	const handleLeaveMemberConfirm = async () => {
 		try {
@@ -34,7 +34,7 @@ const MemberManagement = () => {
 				내 정보 관리
 			</Typography>
 
-			<MyPageSectionLeaveMember memberEmail={'forzero100@naver.com'} />
+			<MyPageSectionLeaveMember memberEmail={userSession.email} />
 
 			{modalKey === MODAL_KEY.ON_LEAVE_MEMBER_CONFIRM_MODAL && (
 				<LeaveMemberConfirmModal onCancel={() => changeModalKey(MODAL_KEY.OFF)} onConfirm={handleLeaveMemberConfirm} />
