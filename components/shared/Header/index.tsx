@@ -4,17 +4,23 @@ import { StyledLayout } from 'components/shared';
 import * as S from './styled';
 import { PumpLogo } from 'public/static/images';
 import { removeUserTokenInLocalStorage } from 'utils/storage';
-import useUserSessionStore, { initialState } from 'store/actions/userSessionStore';
-import { useRouter } from 'next/navigation';
+import useUserSessionStore from 'store/actions/userSessionStore';
 import { useGetUserSession } from 'hooks/api/auth/useUserSession';
 import Link from 'next/link';
 
 const Header = () => {
-	const { userSession } = useUserSessionStore();
+	const { data: userSessionFetch } = useGetUserSession();
+	const { userSession, setUserSession } = useUserSessionStore();
 
 	const handleLogoutClick = () => {
 		removeUserTokenInLocalStorage();
 	};
+
+	useEffect(() => {
+		if (userSessionFetch) {
+			setUserSession(userSessionFetch);
+		}
+	}, [userSessionFetch]);
 
 	return (
 		<S.Container>
