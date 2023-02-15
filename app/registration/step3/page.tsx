@@ -8,6 +8,7 @@ import {
 } from 'components/feature';
 import ProductInfoElement from 'components/feature/ProductInfoElement';
 import { LargeBtn, StyledLayout, Toast, Typography } from 'components/shared';
+import { useSearchParams } from 'next/navigation';
 import { ExpandMoreIcon } from 'public/static/icons';
 import { useState } from 'react';
 import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
@@ -16,6 +17,7 @@ import styled from 'styled-components';
 import { style, theme } from 'styles';
 
 const Step3 = () => {
+	const query = useSearchParams();
 	const { baseMakeUp, bodyHair, detergent, ingredient, etc, changeError, setError } = productStore();
 	const { modalKey, changeModalKey } = useModalStore();
 	const [expandedSummary, setExpandedSummary] = useState([false, false, false, false, false]);
@@ -167,12 +169,20 @@ const Step3 = () => {
 				</StAccordionDetails>
 			</StAccordion>
 			<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '40px' }} gap="8px">
-				<LargeBtn type="button" style={style.btnStyle.white_btn} onClick={handleTemporarySave}>
-					임시저장
-				</LargeBtn>
-				<LargeBtn type="button" style={style.btnStyle.primary_btn_001} onClick={handleSaveItems}>
-					입점신청
-				</LargeBtn>
+				{query.toString() === '' ? (
+					<>
+						<LargeBtn type="button" style={style.btnStyle.white_btn} onClick={handleTemporarySave}>
+							임시저장
+						</LargeBtn>
+						<LargeBtn type="button" style={style.btnStyle.primary_btn_001} onClick={handleSaveItems}>
+							입점신청
+						</LargeBtn>
+					</>
+				) : (
+					<LargeBtn type="button" style={style.btnStyle.primary_btn_002} onClick={() => {}}>
+						수정완료
+					</LargeBtn>
+				)}
 			</StyledLayout.FlexBox>
 			<Toast duration={2} open={temporarySaveToast} />
 			{modalKey === MODAL_KEY.ON_STORE_PRODUCT_REQUIRED_WARNING_MODAL && (

@@ -4,6 +4,7 @@ import { TextField } from 'components/feature';
 import { LargeBtn, StyledLayout, Typography, PrivateRoute } from 'components/shared';
 import { checkEmptyInputError, saveUserInput } from 'core/storeRegistrationService';
 import { patchManager } from 'hooks/api/user/usePatchManager';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, FormEvent, KeyboardEvent, useEffect, useState } from 'react';
 import { step1RequestStore, step1ErrorStore } from 'store/actions/step1Store';
@@ -42,69 +43,66 @@ const Step1 = () => {
 		router.push('/registration/step2');
 	};
 	return (
-		<>
-			<form onSubmit={handleOnSubmit}>
-				<StyledLayout.TextFieldSection>
-					<label htmlFor="name">
-						<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
-							대표자명
-						</Typography>
-					</label>
-					<TextField
-						id="name"
-						name="step1"
-						emptyErrorMessage="대표자명을"
-						onFocus={() => changeNormal('name')}
-						inputFlag={name.isError}
-						width="320px"
-						value={name.value === '' ? undefined : name.value}
-						placeholder="이름을 입력해주세요"
-					/>
-				</StyledLayout.TextFieldSection>
-				<StyledLayout.TextFieldSection>
-					<label htmlFor="email">
-						<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
-							이메일
-						</Typography>
-					</label>
-					<TextField
-						emptyErrorMessage="이메일을"
-						id="email"
-						name="step1"
-						onFocus={() => changeNormal('email')}
-						inputFlag={email.isError}
-						width="320px"
-						value={email.value === '' ? undefined : email.value}
-						placeholder="예: pump@pump.com"
-					/>
-				</StyledLayout.TextFieldSection>
-				<StyledLayout.TextFieldSection>
-					<label htmlFor="phoneNumber">
-						<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
-							전화번호
-						</Typography>
-					</label>
-					<TextField
-						emptyErrorMessage="전화번호를"
-						id="phoneNumber"
-						name="step1"
-						onFocus={() => changeNormal('phoneNumber')}
-						inputFlag={phoneNumber.isError}
-						width="320px"
-						value={customPhoneNum}
-						placeholder="‘-‘ 를 빼고 숫자만 입력해주세요"
-						onChange={handlePhoneNumber}
-						onKeyDown={checkKey}
-					/>
-				</StyledLayout.TextFieldSection>
-
-				<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '16px' }}>
-					<LargeBtn style={style.btnStyle.primary_btn_002} type="submit">
-						다음단계
-					</LargeBtn>
-				</StyledLayout.FlexBox>
-			</form>
-		</>
+		<form onSubmit={handleOnSubmit}>
+			<StyledLayout.TextFieldSection>
+				<label htmlFor="name">
+					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
+						대표자명
+					</Typography>
+				</label>
+				<TextField
+					id="name"
+					name="step1"
+					emptyErrorMessage="대표자명을"
+					onFocus={() => changeNormal('name')}
+					inputFlag={name.isError}
+					width="320px"
+					value={name.value === '' ? undefined : name.value}
+					placeholder="이름을 입력해주세요"
+				/>
+			</StyledLayout.TextFieldSection>
+			<StyledLayout.TextFieldSection>
+				<label htmlFor="email">
+					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
+						이메일
+					</Typography>
+				</label>
+				<TextField
+					emptyErrorMessage="이메일을"
+					id="email"
+					name="step1"
+					onFocus={() => changeNormal('email')}
+					inputFlag={email.isError}
+					width="320px"
+					value={email.value === '' ? undefined : email.value}
+					placeholder="예: pump@pump.com"
+				/>
+			</StyledLayout.TextFieldSection>
+			<StyledLayout.TextFieldSection>
+				<label htmlFor="phoneNumber">
+					<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
+						전화번호
+					</Typography>
+				</label>
+				<TextField
+					emptyErrorMessage="전화번호를"
+					id="phoneNumber"
+					name="step1"
+					onFocus={() => changeNormal('phoneNumber')}
+					inputFlag={phoneNumber.isError}
+					width="320px"
+					value={customPhoneNum}
+					placeholder="‘-‘ 를 빼고 숫자만 입력해주세요"
+					onChange={handlePhoneNumber}
+					onKeyDown={checkKey}
+				/>
+			</StyledLayout.TextFieldSection>
+			<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '16px' }}>
+				<LargeBtn style={style.btnStyle.primary_btn_002} type="submit">
+					다음단계
+				</LargeBtn>
+			</StyledLayout.FlexBox>
+		</form>
 	);
 };
 

@@ -17,7 +17,7 @@ export interface Step1Error {
 	phoneNumber: { value: string; isError: 'normal' | 'error' };
 	changeError: (inputId: string) => void;
 	changeNormal: (inputId: string) => void;
-	setinitialValue: (inputId: string, inputValue: string) => void;
+	setInitialValue: (data: Step1Request) => void;
 }
 const initialState: Step1Request = {
 	name: '',
@@ -30,8 +30,7 @@ export const step1ErrorStore = create<Step1Error>()(
 		name: { value: '', isError: 'normal' },
 		email: { value: '', isError: 'normal' },
 		phoneNumber: { value: '', isError: 'normal' },
-		setinitialValue: (inputId: string, inputValue: string) =>
-			set((state) => ({ [inputId]: { ...state[inputId], value: inputValue } })),
+		setInitialValue: (data: Step1Request) => set(() => ({ Step1Request: data })),
 		changeError: (inputId: string) => set((state) => ({ [inputId]: { ...state[inputId], isError: 'error' } })),
 		changeNormal: (inputId: string) => set((state) => ({ [inputId]: { ...state[inputId], isError: 'normal' } })),
 	})),

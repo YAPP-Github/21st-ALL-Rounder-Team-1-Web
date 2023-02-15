@@ -1,9 +1,9 @@
 'use client';
 
-import { RefObject, useState, useRef, FormEvent, ChangeEvent } from 'react';
+import { RefObject, useState, useRef, FormEvent, ChangeEvent, useEffect } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
-import { LargeBtn, StyledLayout, Typography } from 'components/shared';
+import { LargeBtn, PrivateRoute, StyledLayout, Typography } from 'components/shared';
 import {
 	TextField,
 	PostcodePopupOpenBtn,
@@ -27,6 +27,7 @@ import { useS3Upload } from 'next-s3-upload';
 import { patchManager } from 'hooks/api/user/usePatchManager';
 import { step1RequestStore } from 'store/actions/step1Store';
 import { useStep2Store } from 'store/actions/step2Store';
+import { usePathname, useSearchParams } from 'next/navigation';
 interface IBusinessLicenseStatusResponse {
 	match_cnt: number;
 	request_cnt: number;
@@ -45,6 +46,7 @@ interface IBusinessLicenseStatusResponse {
 }
 
 const Step2 = () => {
+	const query = useSearchParams();
 	const [storePostcodeInputs, setStorePostcodeInputs] = useState({
 		zonecode: '', // 우편번호
 		address: '', // 기본 주소
@@ -156,10 +158,12 @@ const Step2 = () => {
 				setCoords({ longitude: location.address.x, latitude: location.address.y });
 			});
 	};
-
+	useEffect(() => {
+		if (query.toString() === '') return;
+	}, []);
 	return (
 		<>
-			<form onSubmit={handleOnSubmit}>
+			<form>
 				<StyledLayout.TextFieldSection>
 					<label htmlFor="businessLicense">
 						<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
@@ -409,9 +413,15 @@ const Step2 = () => {
 					</StyledLayout.FlexBox>
 				</StyledLayout.TextFieldSection>
 				<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '16px' }}>
-					<LargeBtn type="submit" style={style.btnStyle.primary_btn_002}>
-						다음단계
-					</LargeBtn>
+					{query.toString() === '' ? (
+						<LargeBtn type="button" style={style.btnStyle.primary_btn_002} onClick={handleOnSubmit}>
+							다음단계
+						</LargeBtn>
+					) : (
+						<LargeBtn type="button" style={style.btnStyle.primary_btn_002} onClick={() => {}}>
+							수정완료
+						</LargeBtn>
+					)}
 				</StyledLayout.FlexBox>
 			</form>
 		</>
