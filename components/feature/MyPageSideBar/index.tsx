@@ -4,7 +4,6 @@ import * as S from './styled';
 import { StyledLayout, Typography } from 'components/shared';
 import { theme } from 'styles';
 import { EmblemKakaoIcon, EmblemNaverIcon } from 'public/static/icons';
-import { getSocialPlatformType } from 'core/signupService';
 import { usePathname } from 'next/navigation';
 import useUserSessionStore from 'store/actions/userSessionStore';
 
@@ -36,7 +35,8 @@ const MyPageSideBar = () => {
 						{userSession.email}
 					</Typography>
 
-					{getSocialPlatformType(userSession.email) === 'Naver' ? <EmblemNaverIcon /> : <EmblemKakaoIcon />}
+					{userSession.oauthType === 'NAVER' && <EmblemNaverIcon />}
+					{userSession.oauthType === 'KAKAO' && <EmblemKakaoIcon />}
 				</StyledLayout.FlexBox>
 			</StyledLayout.FlexBox>
 
