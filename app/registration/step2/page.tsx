@@ -13,6 +13,7 @@ import {
 	StoreImageBtn,
 	TimePicker,
 	DayOffBtn,
+	StoreRegistrationStepChangeConfirmModal,
 } from 'components/feature';
 import {
 	businessHourDays,
@@ -32,6 +33,7 @@ import { step1RequestStore } from 'store/actions/step1Store';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { step2ErrorStore, step2RequestStore } from 'store/actions/step2Store';
 import { postStore } from 'hooks/api/store/usePostStore';
+import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
 interface IBusinessLicenseStatusResponse {
 	match_cnt: number;
 	request_cnt: number;
@@ -52,6 +54,7 @@ interface IBusinessLicenseStatusResponse {
 const Step2 = () => {
 	const router = useRouter();
 	const query = useSearchParams();
+	const { modalKey, changeModalKey } = useModalStore();
 	const [complete, setComplete] = useState({ managerId: -1, storeId: -1 });
 	const [storePostcodeInputs, setStorePostcodeInputs] = useState({
 		zonecode: '', // 우편번호
@@ -96,7 +99,9 @@ const Step2 = () => {
 		await makeStoreAddress(storePostcodeInputs, setStep2Request);
 		await handleFindCoords(storePostcodeInputs.address);
 		await makeImgPath(selectedStoreImageBtn, S3ImagePath, setStep2Request);
-		console.log(step1Request);
+		changeModalKey(MODAL_KEY.ON_STORE_REGISTRATION_STEP_CHANGE_CONFIRM_MODAL);
+	};
+	const submitInputs = async () => {
 		const step1Response = await patchManager(step1Request);
 		const step2Response = await postStore(step2Request);
 		setComplete({ managerId: step1Response?.id ?? -1, storeId: step2Response.storeId });
@@ -452,6 +457,9 @@ const Step2 = () => {
 					)}
 				</StyledLayout.FlexBox>
 			</form>
+			{modalKey === MODAL_KEY.ON_STORE_REGISTRATION_STEP_CHANGE_CONFIRM_MODAL && (
+				<StoreRegistrationStepChangeConfirmModal onCancel={() => changeModalKey(MODAL_KEY.OFF)} onConfirm={submitInputs} />
+			)}
 		</>
 	);
 };
