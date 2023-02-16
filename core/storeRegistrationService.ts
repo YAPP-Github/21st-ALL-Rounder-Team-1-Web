@@ -1,4 +1,6 @@
+import { ItemsRequest } from 'hooks/api/items/usePostItems';
 import { MutableRefObject, RefObject } from 'react';
+import { Product } from 'store/actions/productStore';
 import { step1RequestStore } from 'store/actions/step1Store';
 
 export const extractBusinessLicenseExceptHyhpen = (businessLicense: string) => {
@@ -97,4 +99,18 @@ export const makeImgPath = (
 	else {
 		setFunc('imgPath', [imgPath]);
 	}
+};
+export const makeItemsRequest = (itemsArr: Product[]) => {
+	const itemsRequest: ItemsRequest[] = [];
+	for (let i = 0; i < itemsArr.length; i++) {
+		const cur = itemsArr[i];
+		if (cur.brandName === '' && cur.productName === '') continue;
+		itemsRequest.push({
+			id: cur.id,
+			title: cur.productName !== '' ? cur.productName : null,
+			category: cur.category,
+			brand: cur.brandName !== '' ? cur.brandName : null,
+		});
+	}
+	return itemsRequest;
 };

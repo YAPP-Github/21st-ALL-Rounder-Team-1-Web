@@ -130,7 +130,7 @@ const Step2 = () => {
 			zonecode,
 			address,
 		});
-		setStep;
+
 	};
 	const handleStoreAddressDetailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setStorePostcodeInputs({
@@ -200,14 +200,6 @@ const Step2 = () => {
 		}
 	}, [complete]);
 	useEffect(() => {
-		console.log(
-			JSON.parse(
-				'[{"day": "월", "time": null}, {"day": "화", "time": null}, {"day": "수", "time": "13:00~19:00"}, {"day": "목", "time": "13:00~19:00"}, {"day": "금", "time": "13:00~19:00"}, {"day": "토", "time": "11:00~15:00"}, {"day": "일", "time": null}]',
-			)[2]
-				.time.split('~')
-				.join('')
-				.split('~'),
-		);
 		if (query.toString() !== '') {
 			getStore().then((result) => setInitialValue(result));
 		}
