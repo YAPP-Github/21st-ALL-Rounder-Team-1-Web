@@ -4,7 +4,7 @@ import { devtools } from 'zustand/middleware';
 
 export interface Step2Store {
 	step2Request: StoreData;
-	setStep2Request: (inputId: string, inputValue: string) => void;
+	setStep2Request: (inputId: string, inputValue: string | string[] | null) => void;
 }
 
 const initialState: StoreData = {
@@ -14,8 +14,8 @@ const initialState: StoreData = {
 	businessHours: '',
 	notice: '',
 	address: '',
-	imgPath: [''],
-	instaAccount: '',
+	imgPath: null,
+	instaAccount: null,
 	callNumber: '',
 	registrationNumber: '',
 };
@@ -58,10 +58,10 @@ export const step2ErrorStore = create<Step2Error>()(
 		changeNormal: (inputId: string) => set((state) => ({ [inputId]: { ...state[inputId], isError: 'normal' } })),
 	})),
 );
-export const step1RequestStore = create<Step2Store>()(
+export const step2RequestStore = create<Step2Store>()(
 	devtools((set) => ({
 		step2Request: initialState,
-		setStep2Request: (inputId: string, inputValue: string) =>
+		setStep2Request: (inputId: string, inputValue: string | string[]) =>
 			set((state) => ({ step2Request: { ...state.step2Request, [inputId]: inputValue } })),
 	})),
 );

@@ -17,7 +17,7 @@ export type StorePatchData = {
 	callNumber: string;
 	registrationNumber: string;
 };
-export const postStore = async (storeData: StorePatchData) => {
+export const patchStore = async (storeData: StorePatchData) => {
 	const {
 		user: { store },
 	} = API_PATH;
@@ -26,6 +26,7 @@ export const postStore = async (storeData: StorePatchData) => {
 		url: `${store}`,
 		headers: {
 			Authorization: `Bearer ${getUserTokenFromLocalStorage()}`,
+		
 		},
 		data: {
 			storeData,

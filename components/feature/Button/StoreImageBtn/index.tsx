@@ -32,7 +32,7 @@ const StoreImageBtn = ({ inputFlag, clientStoreImageURL, deleteImage, ...props }
 					<StoreImageContainer
 						name={props.name}
 						id={props.id}
-						value={props.value}
+						value={props.value ?? undefined}
 						type="button"
 						onClick={() => {
 							storeImgRef.current?.click();
