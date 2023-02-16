@@ -1,6 +1,6 @@
 'use client';
 
-import { RefObject, useState, useRef, FormEvent, ChangeEvent, useEffect } from 'react';
+import { RefObject, MouseEvent, useState, useRef, FormEvent, ChangeEvent, useEffect } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
 import { LargeBtn, PrivateRoute, StyledLayout, Typography } from 'components/shared';
@@ -26,8 +26,8 @@ import { StoreDefaultImg } from 'public/static/images';
 import { useS3Upload } from 'next-s3-upload';
 import { patchManager } from 'hooks/api/user/usePatchManager';
 import { step1RequestStore } from 'store/actions/step1Store';
-import { useStep2Store } from 'store/actions/step2Store';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { step2ErrorStore } from 'store/actions/step2Store';
 interface IBusinessLicenseStatusResponse {
 	match_cnt: number;
 	request_cnt: number;
@@ -50,28 +50,44 @@ const Step2 = () => {
 	const [storePostcodeInputs, setStorePostcodeInputs] = useState({
 		zonecode: '', // 우편번호
 		address: '', // 기본 주소
-		addressDetail: '', // 상세 주소
+		detailAddress: '', // 상세 주소
 	});
 	const businessLicenseInputRef = useRef() as RefObject<HTMLInputElement>;
 	const [coords, setCoords] = useState({
-		longitude: '', // 경도
-		latitude: '', // 위도
+		coordsLongitude: '', // 경도
+		coordsLatitude: '', // 위도
 	});
 	const dayOffRef = useRef<null[] | Array<RefObject<HTMLButtonElement>> | HTMLButtonElement[]>([]);
 	const [dayOffStatus, setDayOffStatus] = useState<boolean[]>([false, false, false, false, false, false, false, false]);
 	const [businessLicenseStatus, setBusinessLicenseStatus] = useState<'normal' | 'success' | 'error' | 'notClicked'>('normal');
 	const [selectedStoreImageBtn, setSelectedStoreImageBtn] = useState('defaultImage');
-	const [clientStoreImageURL, setClientStoreImageURL] = useState('');
+	const [clientStoreImageURL, setClientStoreImageURL] = useState<string | null>(null);
 	const [S3ImagePath, setS3ImagePath] = useState('');
 	const [selectedBusinessHourBtn, setSelectedBusinessHourBtn] = useState('weekDaysWeekEnd');
-	const { inputArr, changeNormal } = useStep2Store();
+	const {
+		name,
+		latitude,
+		longitude,
+		businessHours,
+		notice,
+		storeZonecode,
+		basicAddress,
+		addressDetail,
+		imgPath,
+		instaAccount,
+		callNumber,
+		registrationNumber,
+		changeNormal,
+		changeError,
+	} = step2ErrorStore();
 	const { step1Request } = step1RequestStore();
 	const { uploadToS3 } = useS3Upload();
 	const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		// TODO: 서버로직 구현
-		// const emptyInput = checkEmptyInputError(e.currentTarget.step2, changeError);
-		// if (e.currentTarget.step2[0].value !== '' && businessLicenseStatus === 'normal') setBusinessLicenseStatus('notClicked');
+		const emptyInput = checkEmptyInputError(e.currentTarget.step2, changeError);
+		if (e.currentTarget.step2[0].value !== '' && businessLicenseStatus === 'normal') setBusinessLicenseStatus('notClicked');
+		if (emptyInput !== 0) return;
 		// if (emptyInput !== 0) return;
 		// 운영시간 form data stringfy
 		// makeBusinessHourData(dayOffRef, selectedBusinessHourBtn);
@@ -81,7 +97,8 @@ const Step2 = () => {
 	const handleSelectedStoreImageBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (selectedStoreImageBtn === e.target.value) return;
 		setSelectedStoreImageBtn(e.target.value);
-		if (e.target.value === 'defaultImage') setClientStoreImageURL('');
+		if (e.target.value === 'defaultImage') setClientStoreImageURL(null);
+		else setClientStoreImageURL('');
 	};
 	const handleSelectedBusinessHourBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (selectedBusinessHourBtn === e.target.value) return;
@@ -89,8 +106,8 @@ const Step2 = () => {
 	};
 	const handleExtractedPostCode = (extractedPostcode: string[]) => {
 		const [zonecode, address] = extractedPostcode;
-		if (zonecode !== '') changeNormal(3);
-		if (address !== '') changeNormal(4);
+		if (zonecode !== '') changeNormal('storeZonecode');
+		if (address !== '') changeNormal('basicAddress');
 		setStorePostcodeInputs({
 			...storePostcodeInputs,
 			zonecode,
@@ -100,7 +117,7 @@ const Step2 = () => {
 	const handleStoreAddressDetailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setStorePostcodeInputs({
 			...storePostcodeInputs,
-			addressDetail: event.target.value,
+			detailAddress: event.target.value,
 		});
 	};
 	const handleHoverState = () => {
@@ -108,7 +125,7 @@ const Step2 = () => {
 			setBusinessLicenseStatus('normal');
 		}
 
-		changeNormal(0);
+		changeNormal('registrationNumber');
 	};
 	const handleTimePickerInput = (arrIndex: number) => {
 		setDayOffStatus({ ...dayOffStatus, [arrIndex]: !dayOffStatus[arrIndex] });
@@ -143,7 +160,7 @@ const Step2 = () => {
 			const { url } = await uploadToS3(e.target.files[0]);
 			setS3ImagePath(url);
 		}
-		changeNormal(6);
+		changeNormal('imgPath');
 	};
 
 	const handleFindCoords = async (storeAddress: string) => {
@@ -155,7 +172,7 @@ const Step2 = () => {
 			})
 			.then((res) => {
 				const location = res.data.documents[0];
-				setCoords({ longitude: location.address.x, latitude: location.address.y });
+				setCoords({ coordsLongitude: location.address.x, coordsLatitude: location.address.y });
 			});
 	};
 	useEffect(() => {
@@ -163,9 +180,9 @@ const Step2 = () => {
 	}, []);
 	return (
 		<>
-			<form>
+			<form onSubmit={handleOnSubmit}>
 				<StyledLayout.TextFieldSection>
-					<label htmlFor="businessLicense">
+					<label htmlFor="registrationNumber">
 						<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
 							사업자번호
 						</Typography>
@@ -174,8 +191,8 @@ const Step2 = () => {
 						<BusinessLicenseTextField
 							businessLicenseTextFieldRef={businessLicenseInputRef}
 							name="step2"
-							id="businessLicense"
-							inputFlag={inputArr[0]}
+							id="registrationNumber"
+							inputFlag={registrationNumber.isError}
 							isAuthorizedNumber={businessLicenseStatus}
 							onFocus={handleHoverState}
 							placeholder="‘-‘ 를 빼고 숫자만 입력해주세요"
@@ -186,7 +203,7 @@ const Step2 = () => {
 					</StyledLayout.FlexBox>
 				</StyledLayout.TextFieldSection>
 				<StyledLayout.TextFieldSection>
-					<label htmlFor="storeName">
+					<label htmlFor="name">
 						<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
 							상호
 						</Typography>
@@ -194,15 +211,15 @@ const Step2 = () => {
 					<TextField
 						emptyErrorMessage="상호를"
 						name="step2"
-						id="storeName"
-						onFocus={() => changeNormal(1)}
-						inputFlag={inputArr[1]}
+						id="name"
+						onFocus={() => changeNormal('name')}
+						inputFlag={name.isError}
 						width="320px"
 						placeholder="상호명을 입력해주세요"
 					/>
 				</StyledLayout.TextFieldSection>
 				<StyledLayout.TextFieldSection>
-					<label htmlFor="storeTelephoneNumber">
+					<label htmlFor="callNumber">
 						<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
 							매장 전화번호
 						</Typography>
@@ -210,15 +227,15 @@ const Step2 = () => {
 					<TextField
 						emptyErrorMessage="매장 전화번호를"
 						name="step2"
-						id="storeTelephoneNumber"
-						onFocus={() => changeNormal(2)}
-						inputFlag={inputArr[2]}
+						id="callNumber"
+						onFocus={() => changeNormal('callNumber')}
+						inputFlag={callNumber.isError}
 						width="320px"
 						placeholder="‘-‘ 를 포함하여 입력해주세요"
 					/>
 				</StyledLayout.TextFieldSection>
 				<StyledLayout.TextFieldSection>
-					<label htmlFor="store-address-detail">
+					<label htmlFor="addressDetail">
 						<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
 							매장 주소
 						</Typography>
@@ -227,9 +244,9 @@ const Step2 = () => {
 						<TextField
 							emptyErrorMessage="매장 주소를"
 							readOnly={true}
-							inputFlag={inputArr[3]}
+							inputFlag={storeZonecode.isError}
 							name="step2"
-							id="store-postcode"
+							id="storeZonecode"
 							value={storePostcodeInputs.zonecode}
 							width="320px"
 							placeholder="입력하기"
@@ -240,21 +257,21 @@ const Step2 = () => {
 					<TextField
 						emptyErrorMessage="매장 주소를"
 						readOnly={true}
-						inputFlag={inputArr[4]}
+						inputFlag={basicAddress.isError}
 						name="step2"
-						id="store-address"
+						id="basicAddress"
 						value={storePostcodeInputs.address}
 						width="560px"
 						placeholder="입력하기"
 					/>
 					<TextField
 						emptyErrorMessage="상세 주소를"
-						onFocus={() => changeNormal(5)}
-						inputFlag={inputArr[5]}
+						onFocus={() => changeNormal('addressDetail')}
+						inputFlag={addressDetail.isError}
 						name="step2"
-						id="store-address-detail"
+						id="addressDetail"
 						placeholder="(필수) 상세주소를 입력해주세요"
-						value={storePostcodeInputs.addressDetail}
+						value={storePostcodeInputs.detailAddress}
 						width="560px"
 						onChange={handleStoreAddressDetailChange}
 					/>
@@ -281,7 +298,7 @@ const Step2 = () => {
 					</StyledLayout.FlexBox>
 					<StyledLayout.FlexBox>
 						<RadioBtn
-							onClick={() => changeNormal(6)}
+							onClick={() => changeNormal('imgPath')}
 							name="storeImage"
 							value="registerImage"
 							onChange={handleSelectedStoreImageBtn}
@@ -299,11 +316,11 @@ const Step2 = () => {
 							{selectedStoreImageBtn === 'registerImage' && (
 								<StoreImageBtn
 									name="step2"
-									id="registerImage"
+									id="imgPath"
 									deleteImage={() => setClientStoreImageURL('')}
 									onChange={handleUploadToClient}
 									clientStoreImageURL={clientStoreImageURL}
-									inputFlag={inputArr[6]}
+									inputFlag={imgPath.isError}
 									value={clientStoreImageURL}
 								/>
 							)}
@@ -392,7 +409,7 @@ const Step2 = () => {
 					)}
 				</StyledLayout.TextFieldSection>
 				<StyledLayout.TextFieldSection>
-					<label htmlFor="dayOff">
+					<label htmlFor="notice">
 						<Typography variant="h2" aggressive="body_oneline_004" color={theme.colors.gray_005}>
 							휴무일
 						</Typography>
@@ -400,8 +417,8 @@ const Step2 = () => {
 					<TextField
 						emptyErrorMessage="휴무일을"
 						name="step2"
-						id="dayOff"
-						inputFlag={selectedStoreImageBtn === 'defaultImage' ? inputArr[7] : inputArr[8]}
+						id="notice"
+						inputFlag={notice.isError}
 						onFocus={() => (selectedStoreImageBtn === 'defaultImage' ? changeNormal(7) : changeNormal(8))}
 						width="320px"
 						placeholder="휴무일을 자유롭게 입력해주세요"
@@ -414,11 +431,11 @@ const Step2 = () => {
 				</StyledLayout.TextFieldSection>
 				<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '16px' }}>
 					{query.toString() === '' ? (
-						<LargeBtn type="button" style={style.btnStyle.primary_btn_002} onClick={handleOnSubmit}>
+						<LargeBtn type="submit" style={style.btnStyle.primary_btn_002}>
 							다음단계
 						</LargeBtn>
 					) : (
-						<LargeBtn type="button" style={style.btnStyle.primary_btn_002} onClick={() => {}}>
+						<LargeBtn type="submit" style={style.btnStyle.primary_btn_002}>
 							수정완료
 						</LargeBtn>
 					)}

@@ -53,8 +53,5 @@ export const makeBusinessHourData = (
 			});
 		}
 	}
-	return JSON.stringify(businessHourArr)
-		.split('')
-		.filter((c) => c !== '"')
-		.join('');
+	return JSON.stringify(businessHourArr);
 };

@@ -27,15 +27,37 @@ export interface Step2Error {
 	longitude: string;
 	businessHours: string;
 	notice: { value: string; isError: 'normal' | 'error' };
-	address: { value: string; isError: 'normal' | 'error' };
+	storeZonecode: { value: string; isError: 'normal' | 'error' };
+	basicAddress: { value: string; isError: 'normal' | 'error' };
+	addressDetail: { value: string; isError: 'normal' | 'error' };
 	imgPath: { value: string[]; isError: 'normal' | 'error' };
-	instaAccount: { value: string };
+	instaAccount: string;
 	callNumber: { value: string; isError: 'normal' | 'error' };
 	registrationNumber: { value: string; isError: 'normal' | 'error' };
 	changeError: (inputId: string) => void;
 	changeNormal: (inputId: string) => void;
 	setInitialValue: (data: StoreData) => void;
 }
+
+export const step2ErrorStore = create<Step2Error>()(
+	devtools((set) => ({
+		name: { value: '', isError: 'normal' },
+		latitude: '',
+		longitude: '',
+		businessHours: '',
+		notice: { value: '', isError: 'normal' },
+		storeZonecode: { value: '', isError: 'normal' },
+		basicAddress: { value: '', isError: 'normal' },
+		addressDetail: { value: '', isError: 'normal' },
+		imgPath: { value: [''], isError: 'normal' },
+		instaAccount: '',
+		callNumber: { value: '', isError: 'normal' },
+		registrationNumber: { value: '', isError: 'normal' },
+		setInitialValue: (data: StoreData) => set(() => ({ Step1Request: data })),
+		changeError: (inputId: string) => set((state) => ({ [inputId]: { ...state[inputId], isError: 'error' } })),
+		changeNormal: (inputId: string) => set((state) => ({ [inputId]: { ...state[inputId], isError: 'normal' } })),
+	})),
+);
 export const step1RequestStore = create<Step2Store>()(
 	devtools((set) => ({
 		step2Request: initialState,
