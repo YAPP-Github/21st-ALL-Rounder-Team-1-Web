@@ -22,6 +22,7 @@ export type StoreData = {
 	callNumber: string;
 	registrationNumber: string;
 };
+
 export const postStore = async (storeData: StoreData) => {
 	const {
 		user: { store },

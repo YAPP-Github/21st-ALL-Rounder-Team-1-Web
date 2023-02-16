@@ -14,7 +14,7 @@ const BusinessLicenseTextField = ({
 	inputFlag,
 	...props
 }: Props) => {
-	const [businessLicense, setBusinessLicense] = useState<string>('');
+	const [businessLicense, setBusinessLicense] = useState<string>(props.value ?? '');
 	const [currentKey, setCurrentKey] = useState<string>('');
 	const handleBusinessLicense = (e: ChangeEvent<HTMLInputElement>) => {
 		let newText = e.target.value;
