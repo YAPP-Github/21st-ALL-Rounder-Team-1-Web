@@ -10,3 +10,4 @@ export { default as LandingAdvantage001Img } from "./landing_advantage_001.png";
 export { default as LandingAdvantage002Img } from "./landing_advantage.002.png";
 export { default as StoreDefaultImg } from "./store_default_image.png";
 export { default as MyPageStoreDefualtImg } from './mypage_store_default.png';
+export { default as PumpLogoRoundImg} from './pump_logo_round.png';
