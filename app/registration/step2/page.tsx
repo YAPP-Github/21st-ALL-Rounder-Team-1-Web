@@ -73,9 +73,9 @@ const Step2 = () => {
 	const { modalKey, changeModalKey } = useModalStore();
 	const [complete, setComplete] = useState({ managerId: -1, storeId: -1 });
 	const [storePostcodeInputs, setStorePostcodeInputs] = useState({
-		zonecode: storeZonecode.value ?? '', // 우편번호
-		address: basicAddress.value ?? '', // 기본 주소
-		detailAddress: addressDetail.value ?? '', // 상세 주소
+		zonecode: 'efew', // 우편번호
+		address: 'dfd', // 기본 주소
+		detailAddress: 'sd', // 상세 주소
 	});
 	const businessLicenseInputRef = useRef() as RefObject<HTMLInputElement>;
 	const dayOffRef = useRef<null[] | Array<RefObject<HTMLButtonElement>> | HTMLButtonElement[]>([]);
@@ -130,7 +130,6 @@ const Step2 = () => {
 			zonecode,
 			address,
 		});
-
 	};
 	const handleStoreAddressDetailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setStorePostcodeInputs({
@@ -223,7 +222,7 @@ const Step2 = () => {
 							isAuthorizedNumber={businessLicenseStatus}
 							onFocus={handleHoverState}
 							placeholder="‘-‘ 를 빼고 숫자만 입력해주세요"
-							value={registrationNumber.value ?? undefined}
+							// value={registrationNumber.value ?? undefined}
 						/>
 						<StoreResistrationSmallBtn type="button" width={{ width: '106px' }} onClick={handleBusinessLicenseStatusCheck}>
 							번호 조회
@@ -244,7 +243,7 @@ const Step2 = () => {
 						inputFlag={name.isError}
 						width="320px"
 						placeholder="상호명을 입력해주세요"
-						value={name.value ?? undefined}
+						// value={name.value ?? undefined}
 					/>
 				</StyledLayout.TextFieldSection>
 				<StyledLayout.TextFieldSection>
@@ -261,7 +260,7 @@ const Step2 = () => {
 						inputFlag={callNumber.isError}
 						width="320px"
 						placeholder="‘-‘ 를 포함하여 입력해주세요"
-						value={callNumber.value ?? undefined}
+						// value={callNumber.value ?? undefined}
 					/>
 				</StyledLayout.TextFieldSection>
 				<StyledLayout.TextFieldSection>
@@ -277,7 +276,6 @@ const Step2 = () => {
 							inputFlag={storeZonecode.isError}
 							name="step2"
 							id="storeZonecode"
-							value={storeZonecode.value ?? undefined}
 							width="320px"
 							placeholder="입력하기"
 						/>
@@ -290,7 +288,6 @@ const Step2 = () => {
 						inputFlag={basicAddress.isError}
 						name="step2"
 						id="basicAddress"
-						value={basicAddress.value ?? undefined}
 						width="560px"
 						placeholder="입력하기"
 					/>
@@ -301,7 +298,6 @@ const Step2 = () => {
 						name="step2"
 						id="addressDetail"
 						placeholder="(필수) 상세주소를 입력해주세요"
-						value={addressDetail.value ?? undefined}
 						width="560px"
 						onChange={handleStoreAddressDetailChange}
 					/>
@@ -372,7 +368,7 @@ const Step2 = () => {
 					<TextField
 						placeholder="링크를 입력해주세요"
 						name="step2"
-						value={instaAccount ?? undefined}
+						// value={instaAccount ?? undefined}
 						id="instaAccount"
 						inputFlag="normal"
 						width="320px"
@@ -464,7 +460,7 @@ const Step2 = () => {
 						inputFlag={notice.isError}
 						onFocus={() => changeNormal('notice')}
 						width="320px"
-						value={notice.value ?? undefined}
+						// value={notice.value ?? undefined}
 						placeholder="휴무일을 자유롭게 입력해주세요"
 					/>
 					<StyledLayout.FlexBox style={{ paddingTop: '4px' }}>
