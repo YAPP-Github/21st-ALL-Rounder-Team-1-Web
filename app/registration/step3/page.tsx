@@ -33,7 +33,7 @@ const Step3 = () => {
 			return;
 		}
 		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
-		console.log(request);
+
 		// 완료후
 		setTemporarySaveToast(true);
 		setTimeout(() => setTemporarySaveToast(false), 2000);
@@ -53,7 +53,6 @@ const Step3 = () => {
 	const submitData = async () => {
 		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
 		const response = await postItems(Number(query.get('storeId')), request);
-		console.log(response);
 	};
 	const handleExpandedSummary = (productArrName: string, categoryIdx: number) => {
 		if (setError(productArrName) !== 0) {
