@@ -6,12 +6,20 @@ import { usePathname, useSearchParams } from 'next/navigation';
 const RegistrationLayout = ({ children }: { children: React.ReactNode }) => {
 	const query = useSearchParams();
 	const pathname = usePathname();
+	const isStoreRegistrationSuccessPage = pathname === '/registration/success';
+
 	return (
 		<StyledLayout.MaxContainer>
 			<StyledLayout.SubMaxContainer>
-				<RegistrationHeader query={query.toString()} pathname={pathname} />
-				<Tab />
-				<StyledLayout.RegistrationContentContainer>{children}</StyledLayout.RegistrationContentContainer>
+				{isStoreRegistrationSuccessPage ? (
+					<>{children}</>
+				) : (
+					<>
+						<RegistrationHeader query={query.toString()} pathname={pathname} />
+						<Tab />
+						<StyledLayout.RegistrationContentContainer>{children}</StyledLayout.RegistrationContentContainer>
+					</>
+				)}
 			</StyledLayout.SubMaxContainer>
 		</StyledLayout.MaxContainer>
 	);
