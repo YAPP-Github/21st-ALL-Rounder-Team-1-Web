@@ -11,6 +11,7 @@ export const FlexBox = styled.div<CSSProperties>`
 	gap: ${({ gap }) => gap ?? 0};
 	width: ${({ width }) => width};
 	height: ${({ height }) => height};
+	min-height: ${({ minHeight }) => minHeight};
 	margin: ${({ margin }) => margin};
 	padding: ${({ padding }) => padding};
 	border: ${({ border }) => border};
