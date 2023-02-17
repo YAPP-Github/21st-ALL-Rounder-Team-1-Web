@@ -1,16 +1,27 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import Image from 'next/image';
-import { PumpLogoRoundImg } from 'public/static/images';
+import { MaterialSymbolsErrorRoundedImg } from 'public/static/images';
 import styles from 'styles/404.module.css';
 
 const Error = () => {
 	const router = useRouter();
 
+	useEffect(() => {
+		document.body.style.margin = '0';
+	}, []);
+
 	return (
 		<div className={styles.container}>
-			<Image src={PumpLogoRoundImg} alt="round pump logo" width={100} height={100} style={{ marginBottom: '34px' }} />
+			<Image
+				src={MaterialSymbolsErrorRoundedImg}
+				alt="round pump logo"
+				width={100}
+				height={100}
+				style={{ marginBottom: '34px' }}
+			/>
 
 			<h2 className={styles.title}>페이지를 찾을 수 없습니다</h2>
 			<p className={styles.description}>

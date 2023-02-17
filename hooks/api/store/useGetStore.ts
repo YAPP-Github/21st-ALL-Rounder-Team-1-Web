@@ -3,7 +3,6 @@ import { API_PATH, HTTP_METHOD } from 'core/apis/constants';
 import pumpClientRequester from 'core/apis/axios';
 import { getUserTokenFromLocalStorage } from 'utils/storage';
 import { useQuery } from '@tanstack/react-query';
-import { StoreGet } from 'store/actions/step2Store';
 
 type StoreImage = {
 	id: number;

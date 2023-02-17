@@ -26,7 +26,6 @@ export const patchStore = async (storeData: StorePatchData) => {
 		url: `${store}`,
 		headers: {
 			Authorization: `Bearer ${getUserTokenFromLocalStorage()}`,
-		
 		},
 		data: {
 			storeData,

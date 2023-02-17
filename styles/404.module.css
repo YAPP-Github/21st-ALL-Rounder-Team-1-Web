@@ -5,6 +5,7 @@
 	justify-content: center;
 	height: 100vh;
 	text-align: center;
+	background-color: #f9f9fb;
 }
 
 .title {
@@ -37,21 +38,20 @@
 .routeHome {
 	width: 200px;
 	padding: 16px 62.5px;
-	border: 1px solid #8e8e93;
+	border: 1px solid #ff6c00;
 	border-radius: 10px;
-	background-color: white;
 	font-family: 'Pretendard';
 	font-weight: 500;
 	font-size: 16px;
 	line-height: 18px;
 	letter-spacing: -0.4px;
-	color: #636366;
+	color: #ffffff;
 	cursor: pointer;
+	background-color: #ff6c00;
 }
 
 .routeHome:hover {
-	border-color: #ff6c00;
-	color: #ff6c00;
+	opacity: 0.8;
 }
 
 .routeBack {
@@ -67,4 +67,8 @@
 	letter-spacing: -0.4px;
 	color: #636366;
 	cursor: pointer;
+}
+
+.routeBack:hover {
+	opacity: 0.8;
 }
