@@ -11,3 +11,4 @@ export { default as LandingAdvantage002Img } from "./landing_advantage.002.png";
 export { default as StoreDefaultImg } from "./store_default_image.png";
 export { default as MyPageStoreDefualtImg } from './mypage_store_default.png';
 export { default as PumpLogoRoundImg} from './pump_logo_round.png';
+export { default as MaterialSymbolsErrorRoundedImg } from './material-symbols_error-rounded.png';
