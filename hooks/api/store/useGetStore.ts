@@ -3,6 +3,7 @@ import { API_PATH, HTTP_METHOD } from 'core/apis/constants';
 import pumpClientRequester from 'core/apis/axios';
 import { getUserTokenFromLocalStorage } from 'utils/storage';
 import { useQuery } from '@tanstack/react-query';
+import { StoreGet } from 'store/actions/step2Store';
 
 type StoreImage = {
 	id: number;
@@ -22,12 +23,18 @@ export type Store = {
 	businessHours: string;
 	notice: string;
 	address: string;
-	instaAccount: string;
+	instaAccount: string | null;
 	callNumber: string;
 	registrationNumber: string;
 	isDayOff: boolean;
 	isReady: boolean;
-	imgStore: StoreImage[];
+	imgStore: Array<{
+		createdAt: string;
+		modifiedAt: string | null;
+		id: number;
+		storeId: number;
+		path: string;
+	}> | null;
 };
 
 export interface StoreGetResponse extends APIResponse {

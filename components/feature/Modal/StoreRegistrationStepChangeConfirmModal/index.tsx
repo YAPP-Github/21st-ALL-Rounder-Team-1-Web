@@ -1,6 +1,7 @@
 import { ConfirmModal } from 'components/feature/Modal';
+import { ConfirmModalEvent } from '../Common/ConfirmModal';
 
-const StoreRegistrationStepChangeConfirmModal = () => {
+const StoreRegistrationStepChangeConfirmModal = ({ onCancel, onConfirm }: ConfirmModalEvent) => {
 	return (
 		<ConfirmModal
 			modalTitle="다음 단계로 이동하시겠습니까 ?"
@@ -8,11 +9,11 @@ const StoreRegistrationStepChangeConfirmModal = () => {
 			modalBtn={{
 				cancel: {
 					text: '취소',
-					onCancel: () => {},
+					onCancel,
 				},
 				confirm: {
 					text: '다음단계',
-					onConfirm: () => {},
+					onConfirm,
 				},
 			}}
 		/>

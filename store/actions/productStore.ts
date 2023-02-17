@@ -3,6 +3,7 @@ import { devtools } from 'zustand/middleware';
 
 export interface Product {
 	[index: number]: any;
+	id: number;
 	category: string;
 	brandName: string;
 	productName: string;
@@ -27,11 +28,11 @@ export interface Products {
 
 export const productStore = create<Products>()(
 	devtools((set, get) => ({
-		baseMakeUp: [{ category: 'baseMakeUp', brandName: '', productName: '', isProductEmptyError: 'normal' }],
-		bodyHair: [{ category: 'bodyHair', brandName: '', productName: '', isProductEmptyError: 'normal' }],
-		detergent: [{ category: 'detergent', brandName: '', productName: '', isProductEmptyError: 'normal' }],
-		ingredient: [{ category: 'ingredient', brandName: '', productName: '', isProductEmptyError: 'normal' }],
-		etc: [{ category: 'etc', brandName: '', productName: '', isProductEmptyError: 'normal' }],
+		baseMakeUp: [{ id: 0, category: 'baseMakeUp', brandName: '', productName: '', isProductEmptyError: 'normal' }],
+		bodyHair: [{ id: 0, category: 'bodyHair', brandName: '', productName: '', isProductEmptyError: 'normal' }],
+		detergent: [{ id: 0, category: 'detergent', brandName: '', productName: '', isProductEmptyError: 'normal' }],
+		ingredient: [{ id: 0, category: 'ingredient', brandName: '', productName: '', isProductEmptyError: 'normal' }],
+		etc: [{ id: 0, category: 'etc', brandName: '', productName: '', isProductEmptyError: 'normal' }],
 		addProduct: (productArrName: string) => {
 			if (get().productArrName[0].productName !== '') {
 				set((state) => ({
@@ -62,7 +63,7 @@ export const productStore = create<Products>()(
 		},
 		onChangeProductName: (productArrName: string, elementIdx: number, value: string) => {
 			set(() => ({
-				[productArrName]: get().productArrName.map((item: Product, idx: number) =>
+				[productArrName]: get()[productArrName].map((item: Product, idx: number) =>
 					idx === elementIdx ? { ...item, productName: value } : item,
 				),
 			}));

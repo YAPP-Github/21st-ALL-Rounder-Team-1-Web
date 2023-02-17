@@ -6,9 +6,10 @@ import { StyledMessage } from 'components/feature/TextField/styled';
 
 type Props = {
 	inputFlag: 'normal' | 'error';
-	clientStoreImageURL: string;
+	clientStoreImageURL: string | null;
 	deleteImage: () => void;
-} & React.ComponentProps<'input'>;
+	value: string | null;
+} & Omit<React.ComponentProps<'input'>, 'value'>;
 const StoreImageBtn = ({ inputFlag, clientStoreImageURL, deleteImage, ...props }: Props) => {
 	const storeImgRef = useRef() as RefObject<HTMLInputElement>;
 
@@ -31,7 +32,7 @@ const StoreImageBtn = ({ inputFlag, clientStoreImageURL, deleteImage, ...props }
 					<StoreImageContainer
 						name={props.name}
 						id={props.id}
-						value={props.value}
+						value={props.value ?? undefined}
 						type="button"
 						onClick={() => {
 							storeImgRef.current?.click();

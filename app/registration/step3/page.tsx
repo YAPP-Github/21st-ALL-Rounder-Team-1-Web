@@ -8,6 +8,9 @@ import {
 } from 'components/feature';
 import ProductInfoElement from 'components/feature/ProductInfoElement';
 import { LargeBtn, StyledLayout, Toast, Typography } from 'components/shared';
+import { makeItemsRequest } from 'core/storeRegistrationService';
+import { postItems } from 'hooks/api/items/usePostItems';
+import { useSearchParams } from 'next/navigation';
 import { ExpandMoreIcon } from 'public/static/icons';
 import { useState } from 'react';
 import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
@@ -16,6 +19,7 @@ import styled from 'styled-components';
 import { style, theme } from 'styles';
 
 const Step3 = () => {
+	const query = useSearchParams();
 	const { baseMakeUp, bodyHair, detergent, ingredient, etc, changeError, setError } = productStore();
 	const { modalKey, changeModalKey } = useModalStore();
 	const [expandedSummary, setExpandedSummary] = useState([false, false, false, false, false]);
@@ -28,8 +32,8 @@ const Step3 = () => {
 			changeModalKey(MODAL_KEY.ON_STORE_PRODUCT_REQUIRED_WARNING_MODAL);
 			return;
 		}
-		// 여기서부터 서버 통신
-		// ...
+		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
+		console.log(request);
 		// 완료후
 		setTemporarySaveToast(true);
 		setTimeout(() => setTemporarySaveToast(false), 2000);
@@ -45,6 +49,11 @@ const Step3 = () => {
 			changeModalKey(MODAL_KEY.ON_STORE_REGISTRATION_CONFIRM_MODAL);
 			return;
 		}
+	};
+	const submitData = async () => {
+		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
+		const response = await postItems(Number(query.get('storeId')), request);
+		console.log(response);
 	};
 	const handleExpandedSummary = (productArrName: string, categoryIdx: number) => {
 		if (setError(productArrName) !== 0) {
@@ -167,12 +176,20 @@ const Step3 = () => {
 				</StAccordionDetails>
 			</StAccordion>
 			<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '40px' }} gap="8px">
-				<LargeBtn type="button" style={style.btnStyle.white_btn} onClick={handleTemporarySave}>
-					임시저장
-				</LargeBtn>
-				<LargeBtn type="button" style={style.btnStyle.primary_btn_001} onClick={handleSaveItems}>
-					입점신청
-				</LargeBtn>
+				{query.get('storeId') !== '' ? (
+					<>
+						<LargeBtn type="button" style={style.btnStyle.white_btn} onClick={handleTemporarySave}>
+							임시저장
+						</LargeBtn>
+						<LargeBtn type="button" style={style.btnStyle.primary_btn_001} onClick={handleSaveItems}>
+							입점신청
+						</LargeBtn>
+					</>
+				) : (
+					<LargeBtn type="button" style={style.btnStyle.primary_btn_002} onClick={() => {}}>
+						수정완료
+					</LargeBtn>
+				)}
 			</StyledLayout.FlexBox>
 			<Toast duration={2} open={temporarySaveToast} />
 			{modalKey === MODAL_KEY.ON_STORE_PRODUCT_REQUIRED_WARNING_MODAL && (
@@ -182,7 +199,7 @@ const Step3 = () => {
 				<StoreProductRequiredSaveWarningModal onClick={() => changeModalKey(MODAL_KEY.OFF)} />
 			)}
 			{modalKey === MODAL_KEY.ON_STORE_REGISTRATION_CONFIRM_MODAL && (
-				<StoreRegistrationConfirmModal onCancel={() => changeModalKey(MODAL_KEY.OFF)} onConfirm={() => {}} />
+				<StoreRegistrationConfirmModal onCancel={() => changeModalKey(MODAL_KEY.OFF)} onConfirm={submitData} />
 			)}
 		</>
 	);

@@ -1,12 +1,13 @@
 import { memo, useEffect } from 'react';
 import Image from 'next/image';
-import { StyledLayout } from 'components/shared';
+import { StyledLayout, Typography } from 'components/shared';
 import * as S from './styled';
 import { PumpLogo } from 'public/static/images';
 import { removeUserTokenInLocalStorage } from 'utils/storage';
 import useUserSessionStore from 'store/actions/userSessionStore';
 import { useGetUserSession } from 'hooks/api/auth/useUserSession';
 import Link from 'next/link';
+import { theme } from 'styles';
 
 const Header = () => {
 	const { data: userSessionFetch } = useGetUserSession();
@@ -35,7 +36,9 @@ const Header = () => {
 						{!userSession?.id && (
 							<S.NavigationItem>
 								<StyledLayout.LinkWrapper href={'/signin'} replace>
-									로그인
+									<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_005}>
+										로그인
+									</Typography>
 								</StyledLayout.LinkWrapper>
 							</S.NavigationItem>
 						)}
@@ -43,11 +46,17 @@ const Header = () => {
 						{userSession?.id && (
 							<>
 								<S.NavigationItem>
-									<StyledLayout.LinkWrapper href={'/mypage/store'}>마이페이지</StyledLayout.LinkWrapper>
+									<StyledLayout.LinkWrapper href={'/mypage/store'}>
+										<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_005}>
+											마이페이지
+										</Typography>
+									</StyledLayout.LinkWrapper>
 								</S.NavigationItem>
 								<S.NavigationItem>
 									<Link href="/" target="_top" onClick={handleLogoutClick}>
-										로그아웃
+										<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_005}>
+											로그아웃
+										</Typography>
 									</Link>
 								</S.NavigationItem>
 							</>
