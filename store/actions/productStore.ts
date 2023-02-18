@@ -1,3 +1,4 @@
+import { GetItem } from 'hooks/api/items/useGetItems';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
@@ -24,6 +25,7 @@ export interface Products {
 	changeError: () => number;
 	changeNormal: (productArrName: string, elementIdx: number) => void;
 	setError: (productArrName: string) => number;
+	setProduct: (items: GetItem[]) => void;
 }
 
 export const productStore = create<Products>()(
@@ -37,7 +39,7 @@ export const productStore = create<Products>()(
 			if (get().productArrName[0].productName !== '') {
 				set((state) => ({
 					[productArrName]: [
-						{ category: { productArrName }, brandName: '', productName: '', isProductEmptyError: 'normal' },
+						{ id: 0, category: { productArrName }, brandName: '', productName: '', isProductEmptyError: 'normal' },
 						...state[productArrName],
 					],
 				}));
@@ -105,6 +107,23 @@ export const productStore = create<Products>()(
 				),
 			}));
 			return get()[productArrName].filter((item: Product) => item.isProductEmptyError === 'error').length;
+		},
+		setProduct: (items: GetItem[]) => {
+			if(!items) return;
+			for (let i = 0; i < items.length; i++) {
+				set((state) => ({
+					[items[i].category]: [
+						...state[items[i].category],
+						{
+							id:items[i].id
+							category: items[i].category,
+							brandName: items[i].brand,
+							productName: items[i].title,
+							isProductEmptyError: 'normal',
+						},
+					],
+				}));
+			}
 		},
 	})),
 );

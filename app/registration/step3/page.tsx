@@ -9,11 +9,12 @@ import {
 import ProductInfoElement from 'components/feature/ProductInfoElement';
 import { LargeBtn, StyledLayout, Toast, Typography } from 'components/shared';
 import { makeItemsRequest } from 'core/storeRegistrationService';
+import { useGetItems } from 'hooks/api/items/useGetItems';
 import { postItems } from 'hooks/api/items/usePostItems';
 import { temporaryPostItems } from 'hooks/api/items/useTemporaryPostItems';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ExpandMoreIcon } from 'public/static/icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
 import { productStore } from 'store/actions/productStore';
 import styled from 'styled-components';
@@ -22,7 +23,8 @@ import { style, theme } from 'styles';
 const Step3 = () => {
 	const router = useRouter();
 	const query = useSearchParams();
-	const { baseMakeUp, bodyHair, detergent, ingredient, etc, changeError, setError } = productStore();
+	const { data } = useGetItems(Number(query.get('id')));
+	const { baseMakeUp, bodyHair, detergent, ingredient, etc, changeError, setError, setProduct } = productStore();
 	const { modalKey, changeModalKey } = useModalStore();
 	const [expandedSummary, setExpandedSummary] = useState([false, false, false, false, false]);
 	const [temporarySaveToast, setTemporarySaveToast] = useState(false);
@@ -64,6 +66,9 @@ const Step3 = () => {
 		}
 		setExpandedSummary({ ...expandedSummary, [categoryIdx]: !expandedSummary[categoryIdx] });
 	};
+	useEffect(() => {
+		if (data) setProduct(data);
+	}, [data]);
 	return (
 		<>
 			<GuideWrapper>
