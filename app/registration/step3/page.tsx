@@ -2,6 +2,7 @@
 
 import { Accordion, AccordionDetails, AccordionSummary, withStyles } from '@material-ui/core';
 import {
+	StoreEditCompletionConfirmModal,
 	StoreProductRequiredSaveWarningModal,
 	StoreProductRequiredWarningModal,
 	StoreRegistrationConfirmModal,
@@ -9,22 +10,33 @@ import {
 import ProductInfoElement from 'components/feature/ProductInfoElement';
 import { LargeBtn, StyledLayout, Toast, Typography } from 'components/shared';
 import { makeItemsRequest } from 'core/storeRegistrationService';
+import { useGetItems } from 'hooks/api/items/useGetItems';
+import { patchItems } from 'hooks/api/items/usePatchItems';
 import { postItems } from 'hooks/api/items/usePostItems';
-import { useSearchParams } from 'next/navigation';
+import { temporaryPostItems } from 'hooks/api/items/useTemporaryPostItems';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { ExpandMoreIcon } from 'public/static/icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
 import { productStore } from 'store/actions/productStore';
 import styled from 'styled-components';
 import { style, theme } from 'styles';
 
 const Step3 = () => {
+	const router = useRouter();
 	const query = useSearchParams();
-	const { baseMakeUp, bodyHair, detergent, ingredient, etc, changeError, setError } = productStore();
+	const { data } = useGetItems(Number(query.get('id')));
+	const { baseMakeUp, bodyHair, detergent, ingredient, etc, changeError, setError, setProduct } = productStore();
 	const { modalKey, changeModalKey } = useModalStore();
 	const [expandedSummary, setExpandedSummary] = useState([false, false, false, false, false]);
 	const [temporarySaveToast, setTemporarySaveToast] = useState(false);
-	const handleTemporarySave = () => {
+	const submitEditItems = async () => {
+		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
+		const response = await patchItems(Number(query.get('id')), request);
+
+		router.push(`/mypage`);
+	};
+	const handleTemporarySave = async () => {
 		if (changeError() !== 0) return;
 		if (
 			[...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc].filter((item) => item.productName !== '').length === 0
@@ -34,7 +46,7 @@ const Step3 = () => {
 		}
 		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
 
-		// 완료후
+		const response = await temporaryPostItems(Number(query.get('storeId')), request);
 		setTemporarySaveToast(true);
 		setTimeout(() => setTemporarySaveToast(false), 2000);
 	};
@@ -53,6 +65,10 @@ const Step3 = () => {
 	const submitData = async () => {
 		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
 		const response = await postItems(Number(query.get('storeId')), request);
+
+
+		router.push('/registration/success');
+
 	};
 	const handleExpandedSummary = (productArrName: string, categoryIdx: number) => {
 		if (setError(productArrName) !== 0) {
@@ -61,6 +77,9 @@ const Step3 = () => {
 		}
 		setExpandedSummary({ ...expandedSummary, [categoryIdx]: !expandedSummary[categoryIdx] });
 	};
+	useEffect(() => {
+		if (data) setProduct(data);
+	}, [data]);
 	return (
 		<>
 			<GuideWrapper>
@@ -185,7 +204,11 @@ const Step3 = () => {
 						</LargeBtn>
 					</>
 				) : (
-					<LargeBtn type="button" style={style.btnStyle.primary_btn_002} onClick={() => {}}>
+					<LargeBtn
+						type="button"
+						style={style.btnStyle.primary_btn_002}
+						onClick={() => changeModalKey(MODAL_KEY.ON_STORE_EDIT_COMPLETION_CONFIRM_MODAL)}
+					>
 						수정완료
 					</LargeBtn>
 				)}
@@ -199,6 +222,9 @@ const Step3 = () => {
 			)}
 			{modalKey === MODAL_KEY.ON_STORE_REGISTRATION_CONFIRM_MODAL && (
 				<StoreRegistrationConfirmModal onCancel={() => changeModalKey(MODAL_KEY.OFF)} onConfirm={submitData} />
+			)}
+			{modalKey === MODAL_KEY.ON_STORE_EDIT_COMPLETION_CONFIRM_MODAL && (
+				<StoreEditCompletionConfirmModal onCancel={() => changeModalKey(MODAL_KEY.OFF)} onConfirm={submitEditItems} />
 			)}
 		</>
 	);

@@ -3,10 +3,10 @@ import { TimePickerContainer, TimeInput, CenterSpan } from './styled';
 
 type Props = {
 	value?: {
-		startHour: string;
-		startMinutes: string;
-		endHour: string;
-		endMinutes: string;
+		startHour: string | undefined;
+		startMinutes: string | undefined;
+		endHour: string | undefined;
+		endMinutes: string | undefined;
 	};
 	dayOffRef: (el: HTMLButtonElement) => void;
 } & Omit<React.ComponentProps<'button'>, 'value'>;
@@ -42,18 +42,19 @@ const TimePicker = ({ value, dayOffRef, ...props }: Props) => {
 		} else
 			setTimePickerValue(`${timeValues.startHour}:${timeValues.startMinutes}~${timeValues.endHour}:${timeValues.endMinutes}`);
 	}, [timeValues, props.disabled]);
+
 	return (
 		<TimePickerContainer
 			name={props.name}
 			id={props.id}
-			value={timePickerValue}
+			defaultValue={timePickerValue}
 			type="button"
 			ref={dayOffRef}
 			disabled={props.disabled ?? false}
 		>
 			<TimeInput
 				onBlur={handleOnBlur}
-				value={timeValues.startHour}
+				defaultValue={timeValues.startHour}
 				name="startHour"
 				type="text"
 				maxLength={2}
@@ -63,7 +64,7 @@ const TimePicker = ({ value, dayOffRef, ...props }: Props) => {
 			<span>:</span>
 			<TimeInput
 				onBlur={handleOnBlur}
-				value={timeValues.startMinutes}
+				defaultValue={timeValues.startMinutes}
 				name="startMinutes"
 				type="text"
 				maxLength={2}
@@ -73,7 +74,7 @@ const TimePicker = ({ value, dayOffRef, ...props }: Props) => {
 			<CenterSpan>~</CenterSpan>
 			<TimeInput
 				onBlur={handleOnBlur}
-				value={timeValues.endHour}
+				defaultValue={timeValues.endHour}
 				name="endHour"
 				type="text"
 				maxLength={2}

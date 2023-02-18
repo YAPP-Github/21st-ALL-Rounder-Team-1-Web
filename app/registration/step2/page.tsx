@@ -14,6 +14,7 @@ import {
 	TimePicker,
 	DayOffBtn,
 	StoreRegistrationStepChangeConfirmModal,
+	StoreEditCompletionConfirmModal,
 } from 'components/feature';
 import {
 	businessHourDays,
@@ -34,7 +35,8 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { step2ErrorStore, step2RequestStore } from 'store/actions/step2Store';
 import { postStore } from 'hooks/api/store/usePostStore';
 import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
-import { getStore, Store } from 'hooks/api/store/useGetStore';
+import { getStore, Store, useGetStore } from 'hooks/api/store/useGetStore';
+import { patchStore } from 'hooks/api/store/usePatchStore';
 interface IBusinessLicenseStatusResponse {
 	match_cnt: number;
 	request_cnt: number;
@@ -55,6 +57,8 @@ interface IBusinessLicenseStatusResponse {
 const Step2 = () => {
 	const router = useRouter();
 	const query = useSearchParams();
+	const { data } = useGetStore(query.toString());
+	const [businessHourValues, setBusinessHourValues] = useState<Array<{ day: string; time: string | null }>>([]);
 	const { step2Request, setStep2Request } = step2RequestStore();
 	const {
 		name,
@@ -64,6 +68,7 @@ const Step2 = () => {
 		addressDetail,
 		imgPath,
 		instaAccount,
+		businessHours,
 		callNumber,
 		registrationNumber,
 		changeNormal,
@@ -73,42 +78,44 @@ const Step2 = () => {
 	const { modalKey, changeModalKey } = useModalStore();
 	const [complete, setComplete] = useState({ managerId: -1, storeId: -1 });
 	const [storePostcodeInputs, setStorePostcodeInputs] = useState({
-		zonecode: 'efew', // 우편번호
-		address: 'dfd', // 기본 주소
-		detailAddress: 'sd', // 상세 주소
+		zonecode: '', // 우편번호
+		address: '', // 기본 주소
+		detailAddress: '', // 상세 주소
 	});
 	const businessLicenseInputRef = useRef() as RefObject<HTMLInputElement>;
 	const dayOffRef = useRef<null[] | Array<RefObject<HTMLButtonElement>> | HTMLButtonElement[]>([]);
 	const [dayOffStatus, setDayOffStatus] = useState<boolean[]>([false, false, false, false, false, false, false, false]);
 	const [businessLicenseStatus, setBusinessLicenseStatus] = useState<'normal' | 'success' | 'error' | 'notClicked'>('normal');
-	const [selectedStoreImageBtn, setSelectedStoreImageBtn] = useState('defaultImage');
-	const [clientStoreImageURL, setClientStoreImageURL] = useState(imgPath.value[0] ?? null);
+	const [selectedStoreImageBtn, setSelectedStoreImageBtn] = useState(imgPath.value[0] ? 'registrationImage' : 'defaultImage');
+	const [clientStoreImageURL, setClientStoreImageURL] = useState('');
 	const [S3ImagePath, setS3ImagePath] = useState(imgPath.value[0] ?? '');
 	const [selectedBusinessHourBtn, setSelectedBusinessHourBtn] = useState('weekDaysWeekEnd');
 	const { step1Request } = step1RequestStore();
-
 	const { uploadToS3 } = useS3Upload();
 	const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		// TODO: 서버로직 구현
 		const emptyInput = checkEmptyInputError(e.currentTarget.step2, changeError);
-		// if (e.currentTarget.step2[0].value !== '' && businessLicenseStatus === 'normal') {
-		// 	setBusinessLicenseStatus('notClicked');
-		// 	return;
-		// }
-		// if (businessLicenseStatus !== 'normal') return;
+		if (e.currentTarget.step2[0].value !== '' && businessLicenseStatus === 'normal') {
+			setBusinessLicenseStatus('notClicked');
+			return;
+		}
+		if (businessLicenseStatus !== 'normal') return;
 		if (emptyInput !== 0) return;
 		await saveStep2UserInput(e.currentTarget.step2, setStep2Request);
 		await makeBusinessHourData(dayOffRef, selectedBusinessHourBtn, setStep2Request);
 		await makeStoreAddress(storePostcodeInputs, setStep2Request);
 		await handleFindCoords(storePostcodeInputs.address);
 		makeImgPath(selectedStoreImageBtn, S3ImagePath, setStep2Request);
-		changeModalKey(MODAL_KEY.ON_STORE_REGISTRATION_STEP_CHANGE_CONFIRM_MODAL);
+		if (query.toString() === '') changeModalKey(MODAL_KEY.ON_STORE_REGISTRATION_STEP_CHANGE_CONFIRM_MODAL);
 	};
 	const submitInputs = async () => {
 		const step1Response = await patchManager(step1Request);
 		const step2Response = await postStore(step2Request);
 		setComplete({ managerId: step1Response?.id ?? -1, storeId: step2Response.storeId });
+	};
+	const submitEditInputs = async () => {
+		const step2EditResponse = await patchStore({ ...step2Request, id: Number(query.get('id')) });
+		setComplete({ managerId: -1, storeId: step2EditResponse.storeId });
 	};
 	const handleSelectedStoreImageBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (selectedStoreImageBtn === e.target.value) return;
@@ -194,16 +201,31 @@ const Step2 = () => {
 			});
 	};
 	useEffect(() => {
-		if (complete.managerId !== -1 && complete.storeId !== -1) {
+		if (query.toString() === '' && complete.managerId !== -1 && complete.storeId !== -1) {
 			router.push(`/registration/step3?storeId=${complete.storeId}`);
+		} else if (query.toString() !== '' && complete.storeId !== -1) {
+			router.push(`/mypage`);
 		}
 	}, [complete]);
 	useEffect(() => {
-		if (query.toString() !== '') {
-			getStore().then((result) => setInitialValue(result));
+		if (data) {
+			setInitialValue(data);
+			ssetBusinessHourValues(data?.businessHours);
+			setSelectedBusinessHourBtn('eachDays');
 		}
-	}, []);
-
+	}, [data]);
+	useEffect(() => {
+		if (imgPath.value[0]) {
+			setClientStoreImageURL(imgPath.value[0]);
+		}
+	}, [imgPath.value[0]]);
+	useEffect(() => {
+		for (let i = 0; i < businessHourValues.length; i++) {
+			if (businessHourValues[i].time !== null) {
+				setDayOffStatus({ ...dayOffStatus, [i + 2]: true });
+			}
+		}
+	}, [businessHourValues]);
 	return (
 		<>
 			<form onSubmit={handleOnSubmit}>
@@ -218,11 +240,11 @@ const Step2 = () => {
 							businessLicenseTextFieldRef={businessLicenseInputRef}
 							name="step2"
 							id="registrationNumber"
+							defaultValue={data?.registrationNumber}
 							inputFlag={registrationNumber.isError}
 							isAuthorizedNumber={businessLicenseStatus}
 							onFocus={handleHoverState}
 							placeholder="‘-‘ 를 빼고 숫자만 입력해주세요"
-							// value={registrationNumber.value ?? undefined}
 						/>
 						<StoreResistrationSmallBtn type="button" width={{ width: '106px' }} onClick={handleBusinessLicenseStatusCheck}>
 							번호 조회
@@ -243,7 +265,7 @@ const Step2 = () => {
 						inputFlag={name.isError}
 						width="320px"
 						placeholder="상호명을 입력해주세요"
-						// value={name.value ?? undefined}
+						defaultValue={name.value}
 					/>
 				</StyledLayout.TextFieldSection>
 				<StyledLayout.TextFieldSection>
@@ -260,7 +282,7 @@ const Step2 = () => {
 						inputFlag={callNumber.isError}
 						width="320px"
 						placeholder="‘-‘ 를 포함하여 입력해주세요"
-						// value={callNumber.value ?? undefined}
+						defaultValue={callNumber.value}
 					/>
 				</StyledLayout.TextFieldSection>
 				<StyledLayout.TextFieldSection>
@@ -278,6 +300,7 @@ const Step2 = () => {
 							id="storeZonecode"
 							width="320px"
 							placeholder="입력하기"
+							defaultValue={storeZonecode.value}
 						/>
 						<PostcodePopupOpenBtn onExtractedPostCode={handleExtractedPostCode} />
 					</StyledLayout.FlexBox>
@@ -290,11 +313,13 @@ const Step2 = () => {
 						id="basicAddress"
 						width="560px"
 						placeholder="입력하기"
+						defaultValue={basicAddress.value}
 					/>
 					<TextField
 						emptyErrorMessage="상세 주소를"
 						onFocus={() => changeNormal('addressDetail')}
 						inputFlag={addressDetail.isError}
+						defaultValue={addressDetail.value}
 						name="step2"
 						id="addressDetail"
 						placeholder="(필수) 상세주소를 입력해주세요"
@@ -311,7 +336,7 @@ const Step2 = () => {
 							name="storeImage"
 							value="defaultImage"
 							onChange={handleSelectedStoreImageBtn}
-							defaultChecked={imgPath.value[0] === null}
+							defaultChecked={imgPath.value[0] === ''}
 						/>
 						<StyledLayout.FlexBox style={{ paddingLeft: '8px' }} gap="8px" flexDirection="column">
 							<label htmlFor="defaultImage">
@@ -333,7 +358,7 @@ const Step2 = () => {
 							name="storeImage"
 							value="registerImage"
 							onChange={handleSelectedStoreImageBtn}
-							defaultChecked={imgPath.value[0] !== null}
+							defaultChecked={imgPath.value[0] !== ''}
 						/>
 						<StyledLayout.FlexBox style={{ paddingLeft: '8px' }} gap="8px" flexDirection="column">
 							<label htmlFor="registerImage">
@@ -351,9 +376,9 @@ const Step2 = () => {
 									id="imgPath"
 									deleteImage={() => setClientStoreImageURL('')}
 									onChange={handleUploadToClient}
-									clientStoreImageURL={imgPath.value[0] ?? clientStoreImageURL}
+									value={clientStoreImageURL}
+									clientStoreImageURL={clientStoreImageURL}
 									inputFlag={imgPath.isError}
-									value={imgPath.value[0] ?? clientStoreImageURL}
 								/>
 							)}
 						</StyledLayout.FlexBox>
@@ -368,7 +393,7 @@ const Step2 = () => {
 					<TextField
 						placeholder="링크를 입력해주세요"
 						name="step2"
-						// value={instaAccount ?? undefined}
+						defaultValue={instaAccount}
 						id="instaAccount"
 						inputFlag="normal"
 						width="320px"
@@ -383,7 +408,12 @@ const Step2 = () => {
 					</Typography>
 					<StyledLayout.FlexBox gap="24px" style={{ padding: '4px 0' }}>
 						<StyledLayout.FlexBox gap="8px" alignItems="center">
-							<RadioBtn name="businessHour" value="weekDaysWeekEnd" onChange={handleSelectedBusinessHourBtn} defaultChecked />
+							<RadioBtn
+								name="businessHour"
+								value="weekDaysWeekEnd"
+								onChange={handleSelectedBusinessHourBtn}
+								defaultChecked={businessHourValues.length === 0}
+							/>
 							<label htmlFor="weekDaysWeekEnd">
 								<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
 									평일 / 주말 달라요
@@ -391,7 +421,12 @@ const Step2 = () => {
 							</label>
 						</StyledLayout.FlexBox>
 						<StyledLayout.FlexBox gap="8px" alignItems="center">
-							<RadioBtn name="businessHour" value="eachDays" onChange={handleSelectedBusinessHourBtn} />
+							<RadioBtn
+								defaultChecked={businessHourValues.length !== 0}
+								name="businessHour"
+								value="eachDays"
+								onChange={handleSelectedBusinessHourBtn}
+							/>
 							<label htmlFor="eachDays">
 								<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
 									요일별로 달라요
@@ -427,7 +462,7 @@ const Step2 = () => {
 						</StyledLayout.FlexBox>
 					) : (
 						<StyledLayout.FlexBox flexDirection="column" gap="12px">
-							{businessHourDays.map(({ id, day }) => {
+							{businessHourDays.map(({ id, day }, idx) => {
 								return (
 									<StyledLayout.FlexBox key={id} alignItems="center">
 										<StyledLayout.FlexBox flexDirection="column" gap="6px">
@@ -435,7 +470,25 @@ const Step2 = () => {
 												{day}
 											</Typography>
 										</StyledLayout.FlexBox>
-										<TimePicker dayOffRef={(el) => (dayOffRef.current[id] = el)} disabled={dayOffStatus[id - 1]} />
+										<TimePicker
+											value={
+												businessHourValues[idx].time !== null
+													? {
+															startHour: businessHourValues[idx].time?.split('~')[0].substring(0, 2).padStart(2, '0'),
+															startMinutes: businessHourValues[idx].time?.split('~')[0].substring(4).padStart(2, '0'),
+															endHour: businessHourValues[idx].time?.split('~')[1].substring(0, 2).padStart(2, '0'),
+															endMinutes: businessHourValues[idx].time?.split('~')[0].substring(4).padStart(2, '0'),
+													  }
+													: {
+															startHour: '10',
+															startMinutes: '00',
+															endHour: '22',
+															endMinutes: '00',
+													  }
+											}
+											dayOffRef={(el) => (dayOffRef.current[id] = el)}
+											disabled={dayOffStatus[id - 1]}
+										/>
 										<DayOffBtn
 											dayOff={dayOffStatus[id - 1]}
 											onClick={() => handleTimePickerInput(id - 1)}
@@ -460,7 +513,7 @@ const Step2 = () => {
 						inputFlag={notice.isError}
 						onFocus={() => changeNormal('notice')}
 						width="320px"
-						// value={notice.value ?? undefined}
+						defaultValue={notice.value}
 						placeholder="휴무일을 자유롭게 입력해주세요"
 					/>
 					<StyledLayout.FlexBox style={{ paddingTop: '4px' }}>
@@ -483,6 +536,9 @@ const Step2 = () => {
 			</form>
 			{modalKey === MODAL_KEY.ON_STORE_REGISTRATION_STEP_CHANGE_CONFIRM_MODAL && (
 				<StoreRegistrationStepChangeConfirmModal onCancel={() => changeModalKey(MODAL_KEY.OFF)} onConfirm={submitInputs} />
+			)}
+			{modalKey === MODAL_KEY.ON_STORE_EDIT_COMPLETION_CONFIRM_MODAL && (
+				<StoreEditCompletionConfirmModal onCancel={() => changeModalKey(MODAL_KEY.OFF)} onConfirm={submitEditInputs} />
 			)}
 		</>
 	);

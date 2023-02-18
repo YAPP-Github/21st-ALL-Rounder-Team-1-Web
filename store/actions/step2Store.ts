@@ -56,16 +56,18 @@ export const step2ErrorStore = create<Step2Error>()(
 		registrationNumber: { value: '', isError: 'normal' },
 		setInitialValue: (data: Store | null) => {
 			if (data === null) return;
-			set(() => ({ name: { value: data.name, isError: 'normal' } }));
-			set(() => ({ businessHours: data.businessHours }));
-			set(() => ({ notice: { value: data.notice, isError: 'normal' } }));
-			set(() => ({ storeZonecode: { value: data.address.split('#')[0], isError: 'normal' } }));
-			set(() => ({ basicAddress: { value: data.address.split('#')[1], isError: 'normal' } }));
-			set(() => ({ addressDetail: { value: data.address.split('#')[2], isError: 'normal' } }));
-			set(() => ({ imgPath: { value: [data?.imgStore?.at(0)?.path ?? ''], isError: 'normal' } }));
-			set(() => ({ instaAccount: data.instaAccount ?? '' }));
-			set(() => ({ callNumber: { value: data.callNumber, isError: 'normal' } }));
-			set(() => ({ registrationNumber: { value: data.registrationNumber, isError: 'normal' } }));
+			set(() => ({
+				name: { value: data.name, isError: 'normal' },
+				businessHours: data.businessHours,
+				notice: { value: data.notice, isError: 'normal' },
+				storeZonecode: { value: data.address.split('#')[0], isError: 'normal' },
+				basicAddress: { value: data.address.split('#')[1], isError: 'normal' },
+				addressDetail: { value: data.address.split('#')[2], isError: 'normal' },
+				imgPath: { value: [data?.imgStore?.at(0)?.path ?? ''], isError: 'normal' },
+				instaAccount: data.instaAccount ?? '',
+				callNumber: { value: data.callNumber, isError: 'normal' },
+				registrationNumber: { value: data.registrationNumber, isError: 'normal' },
+			}));
 		},
 		changeError: (inputId: string) => set((state) => ({ [inputId]: { ...state[inputId], isError: 'error' } })),
 		changeNormal: (inputId: string) => set((state) => ({ [inputId]: { ...state[inputId], isError: 'normal' } })),
