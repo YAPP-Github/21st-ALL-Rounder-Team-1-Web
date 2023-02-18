@@ -1,11 +1,12 @@
 'use client';
 
-import { Provider } from 'jotai';
-import styled, { ThemeProvider } from 'styled-components';
 import QueryProvider from 'app/Provider';
-import StyledComponentsRegistry from './RootStyleRegistry';
 import { Footer, Header } from 'components/shared';
+import { Provider } from 'jotai';
+import ProtectedRouteWithAuthContainer from 'pageComponents/app/ProtectedRouteWithAuthContainer';
+import styled, { ThemeProvider } from 'styled-components';
 import { GlobalStyle, theme } from 'styles';
+import StyledComponentsRegistry from './RootStyleRegistry';
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
 	return (
@@ -18,9 +19,12 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
 							<ThemeProvider theme={theme}>
 								<GlobalStyle />
 								<div id="modal-portal" />
-								<Header />
-								<ChildrenContainer>{children}</ChildrenContainer>
-								<Footer />
+
+								<ProtectedRouteWithAuthContainer>
+									<Header />
+									<ChildrenContainer>{children}</ChildrenContainer>
+									<Footer />
+								</ProtectedRouteWithAuthContainer>
 							</ThemeProvider>
 						</StyledComponentsRegistry>
 					</QueryProvider>

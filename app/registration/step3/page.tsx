@@ -45,6 +45,7 @@ const Step3 = () => {
 			return;
 		}
 		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
+
 		const response = await temporaryPostItems(Number(query.get('storeId')), request);
 		setTemporarySaveToast(true);
 		setTimeout(() => setTemporarySaveToast(false), 2000);
@@ -65,7 +66,9 @@ const Step3 = () => {
 		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
 		const response = await postItems(Number(query.get('storeId')), request);
 
+
 		router.push('/registration/success');
+
 	};
 	const handleExpandedSummary = (productArrName: string, categoryIdx: number) => {
 		if (setError(productArrName) !== 0) {
