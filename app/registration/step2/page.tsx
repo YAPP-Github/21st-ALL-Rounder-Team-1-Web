@@ -34,7 +34,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { step2ErrorStore, step2RequestStore } from 'store/actions/step2Store';
 import { postStore } from 'hooks/api/store/usePostStore';
 import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
-import { getStore, Store } from 'hooks/api/store/useGetStore';
+import { getStore, Store, useGetStore } from 'hooks/api/store/useGetStore';
 interface IBusinessLicenseStatusResponse {
 	match_cnt: number;
 	request_cnt: number;
@@ -55,6 +55,8 @@ interface IBusinessLicenseStatusResponse {
 const Step2 = () => {
 	const router = useRouter();
 	const query = useSearchParams();
+	const { data } = useGetStore(query.toString());
+
 	const { step2Request, setStep2Request } = step2RequestStore();
 	const {
 		name,
@@ -73,16 +75,16 @@ const Step2 = () => {
 	const { modalKey, changeModalKey } = useModalStore();
 	const [complete, setComplete] = useState({ managerId: -1, storeId: -1 });
 	const [storePostcodeInputs, setStorePostcodeInputs] = useState({
-		zonecode: 'efew', // 우편번호
-		address: 'dfd', // 기본 주소
-		detailAddress: 'sd', // 상세 주소
+		zonecode: '', // 우편번호
+		address: '', // 기본 주소
+		detailAddress: '', // 상세 주소
 	});
 	const businessLicenseInputRef = useRef() as RefObject<HTMLInputElement>;
 	const dayOffRef = useRef<null[] | Array<RefObject<HTMLButtonElement>> | HTMLButtonElement[]>([]);
 	const [dayOffStatus, setDayOffStatus] = useState<boolean[]>([false, false, false, false, false, false, false, false]);
 	const [businessLicenseStatus, setBusinessLicenseStatus] = useState<'normal' | 'success' | 'error' | 'notClicked'>('normal');
-	const [selectedStoreImageBtn, setSelectedStoreImageBtn] = useState('defaultImage');
-	const [clientStoreImageURL, setClientStoreImageURL] = useState(imgPath.value[0] ?? null);
+	const [selectedStoreImageBtn, setSelectedStoreImageBtn] = useState(imgPath.value[0] ? 'registrationImage' : 'defaultImage');
+	const [clientStoreImageURL, setClientStoreImageURL] = useState('');
 	const [S3ImagePath, setS3ImagePath] = useState(imgPath.value[0] ?? '');
 	const [selectedBusinessHourBtn, setSelectedBusinessHourBtn] = useState('weekDaysWeekEnd');
 	const { step1Request } = step1RequestStore();
@@ -199,10 +201,15 @@ const Step2 = () => {
 		}
 	}, [complete]);
 	useEffect(() => {
-		if (query.toString() !== '') {
-			getStore().then((result) => setInitialValue(result));
+		if (data) {
+			setInitialValue(data);
 		}
-	}, []);
+	}, [data]);
+	useEffect(() => {
+		if (imgPath.value[0]) {
+			setClientStoreImageURL(imgPath.value[0]);
+		}
+	}, [imgPath.value[0]]);
 
 	return (
 		<>
@@ -218,11 +225,11 @@ const Step2 = () => {
 							businessLicenseTextFieldRef={businessLicenseInputRef}
 							name="step2"
 							id="registrationNumber"
+							defaultValue={data?.registrationNumber}
 							inputFlag={registrationNumber.isError}
 							isAuthorizedNumber={businessLicenseStatus}
 							onFocus={handleHoverState}
 							placeholder="‘-‘ 를 빼고 숫자만 입력해주세요"
-							// value={registrationNumber.value ?? undefined}
 						/>
 						<StoreResistrationSmallBtn type="button" width={{ width: '106px' }} onClick={handleBusinessLicenseStatusCheck}>
 							번호 조회
@@ -243,7 +250,7 @@ const Step2 = () => {
 						inputFlag={name.isError}
 						width="320px"
 						placeholder="상호명을 입력해주세요"
-						// value={name.value ?? undefined}
+						defaultValue={name.value}
 					/>
 				</StyledLayout.TextFieldSection>
 				<StyledLayout.TextFieldSection>
@@ -260,7 +267,7 @@ const Step2 = () => {
 						inputFlag={callNumber.isError}
 						width="320px"
 						placeholder="‘-‘ 를 포함하여 입력해주세요"
-						// value={callNumber.value ?? undefined}
+						defaultValue={callNumber.value}
 					/>
 				</StyledLayout.TextFieldSection>
 				<StyledLayout.TextFieldSection>
@@ -278,6 +285,7 @@ const Step2 = () => {
 							id="storeZonecode"
 							width="320px"
 							placeholder="입력하기"
+							defaultValue={storeZonecode.value}
 						/>
 						<PostcodePopupOpenBtn onExtractedPostCode={handleExtractedPostCode} />
 					</StyledLayout.FlexBox>
@@ -290,11 +298,13 @@ const Step2 = () => {
 						id="basicAddress"
 						width="560px"
 						placeholder="입력하기"
+						defaultValue={basicAddress.value}
 					/>
 					<TextField
 						emptyErrorMessage="상세 주소를"
 						onFocus={() => changeNormal('addressDetail')}
 						inputFlag={addressDetail.isError}
+						defaultValue={addressDetail.value}
 						name="step2"
 						id="addressDetail"
 						placeholder="(필수) 상세주소를 입력해주세요"
@@ -311,7 +321,7 @@ const Step2 = () => {
 							name="storeImage"
 							value="defaultImage"
 							onChange={handleSelectedStoreImageBtn}
-							defaultChecked={imgPath.value[0] === null}
+							defaultChecked={imgPath.value[0] === ''}
 						/>
 						<StyledLayout.FlexBox style={{ paddingLeft: '8px' }} gap="8px" flexDirection="column">
 							<label htmlFor="defaultImage">
@@ -333,7 +343,7 @@ const Step2 = () => {
 							name="storeImage"
 							value="registerImage"
 							onChange={handleSelectedStoreImageBtn}
-							defaultChecked={imgPath.value[0] !== null}
+							defaultChecked={imgPath.value[0] !== ''}
 						/>
 						<StyledLayout.FlexBox style={{ paddingLeft: '8px' }} gap="8px" flexDirection="column">
 							<label htmlFor="registerImage">
@@ -351,9 +361,9 @@ const Step2 = () => {
 									id="imgPath"
 									deleteImage={() => setClientStoreImageURL('')}
 									onChange={handleUploadToClient}
-									clientStoreImageURL={imgPath.value[0] ?? clientStoreImageURL}
+									value={clientStoreImageURL}
+									clientStoreImageURL={clientStoreImageURL}
 									inputFlag={imgPath.isError}
-									value={imgPath.value[0] ?? clientStoreImageURL}
 								/>
 							)}
 						</StyledLayout.FlexBox>
@@ -368,7 +378,7 @@ const Step2 = () => {
 					<TextField
 						placeholder="링크를 입력해주세요"
 						name="step2"
-						// value={instaAccount ?? undefined}
+						defaultValue={instaAccount}
 						id="instaAccount"
 						inputFlag="normal"
 						width="320px"
@@ -460,7 +470,7 @@ const Step2 = () => {
 						inputFlag={notice.isError}
 						onFocus={() => changeNormal('notice')}
 						width="320px"
-						// value={notice.value ?? undefined}
+						defaultValue={notice.value}
 						placeholder="휴무일을 자유롭게 입력해주세요"
 					/>
 					<StyledLayout.FlexBox style={{ paddingTop: '4px' }}>

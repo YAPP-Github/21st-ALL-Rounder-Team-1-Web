@@ -3,7 +3,7 @@ import { API_PATH, HTTP_METHOD } from 'core/apis/constants';
 import pumpClientRequester from 'core/apis/axios';
 import { getUserTokenFromLocalStorage } from 'utils/storage';
 import { useQuery } from '@tanstack/react-query';
-import { StoreGet } from 'store/actions/step2Store';
+import { step2ErrorStore, StoreGet } from 'store/actions/step2Store';
 
 type StoreImage = {
 	id: number;
@@ -52,7 +52,8 @@ export const getStore = async () => {
 		method: HTTP_METHOD.GET,
 		url: `${store}`,
 		headers: {
-			Authorization: `Bearer ${getUserTokenFromLocalStorage()}`,
+			// Authorization: `Bearer ${getUserTokenFromLocalStorage()}`,
+			Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhY2Nlc3NfdG9rZW4iLCJpYXQiOjE2NzM4OTI5MTcsImV4cCI6MTg1Mzg5MjkxNywidXNlcklkIjoiOCJ9.Er7Lq2dXD95RgQ78kyqlz8uMQpS4AvAGuDm1jlwolys`,
 		},
 	});
 
@@ -61,6 +62,13 @@ export const getStore = async () => {
 
 export const getStoreQueryKey = 'get/store';
 
-export const useGetStore = (changeTrigger: boolean) => {
-	return useQuery([getStoreQueryKey, changeTrigger], async () => await getStore());
+// export const useGetStore = (changeTrigger: boolean) => {
+// 	return useQuery([getStoreQueryKey, changeTrigger], async () => await getStore());
+// };
+export const useInitialValue = (data: Store) => step2ErrorStore((state) => state.setInitialValue(data));
+
+export const useGetStore = (query: string) => {
+	return useQuery([getStoreQueryKey], async () => await getStore(), {
+		enabled: !!query,
+	});
 };

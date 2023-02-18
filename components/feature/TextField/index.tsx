@@ -19,6 +19,7 @@ const TextField = ({ inputFlag, emptyErrorMessage, ...props }: Props) => {
 				onMouseDown={props.onMouseDown}
 				style={{ width: props.width }}
 				value={props.value}
+				defaultValue={props.defaultValue}
 				placeholder={props.placeholder ?? '입력해주세요'}
 				type="search"
 			/>
