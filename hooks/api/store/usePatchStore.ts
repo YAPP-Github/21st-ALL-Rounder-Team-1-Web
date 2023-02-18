@@ -12,8 +12,8 @@ export type StorePatchData = {
 	businessHours: string;
 	notice: string;
 	address: string;
-	imgPath: string[];
-	instaAccount: string;
+	imgPath: string[] | null;
+	instaAccount: string | null;
 	callNumber: string;
 	registrationNumber: string;
 };
@@ -26,7 +26,6 @@ export const patchStore = async (storeData: StorePatchData) => {
 		url: `${store}`,
 		headers: {
 			Authorization: `Bearer ${getUserTokenFromLocalStorage()}`,
-		
 		},
 		data: {
 			storeData,

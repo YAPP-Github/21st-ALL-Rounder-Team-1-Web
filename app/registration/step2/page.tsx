@@ -14,6 +14,7 @@ import {
 	TimePicker,
 	DayOffBtn,
 	StoreRegistrationStepChangeConfirmModal,
+	StoreEditCompletionConfirmModal,
 } from 'components/feature';
 import {
 	businessHourDays,
@@ -35,6 +36,7 @@ import { step2ErrorStore, step2RequestStore } from 'store/actions/step2Store';
 import { postStore } from 'hooks/api/store/usePostStore';
 import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
 import { getStore, Store, useGetStore } from 'hooks/api/store/useGetStore';
+import { patchStore } from 'hooks/api/store/usePatchStore';
 interface IBusinessLicenseStatusResponse {
 	match_cnt: number;
 	request_cnt: number;
@@ -92,25 +94,28 @@ const Step2 = () => {
 	const { uploadToS3 } = useS3Upload();
 	const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		// TODO: 서버로직 구현
 		const emptyInput = checkEmptyInputError(e.currentTarget.step2, changeError);
-		// if (e.currentTarget.step2[0].value !== '' && businessLicenseStatus === 'normal') {
-		// 	setBusinessLicenseStatus('notClicked');
-		// 	return;
-		// }
-		// if (businessLicenseStatus !== 'normal') return;
+		if (e.currentTarget.step2[0].value !== '' && businessLicenseStatus === 'normal') {
+			setBusinessLicenseStatus('notClicked');
+			return;
+		}
+		if (businessLicenseStatus !== 'normal') return;
 		if (emptyInput !== 0) return;
 		await saveStep2UserInput(e.currentTarget.step2, setStep2Request);
 		await makeBusinessHourData(dayOffRef, selectedBusinessHourBtn, setStep2Request);
 		await makeStoreAddress(storePostcodeInputs, setStep2Request);
 		await handleFindCoords(storePostcodeInputs.address);
 		makeImgPath(selectedStoreImageBtn, S3ImagePath, setStep2Request);
-		changeModalKey(MODAL_KEY.ON_STORE_REGISTRATION_STEP_CHANGE_CONFIRM_MODAL);
+		if (query.toString() === '') changeModalKey(MODAL_KEY.ON_STORE_REGISTRATION_STEP_CHANGE_CONFIRM_MODAL);
 	};
 	const submitInputs = async () => {
 		const step1Response = await patchManager(step1Request);
 		const step2Response = await postStore(step2Request);
 		setComplete({ managerId: step1Response?.id ?? -1, storeId: step2Response.storeId });
+	};
+	const submitEditInputs = async () => {
+		const step2EditResponse = await patchStore({ ...step2Request, id: Number(query.get('id')) });
+		setComplete({ managerId: -1, storeId: step2EditResponse.storeId });
 	};
 	const handleSelectedStoreImageBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (selectedStoreImageBtn === e.target.value) return;
@@ -196,8 +201,10 @@ const Step2 = () => {
 			});
 	};
 	useEffect(() => {
-		if (complete.managerId !== -1 && complete.storeId !== -1) {
+		if (query.toString() === '' && complete.managerId !== -1 && complete.storeId !== -1) {
 			router.push(`/registration/step3?storeId=${complete.storeId}`);
+		} else if (query.toString() !== '' && complete.storeId !== -1) {
+			router.push(`/mypage`);
 		}
 	}, [complete]);
 	useEffect(() => {
@@ -493,6 +500,9 @@ const Step2 = () => {
 			</form>
 			{modalKey === MODAL_KEY.ON_STORE_REGISTRATION_STEP_CHANGE_CONFIRM_MODAL && (
 				<StoreRegistrationStepChangeConfirmModal onCancel={() => changeModalKey(MODAL_KEY.OFF)} onConfirm={submitInputs} />
+			)}
+			{modalKey === MODAL_KEY.ON_STORE_EDIT_COMPLETION_CONFIRM_MODAL && (
+				<StoreEditCompletionConfirmModal onCancel={() => changeModalKey(MODAL_KEY.OFF)} onConfirm={submitEditInputs} />
 			)}
 		</>
 	);
