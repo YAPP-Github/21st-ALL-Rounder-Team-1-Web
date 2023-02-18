@@ -24,7 +24,8 @@ export const postItems = async (storeId: number, items: ItemsRequest[]) => {
 		method: HTTP_METHOD.POST,
 		url: `${storeId}${index}`,
 		headers: {
-			Authorization: `Bearer ${getUserTokenFromLocalStorage()}`,
+			// Authorization: `Bearer ${getUserTokenFromLocalStorage()}`,
+			Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhY2Nlc3NfdG9rZW4iLCJpYXQiOjE2NzM4OTI5MTcsImV4cCI6MTg1Mzg5MjkxNywidXNlcklkIjoiOCJ9.Er7Lq2dXD95RgQ78kyqlz8uMQpS4AvAGuDm1jlwolys`,
 		},
 		data: {
 			items,

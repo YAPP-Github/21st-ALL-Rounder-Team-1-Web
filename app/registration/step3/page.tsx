@@ -10,6 +10,7 @@ import ProductInfoElement from 'components/feature/ProductInfoElement';
 import { LargeBtn, StyledLayout, Toast, Typography } from 'components/shared';
 import { makeItemsRequest } from 'core/storeRegistrationService';
 import { postItems } from 'hooks/api/items/usePostItems';
+import { temporaryPostItems } from 'hooks/api/items/useTemporaryPostItems';
 import { useSearchParams } from 'next/navigation';
 import { ExpandMoreIcon } from 'public/static/icons';
 import { useState } from 'react';
@@ -24,7 +25,7 @@ const Step3 = () => {
 	const { modalKey, changeModalKey } = useModalStore();
 	const [expandedSummary, setExpandedSummary] = useState([false, false, false, false, false]);
 	const [temporarySaveToast, setTemporarySaveToast] = useState(false);
-	const handleTemporarySave = () => {
+	const handleTemporarySave = async () => {
 		if (changeError() !== 0) return;
 		if (
 			[...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc].filter((item) => item.productName !== '').length === 0
@@ -33,8 +34,7 @@ const Step3 = () => {
 			return;
 		}
 		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
-		console.log(request);
-		// 완료후
+		const response = await temporaryPostItems(Number(query.get('storeId')), request);
 		setTemporarySaveToast(true);
 		setTimeout(() => setTemporarySaveToast(false), 2000);
 	};
@@ -53,7 +53,6 @@ const Step3 = () => {
 	const submitData = async () => {
 		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
 		const response = await postItems(Number(query.get('storeId')), request);
-		console.log(response);
 	};
 	const handleExpandedSummary = (productArrName: string, categoryIdx: number) => {
 		if (setError(productArrName) !== 0) {
