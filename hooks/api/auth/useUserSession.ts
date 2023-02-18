@@ -1,8 +1,8 @@
-import { API_PATH, HTTP_METHOD } from 'core/apis/constants';
-import pumpClientRequester from 'core/apis/axios';
 import { useQuery } from '@tanstack/react-query';
-import { getUserTokenFromLocalStorage } from 'utils/storage';
+import pumpClientRequester from 'core/apis/axios';
+import { API_PATH, HTTP_METHOD } from 'core/apis/constants';
 import { APIResponse } from 'types/api';
+import { getUserTokenFromLocalStorage } from 'utils/storage';
 
 export type UserSession = {
 	createdAt: string | null;
@@ -48,6 +48,7 @@ export const useGetUserSession = () => {
 		retry: 1,
 		cacheTime: GET_USER_SESSION_CACHE_TIME,
 		staleTime: GET_USER_SESSION_STALE_TIME,
+		refetchOnWindowFocus: false,
 	});
 };
 

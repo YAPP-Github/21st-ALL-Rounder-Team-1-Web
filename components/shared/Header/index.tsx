@@ -1,27 +1,19 @@
-import { memo, useEffect } from 'react';
-import Image from 'next/image';
 import { StyledLayout, Typography } from 'components/shared';
-import * as S from './styled';
-import { PumpLogo } from 'public/static/images';
-import { removeUserTokenInLocalStorage } from 'utils/storage';
-import useUserSessionStore from 'store/actions/userSessionStore';
-import { useGetUserSession } from 'hooks/api/auth/useUserSession';
+import Image from 'next/image';
 import Link from 'next/link';
+import { PumpLogo } from 'public/static/images';
+import { memo } from 'react';
+import useUserSessionStore from 'store/actions/userSessionStore';
 import { theme } from 'styles';
+import { removeUserTokenInLocalStorage } from 'utils/storage';
+import * as S from './styled';
 
 const Header = () => {
-	const { data: userSessionFetch } = useGetUserSession();
-	const { userSession, setUserSession } = useUserSessionStore();
+	const { userSession } = useUserSessionStore();
 
 	const handleLogoutClick = () => {
 		removeUserTokenInLocalStorage();
 	};
-
-	useEffect(() => {
-		if (userSessionFetch) {
-			setUserSession(userSessionFetch);
-		}
-	}, [userSessionFetch]);
 
 	return (
 		<S.Container>
