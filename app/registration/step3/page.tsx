@@ -11,7 +11,7 @@ import { LargeBtn, StyledLayout, Toast, Typography } from 'components/shared';
 import { makeItemsRequest } from 'core/storeRegistrationService';
 import { postItems } from 'hooks/api/items/usePostItems';
 import { temporaryPostItems } from 'hooks/api/items/useTemporaryPostItems';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { ExpandMoreIcon } from 'public/static/icons';
 import { useState } from 'react';
 import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
@@ -20,6 +20,7 @@ import styled from 'styled-components';
 import { style, theme } from 'styles';
 
 const Step3 = () => {
+	const router = useRouter();
 	const query = useSearchParams();
 	const { baseMakeUp, bodyHair, detergent, ingredient, etc, changeError, setError } = productStore();
 	const { modalKey, changeModalKey } = useModalStore();
@@ -53,6 +54,8 @@ const Step3 = () => {
 	const submitData = async () => {
 		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
 		const response = await postItems(Number(query.get('storeId')), request);
+
+		router.push('/registration/success');
 	};
 	const handleExpandedSummary = (productArrName: string, categoryIdx: number) => {
 		if (setError(productArrName) !== 0) {
