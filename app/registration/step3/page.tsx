@@ -2,6 +2,7 @@
 
 import { Accordion, AccordionDetails, AccordionSummary, withStyles } from '@material-ui/core';
 import {
+	StoreEditCompletionConfirmModal,
 	StoreProductRequiredSaveWarningModal,
 	StoreProductRequiredWarningModal,
 	StoreRegistrationConfirmModal,
@@ -10,6 +11,7 @@ import ProductInfoElement from 'components/feature/ProductInfoElement';
 import { LargeBtn, StyledLayout, Toast, Typography } from 'components/shared';
 import { makeItemsRequest } from 'core/storeRegistrationService';
 import { useGetItems } from 'hooks/api/items/useGetItems';
+import { patchItems } from 'hooks/api/items/usePatchItems';
 import { postItems } from 'hooks/api/items/usePostItems';
 import { temporaryPostItems } from 'hooks/api/items/useTemporaryPostItems';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -28,6 +30,12 @@ const Step3 = () => {
 	const { modalKey, changeModalKey } = useModalStore();
 	const [expandedSummary, setExpandedSummary] = useState([false, false, false, false, false]);
 	const [temporarySaveToast, setTemporarySaveToast] = useState(false);
+	const submitEditItems = async () => {
+		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
+		const response = await patchItems(Number(query.get('storeId')), request);
+
+		router.push(`/mypage`);
+	};
 	const handleTemporarySave = async () => {
 		if (changeError() !== 0) return;
 		if (
@@ -193,7 +201,11 @@ const Step3 = () => {
 						</LargeBtn>
 					</>
 				) : (
-					<LargeBtn type="button" style={style.btnStyle.primary_btn_002} onClick={() => {}}>
+					<LargeBtn
+						type="button"
+						style={style.btnStyle.primary_btn_002}
+						onClick={() => changeModalKey(MODAL_KEY.ON_STORE_EDIT_COMPLETION_CONFIRM_MODAL)}
+					>
 						수정완료
 					</LargeBtn>
 				)}
@@ -207,6 +219,9 @@ const Step3 = () => {
 			)}
 			{modalKey === MODAL_KEY.ON_STORE_REGISTRATION_CONFIRM_MODAL && (
 				<StoreRegistrationConfirmModal onCancel={() => changeModalKey(MODAL_KEY.OFF)} onConfirm={submitData} />
+			)}
+			{modalKey === MODAL_KEY.ON_STORE_EDIT_COMPLETION_CONFIRM_MODAL && (
+				<StoreEditCompletionConfirmModal onCancel={() => changeModalKey(MODAL_KEY.OFF)} onConfirm={submitEditItems} />
 			)}
 		</>
 	);
