@@ -109,13 +109,13 @@ export const productStore = create<Products>()(
 			return get()[productArrName].filter((item: Product) => item.isProductEmptyError === 'error').length;
 		},
 		setProduct: (items: GetItem[]) => {
-			if(!items) return;
+			if (!items) return;
 			for (let i = 0; i < items.length; i++) {
 				set((state) => ({
 					[items[i].category]: [
 						...state[items[i].category],
 						{
-							id:items[i].id
+							id: items[i].id,
 							category: items[i].category,
 							brandName: items[i].brand,
 							productName: items[i].title,

@@ -58,7 +58,7 @@ const Step2 = () => {
 	const router = useRouter();
 	const query = useSearchParams();
 	const { data } = useGetStore(query.toString());
-
+	const [businessHourValues, setBusinessHourValues] = useState<Array<{ day: string; time: string | null }>>([]);
 	const { step2Request, setStep2Request } = step2RequestStore();
 	const {
 		name,
@@ -68,6 +68,7 @@ const Step2 = () => {
 		addressDetail,
 		imgPath,
 		instaAccount,
+		businessHours,
 		callNumber,
 		registrationNumber,
 		changeNormal,
@@ -90,7 +91,6 @@ const Step2 = () => {
 	const [S3ImagePath, setS3ImagePath] = useState(imgPath.value[0] ?? '');
 	const [selectedBusinessHourBtn, setSelectedBusinessHourBtn] = useState('weekDaysWeekEnd');
 	const { step1Request } = step1RequestStore();
-
 	const { uploadToS3 } = useS3Upload();
 	const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -210,6 +210,8 @@ const Step2 = () => {
 	useEffect(() => {
 		if (data) {
 			setInitialValue(data);
+			ssetBusinessHourValues(data?.businessHours);
+			setSelectedBusinessHourBtn('eachDays');
 		}
 	}, [data]);
 	useEffect(() => {
@@ -217,7 +219,13 @@ const Step2 = () => {
 			setClientStoreImageURL(imgPath.value[0]);
 		}
 	}, [imgPath.value[0]]);
-
+	useEffect(() => {
+		for (let i = 0; i < businessHourValues.length; i++) {
+			if (businessHourValues[i].time !== null) {
+				setDayOffStatus({ ...dayOffStatus, [i + 2]: true });
+			}
+		}
+	}, [businessHourValues]);
 	return (
 		<>
 			<form onSubmit={handleOnSubmit}>
@@ -400,7 +408,12 @@ const Step2 = () => {
 					</Typography>
 					<StyledLayout.FlexBox gap="24px" style={{ padding: '4px 0' }}>
 						<StyledLayout.FlexBox gap="8px" alignItems="center">
-							<RadioBtn name="businessHour" value="weekDaysWeekEnd" onChange={handleSelectedBusinessHourBtn} defaultChecked />
+							<RadioBtn
+								name="businessHour"
+								value="weekDaysWeekEnd"
+								onChange={handleSelectedBusinessHourBtn}
+								defaultChecked={businessHourValues.length === 0}
+							/>
 							<label htmlFor="weekDaysWeekEnd">
 								<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
 									평일 / 주말 달라요
@@ -408,7 +421,12 @@ const Step2 = () => {
 							</label>
 						</StyledLayout.FlexBox>
 						<StyledLayout.FlexBox gap="8px" alignItems="center">
-							<RadioBtn name="businessHour" value="eachDays" onChange={handleSelectedBusinessHourBtn} />
+							<RadioBtn
+								defaultChecked={businessHourValues.length !== 0}
+								name="businessHour"
+								value="eachDays"
+								onChange={handleSelectedBusinessHourBtn}
+							/>
 							<label htmlFor="eachDays">
 								<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
 									요일별로 달라요
@@ -444,7 +462,7 @@ const Step2 = () => {
 						</StyledLayout.FlexBox>
 					) : (
 						<StyledLayout.FlexBox flexDirection="column" gap="12px">
-							{businessHourDays.map(({ id, day }) => {
+							{businessHourDays.map(({ id, day }, idx) => {
 								return (
 									<StyledLayout.FlexBox key={id} alignItems="center">
 										<StyledLayout.FlexBox flexDirection="column" gap="6px">
@@ -452,7 +470,25 @@ const Step2 = () => {
 												{day}
 											</Typography>
 										</StyledLayout.FlexBox>
-										<TimePicker dayOffRef={(el) => (dayOffRef.current[id] = el)} disabled={dayOffStatus[id - 1]} />
+										<TimePicker
+											value={
+												businessHourValues[idx].time !== null
+													? {
+															startHour: businessHourValues[idx].time?.split('~')[0].substring(0, 2).padStart(2, '0'),
+															startMinutes: businessHourValues[idx].time?.split('~')[0].substring(4).padStart(2, '0'),
+															endHour: businessHourValues[idx].time?.split('~')[1].substring(0, 2).padStart(2, '0'),
+															endMinutes: businessHourValues[idx].time?.split('~')[0].substring(4).padStart(2, '0'),
+													  }
+													: {
+															startHour: '10',
+															startMinutes: '00',
+															endHour: '22',
+															endMinutes: '00',
+													  }
+											}
+											dayOffRef={(el) => (dayOffRef.current[id] = el)}
+											disabled={dayOffStatus[id - 1]}
+										/>
 										<DayOffBtn
 											dayOff={dayOffStatus[id - 1]}
 											onClick={() => handleTimePickerInput(id - 1)}

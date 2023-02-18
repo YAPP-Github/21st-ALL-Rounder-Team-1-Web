@@ -56,7 +56,6 @@ export const step2ErrorStore = create<Step2Error>()(
 		registrationNumber: { value: '', isError: 'normal' },
 		setInitialValue: (data: Store | null) => {
 			if (data === null) return;
-			console.log('dd');
 			set(() => ({
 				name: { value: data.name, isError: 'normal' },
 				businessHours: data.businessHours,
@@ -69,8 +68,6 @@ export const step2ErrorStore = create<Step2Error>()(
 				callNumber: { value: data.callNumber, isError: 'normal' },
 				registrationNumber: { value: data.registrationNumber, isError: 'normal' },
 			}));
-
-			console.log('완료');
 		},
 		changeError: (inputId: string) => set((state) => ({ [inputId]: { ...state[inputId], isError: 'error' } })),
 		changeNormal: (inputId: string) => set((state) => ({ [inputId]: { ...state[inputId], isError: 'normal' } })),
