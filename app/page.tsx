@@ -1,22 +1,22 @@
 'use client';
 
-import styled, { CSSProperties } from 'styled-components';
 import { StyledLayout, Typography } from 'components/shared';
-import Link from 'next/link';
+import { MotionShowBox } from 'components/shared/Motion';
+import { Divider } from 'components/shared/styled/layout';
 import Image from 'next/image';
-import { theme } from 'styles';
+import Link from 'next/link';
 import {
+	LandingAdvantage001Img,
+	LandingAdvantage002Img,
 	LandingAppImg,
 	LandingFeature001Img,
 	LandingFeature002Img,
 	LandingFeature003Img,
-	LandingAdvantage001Img,
-	LandingAdvantage002Img,
 } from 'public/static/images';
-import { Divider } from 'components/shared/styled/layout';
-import { MotionShowBox } from 'components/shared/Motion';
+import styled, { CSSProperties } from 'styled-components';
+import { theme } from 'styles';
 
-const SERVICE_INTRODUCE_PDF_LINK = 'https://drive.google.com/file/d/1ey4jGVBu7cLLtTeCRYaoy8mP_4B9GsTu/view?usp=share_link';
+const SERVICE_INTRODUCE_PDF_LINK = 'https://drive.google.com/file/d/1f40Y7fdPCTnH83JgiIMmdeFb_igRMUBP/view';
 
 const FEATURE_INTRO = [
 	{
