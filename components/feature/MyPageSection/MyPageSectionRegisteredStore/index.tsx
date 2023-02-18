@@ -1,13 +1,13 @@
-import { StyledLayout, Typography } from 'components/shared';
 import { MyPageActionBtn } from 'components/feature';
-import * as S from './styled';
-import { theme } from 'styles';
-import { TrashIcon } from 'public/static/icons';
-import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
+import { StyledLayout, Typography } from 'components/shared';
 import { Store } from 'hooks/api/store/useGetStore';
-import { convertToHyphenDateFromUTC } from 'utils/date';
-import { MyPageStoreDefualtImg } from 'public/static/images';
 import Link from 'next/link';
+import { TrashIcon } from 'public/static/icons';
+import { MyPageStoreDefualtImg } from 'public/static/images';
+import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
+import { theme } from 'styles';
+import { convertToHyphenDateFromUTC } from 'utils/date';
+import * as S from './styled';
 
 const MyPageSectionRegisteredStore = ({ store }: { store: Store }) => {
 	const { id, name, address, callNumber, isReady, imgStore, modifiedAt } = store;
@@ -54,7 +54,7 @@ const MyPageSectionRegisteredStore = ({ store }: { store: Store }) => {
 								<Link
 									href={{
 										pathname: `/registration/step3`,
-										query: { id, isReady },
+										query: { storeId: id, isReady },
 									}}
 								>
 									판매제품 수정
@@ -64,7 +64,7 @@ const MyPageSectionRegisteredStore = ({ store }: { store: Store }) => {
 								<Link
 									href={{
 										pathname: `/registration/step2`,
-										query: { id, isReady },
+										query: { storeId: id, isReady },
 									}}
 								>
 									가게정보 수정
