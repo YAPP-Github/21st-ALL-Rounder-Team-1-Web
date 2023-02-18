@@ -1,6 +1,6 @@
-import { APIResponse } from 'types/api';
-import { API_PATH, HTTP_METHOD } from 'core/apis/constants';
 import pumpClientRequester from 'core/apis/axios';
+import { API_PATH, HTTP_METHOD } from 'core/apis/constants';
+import { APIResponse } from 'types/api';
 import { getUserTokenFromLocalStorage } from 'utils/storage';
 
 export interface ItemsPostResponse extends APIResponse {
@@ -13,6 +13,8 @@ export type ItemsRequest = {
 	id: number;
 	title: string | null;
 	brand: string | null;
+	price: string | null;
+	unit: string | null;
 	category: string;
 };
 
@@ -26,9 +28,7 @@ export const postItems = async (storeId: number, items: ItemsRequest[]) => {
 		headers: {
 			Authorization: `Bearer ${getUserTokenFromLocalStorage()}`,
 		},
-		data: {
-			items,
-		},
+		data: items,
 	});
 
 	return response.data.data;

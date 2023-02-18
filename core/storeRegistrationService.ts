@@ -105,10 +105,12 @@ export const makeItemsRequest = (itemsArr: Product[]) => {
 		const cur = itemsArr[i];
 		if (cur.brandName === '' && cur.productName === '') continue;
 		itemsRequest.push({
-			id: cur.id,
+			id: cur.id ?? null,
 			title: cur.productName !== '' ? cur.productName : null,
 			category: cur.category,
 			brand: cur.brandName !== '' ? cur.brandName : null,
+			price: null, // TODO : 수정할 것
+			unit: null, // TODO : 수정할 것
 		});
 	}
 	return itemsRequest;

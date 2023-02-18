@@ -1,6 +1,6 @@
-import { APIResponse } from 'types/api';
-import { API_PATH, HTTP_METHOD } from 'core/apis/constants';
 import pumpClientRequester from 'core/apis/axios';
+import { API_PATH, HTTP_METHOD } from 'core/apis/constants';
+import { APIResponse } from 'types/api';
 import { getUserTokenFromLocalStorage } from 'utils/storage';
 
 export interface StorePostResponse extends APIResponse {
@@ -25,11 +25,11 @@ export type StoreData = {
 
 export const postStore = async (storeData: StoreData) => {
 	const {
-		user: { store },
+		store: { index },
 	} = API_PATH;
 	const response = await pumpClientRequester<StorePostResponse>({
 		method: HTTP_METHOD.POST,
-		url: `${store}`,
+		url: `${index}`,
 		headers: {
 			Authorization: `Bearer ${getUserTokenFromLocalStorage()}`,
 		},

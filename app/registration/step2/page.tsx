@@ -60,7 +60,6 @@ const Step2 = () => {
 	const query = useSearchParams();
 
 	const { data } = useGetStore(query.toString() && query.toString());
-	console.log(data);
 
 	const [businessHourValues, setBusinessHourValues] = useState<Array<{ day: string; time: string | null }>>([]);
 	const { step2Request, setStep2Request } = step2RequestStore();
@@ -96,6 +95,7 @@ const Step2 = () => {
 	const [selectedBusinessHourBtn, setSelectedBusinessHourBtn] = useState('weekDaysWeekEnd');
 	const { step1Request } = step1RequestStore();
 	const { uploadToS3 } = useS3Upload();
+
 	const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const emptyInput = checkEmptyInputError(e.currentTarget.step2, changeError);
@@ -103,8 +103,11 @@ const Step2 = () => {
 			setBusinessLicenseStatus('notClicked');
 			return;
 		}
-		if (businessLicenseStatus !== 'normal') return;
+
+		if (businessLicenseStatus === 'error') return;
+
 		if (emptyInput !== 0) return;
+
 		await saveStep2UserInput(e.currentTarget.step2, setStep2Request);
 		await makeBusinessHourData(dayOffRef, selectedBusinessHourBtn, setStep2Request);
 		await makeStoreAddress(storePostcodeInputs, setStep2Request);
@@ -112,10 +115,12 @@ const Step2 = () => {
 		makeImgPath(selectedStoreImageBtn, S3ImagePath, setStep2Request);
 		if (query.toString() === '') changeModalKey(MODAL_KEY.ON_STORE_REGISTRATION_STEP_CHANGE_CONFIRM_MODAL);
 	};
+
 	const submitInputs = async () => {
 		const step1Response = await patchManager(step1Request);
 		const step2Response = await postStore(step2Request);
 		setComplete({ managerId: step1Response?.id ?? -1, storeId: step2Response.storeId });
+		router.replace(`registration/step3?storeId=${step2Response?.storeId}`);
 	};
 	const submitEditInputs = async () => {
 		const step2EditResponse = await patchStore({ ...step2Request, id: Number(query.get('id')) });
@@ -304,26 +309,26 @@ const Step2 = () => {
 							id="storeZonecode"
 							width="320px"
 							placeholder="입력하기"
-							defaultValue={storeZonecode.value}
+							value={storePostcodeInputs?.zonecode}
 						/>
 						<PostcodePopupOpenBtn onExtractedPostCode={handleExtractedPostCode} />
 					</StyledLayout.FlexBox>
 
 					<TextField
-						emptyErrorMessage="매장 주소를"
+						emptyErrorMessage="매장 주소를 입력해주세요"
 						readOnly={true}
 						inputFlag={basicAddress.isError}
 						name="step2"
 						id="basicAddress"
 						width="560px"
 						placeholder="입력하기"
-						defaultValue={basicAddress.value}
+						value={storePostcodeInputs?.address}
 					/>
 					<TextField
-						emptyErrorMessage="상세 주소를"
+						emptyErrorMessage="상세 주소를 입력해주세요"
 						onFocus={() => changeNormal('addressDetail')}
 						inputFlag={addressDetail.isError}
-						defaultValue={addressDetail.value}
+						value={storePostcodeInputs?.detailAddress}
 						name="step2"
 						id="addressDetail"
 						placeholder="(필수) 상세주소를 입력해주세요"
