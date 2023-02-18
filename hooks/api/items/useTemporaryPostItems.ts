@@ -1,8 +1,7 @@
-import { APIResponse } from 'types/api';
-import { API_PATH, HTTP_METHOD } from 'core/apis/constants';
 import pumpClientRequester from 'core/apis/axios';
+import { API_PATH, HTTP_METHOD } from 'core/apis/constants';
 import { getUserTokenFromLocalStorage } from 'utils/storage';
-import { ItemsPostResponse } from './usePostItems';
+import { ItemsPostResponse, ItemsRequest } from './usePostItems';
 
 export const temporaryPostItems = async (storeId: number, items: ItemsRequest[]) => {
 	const {

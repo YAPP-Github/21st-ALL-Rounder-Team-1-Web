@@ -1,21 +1,19 @@
 'use client';
 
-import { RefObject, MouseEvent, useState, useRef, FormEvent, ChangeEvent, useEffect } from 'react';
-import Image from 'next/image';
 import axios from 'axios';
-import { LargeBtn, PrivateRoute, StyledLayout, Typography } from 'components/shared';
 import {
-	TextField,
-	PostcodePopupOpenBtn,
 	BusinessLicenseTextField,
-	StoreResistrationSmallBtn,
-	RadioBtn,
-	StoreImageBtn,
-	TimePicker,
 	DayOffBtn,
-	StoreRegistrationStepChangeConfirmModal,
+	PostcodePopupOpenBtn,
+	RadioBtn,
 	StoreEditCompletionConfirmModal,
+	StoreImageBtn,
+	StoreRegistrationStepChangeConfirmModal,
+	StoreResistrationSmallBtn,
+	TextField,
+	TimePicker,
 } from 'components/feature';
+import { LargeBtn, StyledLayout, Typography } from 'components/shared';
 import {
 	businessHourDays,
 	checkEmptyInputError,
@@ -23,20 +21,23 @@ import {
 	makeBusinessHourData,
 	makeImgPath,
 	makeStoreAddress,
+	refineStoreBusinessHoursStringToArray,
 	saveStep2UserInput,
 } from 'core/storeRegistrationService';
-import style from 'styles/style';
-import { theme } from 'styles';
-import { StoreDefaultImg } from 'public/static/images';
-import { useS3Upload } from 'next-s3-upload';
-import { patchManager } from 'hooks/api/user/usePatchManager';
-import { step1RequestStore } from 'store/actions/step1Store';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { step2ErrorStore, step2RequestStore } from 'store/actions/step2Store';
-import { postStore } from 'hooks/api/store/usePostStore';
-import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
-import { getStore, Store, useGetStore } from 'hooks/api/store/useGetStore';
+import { useGetStore } from 'hooks/api/store/useGetStore';
 import { patchStore } from 'hooks/api/store/usePatchStore';
+import { postStore } from 'hooks/api/store/usePostStore';
+import { patchManager } from 'hooks/api/user/usePatchManager';
+import { useS3Upload } from 'next-s3-upload';
+import Image from 'next/image';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { StoreDefaultImg } from 'public/static/images';
+import { ChangeEvent, FormEvent, RefObject, useEffect, useRef, useState } from 'react';
+import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
+import { step1RequestStore } from 'store/actions/step1Store';
+import { step2ErrorStore, step2RequestStore } from 'store/actions/step2Store';
+import { theme } from 'styles';
+import style from 'styles/style';
 interface IBusinessLicenseStatusResponse {
 	match_cnt: number;
 	request_cnt: number;
@@ -57,7 +58,10 @@ interface IBusinessLicenseStatusResponse {
 const Step2 = () => {
 	const router = useRouter();
 	const query = useSearchParams();
-	const { data } = useGetStore(query.toString());
+
+	const { data } = useGetStore(query.toString() && query.toString());
+	console.log(data);
+
 	const [businessHourValues, setBusinessHourValues] = useState<Array<{ day: string; time: string | null }>>([]);
 	const { step2Request, setStep2Request } = step2RequestStore();
 	const {
@@ -210,7 +214,7 @@ const Step2 = () => {
 	useEffect(() => {
 		if (data) {
 			setInitialValue(data);
-			ssetBusinessHourValues(data?.businessHours);
+			setBusinessHourValues(refineStoreBusinessHoursStringToArray(data?.businessHours));
 			setSelectedBusinessHourBtn('eachDays');
 		}
 	}, [data]);

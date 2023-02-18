@@ -1,9 +1,8 @@
-import { APIResponse } from 'types/api';
-import { API_PATH, HTTP_METHOD } from 'core/apis/constants';
-import pumpClientRequester from 'core/apis/axios';
-import { getUserTokenFromLocalStorage } from 'utils/storage';
 import { useQuery } from '@tanstack/react-query';
-import { step2ErrorStore, StoreGet } from 'store/actions/step2Store';
+import pumpClientRequester from 'core/apis/axios';
+import { API_PATH, HTTP_METHOD } from 'core/apis/constants';
+import { APIResponse } from 'types/api';
+import { getUserTokenFromLocalStorage } from 'utils/storage';
 
 type StoreImage = {
 	id: number;
@@ -61,8 +60,18 @@ export const getStore = async () => {
 
 export const getStoreQueryKey = 'get/store';
 
-export const useGetStore = (query: string) => {
-	return useQuery([getStoreQueryKey], async () => await getStore(), {
-		enabled: !!query,
-	});
+export const useGetStore = (query?: string) => {
+	if (!query) {
+		return useQuery([getStoreQueryKey], async () => await getStore());
+	} else {
+		return useQuery([getStoreQueryKey], async () => await getStore(), {
+			enabled: !!query,
+		});
+	}
+};
+
+export const getStoreInMyPageQueryKey = 'get/store/mypage';
+
+export const useGetStoreInMyPage = (changeTrigger: boolean) => {
+	return useQuery([getStoreInMyPageQueryKey, changeTrigger], async () => await getStore());
 };

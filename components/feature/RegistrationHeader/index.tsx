@@ -11,7 +11,7 @@ const RegistrationHeader = ({ query, pathname }: Props) => {
 		<>
 			<EmptyBoxDivider height="32px" />
 			{query === '' ||
-				(query.includes('storeId') && (
+				(query?.includes('storeId') && (
 					<S.RegistrationHeaderContainer>
 						<Typography variant="h1" aggressive="headline_oneline_002">
 							입점신청서

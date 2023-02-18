@@ -1,7 +1,6 @@
 import { ItemsRequest } from 'hooks/api/items/usePostItems';
 import { MutableRefObject, RefObject } from 'react';
 import { Product } from 'store/actions/productStore';
-import { step1RequestStore } from 'store/actions/step1Store';
 
 export const extractBusinessLicenseExceptHyhpen = (businessLicense: string) => {
 	return businessLicense
@@ -113,4 +112,44 @@ export const makeItemsRequest = (itemsArr: Product[]) => {
 		});
 	}
 	return itemsRequest;
+};
+
+type StoreBusinessHour = {
+	day?: string;
+	time?: string;
+};
+
+const defaultBusinessHoursArray: StoreBusinessHour[] = [
+	{
+		day: '월',
+		time: '10:00~22:00',
+	},
+	{
+		day: '화',
+		time: '10:00~22:00',
+	},
+	{
+		day: '수',
+		time: '10:00~22:00',
+	},
+	{
+		day: '목',
+		time: '10:00~22:00',
+	},
+	{
+		day: '금',
+		time: '10:00~22:00',
+	},
+	{
+		day: '토',
+		time: '10:00~22:00',
+	},
+	{
+		day: '일',
+		time: '10:00~22:00',
+	},
+];
+
+export const refineStoreBusinessHoursStringToArray = (businessHoursString: string) => {
+	return businessHoursString ? JSON.parse(businessHoursString) : defaultBusinessHoursArray;
 };

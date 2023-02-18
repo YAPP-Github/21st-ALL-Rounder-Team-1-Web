@@ -6,17 +6,17 @@ import {
 	StoreRegistrationCancelConfirmModal,
 	StoreRegistrationCancelSuccessModal,
 } from 'components/feature';
+import { MyPageSectionDescription, MyPageSectionDescriptionWarpper } from 'components/feature/MyPageSection/styled';
 import { StyledLayout, Typography } from 'components/shared';
-import { MyPageSectionDescriptionWarpper, MyPageSectionDescription } from 'components/feature/MyPageSection/styled';
-import { theme } from 'styles';
-import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
-import { useGetStore } from 'hooks/api/store/useGetStore';
 import { useDeleteStore } from 'hooks/api/store/useDeleteStore';
+import { useGetStoreInMyPage } from 'hooks/api/store/useGetStore';
 import { useState } from 'react';
+import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
+import { theme } from 'styles';
 
 const StoreManagement = () => {
 	const [refetchStoreToggle, setRefetchStoreToggle] = useState(false);
-	const { data: store } = useGetStore(refetchStoreToggle);
+	const { data: store } = useGetStoreInMyPage(refetchStoreToggle);
 	const { modalKey, changeModalKey } = useModalStore();
 	const storeDeleteMutation = useDeleteStore();
 
