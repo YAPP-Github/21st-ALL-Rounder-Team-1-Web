@@ -481,19 +481,21 @@ const Step2 = () => {
 										</StyledLayout.FlexBox>
 										<TimePicker
 											value={
-												businessHourValues[idx].time !== null
-													? {
-															startHour: businessHourValues[idx].time?.split('~')[0].substring(0, 2).padStart(2, '0'),
-															startMinutes: businessHourValues[idx].time?.split('~')[0].substring(4).padStart(2, '0'),
-															endHour: businessHourValues[idx].time?.split('~')[1].substring(0, 2).padStart(2, '0'),
-															endMinutes: businessHourValues[idx].time?.split('~')[0].substring(4).padStart(2, '0'),
-													  }
-													: {
-															startHour: '10',
-															startMinutes: '00',
-															endHour: '22',
-															endMinutes: '00',
-													  }
+												businessHourValues.length > 0
+													? businessHourValues[idx].time !== null
+														? {
+																startHour: businessHourValues[idx].time?.split('~')[0].substring(0, 2).padStart(2, '0'),
+																startMinutes: businessHourValues[idx].time?.split('~')[0].substring(4).padStart(2, '0'),
+																endHour: businessHourValues[idx].time?.split('~')[1].substring(0, 2).padStart(2, '0'),
+																endMinutes: businessHourValues[idx].time?.split('~')[0].substring(4).padStart(2, '0'),
+														  }
+														: {
+																startHour: '10',
+																startMinutes: '00',
+																endHour: '22',
+																endMinutes: '00',
+														  }
+													: undefined
 											}
 											dayOffRef={(el) => (dayOffRef.current[id] = el)}
 											disabled={dayOffStatus[id - 1]}

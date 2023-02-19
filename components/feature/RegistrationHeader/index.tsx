@@ -35,7 +35,7 @@ const RegistrationHeader = ({ query, pathname }: Props) => {
 					</Typography>
 				</S.RegistrationHeaderContainer>
 			)}
-			{query !== '' && pathname === '/registration/step3' && (
+			{query?.includes('id') && pathname === '/registration/step3' && (
 				<S.RegistrationHeaderContainer>
 					<Typography variant="h1" aggressive="headline_oneline_002">
 						판매제품 수정
