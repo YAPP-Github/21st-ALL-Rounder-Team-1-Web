@@ -25,7 +25,6 @@ import {
 	saveStep2UserInput,
 } from 'core/storeRegistrationService';
 import { useGetStore } from 'hooks/api/store/useGetStore';
-import { patchStore } from 'hooks/api/store/usePatchStore';
 import { useS3Upload } from 'next-s3-upload';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -57,8 +56,8 @@ const Step2 = () => {
 	const router = useRouter();
 	const query = useSearchParams();
 	const num = /[-0-9]/;
-	const { data } = useGetStore(query.toString() && query.toString());
-
+	const { data } = useGetStore(query?.toString());
+	console.log(data);
 	const [businessHourValues, setBusinessHourValues] = useState<Array<{ day: string; time: string | null }>>([]);
 	const { step2Request, setStep2Request } = step2RequestStore();
 	const {
@@ -69,12 +68,12 @@ const Step2 = () => {
 		addressDetail,
 		imgPath,
 		instaAccount,
-		businessHours,
 		callNumber,
 		registrationNumber,
 		changeNormal,
 		changeError,
 		setInitialValue,
+		setInputValue,
 	} = step2ErrorStore();
 	const { modalKey, changeModalKey } = useModalStore();
 	const [complete, setComplete] = useState({ managerId: -1, storeId: -1 });
@@ -103,7 +102,7 @@ const Step2 = () => {
 			return;
 		}
 
-		if (businessLicenseStatus === 'error') return;
+		if (businessLicenseStatus === 'error' || businessLicenseStatus === 'notClicked') return;
 
 		if (emptyInput[0] !== 0) return;
 
@@ -111,8 +110,9 @@ const Step2 = () => {
 		await makeBusinessHourData(dayOffRef, selectedBusinessHourBtn, setStep2Request);
 		await makeStoreAddress(storePostcodeInputs, setStep2Request);
 		await handleFindCoords(storePostcodeInputs.address);
-		makeImgPath(selectedStoreImageBtn, S3ImagePath, setStep2Request);
+		await makeImgPath(selectedStoreImageBtn, S3ImagePath, setStep2Request);
 		if (query.toString() === '') changeModalKey(MODAL_KEY.ON_STORE_REGISTRATION_STEP_CHANGE_CONFIRM_MODAL);
+		else changeModalKey(MODAL_KEY.ON_STORE_EDIT_COMPLETION_CONFIRM_MODAL);
 	};
 
 	const submitInputs = async () => {
@@ -124,8 +124,10 @@ const Step2 = () => {
 		// router.replace(`registration/step3?storeId=${step2Response?.storeId}`);
 	};
 	const submitEditInputs = async () => {
-		const step2EditResponse = await patchStore({ ...step2Request, id: Number(query.get('id')) });
-		setComplete({ managerId: -1, storeId: step2EditResponse.storeId });
+		console.log(step1Request);
+		console.log(step2Request);
+		// const step2EditResponse = await patchStore({ ...step2Request, id: Number(query.get('id')) });
+		// setComplete({ managerId: -1, storeId: step2EditResponse.storeId });
 	};
 	const handleSelectedStoreImageBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (selectedStoreImageBtn === e.target.value) return;
@@ -134,9 +136,9 @@ const Step2 = () => {
 			setClientStoreImageURL('');
 		}
 	};
-	const handleSelectedBusinessHourBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (selectedBusinessHourBtn === e.target.value) return;
-		setSelectedBusinessHourBtn(e.target.value);
+	const handleSelectedBusinessHourBtn = (buttonName: string) => {
+		if (selectedBusinessHourBtn === buttonName) return;
+		setSelectedBusinessHourBtn(buttonName);
 	};
 	const handleExtractedPostCode = (extractedPostcode: string[]) => {
 		const [zonecode, address] = extractedPostcode;
@@ -148,7 +150,7 @@ const Step2 = () => {
 			address,
 		});
 	};
-	const handleStoreAddressDetailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleStoreAddressDetailChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setStorePostcodeInputs({
 			...storePostcodeInputs,
 			detailAddress: event.target.value,
@@ -220,19 +222,26 @@ const Step2 = () => {
 	useEffect(() => {
 		if (data) {
 			setInitialValue(data);
-			setBusinessHourValues(refineStoreBusinessHoursStringToArray(data?.businessHours));
+			setStoreCallNumber(data.callNumber);
+			setSelectedStoreImageBtn('registerImage');
+			setBusinessHourValues(refineStoreBusinessHoursStringToArray(data?.businessHour));
 			setSelectedBusinessHourBtn('eachDays');
+			if (data.imgStore) {
+				setClientStoreImageURL(data.imgStore[0].path);
+				setS3ImagePath(data.imgStore[0].path);
+			}
+			setStorePostcodeInputs({
+				zonecode: data.address.split('#')[0],
+				address: data.address.split('#')[1],
+				detailAddress: data.address.split('#')[2],
+			});
+			setStoreCallNumber(data.callNumber);
 		}
 	}, [data]);
 	useEffect(() => {
-		if (imgPath.value[0]) {
-			setClientStoreImageURL(imgPath.value[0]);
-		}
-	}, [imgPath.value[0]]);
-	useEffect(() => {
 		for (let i = 0; i < businessHourValues.length; i++) {
 			if (businessHourValues[i].time !== null) {
-				setDayOffStatus({ ...dayOffStatus, [i + 2]: true });
+				setDayOffStatus({ ...dayOffStatus, [i + 1]: true });
 			}
 		}
 	}, [businessHourValues]);
@@ -250,7 +259,8 @@ const Step2 = () => {
 							businessLicenseTextFieldRef={businessLicenseInputRef}
 							name="step2"
 							id="registrationNumber"
-							defaultValue={data?.registrationNumber}
+							key={registrationNumber.value}
+							value={registrationNumber.value}
 							inputFlag={registrationNumber.isError}
 							isAuthorizedNumber={businessLicenseStatus}
 							onFocus={handleHoverState}
@@ -276,6 +286,7 @@ const Step2 = () => {
 						width="320px"
 						placeholder="상호명을 입력해주세요"
 						defaultValue={name.value}
+						key={name.value}
 					/>
 				</StyledLayout.TextFieldSection>
 				<StyledLayout.TextFieldSection>
@@ -291,9 +302,8 @@ const Step2 = () => {
 						onFocus={() => changeNormal('callNumber')}
 						inputFlag={callNumber.isError}
 						width="320px"
-						value={storeCallNumber}
 						placeholder="‘-‘ 를 포함하여 입력해주세요"
-						defaultValue={callNumber.value}
+						value={storeCallNumber}
 						onChange={(e) => {
 							if (!num.test(e.target.value) && e.target.value !== '') return;
 							setStoreCallNumber(e.target.value);
@@ -315,11 +325,10 @@ const Step2 = () => {
 							id="storeZonecode"
 							width="320px"
 							placeholder="입력하기"
-							value={storePostcodeInputs?.zonecode}
+							value={storePostcodeInputs.zonecode}
 						/>
 						<PostcodePopupOpenBtn onExtractedPostCode={handleExtractedPostCode} />
 					</StyledLayout.FlexBox>
-
 					<TextField
 						emptyErrorMessage="매장 주소를 입력해주세요"
 						readOnly={true}
@@ -328,13 +337,13 @@ const Step2 = () => {
 						id="basicAddress"
 						width="560px"
 						placeholder="입력하기"
-						value={storePostcodeInputs?.address}
+						value={storePostcodeInputs.address}
 					/>
 					<TextField
 						emptyErrorMessage="상세 주소를 입력해주세요"
 						onFocus={() => changeNormal('addressDetail')}
 						inputFlag={addressDetail.isError}
-						value={storePostcodeInputs?.detailAddress}
+						value={storePostcodeInputs.detailAddress}
 						name="step2"
 						id="addressDetail"
 						placeholder="(필수) 상세주소를 입력해주세요"
@@ -408,6 +417,7 @@ const Step2 = () => {
 					<TextField
 						placeholder="링크를 입력해주세요"
 						name="step2"
+						key={instaAccount}
 						defaultValue={instaAccount}
 						id="instaAccount"
 						inputFlag="normal"
@@ -426,7 +436,7 @@ const Step2 = () => {
 							<RadioBtn
 								name="businessHour"
 								value="weekDaysWeekEnd"
-								onChange={handleSelectedBusinessHourBtn}
+								onClick={() => handleSelectedBusinessHourBtn('weekDaysWeekEnd')}
 								defaultChecked={businessHourValues.length === 0}
 							/>
 							<label htmlFor="weekDaysWeekEnd">
@@ -440,7 +450,7 @@ const Step2 = () => {
 								defaultChecked={businessHourValues.length !== 0}
 								name="businessHour"
 								value="eachDays"
-								onChange={handleSelectedBusinessHourBtn}
+								onClick={() => handleSelectedBusinessHourBtn('eachDays')}
 							/>
 							<label htmlFor="eachDays">
 								<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
@@ -483,6 +493,7 @@ const Step2 = () => {
 										<StyledLayout.FlexBox flexDirection="column" gap="6px">
 											<Typography variant="h3" aggressive="button_001" color="gray_007" margin="0 20px 0 0">
 												{day}
+												{idx} {id}
 											</Typography>
 										</StyledLayout.FlexBox>
 										<TimePicker
@@ -530,6 +541,7 @@ const Step2 = () => {
 						inputFlag={notice.isError}
 						onFocus={() => changeNormal('notice')}
 						width="320px"
+						key={notice.value}
 						defaultValue={notice.value}
 						placeholder="휴무일을 자유롭게 입력해주세요"
 					/>

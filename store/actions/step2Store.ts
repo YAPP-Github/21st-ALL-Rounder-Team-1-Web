@@ -12,7 +12,7 @@ const initialState: StoreData = {
 	name: '',
 	latitude: '',
 	longitude: '',
-	businessHours: '',
+	businessHour: '',
 	notice: '',
 	address: '',
 	imgPath: null,
@@ -26,7 +26,7 @@ export interface Step2Error {
 	name: { value: string; isError: 'normal' | 'error' };
 	latitude: string;
 	longitude: string;
-	businessHours: string;
+	businessHour: string;
 	notice: { value: string; isError: 'normal' | 'error' };
 	storeZonecode: { value: string; isError: 'normal' | 'error' };
 	basicAddress: { value: string; isError: 'normal' | 'error' };
@@ -35,6 +35,7 @@ export interface Step2Error {
 	instaAccount: string;
 	callNumber: { value: string; isError: 'normal' | 'error' };
 	registrationNumber: { value: string; isError: 'normal' | 'error' };
+	setInputValue: (inputId: string, inputValue: string) => void;
 	setInitialValue: (data: Store | null) => void;
 	changeError: (inputId: string) => void;
 	changeNormal: (inputId: string) => void;
@@ -45,7 +46,7 @@ export const step2ErrorStore = create<Step2Error>()(
 		name: { value: '', isError: 'normal' },
 		latitude: '',
 		longitude: '',
-		businessHours: '',
+		businessHour: '',
 		notice: { value: '', isError: 'normal' },
 		storeZonecode: { value: '', isError: 'normal' },
 		basicAddress: { value: '', isError: 'normal' },
@@ -58,17 +59,19 @@ export const step2ErrorStore = create<Step2Error>()(
 			if (data === null) return;
 			set(() => ({
 				name: { value: data.name, isError: 'normal' },
-				businessHours: data.businessHours,
+				businessHour: data.businessHour,
 				notice: { value: data.notice, isError: 'normal' },
-				storeZonecode: { value: data.address?.split('#')[0], isError: 'normal' },
-				basicAddress: { value: data.address?.split('#')[1], isError: 'normal' },
-				addressDetail: { value: data.address?.split('#')[2], isError: 'normal' },
-				imgPath: { value: [data?.imgStore?.at(0)?.path ?? ''], isError: 'normal' },
+				storeZonecode: { value: data.address.split('#')[0], isError: 'normal' },
+				basicAddress: { value: data.address.split('#')[1], isError: 'normal' },
+				addressDetail: { value: data.address.split('#')[2], isError: 'normal' },
+				imgPath: { value: [data.imgStore?.at(0)?.path ?? ''], isError: 'normal' },
 				instaAccount: data.instaAccount ?? '',
 				callNumber: { value: data.callNumber, isError: 'normal' },
 				registrationNumber: { value: data.registrationNumber, isError: 'normal' },
 			}));
 		},
+		setInputValue: (inputId: string, inputValue: string) =>
+			set((state) => ({ [inputId]: { ...state.inputId, value: inputValue } })),
 		changeError: (inputId: string) => set((state) => ({ [inputId]: { ...state[inputId], isError: 'error' } })),
 		changeNormal: (inputId: string) => set((state) => ({ [inputId]: { ...state[inputId], isError: 'normal' } })),
 	})),

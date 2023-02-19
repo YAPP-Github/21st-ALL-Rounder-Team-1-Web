@@ -9,7 +9,7 @@ export type StorePatchData = {
 	name: string;
 	latitude: string;
 	longitude: string;
-	businessHours: string;
+	businessHour: string;
 	notice: string;
 	address: string;
 	imgPath: string[] | null;

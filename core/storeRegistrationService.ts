@@ -30,7 +30,7 @@ export const saveStep2UserInput = async (
 ) => {
 	for (let i = 0; i < inputArr.length; i++) {
 		if (
-			(inputArr[i] as HTMLInputElement).id === 'businessHours' ||
+			(inputArr[i] as HTMLInputElement).id === 'businessHour' ||
 			(inputArr[i] as HTMLInputElement).id === 'storeZonecode' ||
 			(inputArr[i] as HTMLInputElement).id === 'basicAddress' ||
 			(inputArr[i] as HTMLInputElement).id === 'addressDetail' ||
@@ -83,7 +83,7 @@ export const makeBusinessHourData = (
 			});
 		}
 	}
-	setFunc('businessHours', JSON.stringify(businessHourArr));
+	setFunc('businessHour', JSON.stringify(businessHourArr));
 };
 export const makeStoreAddress = (
 	address: {
