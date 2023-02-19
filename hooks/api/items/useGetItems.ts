@@ -3,8 +3,6 @@ import pumpClientRequester from 'core/apis/axios';
 import { API_PATH, HTTP_METHOD } from 'core/apis/constants';
 import { APIResponse } from 'types/api';
 import { getUserTokenFromLocalStorage } from 'utils/storage';
-import { getStore } from '../store/useGetStore';
-import { ItemsRequest } from './usePostItems';
 
 export type GetItem = {
 	id: number;

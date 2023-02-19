@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import pumpClientRequester from 'core/apis/axios';
 import { API_PATH, HTTP_METHOD } from 'core/apis/constants';
 import { APIResponse } from 'types/api';
+import { getUserTokenFromLocalStorage } from 'utils/storage';
 
 type StoreImage = {
 	id: number;
@@ -50,7 +51,7 @@ export const getStore = async () => {
 		method: HTTP_METHOD.GET,
 		url: `${store}`,
 		headers: {
-			Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhY2Nlc3NfdG9rZW4iLCJpYXQiOjE2NzM4OTI5MTcsImV4cCI6MTg1Mzg5MjkxNywidXNlcklkIjoiOCJ9.Er7Lq2dXD95RgQ78kyqlz8uMQpS4AvAGuDm1jlwolys`,
+			Authorization: `Bearer ${getUserTokenFromLocalStorage()}`,
 		},
 	});
 

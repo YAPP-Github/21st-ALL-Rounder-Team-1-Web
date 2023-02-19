@@ -25,7 +25,7 @@ import { style, theme } from 'styles';
 const Step3 = () => {
 	const router = useRouter();
 	const query = useSearchParams();
-	const { data } = useGetItems(Number(query.get('id')));
+	const { data } = useGetItems(Number(query?.get('id')));
 	const { baseMakeUp, bodyHair, detergent, ingredient, etc, changeError, setProduct } = productStore();
 	const { modalKey, changeModalKey } = useModalStore();
 	const [temporarySaveToast, setTemporarySaveToast] = useState(false);
@@ -44,7 +44,6 @@ const Step3 = () => {
 			return;
 		}
 		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
-
 		const response = await temporaryPostItems(Number(query.get('storeId')), request);
 		setTemporarySaveToast(true);
 		setTimeout(() => setTemporarySaveToast(false), 2000);
@@ -64,7 +63,6 @@ const Step3 = () => {
 	const submitData = async () => {
 		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
 		const response = await postItems(Number(query.get('storeId')), request);
-
 		router.push('/registration/success');
 	};
 	useEffect(() => {
