@@ -1,5 +1,5 @@
 import { ChangeEvent, FocusEvent, useEffect, useState } from 'react';
-import { TimePickerContainer, TimeInput, CenterSpan } from './styled';
+import { CenterSpan, TimeInput, TimePickerContainer } from './styled';
 
 type Props = {
 	value?: {
@@ -47,7 +47,7 @@ const TimePicker = ({ value, dayOffRef, ...props }: Props) => {
 		<TimePickerContainer
 			name={props.name}
 			id={props.id}
-			defaultValue={timePickerValue}
+			value={timePickerValue}
 			type="button"
 			ref={dayOffRef}
 			disabled={props.disabled ?? false}

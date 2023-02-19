@@ -26,8 +26,6 @@ import {
 } from 'core/storeRegistrationService';
 import { useGetStore } from 'hooks/api/store/useGetStore';
 import { patchStore } from 'hooks/api/store/usePatchStore';
-import { postStore } from 'hooks/api/store/usePostStore';
-import { patchManager } from 'hooks/api/user/usePatchManager';
 import { useS3Upload } from 'next-s3-upload';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -58,7 +56,7 @@ interface IBusinessLicenseStatusResponse {
 const Step2 = () => {
 	const router = useRouter();
 	const query = useSearchParams();
-
+	const num = /[-0-9]/;
 	const { data } = useGetStore(query.toString() && query.toString());
 
 	const [businessHourValues, setBusinessHourValues] = useState<Array<{ day: string; time: string | null }>>([]);
@@ -88,6 +86,7 @@ const Step2 = () => {
 	const businessLicenseInputRef = useRef() as RefObject<HTMLInputElement>;
 	const dayOffRef = useRef<null[] | Array<RefObject<HTMLButtonElement>> | HTMLButtonElement[]>([]);
 	const [dayOffStatus, setDayOffStatus] = useState<boolean[]>([false, false, false, false, false, false, false, false]);
+	const [storeCallNumber, setStoreCallNumber] = useState('');
 	const [businessLicenseStatus, setBusinessLicenseStatus] = useState<'normal' | 'success' | 'error' | 'notClicked'>('normal');
 	const [selectedStoreImageBtn, setSelectedStoreImageBtn] = useState(imgPath.value[0] ? 'registrationImage' : 'defaultImage');
 	const [clientStoreImageURL, setClientStoreImageURL] = useState('');
@@ -117,10 +116,12 @@ const Step2 = () => {
 	};
 
 	const submitInputs = async () => {
-		const step1Response = await patchManager(step1Request);
-		const step2Response = await postStore(step2Request);
-		setComplete({ managerId: step1Response?.id ?? -1, storeId: step2Response.storeId });
-		router.replace(`registration/step3?storeId=${step2Response?.storeId}`);
+		console.log(step1Request);
+		console.log(step2Request);
+		// const step1Response = await patchManager(step1Request);
+		// const step2Response = await postStore(step2Request);
+		// setComplete({ managerId: step1Response?.id ?? -1, storeId: step2Response.storeId });
+		// router.replace(`registration/step3?storeId=${step2Response?.storeId}`);
 	};
 	const submitEditInputs = async () => {
 		const step2EditResponse = await patchStore({ ...step2Request, id: Number(query.get('id')) });
@@ -290,8 +291,13 @@ const Step2 = () => {
 						onFocus={() => changeNormal('callNumber')}
 						inputFlag={callNumber.isError}
 						width="320px"
+						value={storeCallNumber}
 						placeholder="‘-‘ 를 포함하여 입력해주세요"
 						defaultValue={callNumber.value}
+						onChange={(e) => {
+							if (!num.test(e.target.value) && e.target.value !== '') return;
+							setStoreCallNumber(e.target.value);
+						}}
 					/>
 				</StyledLayout.TextFieldSection>
 				<StyledLayout.TextFieldSection>

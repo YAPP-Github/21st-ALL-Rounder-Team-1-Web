@@ -13,10 +13,7 @@ export const StyledTextFiled = styled.input<{
 }>`
 	border: 1px solid
 		${({ theme, inputFlag, formFlag, isAuthorizedNumber }) =>
-			inputFlag === 'error' ||
-			(formFlag && formFlag === true) ||
-			isAuthorizedNumber === 'error' ||
-			isAuthorizedNumber === 'notClicked'
+			inputFlag === 'error' || formFlag === true || isAuthorizedNumber === 'error' || isAuthorizedNumber === 'notClicked'
 				? theme.colors.error
 				: theme.colors.gray_002};
 	padding: 8px 16px;
