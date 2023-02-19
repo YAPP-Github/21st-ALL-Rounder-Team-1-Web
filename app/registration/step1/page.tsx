@@ -1,20 +1,18 @@
 'use client';
 
 import { TextField } from 'components/feature';
-import { LargeBtn, StyledLayout, Typography, PrivateRoute } from 'components/shared';
+import { LargeBtn, PrivateRoute, StyledLayout, Typography } from 'components/shared';
 import { checkEmptyInputError, saveUserInput } from 'core/storeRegistrationService';
-import { patchManager } from 'hooks/api/user/usePatchManager';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ChangeEvent, FormEvent, KeyboardEvent, useEffect, useState } from 'react';
-import { step1RequestStore, step1ErrorStore } from 'store/actions/step1Store';
+import { ChangeEvent, FormEvent, KeyboardEvent, useState } from 'react';
+import { step1ErrorStore, step1RequestStore } from 'store/actions/step1Store';
 
 import { theme } from 'styles';
 import style from 'styles/style';
 
 const Step1 = () => {
 	const router = useRouter();
-	const { name, email, phoneNumber, setStep1InputValue, changeError, changeNormal } = step1ErrorStore();
+	const { name, email, phoneNumber, changeError, changeNormal, changeFormError, changeFormNormal } = step1ErrorStore();
 	const { setStep1Request } = step1RequestStore();
 	const [customPhoneNum, setCustomPhoneNum] = useState('');
 	const [currentKey, setCurrentKey] = useState('');
@@ -37,8 +35,12 @@ const Step1 = () => {
 	};
 	const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const emptyInput = checkEmptyInputError(e.currentTarget.step1, changeError);
-		if (emptyInput !== 0) return;
+		const checkResult = checkEmptyInputError(e.currentTarget.step1, changeError);
+		if (checkResult[0] !== 0) return;
+		if (checkResult[1]) {
+			changeFormError();
+			return;
+		}
 		await saveUserInput(e.currentTarget.step1, setStep1Request);
 		router.push('/registration/step2');
 	};
@@ -53,7 +55,7 @@ const Step1 = () => {
 				<TextField
 					id="name"
 					name="step1"
-					emptyErrorMessage="대표자명을"
+					emptyErrorMessage="대표자명을 입력해주세요"
 					onFocus={() => changeNormal('name')}
 					inputFlag={name.isError}
 					width="320px"
@@ -68,10 +70,15 @@ const Step1 = () => {
 					</Typography>
 				</label>
 				<TextField
-					emptyErrorMessage="이메일을"
+					emptyErrorMessage="이메일을 입력해주세요"
+					formErrorMessage="이메일 형식을 확인해주세요"
+					formFlag={email.formError}
 					id="email"
 					name="step1"
-					onFocus={() => changeNormal('email')}
+					onFocus={() => {
+						changeNormal('email');
+						if (email.formError) changeFormNormal();
+					}}
 					inputFlag={email.isError}
 					width="320px"
 					value={email.value === '' ? undefined : email.value}
@@ -85,7 +92,7 @@ const Step1 = () => {
 					</Typography>
 				</label>
 				<TextField
-					emptyErrorMessage="전화번호를"
+					emptyErrorMessage="전화번호를 입력해주세요"
 					id="phoneNumber"
 					name="step1"
 					onFocus={() => changeNormal('phoneNumber')}

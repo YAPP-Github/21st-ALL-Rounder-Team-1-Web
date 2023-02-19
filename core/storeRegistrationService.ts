@@ -8,16 +8,22 @@ export const extractBusinessLicenseExceptHyhpen = (businessLicense: string) => {
 		.filter((c) => c !== '-')
 		.join('');
 };
+export const emailRegEx = /^[A-Za-z0-9]*@[A-Za-z0-9]*\.[A-Za-z]{2,3}$/;
 export const checkEmptyInputError = (inputArr: RadioNodeList, changeError: (inputId: string) => void) => {
 	let emptyInput = 0;
+	let flag = false;
 	for (let i = 0; i < inputArr.length; i++) {
 		if ((inputArr[i] as HTMLInputElement).value === '' && (inputArr[i] as HTMLInputElement).id !== 'instaAccount') {
 			changeError((inputArr[i] as HTMLInputElement).id);
 			emptyInput++;
 		}
+		if ((inputArr[i] as HTMLInputElement).id === 'email') {
+			if (!emailRegEx.test((inputArr[i] as HTMLInputElement).value)) flag = true;
+		}
 	}
-	return emptyInput;
+	return [emptyInput, flag];
 };
+
 export const saveStep2UserInput = async (
 	inputArr: RadioNodeList,
 	setFunc: (inputId: string, inputValue: string | string[] | null) => void,
@@ -109,8 +115,6 @@ export const makeItemsRequest = (itemsArr: Product[]) => {
 			title: cur.productName !== '' ? cur.productName : null,
 			category: cur.category,
 			brand: cur.brandName !== '' ? cur.brandName : null,
-			price: null, // TODO : 수정할 것
-			unit: null, // TODO : 수정할 것
 		});
 	}
 	return itemsRequest;
@@ -120,7 +124,6 @@ type StoreBusinessHour = {
 	day?: string;
 	time?: string;
 };
-
 const defaultBusinessHoursArray: StoreBusinessHour[] = [
 	{
 		day: '월',

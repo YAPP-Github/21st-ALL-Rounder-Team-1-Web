@@ -5,10 +5,18 @@ export const TextFieldContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 `;
-export const StyledTextFiled = styled.input<{ inputFlag: string; readOnly: boolean; isAuthorizedNumber?: string | undefined }>`
+export const StyledTextFiled = styled.input<{
+	formFlag: boolean | undefined;
+	inputFlag: string;
+	readOnly: boolean;
+	isAuthorizedNumber?: string | undefined;
+}>`
 	border: 1px solid
-		${({ theme, inputFlag, isAuthorizedNumber }) =>
-			inputFlag === 'error' || isAuthorizedNumber === 'error' || isAuthorizedNumber === 'notClicked'
+		${({ theme, inputFlag, formFlag, isAuthorizedNumber }) =>
+			inputFlag === 'error' ||
+			(formFlag && formFlag === true) ||
+			isAuthorizedNumber === 'error' ||
+			isAuthorizedNumber === 'notClicked'
 				? theme.colors.error
 				: theme.colors.gray_002};
 	padding: 8px 16px;

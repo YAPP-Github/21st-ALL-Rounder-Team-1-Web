@@ -106,7 +106,7 @@ const Step2 = () => {
 
 		if (businessLicenseStatus === 'error') return;
 
-		if (emptyInput !== 0) return;
+		if (emptyInput[0] !== 0) return;
 
 		await saveStep2UserInput(e.currentTarget.step2, setStep2Request);
 		await makeBusinessHourData(dayOffRef, selectedBusinessHourBtn, setStep2Request);
@@ -267,7 +267,7 @@ const Step2 = () => {
 						</Typography>
 					</label>
 					<TextField
-						emptyErrorMessage="상호를"
+						emptyErrorMessage="상호를 입력해주세요"
 						name="step2"
 						id="name"
 						onFocus={() => changeNormal('name')}
@@ -284,7 +284,7 @@ const Step2 = () => {
 						</Typography>
 					</label>
 					<TextField
-						emptyErrorMessage="매장 전화번호를"
+						emptyErrorMessage="매장 전화번호를 입력해주세요"
 						name="step2"
 						id="callNumber"
 						onFocus={() => changeNormal('callNumber')}
@@ -302,7 +302,7 @@ const Step2 = () => {
 					</label>
 					<StyledLayout.FlexBox gap="6px">
 						<TextField
-							emptyErrorMessage="매장 주소를"
+							emptyErrorMessage="매장 주소를 입력해주세요"
 							readOnly={true}
 							inputFlag={storeZonecode.isError}
 							name="step2"
@@ -518,7 +518,7 @@ const Step2 = () => {
 						</Typography>
 					</label>
 					<TextField
-						emptyErrorMessage="휴무일을"
+						emptyErrorMessage="휴무일을 입력해주세요"
 						name="step2"
 						id="notice"
 						inputFlag={notice.isError}
