@@ -33,9 +33,8 @@ export const postStore = async (storeData: StoreData) => {
 		headers: {
 			Authorization: `Bearer ${getUserTokenFromLocalStorage()}`,
 		},
-		data: {
-			storeData,
-		},
+		data: storeData,
+		
 	});
 
 	return response.data.data;
