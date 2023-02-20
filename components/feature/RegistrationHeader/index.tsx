@@ -24,7 +24,7 @@ const RegistrationHeader = ({ query, pathname }: Props) => {
 						</Typography>
 					</S.RegistrationHeaderContainer>
 				))}
-			{query !== '' && pathname === '/registration/step2' && (
+			{query?.includes('isReady') && pathname === '/registration/step2' && (
 				<S.RegistrationHeaderContainer>
 					<Typography variant="h1" aggressive="headline_oneline_002">
 						가게정보 수정
@@ -35,7 +35,7 @@ const RegistrationHeader = ({ query, pathname }: Props) => {
 					</Typography>
 				</S.RegistrationHeaderContainer>
 			)}
-			{query?.includes('id') && pathname === '/registration/step3' && (
+			{query?.includes('isReady') && pathname === '/registration/step3' && (
 				<S.RegistrationHeaderContainer>
 					<Typography variant="h1" aggressive="headline_oneline_002">
 						판매상품 수정
