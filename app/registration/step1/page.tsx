@@ -46,7 +46,7 @@ const Step1 = () => {
 		await saveUserInput(e.currentTarget.step1, setStep1Request);
 		router.replace('/registration/step2');
 	};
-	//TODO: 모달 크롬거 안 뜨도록 설정 필요
+	// TODO: 모달 크롬거 안 뜨도록 설정 필요
 	// const preventClose = (e: BeforeUnloadEvent) => {
 	// 	e.preventDefault();
 	// 	(e || window.event).returnValue = '';

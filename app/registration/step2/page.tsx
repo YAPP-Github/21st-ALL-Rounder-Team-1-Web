@@ -80,7 +80,6 @@ const Step2 = () => {
 	const { modalKey, changeModalKey } = useModalStore();
 	const [complete, setComplete] = useState({ managerId: -1, storeId: -1 });
 	const [storePostcodeInputs, setStorePostcodeInputs] = useState({
-		zonecode: '', // 우편번호
 		address: '', // 기본 주소
 		detailAddress: '', // 상세 주소
 	});
@@ -142,11 +141,9 @@ const Step2 = () => {
 	};
 	const handleExtractedPostCode = (extractedPostcode: string[]) => {
 		const [zonecode, address] = extractedPostcode;
-		if (zonecode !== '') changeNormal('storeZonecode');
 		if (address !== '') changeNormal('basicAddress');
 		setStorePostcodeInputs({
 			...storePostcodeInputs,
-			zonecode,
 			address,
 		});
 	};
@@ -184,7 +181,6 @@ const Step2 = () => {
 			setBusinessLicenseStatus('error');
 		}
 		if (b_stt_cd === '01') {
-			// 활성사업자
 			setBusinessLicenseStatus('success');
 		}
 		businessLicenseInputRef.current.blur();
@@ -225,21 +221,20 @@ const Step2 = () => {
 				setS3ImagePath(data.imgStore[0].path);
 			}
 			setStorePostcodeInputs({
-				zonecode: data.address.split('#')[0],
-				address: data.address.split('#')[1],
-				detailAddress: data.address.split('#')[2],
+				address: data.address.split('#')[0],
+				detailAddress: data.address.split('#')[1],
 			});
 			setStoreCallNumber(data.callNumber);
 		}
 	}, [data]);
 	useEffect(() => {
 		for (let i = 0; i < businessHourValues.length; i++) {
-			if (businessHourValues[i].time !== null) {
+			if (businessHourValues[i].time === null) {
 				setDayOffStatus({ ...dayOffStatus, [i + 1]: true });
 			}
 		}
 	}, [businessHourValues]);
-	
+
 	return (
 		<>
 			<form onSubmit={handleOnSubmit}>
@@ -315,25 +310,15 @@ const Step2 = () => {
 						<TextField
 							emptyErrorMessage="매장 주소를 입력해주세요"
 							readOnly={true}
-							inputFlag={storeZonecode.isError}
+							inputFlag={basicAddress.isError}
 							name="step2"
-							id="storeZonecode"
-							width="320px"
+							id="basicAddress"
+							width="560px"
 							placeholder="입력하기"
-							value={storePostcodeInputs.zonecode}
+							value={storePostcodeInputs.address}
 						/>
 						<PostcodePopupOpenBtn onExtractedPostCode={handleExtractedPostCode} />
 					</StyledLayout.FlexBox>
-					<TextField
-						emptyErrorMessage="매장 주소를 입력해주세요"
-						readOnly={true}
-						inputFlag={basicAddress.isError}
-						name="step2"
-						id="basicAddress"
-						width="560px"
-						placeholder="입력하기"
-						value={storePostcodeInputs.address}
-					/>
 					<TextField
 						emptyErrorMessage="상세 주소를 입력해주세요"
 						onFocus={() => changeNormal('addressDetail')}

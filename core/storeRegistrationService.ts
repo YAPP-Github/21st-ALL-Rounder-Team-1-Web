@@ -87,13 +87,12 @@ export const makeBusinessHourData = (
 };
 export const makeStoreAddress = (
 	address: {
-		zonecode: string;
 		address: string;
 		detailAddress: string;
 	},
 	setFunc: (inputId: string, inputValue: string) => void,
 ) => {
-	setFunc('address', `${address.zonecode}#${address.address}#${address.detailAddress}`);
+	setFunc('address', `${address.address}#${address.detailAddress}`);
 };
 export const makeImgPath = (
 	selectedButton: string,

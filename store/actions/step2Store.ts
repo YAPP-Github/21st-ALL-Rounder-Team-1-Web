@@ -28,7 +28,6 @@ export interface Step2Error {
 	longitude: string;
 	businessHour: string;
 	notice: { value: string; isError: 'normal' | 'error' };
-	storeZonecode: { value: string; isError: 'normal' | 'error' };
 	basicAddress: { value: string; isError: 'normal' | 'error' };
 	addressDetail: { value: string; isError: 'normal' | 'error' };
 	imgPath: { value: string[]; isError: 'normal' | 'error' };
@@ -48,7 +47,6 @@ export const step2ErrorStore = create<Step2Error>()(
 		longitude: '',
 		businessHour: '',
 		notice: { value: '', isError: 'normal' },
-		storeZonecode: { value: '', isError: 'normal' },
 		basicAddress: { value: '', isError: 'normal' },
 		addressDetail: { value: '', isError: 'normal' },
 		imgPath: { value: [''], isError: 'normal' },
@@ -61,9 +59,8 @@ export const step2ErrorStore = create<Step2Error>()(
 				name: { value: data.name, isError: 'normal' },
 				businessHour: data.businessHour,
 				notice: { value: data.notice, isError: 'normal' },
-				storeZonecode: { value: data.address.split('#')[0], isError: 'normal' },
-				basicAddress: { value: data.address.split('#')[1], isError: 'normal' },
-				addressDetail: { value: data.address.split('#')[2], isError: 'normal' },
+				basicAddress: { value: data.address.split('#')[0], isError: 'normal' },
+				addressDetail: { value: data.address.split('#')[1], isError: 'normal' },
 				imgPath: { value: [data.imgStore?.at(0)?.path ?? ''], isError: 'normal' },
 				instaAccount: data.instaAccount ?? '',
 				callNumber: { value: data.callNumber, isError: 'normal' },
