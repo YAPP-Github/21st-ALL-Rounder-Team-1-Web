@@ -6,6 +6,7 @@ import { Divider } from 'components/shared/styled/layout';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
+	AppStoreDownloadImg,
 	LandingAdvantage001Img,
 	LandingAdvantage002Img,
 	LandingAppImg,
@@ -17,6 +18,7 @@ import styled, { CSSProperties } from 'styled-components';
 import { theme } from 'styles';
 
 const SERVICE_INTRODUCE_PDF_LINK = 'https://drive.google.com/file/d/1f40Y7fdPCTnH83JgiIMmdeFb_igRMUBP/view';
+const SERVICE_APP_STORE_LINK = 'https://apps.apple.com/kr/app/pump/id1669869655';
 
 const FEATURE_INTRO = [
 	{
@@ -96,7 +98,7 @@ const Root = () => {
 						<br />더 많은 사람에게 리필스테이션의 가치를 전해보세요.
 					</Typography>
 
-					<StyledLayout.FlexBox width="320px" height="50px" gap="6px">
+					<StyledLayout.FlexBox width="480px" height="52px" gap="6px">
 						<StyledLinkBtn
 							href={'/registration/step1'}
 							flex={1}
@@ -120,6 +122,9 @@ const Root = () => {
 							<Typography variant="span" aggressive="button_000">
 								서비스 소개서
 							</Typography>
+						</StyledLinkBtn>
+						<StyledLinkBtn href={SERVICE_APP_STORE_LINK} target={'_blank'}>
+							<Image src={AppStoreDownloadImg} alt="app store" width={156} height={52} />
 						</StyledLinkBtn>
 					</StyledLayout.FlexBox>
 				</StyledLayout.FlexBox>

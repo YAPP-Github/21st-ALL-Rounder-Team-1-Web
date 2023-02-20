@@ -1,14 +1,17 @@
 import * as S from './styled';
 
 type Props = {
+	formFlag?: boolean;
 	inputFlag: 'normal' | 'success' | 'error';
 	emptyErrorMessage?: string;
+	formErrorMessage?: string;
 } & React.ComponentProps<'input'>;
 
-const TextField = ({ inputFlag, emptyErrorMessage, ...props }: Props) => {
+const TextField = ({ inputFlag, emptyErrorMessage, formErrorMessage, formFlag, ...props }: Props) => {
 	return (
 		<S.TextFieldContainer>
 			<S.StyledTextFiled
+				formFlag={formFlag }
 				readOnly={props.readOnly ?? false}
 				name={props.name}
 				id={props.id}
@@ -23,7 +26,8 @@ const TextField = ({ inputFlag, emptyErrorMessage, ...props }: Props) => {
 				placeholder={props.placeholder ?? '입력해주세요'}
 				type="search"
 			/>
-			{inputFlag === 'error' && <S.StyledMessage>{`${emptyErrorMessage} 입력해주세요`}</S.StyledMessage>}
+			{inputFlag === 'error' && <S.StyledMessage>{emptyErrorMessage}</S.StyledMessage>}
+			{inputFlag !== 'error' && formFlag === true && <S.StyledMessage>{formErrorMessage}</S.StyledMessage>}
 		</S.TextFieldContainer>
 	);
 };

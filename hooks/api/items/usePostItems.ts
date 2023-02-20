@@ -13,8 +13,6 @@ export type ItemsRequest = {
 	id: number;
 	title: string | null;
 	brand: string | null;
-	price: string | null;
-	unit: string | null;
 	category: string;
 };
 

@@ -1,7 +1,7 @@
 'use client';
 
+import { LargeBtn, StyledLayout, Typography } from 'components/shared';
 import { useRouter } from 'next/navigation';
-import { StyledLayout, Typography, LargeBtn } from 'components/shared';
 import { style, theme } from 'styles';
 
 const StoreRegistrationSuccess = () => {
@@ -30,9 +30,9 @@ const StoreRegistrationSuccess = () => {
 				margin={'0 0 24px 0'}
 				align={'center'}
 			>
-				마이페이지에서 가게 정보 및 판매 상품을 관리할 수 있습니다.
+				입력하신 정보는 앱에 실시간으로 반영되며,
 				<br />
-				상세 내용을 관리할 수 있다는 더미 텍스트 더미 텍스트 더미 텍스트 더미 텍스트
+				마이페이지에서 매장 및 판매 상품 정보를 관리하실 수 있습니다.
 			</Typography>
 
 			<LargeBtn

@@ -24,7 +24,7 @@ const RegistrationHeader = ({ query, pathname }: Props) => {
 						</Typography>
 					</S.RegistrationHeaderContainer>
 				))}
-			{query !== '' && pathname === '/registration/step2' && (
+			{query?.includes('isReady') && pathname === '/registration/step2' && (
 				<S.RegistrationHeaderContainer>
 					<Typography variant="h1" aggressive="headline_oneline_002">
 						가게정보 수정
@@ -35,13 +35,13 @@ const RegistrationHeader = ({ query, pathname }: Props) => {
 					</Typography>
 				</S.RegistrationHeaderContainer>
 			)}
-			{query !== '' && pathname === '/registration/step3' && (
+			{query?.includes('isReady') && pathname === '/registration/step3' && (
 				<S.RegistrationHeaderContainer>
 					<Typography variant="h1" aggressive="headline_oneline_002">
-						판매제품 수정
+						판매상품 수정
 					</Typography>
 					<Typography variant="p" aggressive="body_multiline_002">
-						판매상품 수정 등록한 판매상품 정보를 자유롭게 수정, 추가 또는 삭제할 수 있는 페이지입니다.
+						등록한 판매상품 정보를 자유롭게 수정, 추가 또는 삭제할 수 있는 페이지입니다.
 						<br /> [수정완료] 버튼을 누르면 변경 사항이 앱에 바로 반영됩니다.
 					</Typography>
 				</S.RegistrationHeaderContainer>

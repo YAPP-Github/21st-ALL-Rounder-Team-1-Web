@@ -25,16 +25,16 @@ import { style, theme } from 'styles';
 const Step3 = () => {
 	const router = useRouter();
 	const query = useSearchParams();
-	const { data } = useGetItems(Number(query.get('id')));
-	const { baseMakeUp, bodyHair, detergent, ingredient, etc, changeError, setError, setProduct } = productStore();
+	const { data } = useGetItems(Number(query?.get('storeId')));
+	const { baseMakeUp, bodyHair, detergent, ingredient, etc, changeError, setProduct } = productStore();
 	const { modalKey, changeModalKey } = useModalStore();
-	const [expandedSummary, setExpandedSummary] = useState([false, false, false, false, false]);
 	const [temporarySaveToast, setTemporarySaveToast] = useState(false);
 	const submitEditItems = async () => {
 		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
 		const response = await patchItems(Number(query.get('storeId')), request);
 
-		router.push(`/mypage`);
+		changeModalKey(MODAL_KEY.OFF);
+		router.push(`/mypage/store`);
 	};
 	const handleTemporarySave = async () => {
 		if (changeError() !== 0) return;
@@ -66,13 +66,6 @@ const Step3 = () => {
 		const response = await postItems(Number(query.get('id')), request);
 		router.push('/registration/success');
 	};
-	const handleExpandedSummary = (productArrName: string, categoryIdx: number) => {
-		if (setError(productArrName) !== 0) {
-			setExpandedSummary({ ...expandedSummary, [categoryIdx]: true });
-			return;
-		}
-		setExpandedSummary({ ...expandedSummary, [categoryIdx]: !expandedSummary[categoryIdx] });
-	};
 	useEffect(() => {
 		if (data) setProduct(data);
 	}, [data]);
@@ -83,8 +76,8 @@ const Step3 = () => {
 					※ 매장에서 판매 중인 “리필” 제품만 등록 부탁드립니다. 각 제품의 상품명은 필수 입력 사항입니다.
 				</Typography>
 			</GuideWrapper>
-			<StAccordion expanded={expandedSummary[0]}>
-				<StAccordionSummary expandIcon={<ExpandMoreIcon />} onClick={() => handleExpandedSummary('baseMakeUp', 0)}>
+			<StAccordion>
+				<StAccordionSummary expandIcon={<ExpandMoreIcon />}>
 					<Typography variant={'h3'} aggressive={'headline_oneline_004'} color={theme.colors.gray_007}>
 						기초화장 / 세안
 					</Typography>
@@ -105,8 +98,8 @@ const Step3 = () => {
 				</StAccordionDetails>
 			</StAccordion>
 
-			<StAccordion expanded={expandedSummary[1]}>
-				<StAccordionSummary expandIcon={<ExpandMoreIcon />} onClick={() => handleExpandedSummary('bodyHair', 1)}>
+			<StAccordion>
+				<StAccordionSummary expandIcon={<ExpandMoreIcon />}>
 					<Typography variant={'h3'} aggressive={'headline_oneline_004'} color={theme.colors.gray_007}>
 						바디 / 헤어
 					</Typography>
@@ -126,8 +119,8 @@ const Step3 = () => {
 					})}
 				</StAccordionDetails>
 			</StAccordion>
-			<StAccordion expanded={expandedSummary[2]}>
-				<StAccordionSummary expandIcon={<ExpandMoreIcon />} onClick={() => handleExpandedSummary('detergent', 2)}>
+			<StAccordion>
+				<StAccordionSummary expandIcon={<ExpandMoreIcon />}>
 					<Typography variant={'h3'} aggressive={'headline_oneline_004'} color={theme.colors.gray_007}>
 						세제
 					</Typography>
@@ -147,8 +140,8 @@ const Step3 = () => {
 					})}
 				</StAccordionDetails>
 			</StAccordion>
-			<StAccordion expanded={expandedSummary[3]}>
-				<StAccordionSummary expandIcon={<ExpandMoreIcon />} onClick={() => handleExpandedSummary('ingredient', 3)}>
+			<StAccordion>
+				<StAccordionSummary expandIcon={<ExpandMoreIcon />}>
 					<Typography variant={'h3'} aggressive={'headline_oneline_004'} color={theme.colors.gray_007}>
 						식재료
 					</Typography>
@@ -168,8 +161,8 @@ const Step3 = () => {
 					})}
 				</StAccordionDetails>
 			</StAccordion>
-			<StAccordion expanded={expandedSummary[4]}>
-				<StAccordionSummary expandIcon={<ExpandMoreIcon />} onClick={() => handleExpandedSummary('etc', 4)}>
+			<StAccordion>
+				<StAccordionSummary expandIcon={<ExpandMoreIcon />}>
 					<Typography variant={'h3'} aggressive={'headline_oneline_004'} color={theme.colors.gray_007}>
 						기타
 					</Typography>
@@ -253,7 +246,6 @@ const StAccordion = withStyles({
 			background: 'none',
 		},
 	},
-	expanded: {},
 })(Accordion);
 
 const StAccordionSummary = withStyles({
@@ -289,7 +281,6 @@ const StAccordionDetails = withStyles({
 		gap: '16px',
 		marginBottom: '24px',
 	},
-	expanded: {},
 })(AccordionDetails);
 
 export default Step3;

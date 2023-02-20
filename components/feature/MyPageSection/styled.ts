@@ -20,7 +20,7 @@ export const MyPageOneActionDescriptionWrapper = styled.div`
 	color: ${({ theme }) => theme.colors.gray_005};
 `;
 
-export const MyPageSectionDescriptionWarpper = styled.ul`
+export const MyPageSectionDescriptionWrapper = styled.ul`
 	margin: 28px 0 24px 0;
 	padding: 24px 40px;
 	background-color: ${({ theme }) => theme.colors.gray_000};

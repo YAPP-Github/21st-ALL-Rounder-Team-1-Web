@@ -23,7 +23,7 @@ const ProductInfoElement = ({ elementIdx, brandName, productName, isProductEmpty
 				placeholder="브랜드명"
 			/>
 			<TextField
-				emptyErrorMessage="상품명을"
+				emptyErrorMessage="상품명을 입력해주세요"
 				value={productName}
 				onChange={(e) => onChangeProductName(productArr, elementIdx, e.target.value)}
 				inputFlag={isProductEmptyError}

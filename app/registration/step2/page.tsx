@@ -58,9 +58,8 @@ interface IBusinessLicenseStatusResponse {
 const Step2 = () => {
 	const router = useRouter();
 	const query = useSearchParams();
-
-	const { data } = useGetStore(query.toString() && query.toString());
-
+	const num = /[-0-9]/;
+	const { data } = useGetStore(query?.get('id')?.toString());
 	const [businessHourValues, setBusinessHourValues] = useState<Array<{ day: string; time: string | null }>>([]);
 	const { step2Request, setStep2Request } = step2RequestStore();
 	const {
@@ -71,23 +70,23 @@ const Step2 = () => {
 		addressDetail,
 		imgPath,
 		instaAccount,
-		businessHours,
 		callNumber,
 		registrationNumber,
 		changeNormal,
 		changeError,
 		setInitialValue,
+		setInputValue,
 	} = step2ErrorStore();
 	const { modalKey, changeModalKey } = useModalStore();
 	const [complete, setComplete] = useState({ managerId: -1, storeId: -1 });
 	const [storePostcodeInputs, setStorePostcodeInputs] = useState({
-		zonecode: '', // 우편번호
 		address: '', // 기본 주소
 		detailAddress: '', // 상세 주소
 	});
 	const businessLicenseInputRef = useRef() as RefObject<HTMLInputElement>;
 	const dayOffRef = useRef<null[] | Array<RefObject<HTMLButtonElement>> | HTMLButtonElement[]>([]);
 	const [dayOffStatus, setDayOffStatus] = useState<boolean[]>([false, false, false, false, false, false, false, false]);
+	const [storeCallNumber, setStoreCallNumber] = useState('');
 	const [businessLicenseStatus, setBusinessLicenseStatus] = useState<'normal' | 'success' | 'error' | 'notClicked'>('normal');
 	const [selectedStoreImageBtn, setSelectedStoreImageBtn] = useState(imgPath.value[0] ? 'registrationImage' : 'defaultImage');
 	const [clientStoreImageURL, setClientStoreImageURL] = useState('');
@@ -104,16 +103,18 @@ const Step2 = () => {
 			return;
 		}
 
-		if (businessLicenseStatus === 'error') return;
+		if (businessLicenseStatus === 'error' || businessLicenseStatus === 'notClicked') return;
 
-		if (emptyInput !== 0) return;
+		if (emptyInput[0] !== 0) return;
 
 		await saveStep2UserInput(e.currentTarget.step2, setStep2Request);
 		await makeBusinessHourData(dayOffRef, selectedBusinessHourBtn, setStep2Request);
 		await makeStoreAddress(storePostcodeInputs, setStep2Request);
 		await handleFindCoords(storePostcodeInputs.address);
-		makeImgPath(selectedStoreImageBtn, S3ImagePath, setStep2Request);
+		await makeImgPath(selectedStoreImageBtn, S3ImagePath, setStep2Request);
+
 		if (query.toString() === '') changeModalKey(MODAL_KEY.ON_STORE_REGISTRATION_STEP_CHANGE_CONFIRM_MODAL);
+		else changeModalKey(MODAL_KEY.ON_STORE_EDIT_COMPLETION_CONFIRM_MODAL);
 	};
 
 	const submitInputs = async () => {
@@ -124,7 +125,8 @@ const Step2 = () => {
 	};
 	const submitEditInputs = async () => {
 		const step2EditResponse = await patchStore({ ...step2Request, id: Number(query.get('id')) });
-		setComplete({ managerId: -1, storeId: step2EditResponse.storeId });
+
+		router.push(`/mypage`);
 	};
 	const handleSelectedStoreImageBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (selectedStoreImageBtn === e.target.value) return;
@@ -133,21 +135,19 @@ const Step2 = () => {
 			setClientStoreImageURL('');
 		}
 	};
-	const handleSelectedBusinessHourBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (selectedBusinessHourBtn === e.target.value) return;
-		setSelectedBusinessHourBtn(e.target.value);
+	const handleSelectedBusinessHourBtn = (buttonName: string) => {
+		if (selectedBusinessHourBtn === buttonName) return;
+		setSelectedBusinessHourBtn(buttonName);
 	};
 	const handleExtractedPostCode = (extractedPostcode: string[]) => {
 		const [zonecode, address] = extractedPostcode;
-		if (zonecode !== '') changeNormal('storeZonecode');
 		if (address !== '') changeNormal('basicAddress');
 		setStorePostcodeInputs({
 			...storePostcodeInputs,
-			zonecode,
 			address,
 		});
 	};
-	const handleStoreAddressDetailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleStoreAddressDetailChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setStorePostcodeInputs({
 			...storePostcodeInputs,
 			detailAddress: event.target.value,
@@ -181,7 +181,6 @@ const Step2 = () => {
 			setBusinessLicenseStatus('error');
 		}
 		if (b_stt_cd === '01') {
-			// 활성사업자
 			setBusinessLicenseStatus('success');
 		}
 		businessLicenseInputRef.current.blur();
@@ -209,32 +208,33 @@ const Step2 = () => {
 				setStep2Request('latitude', location.address.y);
 			});
 	};
+
 	useEffect(() => {
-		if (query.toString() === '' && complete.managerId !== -1 && complete.storeId !== -1) {
-			router.push(`/registration/step3?storeId=${complete.storeId}`);
-		} else if (query.toString() !== '' && complete.storeId !== -1) {
-			router.push(`/mypage`);
-		}
-	}, [complete]);
-	useEffect(() => {
-		if (data) {
+		if (query.toString() !== '' && data && data != null) {
 			setInitialValue(data);
-			setBusinessHourValues(refineStoreBusinessHoursStringToArray(data?.businessHours));
+			setStoreCallNumber(data.callNumber);
+			setSelectedStoreImageBtn('registerImage');
+			setBusinessHourValues(refineStoreBusinessHoursStringToArray(data?.businessHour));
 			setSelectedBusinessHourBtn('eachDays');
+			if (data.imgStore) {
+				setClientStoreImageURL(data.imgStore[0].path);
+				setS3ImagePath(data.imgStore[0].path);
+			}
+			setStorePostcodeInputs({
+				address: data.address.split('#')[0],
+				detailAddress: data.address.split('#')[1],
+			});
+			setStoreCallNumber(data.callNumber);
 		}
 	}, [data]);
 	useEffect(() => {
-		if (imgPath.value[0]) {
-			setClientStoreImageURL(imgPath.value[0]);
-		}
-	}, [imgPath.value[0]]);
-	useEffect(() => {
 		for (let i = 0; i < businessHourValues.length; i++) {
-			if (businessHourValues[i].time !== null) {
-				setDayOffStatus({ ...dayOffStatus, [i + 2]: true });
+			if (businessHourValues[i].time === null) {
+				setDayOffStatus({ ...dayOffStatus, [i + 1]: true });
 			}
 		}
 	}, [businessHourValues]);
+
 	return (
 		<>
 			<form onSubmit={handleOnSubmit}>
@@ -249,7 +249,8 @@ const Step2 = () => {
 							businessLicenseTextFieldRef={businessLicenseInputRef}
 							name="step2"
 							id="registrationNumber"
-							defaultValue={data?.registrationNumber}
+							key={registrationNumber.value}
+							value={registrationNumber.value}
 							inputFlag={registrationNumber.isError}
 							isAuthorizedNumber={businessLicenseStatus}
 							onFocus={handleHoverState}
@@ -267,7 +268,7 @@ const Step2 = () => {
 						</Typography>
 					</label>
 					<TextField
-						emptyErrorMessage="상호를"
+						emptyErrorMessage="상호를 입력해주세요"
 						name="step2"
 						id="name"
 						onFocus={() => changeNormal('name')}
@@ -275,6 +276,7 @@ const Step2 = () => {
 						width="320px"
 						placeholder="상호명을 입력해주세요"
 						defaultValue={name.value}
+						key={name.value}
 					/>
 				</StyledLayout.TextFieldSection>
 				<StyledLayout.TextFieldSection>
@@ -284,14 +286,18 @@ const Step2 = () => {
 						</Typography>
 					</label>
 					<TextField
-						emptyErrorMessage="매장 전화번호를"
+						emptyErrorMessage="매장 전화번호를 입력해주세요"
 						name="step2"
 						id="callNumber"
 						onFocus={() => changeNormal('callNumber')}
 						inputFlag={callNumber.isError}
 						width="320px"
 						placeholder="‘-‘ 를 포함하여 입력해주세요"
-						defaultValue={callNumber.value}
+						value={storeCallNumber}
+						onChange={(e) => {
+							if (!num.test(e.target.value) && e.target.value !== '') return;
+							setStoreCallNumber(e.target.value);
+						}}
 					/>
 				</StyledLayout.TextFieldSection>
 				<StyledLayout.TextFieldSection>
@@ -302,33 +308,22 @@ const Step2 = () => {
 					</label>
 					<StyledLayout.FlexBox gap="6px">
 						<TextField
-							emptyErrorMessage="매장 주소를"
+							emptyErrorMessage="매장 주소를 입력해주세요"
 							readOnly={true}
-							inputFlag={storeZonecode.isError}
+							inputFlag={basicAddress.isError}
 							name="step2"
-							id="storeZonecode"
-							width="320px"
+							id="basicAddress"
+							width="560px"
 							placeholder="입력하기"
-							value={storePostcodeInputs?.zonecode}
+							value={storePostcodeInputs.address}
 						/>
 						<PostcodePopupOpenBtn onExtractedPostCode={handleExtractedPostCode} />
 					</StyledLayout.FlexBox>
-
-					<TextField
-						emptyErrorMessage="매장 주소를 입력해주세요"
-						readOnly={true}
-						inputFlag={basicAddress.isError}
-						name="step2"
-						id="basicAddress"
-						width="560px"
-						placeholder="입력하기"
-						value={storePostcodeInputs?.address}
-					/>
 					<TextField
 						emptyErrorMessage="상세 주소를 입력해주세요"
 						onFocus={() => changeNormal('addressDetail')}
 						inputFlag={addressDetail.isError}
-						value={storePostcodeInputs?.detailAddress}
+						value={storePostcodeInputs.detailAddress}
 						name="step2"
 						id="addressDetail"
 						placeholder="(필수) 상세주소를 입력해주세요"
@@ -402,6 +397,7 @@ const Step2 = () => {
 					<TextField
 						placeholder="링크를 입력해주세요"
 						name="step2"
+						key={instaAccount}
 						defaultValue={instaAccount}
 						id="instaAccount"
 						inputFlag="normal"
@@ -420,7 +416,7 @@ const Step2 = () => {
 							<RadioBtn
 								name="businessHour"
 								value="weekDaysWeekEnd"
-								onChange={handleSelectedBusinessHourBtn}
+								onClick={() => handleSelectedBusinessHourBtn('weekDaysWeekEnd')}
 								defaultChecked={businessHourValues.length === 0}
 							/>
 							<label htmlFor="weekDaysWeekEnd">
@@ -434,7 +430,7 @@ const Step2 = () => {
 								defaultChecked={businessHourValues.length !== 0}
 								name="businessHour"
 								value="eachDays"
-								onChange={handleSelectedBusinessHourBtn}
+								onClick={() => handleSelectedBusinessHourBtn('eachDays')}
 							/>
 							<label htmlFor="eachDays">
 								<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
@@ -481,19 +477,21 @@ const Step2 = () => {
 										</StyledLayout.FlexBox>
 										<TimePicker
 											value={
-												businessHourValues[idx].time !== null
-													? {
-															startHour: businessHourValues[idx].time?.split('~')[0].substring(0, 2).padStart(2, '0'),
-															startMinutes: businessHourValues[idx].time?.split('~')[0].substring(4).padStart(2, '0'),
-															endHour: businessHourValues[idx].time?.split('~')[1].substring(0, 2).padStart(2, '0'),
-															endMinutes: businessHourValues[idx].time?.split('~')[0].substring(4).padStart(2, '0'),
-													  }
-													: {
-															startHour: '10',
-															startMinutes: '00',
-															endHour: '22',
-															endMinutes: '00',
-													  }
+												businessHourValues.length > 0
+													? businessHourValues[idx].time !== null
+														? {
+																startHour: businessHourValues[idx].time?.split('~')[0].substring(0, 2).padStart(2, '0'),
+																startMinutes: businessHourValues[idx].time?.split('~')[0].substring(4).padStart(2, '0'),
+																endHour: businessHourValues[idx].time?.split('~')[1].substring(0, 2).padStart(2, '0'),
+																endMinutes: businessHourValues[idx].time?.split('~')[0].substring(4).padStart(2, '0'),
+														  }
+														: {
+																startHour: '10',
+																startMinutes: '00',
+																endHour: '22',
+																endMinutes: '00',
+														  }
+													: undefined
 											}
 											dayOffRef={(el) => (dayOffRef.current[id] = el)}
 											disabled={dayOffStatus[id - 1]}
@@ -516,12 +514,13 @@ const Step2 = () => {
 						</Typography>
 					</label>
 					<TextField
-						emptyErrorMessage="휴무일을"
+						emptyErrorMessage="휴무일을 입력해주세요"
 						name="step2"
 						id="notice"
 						inputFlag={notice.isError}
 						onFocus={() => changeNormal('notice')}
 						width="320px"
+						key={notice.value}
 						defaultValue={notice.value}
 						placeholder="휴무일을 자유롭게 입력해주세요"
 					/>
