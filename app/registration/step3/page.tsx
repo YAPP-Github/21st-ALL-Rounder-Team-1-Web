@@ -64,11 +64,14 @@ const Step3 = () => {
 	const submitData = async () => {
 		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
 		const response = await postItems(Number(query.get('id')), request);
+
+		changeModalKey(MODAL_KEY.OFF);
 		router.push('/registration/success');
 	};
 	useEffect(() => {
 		if (data) setProduct(data);
 	}, [data]);
+
 	return (
 		<>
 			<GuideWrapper>
