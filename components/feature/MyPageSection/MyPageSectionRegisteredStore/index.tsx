@@ -11,6 +11,7 @@ import * as S from './styled';
 
 const MyPageSectionRegisteredStore = ({ store }: { store: Store }) => {
 	const { id, name, address, callNumber, isReady, imgStore, modifiedAt } = store;
+	const [basicAddress, detailAddress] = address?.split('#');
 
 	const { changeModalKey } = useModalStore();
 
@@ -34,7 +35,7 @@ const MyPageSectionRegisteredStore = ({ store }: { store: Store }) => {
 					{isReady ? (
 						<>
 							<Typography variant="span" aggressive="body_oneline_004" margin="0 0 8px 0" color={theme.colors.gray_005}>
-								{address}
+								{basicAddress} {detailAddress}
 							</Typography>
 							<Typography variant="span" aggressive="body_oneline_004" margin="0 0 8px 0" color={theme.colors.gray_005}>
 								{callNumber}
