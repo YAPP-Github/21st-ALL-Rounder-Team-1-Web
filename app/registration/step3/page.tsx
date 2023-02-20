@@ -33,7 +33,7 @@ const Step3 = () => {
 		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
 		const response = await patchItems(Number(query.get('id')), request);
 
-		router.push(`/mypage`);
+		router.push(`/mypage/store`);
 	};
 	const handleTemporarySave = async () => {
 		if (changeError() !== 0) return;
