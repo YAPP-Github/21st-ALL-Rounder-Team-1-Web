@@ -18,11 +18,11 @@ export type StorePatchData = {
 };
 export const patchStore = async (storeData: StorePatchData) => {
 	const {
-		user: { store },
+		store: { index },
 	} = API_PATH;
 	const response = await pumpClientRequester<StorePostResponse>({
 		method: HTTP_METHOD.PATCH,
-		url: `${store}`,
+		url: `${index}`,
 		headers: {
 			Authorization: `Bearer ${getUserTokenFromLocalStorage()}`,
 		},

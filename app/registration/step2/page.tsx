@@ -124,7 +124,7 @@ const Step2 = () => {
 		router.push(`/registration/step3?id=${step2Response.storeId}`);
 	};
 	const submitEditInputs = async () => {
-		const step2EditResponse = await patchStore({ ...step2Request, id: Number(query.get('id')) });
+		const step2EditResponse = await patchStore({ ...step2Request, id: Number(query.get('storeId')) });
 
 		router.push(`/mypage`);
 	};
