@@ -1,6 +1,5 @@
-import { APIResponse } from 'types/api';
-import { API_PATH, HTTP_METHOD } from 'core/apis/constants';
 import pumpClientRequester from 'core/apis/axios';
+import { API_PATH, HTTP_METHOD } from 'core/apis/constants';
 import { getUserTokenFromLocalStorage } from 'utils/storage';
 import { StorePostResponse } from './usePostStore';
 
@@ -9,7 +8,7 @@ export type StorePatchData = {
 	name: string;
 	latitude: string;
 	longitude: string;
-	businessHours: string;
+	businessHour: string;
 	notice: string;
 	address: string;
 	imgPath: string[] | null;
@@ -27,9 +26,7 @@ export const patchStore = async (storeData: StorePatchData) => {
 		headers: {
 			Authorization: `Bearer ${getUserTokenFromLocalStorage()}`,
 		},
-		data: {
-			storeData,
-		},
+		data: storeData,
 	});
 
 	return response.data.data;

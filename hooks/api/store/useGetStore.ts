@@ -19,7 +19,7 @@ export type Store = {
 	status: string;
 	latitude: string;
 	longitude: string;
-	businessHours: string;
+	businessHour: string;
 	notice: string;
 	address: string;
 	instaAccount: string | null;
@@ -61,13 +61,9 @@ export const getStore = async () => {
 export const getStoreQueryKey = 'get/store';
 
 export const useGetStore = (query?: string) => {
-	if (!query) {
-		return useQuery([getStoreQueryKey], async () => await getStore());
-	} else {
-		return useQuery([getStoreQueryKey], async () => await getStore(), {
-			enabled: !!query,
-		});
-	}
+	return useQuery([getStoreQueryKey], async () => await getStore(), {
+		enabled: !!query,
+	});
 };
 
 export const getStoreInMyPageQueryKey = 'get/store/mypage';

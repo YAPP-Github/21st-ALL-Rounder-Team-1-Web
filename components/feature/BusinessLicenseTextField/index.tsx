@@ -38,6 +38,7 @@ const BusinessLicenseTextField = ({
 	return (
 		<S.TextFieldContainer>
 			<S.StyledTextFiled
+				formFlag={false}
 				readOnly={false}
 				style={{ width: '320px' }}
 				inputFlag={inputFlag}

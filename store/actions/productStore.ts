@@ -3,7 +3,6 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 export interface Product {
-	[index: number]: any;
 	id: number;
 	category: string;
 	brandName: string;
@@ -36,16 +35,16 @@ export const productStore = create<Products>()(
 		ingredient: [{ id: 0, category: 'ingredient', brandName: '', productName: '', isProductEmptyError: 'normal' }],
 		etc: [{ id: 0, category: 'etc', brandName: '', productName: '', isProductEmptyError: 'normal' }],
 		addProduct: (productArrName: string) => {
-			if (get().productArrName[0].productName !== '') {
+			if (get()[productArrName][0].productName !== '') {
 				set((state) => ({
 					[productArrName]: [
-						{ id: 0, category: { productArrName }, brandName: '', productName: '', isProductEmptyError: 'normal' },
+						{ id: 0, category: productArrName, brandName: '', productName: '', isProductEmptyError: 'normal' },
 						...state[productArrName],
 					],
 				}));
 			} else {
 				set(() => ({
-					[productArrName]: get().productArrName.map((item: Product, idx: number) =>
+					[productArrName]: get()[productArrName].map((item: Product, idx: number) =>
 						idx === 0 ? { ...item, isProductEmptyError: 'error' } : item,
 					),
 				}));
@@ -109,11 +108,20 @@ export const productStore = create<Products>()(
 			return get()[productArrName].filter((item: Product) => item.isProductEmptyError === 'error').length;
 		},
 		setProduct: (items: GetItem[]) => {
-			if (!items) return;
+			if (items === undefined || items === null) return;
 			for (let i = 0; i < items.length; i++) {
+				const productArr = items[i].category;
+				if (
+					productArr !== 'baseMakeUp' &&
+					productArr !== 'bodyHair' &&
+					productArr !== 'detergent' &&
+					productArr !== 'ingredient' &&
+					productArr !== 'etc'
+				)
+					continue;
 				set((state) => ({
-					[items[i].category]: [
-						...state[items[i].category],
+					[productArr]: [
+						...get()[productArr],
 						{
 							id: items[i].id,
 							category: items[i].category,

@@ -1,8 +1,8 @@
-import { APIResponse } from 'types/api';
-import { API_PATH, HTTP_METHOD } from 'core/apis/constants';
 import pumpClientRequester from 'core/apis/axios';
-import { getUserTokenFromLocalStorage } from 'utils/storage';
+import { API_PATH, HTTP_METHOD } from 'core/apis/constants';
 import { Step1Request } from 'store/actions/step1Store';
+import { APIResponse } from 'types/api';
+import { getUserTokenFromLocalStorage } from 'utils/storage';
 import { UserSession } from '../auth/useUserSession';
 
 export interface ManagerPatchResponse extends APIResponse {
@@ -21,9 +21,7 @@ export const patchManager = async (managerData: Step1Request) => {
 		headers: {
 			Authorization: `Bearer ${getUserTokenFromLocalStorage()}`,
 		},
-		data: {
-			managerData,
-		},
+		data: managerData,
 	});
 
 	return response.data.data.result;

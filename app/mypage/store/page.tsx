@@ -49,9 +49,6 @@ const StoreManagement = () => {
 						<MyPageSectionDescription>
 							입점한 매장의 매장 정보와 상품 정보를 직접 관리(추가, 삭제, 수정 등)할 수 있습니다.
 						</MyPageSectionDescription>
-						<MyPageSectionDescription>
-							추가, 삭제 등 변경사항이 있는 정보는 익일 새벽 00:00시 Pump 서비스에 한꺼번에 반영됩니다.
-						</MyPageSectionDescription>
 					</>
 				) : (
 					<>

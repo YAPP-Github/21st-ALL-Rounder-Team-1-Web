@@ -13,9 +13,7 @@ export const temporaryPostItems = async (storeId: number, items: ItemsRequest[])
 		headers: {
 			Authorization: `Bearer ${getUserTokenFromLocalStorage()}`,
 		},
-		data: {
-			items,
-		},
+		data: items,
 	});
 
 	return response.data.data;
