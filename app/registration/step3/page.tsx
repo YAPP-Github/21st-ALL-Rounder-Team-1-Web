@@ -45,8 +45,7 @@ const Step3 = () => {
 			return;
 		}
 		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
-
-		const response = await temporaryPostItems(Number(query.get('storeId')), request);
+		const response = await temporaryPostItems(Number(query.get('id')), request);
 		setTemporarySaveToast(true);
 		setTimeout(() => setTemporarySaveToast(false), 2000);
 	};
@@ -64,7 +63,7 @@ const Step3 = () => {
 	};
 	const submitData = async () => {
 		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
-		const response = await postItems(Number(query.get('storeId')), request);
+		const response = await postItems(Number(query.get('id')), request);
 		router.push('/registration/success');
 	};
 	useEffect(() => {
@@ -184,7 +183,7 @@ const Step3 = () => {
 				</StAccordionDetails>
 			</StAccordion>
 			<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '40px' }} gap="8px">
-				{query.get('isReady') === '' ? (
+				{query.get('isReady') === null ? (
 					<>
 						<LargeBtn type="button" style={style.btnStyle.white_btn} onClick={handleTemporarySave}>
 							임시저장

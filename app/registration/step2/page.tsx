@@ -120,8 +120,8 @@ const Step2 = () => {
 	const submitInputs = async () => {
 		const step1Response = await patchManager(step1Request);
 		const step2Response = await postStore(step2Request);
-
-		router.push(`/registration/step3?storeId=${step2Response.storeId}`);
+		setComplete({ managerId: step1Response?.id ?? -1, storeId: step2Response.storeId });
+		router.push(`/registration/step3?id=${step2Response.storeId}`);
 	};
 	const submitEditInputs = async () => {
 		const step2EditResponse = await patchStore({ ...step2Request, id: Number(query.get('id')) });
@@ -531,7 +531,7 @@ const Step2 = () => {
 					</StyledLayout.FlexBox>
 				</StyledLayout.TextFieldSection>
 				<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '16px' }}>
-					{query.toString() === '' ? (
+					{query.get('isReady') === null ? (
 						<LargeBtn type="submit" style={style.btnStyle.primary_btn_002}>
 							다음단계
 						</LargeBtn>
