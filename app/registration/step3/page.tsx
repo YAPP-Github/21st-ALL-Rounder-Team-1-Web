@@ -182,7 +182,7 @@ const Step3 = () => {
 				</StAccordionDetails>
 			</StAccordion>
 			<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '40px' }} gap="8px">
-				{query.get('storeId') !== '' ? (
+				{query.get('storeId') ? (
 					<>
 						<LargeBtn type="button" style={style.btnStyle.white_btn} onClick={handleTemporarySave}>
 							임시저장

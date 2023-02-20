@@ -108,11 +108,20 @@ export const productStore = create<Products>()(
 			return get()[productArrName].filter((item: Product) => item.isProductEmptyError === 'error').length;
 		},
 		setProduct: (items: GetItem[]) => {
-			if (!items) return;
+			if (items === undefined || items === null) return;
 			for (let i = 0; i < items.length; i++) {
+				const productArr = items[i].category;
+				if (
+					productArr !== 'baseMakeUp' &&
+					productArr !== 'bodyHair' &&
+					productArr !== 'detergent' &&
+					productArr !== 'ingredient' &&
+					productArr !== 'etc'
+				)
+					continue;
 				set((state) => ({
-					[items[i].category]: [
-						...state[items[i].category],
+					[productArr]: [
+						...get()[productArr],
 						{
 							id: items[i].id,
 							category: items[i].category,
