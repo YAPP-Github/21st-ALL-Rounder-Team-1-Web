@@ -110,11 +110,11 @@ export const productStore = create<Products>()(
 		setProduct: (items: GetItem[]) => {
 			if (items === undefined || items === null) return;
 			if (
-				get().baseMakeUp.length > 0 ||
-				get().bodyHair.length > 0 ||
-				get().detergent.length > 0 ||
-				get().ingredient.length > 0 ||
-				get().etc.length > 0
+				(get().baseMakeUp[0].productName !== '' && get().baseMakeUp.length > 0) ||
+				(get().bodyHair[0].productName !== '' && get().bodyHair.length > 0) ||
+				(get().detergent[0].productName !== '' && get().detergent.length > 0) ||
+				(get().ingredient[0].productName !== '' && get().ingredient.length > 0) ||
+				(get().etc[0].productName !== '' && get().etc.length > 0)
 			) {
 				return;
 			}
@@ -130,7 +130,6 @@ export const productStore = create<Products>()(
 					continue;
 				set((state) => ({
 					[productArr]: [
-						...get()[productArr],
 						{
 							id: items[i].id,
 							category: items[i].category,
@@ -138,6 +137,7 @@ export const productStore = create<Products>()(
 							productName: items[i].title,
 							isProductEmptyError: 'normal',
 						},
+						...get()[productArr],
 					],
 				}));
 			}
