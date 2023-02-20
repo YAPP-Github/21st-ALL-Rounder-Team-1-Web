@@ -32,7 +32,7 @@ const Step3 = () => {
 	const [temporarySaveToast, setTemporarySaveToast] = useState(false);
 	const submitEditItems = async () => {
 		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
-		const response = await patchItems(Number(query.get('id')), request);
+		const response = await patchItems(Number(query.get('storeId')), request);
 
 		router.push(`/mypage`);
 	};
@@ -45,8 +45,7 @@ const Step3 = () => {
 			return;
 		}
 		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
-
-		const response = await temporaryPostItems(Number(query.get('storeId')), request);
+		const response = await temporaryPostItems(Number(query.get('id')), request);
 		setTemporarySaveToast(true);
 		setTimeout(() => setTemporarySaveToast(false), 2000);
 	};
@@ -64,11 +63,8 @@ const Step3 = () => {
 	};
 	const submitData = async () => {
 		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
-		const response = await postItems(Number(query.get('storeId')), request);
-
-
+		const response = await postItems(Number(query.get('id')), request);
 		router.push('/registration/success');
-
 	};
 	const handleExpandedSummary = (productArrName: string, categoryIdx: number) => {
 		if (setError(productArrName) !== 0) {
@@ -194,7 +190,7 @@ const Step3 = () => {
 				</StAccordionDetails>
 			</StAccordion>
 			<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '40px' }} gap="8px">
-				{query.get('storeId') !== '' ? (
+				{query.get('isReady') === null ? (
 					<>
 						<LargeBtn type="button" style={style.btnStyle.white_btn} onClick={handleTemporarySave}>
 							임시저장
