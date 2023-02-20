@@ -59,7 +59,7 @@ const Step2 = () => {
 	const router = useRouter();
 	const query = useSearchParams();
 	const num = /[-0-9]/;
-	const { data } = useGetStore(query?.get('id')?.toString());
+	const { data } = useGetStore(query?.get('storeId')?.toString());
 	const [businessHourValues, setBusinessHourValues] = useState<Array<{ day: string; time: string | null }>>([]);
 	const { step2Request, setStep2Request } = step2RequestStore();
 	const {
@@ -126,7 +126,7 @@ const Step2 = () => {
 	const submitEditInputs = async () => {
 		const step2EditResponse = await patchStore({ ...step2Request, id: Number(query.get('storeId')) });
 
-		router.push(`/mypage`);
+		router.push(`/mypage/store`);
 	};
 	const handleSelectedStoreImageBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (selectedStoreImageBtn === e.target.value) return;
