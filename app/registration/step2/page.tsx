@@ -25,6 +25,9 @@ import {
 	saveStep2UserInput,
 } from 'core/storeRegistrationService';
 import { useGetStore } from 'hooks/api/store/useGetStore';
+import { patchStore } from 'hooks/api/store/usePatchStore';
+import { postStore } from 'hooks/api/store/usePostStore';
+import { patchManager } from 'hooks/api/user/usePatchManager';
 import { useS3Upload } from 'next-s3-upload';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -56,8 +59,7 @@ const Step2 = () => {
 	const router = useRouter();
 	const query = useSearchParams();
 	const num = /[-0-9]/;
-	const { data } = useGetStore(query?.toString());
-	console.log(data);
+	const { data } = useGetStore(query?.get('id')?.toString());
 	const [businessHourValues, setBusinessHourValues] = useState<Array<{ day: string; time: string | null }>>([]);
 	const { step2Request, setStep2Request } = step2RequestStore();
 	const {
@@ -111,23 +113,21 @@ const Step2 = () => {
 		await makeStoreAddress(storePostcodeInputs, setStep2Request);
 		await handleFindCoords(storePostcodeInputs.address);
 		await makeImgPath(selectedStoreImageBtn, S3ImagePath, setStep2Request);
+
 		if (query.toString() === '') changeModalKey(MODAL_KEY.ON_STORE_REGISTRATION_STEP_CHANGE_CONFIRM_MODAL);
 		else changeModalKey(MODAL_KEY.ON_STORE_EDIT_COMPLETION_CONFIRM_MODAL);
 	};
 
 	const submitInputs = async () => {
-		console.log(step1Request);
-		console.log(step2Request);
-		// const step1Response = await patchManager(step1Request);
-		// const step2Response = await postStore(step2Request);
-		// setComplete({ managerId: step1Response?.id ?? -1, storeId: step2Response.storeId });
-		// router.replace(`registration/step3?storeId=${step2Response?.storeId}`);
+		const step1Response = await patchManager(step1Request);
+		const step2Response = await postStore(step2Request);
+
+		router.push(`/registration/step3?storeId=${step2Response.storeId}`);
 	};
 	const submitEditInputs = async () => {
-		console.log(step1Request);
-		console.log(step2Request);
-		// const step2EditResponse = await patchStore({ ...step2Request, id: Number(query.get('id')) });
-		// setComplete({ managerId: -1, storeId: step2EditResponse.storeId });
+		const step2EditResponse = await patchStore({ ...step2Request, id: Number(query.get('id')) });
+
+		router.push(`/mypage`);
 	};
 	const handleSelectedStoreImageBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (selectedStoreImageBtn === e.target.value) return;
@@ -212,15 +212,9 @@ const Step2 = () => {
 				setStep2Request('latitude', location.address.y);
 			});
 	};
+
 	useEffect(() => {
-		if (query.toString() === '' && complete.managerId !== -1 && complete.storeId !== -1) {
-			router.push(`/registration/step3?storeId=${complete.storeId}`);
-		} else if (query.toString() !== '' && complete.storeId !== -1) {
-			router.push(`/mypage`);
-		}
-	}, [complete]);
-	useEffect(() => {
-		if (data) {
+		if (query.toString() !== '' && data && data != null) {
 			setInitialValue(data);
 			setStoreCallNumber(data.callNumber);
 			setSelectedStoreImageBtn('registerImage');
@@ -245,6 +239,7 @@ const Step2 = () => {
 			}
 		}
 	}, [businessHourValues]);
+	
 	return (
 		<>
 			<form onSubmit={handleOnSubmit}>
@@ -493,7 +488,6 @@ const Step2 = () => {
 										<StyledLayout.FlexBox flexDirection="column" gap="6px">
 											<Typography variant="h3" aggressive="button_001" color="gray_007" margin="0 20px 0 0">
 												{day}
-												{idx} {id}
 											</Typography>
 										</StyledLayout.FlexBox>
 										<TimePicker
