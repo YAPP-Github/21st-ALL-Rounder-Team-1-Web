@@ -109,6 +109,15 @@ export const productStore = create<Products>()(
 		},
 		setProduct: (items: GetItem[]) => {
 			if (items === undefined || items === null) return;
+			if (
+				get().baseMakeUp.length > 0 ||
+				get().bodyHair.length > 0 ||
+				get().detergent.length > 0 ||
+				get().ingredient.length > 0 ||
+				get().etc.length > 0
+			) {
+				return;
+			}
 			for (let i = 0; i < items.length; i++) {
 				const productArr = items[i].category;
 				if (
