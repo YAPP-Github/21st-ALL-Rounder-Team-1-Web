@@ -129,6 +129,7 @@ export const productStore = create<Products>()(
 				)
 					continue;
 				set((state) => ({
+					...get()[productArr],
 					[productArr]: [
 						{
 							id: items[i].id,
@@ -137,7 +138,6 @@ export const productStore = create<Products>()(
 							productName: items[i].title,
 							isProductEmptyError: 'normal',
 						},
-						...get()[productArr],
 					],
 				}));
 			}

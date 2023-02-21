@@ -25,7 +25,7 @@ export type Store = {
 	instaAccount: string | null;
 	callNumber: string;
 	registrationNumber: string;
-	isDayOff: boolean;
+	isDayOff: boolean | null;
 	isReady: boolean;
 	imgStore: Array<{
 		createdAt: string;
@@ -33,7 +33,7 @@ export type Store = {
 		id: number;
 		storeId: number;
 		path: string;
-	}> | null;
+	}>;
 };
 
 export interface StoreGetResponse extends APIResponse {
@@ -60,7 +60,7 @@ export const getStore = async () => {
 
 export const getStoreQueryKey = 'get/store';
 
-export const useGetStore = (query?: string) => {
+export const useGetStore = (query?: string | null) => {
 	return useQuery([getStoreQueryKey], async () => await getStore(), {
 		enabled: !!query,
 	});

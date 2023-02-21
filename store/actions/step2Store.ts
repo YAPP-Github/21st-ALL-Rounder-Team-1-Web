@@ -54,18 +54,20 @@ export const step2ErrorStore = create<Step2Error>()(
 		callNumber: { value: '', isError: 'normal' },
 		registrationNumber: { value: '', isError: 'normal' },
 		setInitialValue: (data: Store | null) => {
-			if (data === null) return;
-			set(() => ({
-				name: { value: data.name, isError: 'normal' },
-				businessHour: data.businessHour,
-				notice: { value: data.notice, isError: 'normal' },
-				basicAddress: { value: data.address.split('#')[0], isError: 'normal' },
-				addressDetail: { value: data.address.split('#')[1], isError: 'normal' },
-				imgPath: { value: [data.imgStore?.at(0)?.path ?? ''], isError: 'normal' },
-				instaAccount: data.instaAccount ?? '',
-				callNumber: { value: data.callNumber, isError: 'normal' },
-				registrationNumber: { value: data.registrationNumber, isError: 'normal' },
-			}));
+			if (data === null || data === undefined) return;
+			else {
+				set(() => ({
+					name: { value: data.name ?? '', isError: 'normal' },
+					businessHour: data.businessHour ?? '',
+					notice: { value: data.notice ?? '', isError: 'normal' },
+					basicAddress: { value: data.address.split('#')[0] ?? '', isError: 'normal' },
+					addressDetail: { value: data.address.split('#')[1] ?? '', isError: 'normal' },
+					imgPath: { value: [data.imgStore?.at(0)?.path ?? ''], isError: 'normal' },
+					instaAccount: data.instaAccount ?? '',
+					callNumber: { value: data.callNumber ?? '', isError: 'normal' },
+					registrationNumber: { value: data.registrationNumber ?? '', isError: 'normal' },
+				}));
+			}
 		},
 		setInputValue: (inputId: string, inputValue: string) =>
 			set((state) => ({ [inputId]: { ...state.inputId, value: inputValue } })),

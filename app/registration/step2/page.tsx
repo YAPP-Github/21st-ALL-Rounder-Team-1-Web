@@ -1,5 +1,4 @@
 'use client';
-
 import axios from 'axios';
 import {
 	BusinessLicenseTextField,
@@ -59,7 +58,8 @@ const Step2 = () => {
 	const router = useRouter();
 	const query = useSearchParams();
 	const num = /[-0-9]/;
-	const { data } = useGetStore(query?.get('storeId')?.toString());
+	const { data } = useGetStore(query?.get('storeId'));
+	const [isData, setIsData] = useState(false);
 	const [businessHourValues, setBusinessHourValues] = useState<Array<{ day: string; time: string | null }>>([]);
 	const { step2Request, setStep2Request } = step2RequestStore();
 	const {
@@ -210,27 +210,34 @@ const Step2 = () => {
 	};
 
 	useEffect(() => {
-		if (query.toString() !== '' && data && data != null) {
+		if (data && !isData && query.get('storeId') !== null) {
 			setInitialValue(data);
-			setStoreCallNumber(data.callNumber);
-			setSelectedStoreImageBtn('registerImage');
-			setBusinessHourValues(refineStoreBusinessHoursStringToArray(data?.businessHour));
-			setSelectedBusinessHourBtn('eachDays');
-			if (data.imgStore) {
-				setClientStoreImageURL(data.imgStore[0].path);
-				setS3ImagePath(data.imgStore[0].path);
+			setIsData(true);
+			if (data?.callNumber !== '' && data?.callNumber !== null) setStoreCallNumber(data.callNumber);
+			if (data?.businessHour !== null && data?.businessHour !== '') {
+				setBusinessHourValues(refineStoreBusinessHoursStringToArray(data?.businessHour));
+				setSelectedBusinessHourBtn('eachDays');
 			}
-			setStorePostcodeInputs({
-				address: data.address.split('#')[0],
-				detailAddress: data.address.split('#')[1],
-			});
-			setStoreCallNumber(data.callNumber);
+			if (data?.imgStore?.length > 0 && data?.imgStore !== null && data?.imgStore !== undefined) {
+				setClientStoreImageURL(data?.imgStore[0]?.path ?? '');
+				setS3ImagePath(data?.imgStore[0]?.path ?? '');
+				setSelectedStoreImageBtn('registerImage');
+			}
+			if (data?.address !== '' && data?.address !== null) {
+				setStorePostcodeInputs({
+					address: data?.address?.split('#')[0] ?? '',
+					detailAddress: data?.address?.split('#')[1] ?? '',
+				});
+			}
+			if (data?.callNumber !== '' && data?.callNumber !== null) setStoreCallNumber(data?.callNumber ?? '');
 		}
 	}, [data]);
 	useEffect(() => {
-		for (let i = 0; i < businessHourValues.length; i++) {
-			if (businessHourValues[i].time === null) {
-				setDayOffStatus({ ...dayOffStatus, [i + 1]: true });
+		if (businessHourValues.length > 0) {
+			for (let i = 0; i < businessHourValues.length; i++) {
+				if (businessHourValues[i].time === null) {
+					setDayOffStatus({ ...dayOffStatus, [i + 1]: true });
+				}
 			}
 		}
 	}, [businessHourValues]);

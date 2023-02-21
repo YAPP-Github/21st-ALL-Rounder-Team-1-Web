@@ -77,7 +77,7 @@ const MyPageSectionRegisteredStore = ({ store }: { store: Store }) => {
 							<Link
 								href={{
 									pathname: `/registration/step3`,
-									query: { id, isReady },
+									query: { storeId: id, isReady },
 								}}
 							>
 								수정하기
