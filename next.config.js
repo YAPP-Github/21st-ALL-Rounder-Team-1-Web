@@ -17,8 +17,17 @@ const nextConfig = {
 				hostname: 'pump-img-bucket.s3.ap-northeast-2.amazonaws.com',
 				port: '',
 				pathname: '/store/**'
+			},
+			{
+				protocol: 'https',
+				hostname: 'pump-img-bucket.s3.ap-northeast-2.amazonaws.com',
+				port: '',
+				pathname: '/**'
 			}
+			
 		]
+
+
 	},
 	webpack: (config) => {
     config.module.rules.push({

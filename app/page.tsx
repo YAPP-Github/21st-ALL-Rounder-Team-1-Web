@@ -81,7 +81,7 @@ const Root = () => {
 		<StyledLayout.FlexBox flexDirection="column" alignItems="center">
 			<StyledLayout.FlexBox
 				justifyContent="center"
-				gap="164px"
+				gap="78px"
 				width="100%"
 				margin="0 auto"
 				padding="80px 0 0 0"

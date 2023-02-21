@@ -11,7 +11,7 @@ const TextField = ({ inputFlag, emptyErrorMessage, formErrorMessage, formFlag, .
 	return (
 		<S.TextFieldContainer>
 			<S.StyledTextFiled
-				formFlag={formFlag }
+				formFlag={formFlag}
 				readOnly={props.readOnly ?? false}
 				name={props.name}
 				id={props.id}

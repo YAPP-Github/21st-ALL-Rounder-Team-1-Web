@@ -34,7 +34,6 @@ export const postStore = async (storeData: StoreData) => {
 			Authorization: `Bearer ${getUserTokenFromLocalStorage()}`,
 		},
 		data: storeData,
-		
 	});
 
 	return response.data.data;
