@@ -2,12 +2,12 @@
 
 import { StoreRegistrationExitConfirmModal, TextField } from 'components/feature';
 import { LargeBtn, PrivateRoute, StyledLayout, Typography } from 'components/shared';
-import { checkEmptyInputError, saveUserInput } from 'core/storeRegistrationService';
+import { checkEmptyInputError } from 'core/storeRegistrationService';
 import { useRouter } from 'next/navigation';
-import { ChangeEvent, FormEvent, KeyboardEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, KeyboardEvent, useState } from 'react';
+import { useBeforeunload } from 'react-beforeunload';
 import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
 import { step1ErrorStore, step1RequestStore } from 'store/actions/step1Store';
-
 import { theme } from 'styles';
 import style from 'styles/style';
 
@@ -43,25 +43,15 @@ const Step1 = () => {
 			changeFormError();
 			return;
 		}
-		await saveUserInput(e.currentTarget.step1, setStep1Request);
-		router.replace('/registration/step2');
+		// await saveUserInput(e.currentTarget.step1, setStep1Request);
+		// router.replace('/registration/step2');
 	};
-	// TODO: 모달 크롬거 안 뜨도록 설정 필요
-	// const preventClose = (e: BeforeUnloadEvent) => {
-	// 	e.preventDefault();
-	// 	(e || window.event).returnValue = '';
-	// 	changeModalKey(MODAL_KEY.ON_STORE_REGISTRATION_EXIT_CONFIRM_MODAL);
-	// 	return 0;
-	// };
+	useBeforeunload((event) => {
+		event.preventDefault();
+		changeModalKey(MODAL_KEY.ON_STORE_REGISTRATION_EXIT_CONFIRM_MODAL);
+		return '';
+	});
 
-	// useEffect(() => {
-	// 	(() => {
-	// 		window.addEventListener('beforeunload', preventClose);
-	// 	})();
-	// 	return () => {
-	// 		window.removeEventListener('beforeunload', preventClose);
-	// 	};
-	// }, []);
 	return (
 		<>
 			<form onSubmit={handleOnSubmit}>
@@ -130,7 +120,14 @@ const Step1 = () => {
 				</StyledLayout.FlexBox>
 			</form>
 			{modalKey === MODAL_KEY.ON_STORE_REGISTRATION_EXIT_CONFIRM_MODAL && (
-				<StoreRegistrationExitConfirmModal onCancel={() => changeModalKey(MODAL_KEY.OFF)} onConfirm={() => window.close()} />
+				<StoreRegistrationExitConfirmModal
+					onCancel={() => changeModalKey(MODAL_KEY.OFF)}
+					onConfirm={() => {
+						window.opener = 'Self';
+						window.open('', '_parent', '');
+						window.close();
+					}}
+				/>
 			)}
 		</>
 	);
