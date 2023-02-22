@@ -72,8 +72,7 @@ const Step2 = () => {
 		instaAccount,
 		callNumber,
 		registrationNumber,
-		changeNormal,
-		changeError,
+		setInputState,
 		setInitialValue,
 		setInputValue,
 	} = step2ErrorStore();
@@ -87,7 +86,7 @@ const Step2 = () => {
 	const dayOffRef = useRef<null[] | Array<RefObject<HTMLButtonElement>> | HTMLButtonElement[]>([]);
 	const [dayOffStatus, setDayOffStatus] = useState<boolean[]>([false, false, false, false, false, false, false, false]);
 	const [storeCallNumber, setStoreCallNumber] = useState('');
-	const [businessLicenseStatus, setBusinessLicenseStatus] = useState<'normal' | 'success' | 'error' | 'notClicked'>('normal');
+	// const [businessLicenseStatus, setBusinessLicenseStatus] = useState<'normal' | 'success' | 'error' | 'notClicked'>('normal');
 	const [selectedStoreImageBtn, setSelectedStoreImageBtn] = useState(imgPath.value[0] ? 'registrationImage' : 'defaultImage');
 	const [clientStoreImageURL, setClientStoreImageURL] = useState('');
 	const [S3ImagePath, setS3ImagePath] = useState(imgPath.value[0] ?? '');
@@ -97,13 +96,13 @@ const Step2 = () => {
 
 	const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const emptyInput = checkEmptyInputError(e.currentTarget.step2, changeError);
-		if (e.currentTarget.step2[0].value !== '' && businessLicenseStatus === 'normal') {
-			setBusinessLicenseStatus('notClicked');
+		const emptyInput = checkEmptyInputError(e.currentTarget.step2, setInputState);
+		if (e.currentTarget.step2[0].value !== '' && registrationNumber.isError === 'normal') {
+			setInputState('registrationNumber', 'notClicked');
 			return;
 		}
 
-		if (businessLicenseStatus === 'error' || businessLicenseStatus === 'notClicked') return;
+		if (registrationNumber.isError === 'error' || registrationNumber.isError === 'notClicked') return;
 
 		if (emptyInput[0] !== 0) return;
 
@@ -141,7 +140,7 @@ const Step2 = () => {
 	};
 	const handleExtractedPostCode = (extractedPostcode: string[]) => {
 		const [zonecode, address] = extractedPostcode;
-		if (address !== '') changeNormal('basicAddress');
+		if (address !== '') setInputState('basicAddress', 'normal');
 		setStorePostcodeInputs({
 			...storePostcodeInputs,
 			address,
@@ -152,13 +151,6 @@ const Step2 = () => {
 			...storePostcodeInputs,
 			detailAddress: event.target.value,
 		});
-	};
-	const handleHoverState = () => {
-		if (businessLicenseStatus === 'error' || businessLicenseStatus === 'notClicked') {
-			setBusinessLicenseStatus('normal');
-		}
-
-		changeNormal('registrationNumber');
 	};
 	const handleTimePickerInput = (arrIndex: number) => {
 		setDayOffStatus({ ...dayOffStatus, [arrIndex]: !dayOffStatus[arrIndex] });
@@ -178,10 +170,10 @@ const Step2 = () => {
 		const { b_stt_cd, tax_type } = businessLicenseStatusResponse.data.data[0];
 
 		if (tax_type === '국세청에 등록되지 않은 사업자등록번호입니다.') {
-			setBusinessLicenseStatus('error');
+			setInputState('registrationNumber', 'error');
 		}
 		if (b_stt_cd === '01') {
-			setBusinessLicenseStatus('success');
+			setInputState('registrationNumber', 'success');
 		}
 		businessLicenseInputRef.current.blur();
 	};
@@ -192,7 +184,7 @@ const Step2 = () => {
 			const { url } = await uploadToS3(e.target.files[0]);
 			setS3ImagePath(url);
 		}
-		changeNormal('imgPath');
+		setInputState('imgPath', 'normal');
 	};
 
 	const handleFindCoords = async (storeAddress: string) => {
@@ -259,8 +251,7 @@ const Step2 = () => {
 							key={registrationNumber.value}
 							value={registrationNumber.value}
 							inputFlag={registrationNumber.isError}
-							isAuthorizedNumber={businessLicenseStatus}
-							onFocus={handleHoverState}
+							onFocus={() => setInputState('registrationNumber', 'normal')}
 							placeholder="‘-‘ 를 빼고 숫자만 입력해주세요"
 						/>
 						<StoreResistrationSmallBtn type="button" width={{ width: '106px' }} onClick={handleBusinessLicenseStatusCheck}>
@@ -278,7 +269,7 @@ const Step2 = () => {
 						emptyErrorMessage="상호를 입력해주세요"
 						name="step2"
 						id="name"
-						onFocus={() => changeNormal('name')}
+						onFocus={() => setInputState('name', 'normal')}
 						inputFlag={name.isError}
 						width="320px"
 						placeholder="상호명을 입력해주세요"
@@ -296,7 +287,7 @@ const Step2 = () => {
 						emptyErrorMessage="매장 전화번호를 입력해주세요"
 						name="step2"
 						id="callNumber"
-						onFocus={() => changeNormal('callNumber')}
+						onFocus={() => setInputState('callNumber', 'normal')}
 						inputFlag={callNumber.isError}
 						width="320px"
 						placeholder="‘-‘ 를 포함하여 입력해주세요"
@@ -328,7 +319,7 @@ const Step2 = () => {
 					</StyledLayout.FlexBox>
 					<TextField
 						emptyErrorMessage="상세 주소를 입력해주세요"
-						onFocus={() => changeNormal('addressDetail')}
+						onFocus={() => setInputState('addressDetail', 'normal')}
 						inputFlag={addressDetail.isError}
 						value={storePostcodeInputs.detailAddress}
 						name="step2"
@@ -365,7 +356,7 @@ const Step2 = () => {
 					</StyledLayout.FlexBox>
 					<StyledLayout.FlexBox>
 						<RadioBtn
-							onClick={() => changeNormal('imgPath')}
+							onClick={() => setInputState('imgPath', 'normal')}
 							name="storeImage"
 							value="registerImage"
 							onChange={handleSelectedStoreImageBtn}
@@ -525,7 +516,7 @@ const Step2 = () => {
 						name="step2"
 						id="notice"
 						inputFlag={notice.isError}
-						onFocus={() => changeNormal('notice')}
+						onFocus={() => setInputState('notice', 'normal')}
 						width="320px"
 						key={notice.value}
 						defaultValue={notice.value}
