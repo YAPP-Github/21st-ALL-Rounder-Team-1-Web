@@ -21,7 +21,7 @@ export interface Products {
 	removeProduct: (productArrName: string, elementIdx: number) => void;
 	onChangeBrandName: (productArrName: string, elementIdx: number, value: string) => void;
 	onChangeProductName: (productArrName: string, elementIdx: number, value: string) => void;
-	changeError: () => number;
+	changeError: () => [number, string];
 	changeNormal: (productArrName: string, elementIdx: number) => void;
 	setError: (productArrName: string) => number;
 	setProduct: (items: GetItem[]) => void;
