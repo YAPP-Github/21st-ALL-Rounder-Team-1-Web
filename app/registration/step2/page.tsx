@@ -136,8 +136,8 @@ const Step2 = () => {
 		router.push(`/registration/step3?id=${step2Response.storeId}`);
 	};
 	const submitEditInputs = async () => {
-		const step2EditResponse = await patchStore({ ...step2Request, id: Number(query.get('storeId')) });
-		router.push(`/mypage/store`);
+		// const step2EditResponse = await patchStore({ ...step2Request, id: Number(query.get('storeId')) });
+		// router.push(`/mypage/store`);
 	};
 	const handleSelectedStoreImageBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (selectedStoreImageBtn === e.target.value) return;
@@ -453,10 +453,10 @@ const Step2 = () => {
 						<StyledLayout.FlexBox flexDirection="column" gap="12px">
 							<StyledLayout.FlexBox>
 								<StyledLayout.FlexBox flexDirection="column" gap="6px">
-									<Typography variant="h3" aggressive="button_001" color="gray_007">
+									<Typography variant="h3" aggressive="button_001" color={theme.colors.gray_007}>
 										평일
 									</Typography>
-									<Typography variant="h4" aggressive="body_oneline_004" color="gray_005" margin="0 20px 0 0">
+									<Typography variant="h4" aggressive="body_oneline_004" color={theme.colors.gray_005} margin="0 20px 0 0">
 										(월~금)
 									</Typography>
 								</StyledLayout.FlexBox>
@@ -464,10 +464,10 @@ const Step2 = () => {
 							</StyledLayout.FlexBox>
 							<StyledLayout.FlexBox>
 								<StyledLayout.FlexBox flexDirection="column" gap="6px">
-									<Typography variant="h3" aggressive="button_001" color="gray_007">
+									<Typography variant="h3" aggressive="button_001" color={theme.colors.gray_007}>
 										주말
 									</Typography>
-									<Typography variant="h4" aggressive="body_oneline_004" color="gray_005" margin="0 20px 0 0">
+									<Typography variant="h4" aggressive="body_oneline_004" color={theme.colors.gray_005} margin="0 20px 0 0">
 										(토~일)
 									</Typography>
 								</StyledLayout.FlexBox>

@@ -22,7 +22,9 @@ const TimePicker = ({ value, dayOffRef, ...props }: Props) => {
 	);
 	const handleTimePickerValue = (e: ChangeEvent<HTMLInputElement>) => {
 		const { value, name } = e.target;
-
+		const numberCheck = /[0-9]/g;
+		if (value.length > 0 && !numberCheck.test(value[value.length - 1])) return;
+		if (value.length > 2) return;
 		setTimeValues({
 			...timeValues,
 			[name]: value,
@@ -54,7 +56,7 @@ const TimePicker = ({ value, dayOffRef, ...props }: Props) => {
 		>
 			<TimeInput
 				onBlur={handleOnBlur}
-				defaultValue={timeValues.startHour}
+				value={timeValues.startHour}
 				name="startHour"
 				type="text"
 				maxLength={2}
@@ -64,7 +66,7 @@ const TimePicker = ({ value, dayOffRef, ...props }: Props) => {
 			<span>:</span>
 			<TimeInput
 				onBlur={handleOnBlur}
-				defaultValue={timeValues.startMinutes}
+				value={timeValues.startMinutes}
 				name="startMinutes"
 				type="text"
 				maxLength={2}
@@ -74,7 +76,7 @@ const TimePicker = ({ value, dayOffRef, ...props }: Props) => {
 			<CenterSpan>~</CenterSpan>
 			<TimeInput
 				onBlur={handleOnBlur}
-				defaultValue={timeValues.endHour}
+				value={timeValues.endHour}
 				name="endHour"
 				type="text"
 				maxLength={2}
