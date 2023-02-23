@@ -2,7 +2,7 @@
 
 import { StoreRegistrationExitConfirmModal, TextField } from 'components/feature';
 import { LargeBtn, PrivateRoute, StyledLayout, Typography } from 'components/shared';
-import { checkEmptyInputError } from 'core/storeRegistrationService';
+import { checkEmptyInputError, saveUserInput } from 'core/storeRegistrationService';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, FormEvent, KeyboardEvent, useState } from 'react';
 import { useBeforeunload } from 'react-beforeunload';
@@ -43,8 +43,8 @@ const Step1 = () => {
 			changeFormError();
 			return;
 		}
-		// await saveUserInput(e.currentTarget.step1, setStep1Request);
-		// router.replace('/registration/step2');
+		await saveUserInput(e.currentTarget.step1, setStep1Request);
+		router.replace('/registration/step2');
 	};
 	useBeforeunload((event) => {
 		event.preventDefault();

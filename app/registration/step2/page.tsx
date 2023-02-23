@@ -86,7 +86,6 @@ const Step2 = () => {
 	const dayOffRef = useRef<null[] | Array<RefObject<HTMLButtonElement>> | HTMLButtonElement[]>([]);
 	const [dayOffStatus, setDayOffStatus] = useState<boolean[]>([false, false, false, false, false, false, false, false]);
 	const [storeCallNumber, setStoreCallNumber] = useState('');
-	// const [businessLicenseStatus, setBusinessLicenseStatus] = useState<'normal' | 'success' | 'error' | 'notClicked'>('normal');
 	const [selectedStoreImageBtn, setSelectedStoreImageBtn] = useState(imgPath.value[0] ? 'registrationImage' : 'defaultImage');
 	const [clientStoreImageURL, setClientStoreImageURL] = useState('');
 	const [S3ImagePath, setS3ImagePath] = useState(imgPath.value[0] ?? '');
@@ -99,12 +98,26 @@ const Step2 = () => {
 		const emptyInput = checkEmptyInputError(e.currentTarget.step2, setInputState);
 		if (e.currentTarget.step2[0].value !== '' && registrationNumber.isError === 'normal') {
 			setInputState('registrationNumber', 'notClicked');
+		}
+		if (registrationNumber.isError === 'fail' || registrationNumber.isError === 'notClicked') {
+			const registrationNumComponent: HTMLElement | null = document.getElementById('registrationNumber');
+			if (registrationNumComponent && registrationNumComponent !== null) {
+				window.scrollTo({
+					top: registrationNumComponent.scrollHeight - 140 + window.scrollY,
+					behavior: 'smooth',
+				});
+			}
+			return;
+		} else if (emptyInput[0] !== 0 && emptyInput[2] !== '' && document.getElementById(emptyInput[2].toString())) {
+			const emptyComponent: HTMLElement | null = document.getElementById(emptyInput[2].toString());
+			if (emptyComponent && emptyComponent !== null) {
+				window.scrollTo({
+					top: emptyComponent.getBoundingClientRect().top - 140 + window.scrollY,
+					behavior: 'smooth',
+				});
+			}
 			return;
 		}
-
-		if (registrationNumber.isError === 'error' || registrationNumber.isError === 'notClicked') return;
-
-		if (emptyInput[0] !== 0) return;
 
 		await saveStep2UserInput(e.currentTarget.step2, setStep2Request);
 		await makeBusinessHourData(dayOffRef, selectedBusinessHourBtn, setStep2Request);
@@ -124,7 +137,6 @@ const Step2 = () => {
 	};
 	const submitEditInputs = async () => {
 		const step2EditResponse = await patchStore({ ...step2Request, id: Number(query.get('storeId')) });
-
 		router.push(`/mypage/store`);
 	};
 	const handleSelectedStoreImageBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -170,7 +182,7 @@ const Step2 = () => {
 		const { b_stt_cd, tax_type } = businessLicenseStatusResponse.data.data[0];
 
 		if (tax_type === '국세청에 등록되지 않은 사업자등록번호입니다.') {
-			setInputState('registrationNumber', 'error');
+			setInputState('registrationNumber', 'fail');
 		}
 		if (b_stt_cd === '01') {
 			setInputState('registrationNumber', 'success');

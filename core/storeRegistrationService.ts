@@ -15,18 +15,18 @@ export const checkEmptyInputError = (
 ) => {
 	let emptyInput = 0;
 	let flag = false;
-	let scrollY = -1;
+	let firstError = '';
 	for (let i = 0; i < inputArr.length; i++) {
 		if ((inputArr[i] as HTMLInputElement).value === '' && (inputArr[i] as HTMLInputElement).id !== 'instaAccount') {
 			setInputState((inputArr[i] as HTMLInputElement).id, 'error');
 			emptyInput++;
-			if (scrollY !== -1) scrollY = (inputArr[i] as HTMLInputElement).getBoundingClientRect().top;
+			if (firstError === '') firstError = (inputArr[i] as HTMLInputElement).id;
 		}
 		if ((inputArr[i] as HTMLInputElement).id === 'email') {
 			if (!emailRegEx.test((inputArr[i] as HTMLInputElement).value)) flag = true;
 		}
 	}
-	return [emptyInput, flag, scrollY];
+	return [emptyInput, flag, firstError];
 };
 
 export const saveStep2UserInput = async (
