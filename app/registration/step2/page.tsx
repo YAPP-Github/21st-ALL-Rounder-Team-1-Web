@@ -237,12 +237,16 @@ const Step2 = () => {
 		}
 	}, [data]);
 	useEffect(() => {
+		console.log(businessHourValues);
+		const newDayOff: boolean[] = [];
+		newDayOff.push(false);
 		if (businessHourValues.length > 0) {
 			for (let i = 0; i < businessHourValues.length; i++) {
-				if (businessHourValues[i].time === null) {
-					setDayOffStatus({ ...dayOffStatus, [i + 1]: true });
-				}
+				if (businessHourValues[i].time === 'null') {
+					newDayOff.push(true);
+				} else newDayOff.push(false);
 			}
+			setDayOffStatus(newDayOff);
 		}
 	}, [businessHourValues]);
 
@@ -488,12 +492,12 @@ const Step2 = () => {
 										<TimePicker
 											value={
 												businessHourValues.length > 0
-													? businessHourValues[idx].time !== null
+													? businessHourValues[idx].time !== 'null'
 														? {
-																startHour: businessHourValues[idx].time?.split('~')[0]?.substring(0, 2)?.padStart(2, '0'),
-																startMinutes: businessHourValues[idx].time?.split('~')[0]?.substring(4)?.padStart(2, '0'),
-																endHour: businessHourValues[idx].time?.split('~')[1]?.substring(0, 2)?.padStart(2, '0'),
-																endMinutes: businessHourValues[idx].time?.split('~')[0]?.substring(4)?.padStart(2, '0'),
+																startHour: businessHourValues[idx].time?.split('~')[0]?.substring(0, 2),
+																startMinutes: businessHourValues[idx].time?.split('~')[0]?.substring(3, 5),
+																endHour: businessHourValues[idx].time?.split('~')[1]?.substring(0, 2),
+																endMinutes: businessHourValues[idx].time?.split('~')[0]?.substring(3, 5),
 														  }
 														: {
 																startHour: '10',
