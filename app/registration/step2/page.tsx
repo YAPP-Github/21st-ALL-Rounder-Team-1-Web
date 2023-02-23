@@ -136,8 +136,8 @@ const Step2 = () => {
 		router.push(`/registration/step3?id=${step2Response.storeId}`);
 	};
 	const submitEditInputs = async () => {
-		// const step2EditResponse = await patchStore({ ...step2Request, id: Number(query.get('storeId')) });
-		// router.push(`/mypage/store`);
+		const step2EditResponse = await patchStore({ ...step2Request, id: Number(query.get('storeId')) });
+		router.push(`/mypage/store`);
 	};
 	const handleSelectedStoreImageBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (selectedStoreImageBtn === e.target.value) return;
