@@ -234,7 +234,7 @@ const Root = () => {
 									{title}
 								</Typography>
 								<Divider direction="horizontal" width="996px" height="1px" margin="20px 0 16px 0" color={theme.colors.gray_002} />
-								<Typography variant="p" aggressive="body_multiline_001" color={theme.colors.gray_006}>
+								<Typography variant="p" aggressive="body_multiline_001" color={theme.colors.gray_006} whiteSpace={'pre-wrap'}>
 									{description}
 								</Typography>
 							</div>
