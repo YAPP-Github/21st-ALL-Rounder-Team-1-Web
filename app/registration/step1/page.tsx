@@ -5,7 +5,6 @@ import { LargeBtn, PrivateRoute, StyledLayout, Typography } from 'components/sha
 import { checkEmptyInputError, saveUserInput } from 'core/storeRegistrationService';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, FormEvent, KeyboardEvent, useState } from 'react';
-import { useBeforeunload } from 'react-beforeunload';
 import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
 import { step1ErrorStore, step1RequestStore } from 'store/actions/step1Store';
 import { theme } from 'styles';
@@ -46,12 +45,6 @@ const Step1 = () => {
 		await saveUserInput(e.currentTarget.step1, setStep1Request);
 		router.replace('/registration/step2');
 	};
-	// TODO: 이탈 모달
-	// useBeforeunload((event) => {
-	// 	event.preventDefault();
-	// 	changeModalKey(MODAL_KEY.ON_STORE_REGISTRATION_EXIT_CONFIRM_MODAL);
-	// 	return '';
-	// });
 
 	return (
 		<>
