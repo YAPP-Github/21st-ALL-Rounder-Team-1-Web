@@ -441,7 +441,7 @@ const Step2 = () => {
 								name="businessHour"
 								value="weekDaysWeekEnd"
 								onClick={() => handleSelectedBusinessHourBtn('weekDaysWeekEnd')}
-								defaultChecked={!data}
+								defaultChecked={data === null || data === undefined}
 							/>
 							<label htmlFor="weekDaysWeekEnd">
 								<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
@@ -454,7 +454,7 @@ const Step2 = () => {
 								name="businessHour"
 								value="eachDays"
 								onClick={() => handleSelectedBusinessHourBtn('eachDays')}
-								defaultChecked={data !== null || data !== undefined}
+								defaultChecked={data !== null && data !== undefined}
 							/>
 							<label htmlFor="eachDays">
 								<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
