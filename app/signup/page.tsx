@@ -1,19 +1,19 @@
 'use client';
 
-import { useState } from 'react';
-import styled, { CSSProperties } from 'styled-components';
-import { Checkbox, LargeBtn, Typography } from 'components/shared';
 import { SignuptextField } from 'components/feature';
-import style from 'styles/style';
+import { Checkbox, LargeBtn, Typography } from 'components/shared';
+import { SERVICE_POLICY_DESC_001, SERVICE_POLICY_DESC_002, SERVICE_TERMS_DESC } from 'constants/signup';
 import { isValidatedSignupFormAgreement } from 'core/signupService';
-import { SERVICE_TERMS_DESC, SERVICE_POLICY_DESC_001, SERVICE_POLICY_DESC_002 } from 'constants/signup';
-import useOAuthResponseStore from 'store/actions/oauthStore';
-import { useRouter } from 'next/navigation';
 import { postJwtTokenByOAuthResponse } from 'hooks/api/auth/useSignup';
-import { setUserTokenInLocalStorage } from 'utils/storage';
-import useRouteChangeAndRefreshDetect from 'hooks/useRouteChangeAndRefreshDetect';
 import { getUserSession } from 'hooks/api/auth/useUserSession';
+import useRouteChangeAndRefreshDetect from 'hooks/useRouteChangeAndRefreshDetect';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import useOAuthResponseStore from 'store/actions/oauthStore';
 import useUserSessionStore from 'store/actions/userSessionStore';
+import styled, { CSSProperties } from 'styled-components';
+import style from 'styles/style';
+import { setUserTokenInLocalStorage } from 'utils/storage';
 
 const SignUp = () => {
 	useRouteChangeAndRefreshDetect({
@@ -107,10 +107,10 @@ const SignUp = () => {
 	return (
 		<Container onSubmit={handleSignupFormSubmit}>
 			<Typography variant="h2" aggressive="headline_oneline_002" padding="0 0 12px 0">
-				Pump!에 오신 것을 환영합니다!
+				Pump에 오신 것을 환영합니다!
 			</Typography>
 			<Typography variant="p" aggressive="body_oneline_000" padding="0 0 32px 0">
-				{oauthType} 계정으로 Pump!를 이용하실 수 있습니다.
+				{oauthType} 계정으로 Pump를 이용하실 수 있습니다.
 			</Typography>
 
 			<SignuptextField type="text" readOnly={true} defaultValue={email} />
