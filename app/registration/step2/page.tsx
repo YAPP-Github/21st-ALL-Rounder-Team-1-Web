@@ -98,14 +98,24 @@ const Step2 = () => {
 		const emptyInput = checkEmptyInputError(e.currentTarget.step2, setInputState);
 		if (e.currentTarget.step2[0].value !== '' && registrationNumber.isError === 'normal') {
 			setInputState('registrationNumber', 'notClicked');
-		}
-		if (registrationNumber.isError === 'fail' || registrationNumber.isError === 'notClicked') {
 			const registrationNumComponent: HTMLElement | null = document.getElementById('registrationNumber');
 			if (registrationNumComponent && registrationNumComponent !== null) {
 				window.scrollTo({
 					top: registrationNumComponent.scrollHeight - 140 + window.scrollY,
 					behavior: 'smooth',
 				});
+				return;
+			}
+			return;
+		}
+		if (registrationNumber.isError === 'fail') {
+			const registrationNumComponent: HTMLElement | null = document.getElementById('registrationNumber');
+			if (registrationNumComponent && registrationNumComponent !== null) {
+				window.scrollTo({
+					top: registrationNumComponent.scrollHeight - 140 + window.scrollY,
+					behavior: 'smooth',
+				});
+				return;
 			}
 			return;
 		} else if (emptyInput[0] !== 0 && emptyInput[2] !== '' && document.getElementById(emptyInput[2].toString())) {
@@ -115,6 +125,7 @@ const Step2 = () => {
 					top: emptyComponent.getBoundingClientRect().top - 140 + window.scrollY,
 					behavior: 'smooth',
 				});
+				return;
 			}
 			return;
 		}
@@ -125,7 +136,7 @@ const Step2 = () => {
 		await handleFindCoords(storePostcodeInputs.address);
 		await makeImgPath(selectedStoreImageBtn, S3ImagePath, setStep2Request);
 
-		if (query.toString() === '') changeModalKey(MODAL_KEY.ON_STORE_REGISTRATION_STEP_CHANGE_CONFIRM_MODAL);
+		if (query === null) changeModalKey(MODAL_KEY.ON_STORE_REGISTRATION_STEP_CHANGE_CONFIRM_MODAL);
 		else changeModalKey(MODAL_KEY.ON_STORE_EDIT_COMPLETION_CONFIRM_MODAL);
 	};
 
@@ -237,7 +248,6 @@ const Step2 = () => {
 		}
 	}, [data]);
 	useEffect(() => {
-		console.log(businessHourValues);
 		const newDayOff: boolean[] = [];
 		newDayOff.push(false);
 		if (businessHourValues.length > 0) {
