@@ -46,11 +46,12 @@ const Step1 = () => {
 		await saveUserInput(e.currentTarget.step1, setStep1Request);
 		router.replace('/registration/step2');
 	};
-	useBeforeunload((event) => {
-		event.preventDefault();
-		changeModalKey(MODAL_KEY.ON_STORE_REGISTRATION_EXIT_CONFIRM_MODAL);
-		return '';
-	});
+	// TODO: 이탈 모달
+	// useBeforeunload((event) => {
+	// 	event.preventDefault();
+	// 	changeModalKey(MODAL_KEY.ON_STORE_REGISTRATION_EXIT_CONFIRM_MODAL);
+	// 	return '';
+	// });
 
 	return (
 		<>

@@ -98,14 +98,24 @@ const Step2 = () => {
 		const emptyInput = checkEmptyInputError(e.currentTarget.step2, setInputState);
 		if (e.currentTarget.step2[0].value !== '' && registrationNumber.isError === 'normal') {
 			setInputState('registrationNumber', 'notClicked');
-		}
-		if (registrationNumber.isError === 'fail' || registrationNumber.isError === 'notClicked') {
 			const registrationNumComponent: HTMLElement | null = document.getElementById('registrationNumber');
 			if (registrationNumComponent && registrationNumComponent !== null) {
 				window.scrollTo({
 					top: registrationNumComponent.scrollHeight - 140 + window.scrollY,
 					behavior: 'smooth',
 				});
+				return;
+			}
+			return;
+		}
+		if (registrationNumber.isError === 'fail') {
+			const registrationNumComponent: HTMLElement | null = document.getElementById('registrationNumber');
+			if (registrationNumComponent && registrationNumComponent !== null) {
+				window.scrollTo({
+					top: registrationNumComponent.scrollHeight - 140 + window.scrollY,
+					behavior: 'smooth',
+				});
+				return;
 			}
 			return;
 		} else if (emptyInput[0] !== 0 && emptyInput[2] !== '' && document.getElementById(emptyInput[2].toString())) {
@@ -115,6 +125,7 @@ const Step2 = () => {
 					top: emptyComponent.getBoundingClientRect().top - 140 + window.scrollY,
 					behavior: 'smooth',
 				});
+				return;
 			}
 			return;
 		}
@@ -125,7 +136,7 @@ const Step2 = () => {
 		await handleFindCoords(storePostcodeInputs.address);
 		await makeImgPath(selectedStoreImageBtn, S3ImagePath, setStep2Request);
 
-		if (query.toString() === '') changeModalKey(MODAL_KEY.ON_STORE_REGISTRATION_STEP_CHANGE_CONFIRM_MODAL);
+		if (query === null) changeModalKey(MODAL_KEY.ON_STORE_REGISTRATION_STEP_CHANGE_CONFIRM_MODAL);
 		else changeModalKey(MODAL_KEY.ON_STORE_EDIT_COMPLETION_CONFIRM_MODAL);
 	};
 
@@ -237,12 +248,15 @@ const Step2 = () => {
 		}
 	}, [data]);
 	useEffect(() => {
+		const newDayOff: boolean[] = [];
+		newDayOff.push(false);
 		if (businessHourValues.length > 0) {
 			for (let i = 0; i < businessHourValues.length; i++) {
-				if (businessHourValues[i].time === null) {
-					setDayOffStatus({ ...dayOffStatus, [i + 1]: true });
-				}
+				if (businessHourValues[i].time === 'null') {
+					newDayOff.push(true);
+				} else newDayOff.push(false);
 			}
+			setDayOffStatus(newDayOff);
 		}
 	}, [businessHourValues]);
 
@@ -427,7 +441,7 @@ const Step2 = () => {
 								name="businessHour"
 								value="weekDaysWeekEnd"
 								onClick={() => handleSelectedBusinessHourBtn('weekDaysWeekEnd')}
-								defaultChecked={businessHourValues.length === 0}
+								defaultChecked={data === null || data === undefined}
 							/>
 							<label htmlFor="weekDaysWeekEnd">
 								<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
@@ -437,10 +451,10 @@ const Step2 = () => {
 						</StyledLayout.FlexBox>
 						<StyledLayout.FlexBox gap="8px" alignItems="center">
 							<RadioBtn
-								defaultChecked={businessHourValues.length !== 0}
 								name="businessHour"
 								value="eachDays"
 								onClick={() => handleSelectedBusinessHourBtn('eachDays')}
+								defaultChecked={data !== null && data !== undefined}
 							/>
 							<label htmlFor="eachDays">
 								<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
@@ -488,12 +502,12 @@ const Step2 = () => {
 										<TimePicker
 											value={
 												businessHourValues.length > 0
-													? businessHourValues[idx].time !== null
+													? businessHourValues[idx].time !== 'null'
 														? {
-																startHour: businessHourValues[idx].time?.split('~')[0]?.substring(0, 2)?.padStart(2, '0'),
-																startMinutes: businessHourValues[idx].time?.split('~')[0]?.substring(4)?.padStart(2, '0'),
-																endHour: businessHourValues[idx].time?.split('~')[1]?.substring(0, 2)?.padStart(2, '0'),
-																endMinutes: businessHourValues[idx].time?.split('~')[0]?.substring(4)?.padStart(2, '0'),
+																startHour: businessHourValues[idx].time?.split('~')[0]?.substring(0, 2),
+																startMinutes: businessHourValues[idx].time?.split('~')[0]?.substring(3, 5),
+																endHour: businessHourValues[idx].time?.split('~')[1]?.substring(0, 2),
+																endMinutes: businessHourValues[idx].time?.split('~')[1]?.substring(3, 5),
 														  }
 														: {
 																startHour: '10',

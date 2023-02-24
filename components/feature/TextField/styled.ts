@@ -7,13 +7,12 @@ export const TextFieldContainer = styled.div`
 `;
 export const StyledTextFiled = styled.input<{
 	formFlag: boolean | undefined;
-	inputFlag: string;
+	inputFlag: 'normal' | 'error' | 'success' | 'notClicked' | 'fail';
 	readOnly: boolean;
-	isAuthorizedNumber?: string | undefined;
 }>`
 	border: 1px solid
-		${({ theme, inputFlag, formFlag, isAuthorizedNumber }) =>
-			inputFlag === 'error' || formFlag === true || isAuthorizedNumber === 'error' || isAuthorizedNumber === 'notClicked'
+		${({ theme, inputFlag, formFlag }) =>
+			inputFlag === 'error' || formFlag === true || inputFlag === 'fail' ||inputFlag=== 'notClicked'
 				? theme.colors.error
 				: theme.colors.gray_002};
 	padding: 8px 16px;
