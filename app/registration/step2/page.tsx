@@ -431,7 +431,7 @@ const Step2 = () => {
 								name="businessHour"
 								value="weekDaysWeekEnd"
 								onClick={() => handleSelectedBusinessHourBtn('weekDaysWeekEnd')}
-								defaultChecked={businessHourValues.length === 0}
+								defaultChecked={!data}
 							/>
 							<label htmlFor="weekDaysWeekEnd">
 								<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
@@ -441,10 +441,10 @@ const Step2 = () => {
 						</StyledLayout.FlexBox>
 						<StyledLayout.FlexBox gap="8px" alignItems="center">
 							<RadioBtn
-								defaultChecked={businessHourValues.length !== 0}
 								name="businessHour"
 								value="eachDays"
 								onClick={() => handleSelectedBusinessHourBtn('eachDays')}
+								defaultChecked={data !== null || data !== undefined}
 							/>
 							<label htmlFor="eachDays">
 								<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
@@ -497,7 +497,7 @@ const Step2 = () => {
 																startHour: businessHourValues[idx].time?.split('~')[0]?.substring(0, 2),
 																startMinutes: businessHourValues[idx].time?.split('~')[0]?.substring(3, 5),
 																endHour: businessHourValues[idx].time?.split('~')[1]?.substring(0, 2),
-																endMinutes: businessHourValues[idx].time?.split('~')[0]?.substring(3, 5),
+																endMinutes: businessHourValues[idx].time?.split('~')[1]?.substring(3, 5),
 														  }
 														: {
 																startHour: '10',
