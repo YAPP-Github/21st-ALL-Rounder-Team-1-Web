@@ -191,6 +191,9 @@ const AgreeDescriptionWrapper = styled.div<CSSProperties>`
 	background-color: ${({ theme }) => theme.colors.white};
 	${({ theme }) => theme.fonts.body_multiline_005};
 	color: ${({ theme }) => theme.colors.gray_005};
+	text-align: left;
+	white-space: pre-wrap;
+	word-break: keep-all;
 	overflow: scroll;
 `;
 
