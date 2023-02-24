@@ -33,11 +33,10 @@ export interface Step2Error {
 	imgPath: { value: string[]; isError: 'normal' | 'error' };
 	instaAccount: string;
 	callNumber: { value: string; isError: 'normal' | 'error' };
-	registrationNumber: { value: string; isError: 'normal' | 'error' };
+	registrationNumber: { value: string; isError: 'normal' | 'error' | 'success' | 'notClicked' | 'fail' };
 	setInputValue: (inputId: string, inputValue: string) => void;
 	setInitialValue: (data: Store | null) => void;
-	changeError: (inputId: string) => void;
-	changeNormal: (inputId: string) => void;
+	setInputState: (inputId: string, inputState: 'normal' | 'error' | 'success' | 'notClicked' | 'fail') => void;
 }
 
 export const step2ErrorStore = create<Step2Error>()(
@@ -71,8 +70,8 @@ export const step2ErrorStore = create<Step2Error>()(
 		},
 		setInputValue: (inputId: string, inputValue: string) =>
 			set((state) => ({ [inputId]: { ...state.inputId, value: inputValue } })),
-		changeError: (inputId: string) => set((state) => ({ [inputId]: { ...state[inputId], isError: 'error' } })),
-		changeNormal: (inputId: string) => set((state) => ({ [inputId]: { ...state[inputId], isError: 'normal' } })),
+		setInputState: (inputId: string, inputState: 'normal' | 'error' | 'success' | 'notClicked' | 'fail') =>
+			set((state) => ({ [inputId]: { ...state[inputId], isError: inputState } })),
 	})),
 );
 export const step2RequestStore = create<Step2Store>()(

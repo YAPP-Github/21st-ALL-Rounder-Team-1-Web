@@ -21,7 +21,7 @@ export interface Products {
 	removeProduct: (productArrName: string, elementIdx: number) => void;
 	onChangeBrandName: (productArrName: string, elementIdx: number, value: string) => void;
 	onChangeProductName: (productArrName: string, elementIdx: number, value: string) => void;
-	changeError: () => number;
+	changeError: () => [number, string];
 	changeNormal: (productArrName: string, elementIdx: number) => void;
 	setError: (productArrName: string) => number;
 	setProduct: (items: GetItem[]) => void;
@@ -70,26 +70,45 @@ export const productStore = create<Products>()(
 			}));
 		},
 		changeError: () => {
+			let firstErrorId = '';
 			set(() => ({
-				baseMakeUp: get().baseMakeUp.map((item) =>
-					item.productName === '' && item.brandName !== '' ? { ...item, isProductEmptyError: 'error' } : item,
-				),
-				bodyHair: get().bodyHair.map((item) =>
-					item.productName === '' && item.brandName !== '' ? { ...item, isProductEmptyError: 'error' } : item,
-				),
-				detergent: get().detergent.map((item) =>
-					item.productName === '' && item.brandName !== '' ? { ...item, isProductEmptyError: 'error' } : item,
-				),
-				ingredient: get().ingredient.map((item) =>
-					item.productName === '' && item.brandName !== '' ? { ...item, isProductEmptyError: 'error' } : item,
-				),
-				etc: get().etc.map((item) =>
-					item.productName === '' && item.brandName !== '' ? { ...item, isProductEmptyError: 'error' } : item,
-				),
+				baseMakeUp: get().baseMakeUp.map((item) => {
+					if (item.productName === '' && item.brandName !== '') {
+						if (firstErrorId === '') firstErrorId = 'baseMakeUp';
+						return { ...item, isProductEmptyError: 'error' };
+					} else return item;
+				}),
+				bodyHair: get().bodyHair.map((item) => {
+					if (item.productName === '' && item.brandName !== '') {
+						if (firstErrorId === '') firstErrorId = 'bodyHair';
+						return { ...item, isProductEmptyError: 'error' };
+					} else return item;
+				}),
+				detergent: get().detergent.map((item) => {
+					if (item.productName === '' && item.brandName !== '') {
+						if (firstErrorId === '') firstErrorId = 'detergent';
+						return { ...item, isProductEmptyError: 'error' };
+					} else return item;
+				}),
+				ingredient: get().ingredient.map((item) => {
+					if (item.productName === '' && item.brandName !== '') {
+						if (firstErrorId === '') firstErrorId = 'ingredient';
+						return { ...item, isProductEmptyError: 'error' };
+					} else return item;
+				}),
+				etc: get().etc.map((item) => {
+					if (item.productName === '' && item.brandName !== '') {
+						if (firstErrorId === '') firstErrorId = 'etc';
+						return { ...item, isProductEmptyError: 'error' };
+					} else return item;
+				}),
 			}));
-			return [...get().baseMakeUp, ...get().bodyHair, ...get().detergent, ...get().ingredient, ...get().etc].filter(
-				(item) => item.isProductEmptyError === 'error',
-			).length;
+			return [
+				[...get().baseMakeUp, ...get().bodyHair, ...get().detergent, ...get().ingredient, ...get().etc].filter(
+					(item) => item.isProductEmptyError === 'error',
+				).length,
+				firstErrorId,
+			];
 		},
 		changeNormal: (productArrName: string, elementIdx: number) => {
 			get()[productArrName][elementIdx].isProductEmptyError === 'error' &&

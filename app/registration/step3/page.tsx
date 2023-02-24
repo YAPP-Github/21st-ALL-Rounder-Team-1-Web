@@ -37,7 +37,16 @@ const Step3 = () => {
 		router.push(`/mypage/store`);
 	};
 	const handleTemporarySave = async () => {
-		if (changeError() !== 0) return;
+		if (changeError()[0] !== 0) {
+			const emptyComponent: HTMLElement | null = document.getElementById(changeError()[1].toString());
+			if (emptyComponent && emptyComponent !== null && changeError()[1] !== '') {
+				window.scrollTo({
+					top: emptyComponent.getBoundingClientRect().top - 110 + window.scrollY,
+					behavior: 'smooth',
+				});
+			}
+			return;
+		}
 		if (
 			[...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc].filter((item) => item.productName !== '').length === 0
 		) {
@@ -50,7 +59,16 @@ const Step3 = () => {
 		setTimeout(() => setTemporarySaveToast(false), 2000);
 	};
 	const handleSaveItems = () => {
-		if (changeError() !== 0) return;
+		if (changeError()[0] !== 0) {
+			const emptyComponent: HTMLElement | null = document.getElementById(changeError()[1].toString());
+			if (emptyComponent && emptyComponent !== null && changeError()[1] !== '') {
+				window.scrollTo({
+					top: emptyComponent.getBoundingClientRect().top - 110 + window.scrollY,
+					behavior: 'smooth',
+				});
+			}
+			return;
+		}
 		if (
 			[...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc].filter((item) => item.productName !== '').length === 0
 		) {
@@ -64,7 +82,6 @@ const Step3 = () => {
 	const submitData = async () => {
 		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
 		const response = await postItems(Number(query.get('id')), request);
-
 		changeModalKey(MODAL_KEY.OFF);
 		router.push('/registration/success');
 	};
@@ -85,7 +102,7 @@ const Step3 = () => {
 						기초화장 / 세안
 					</Typography>
 				</StAccordionSummary>
-				<StAccordionDetails>
+				<StAccordionDetails id="baseMakeUp">
 					{baseMakeUp.map(({ brandName, productName, isProductEmptyError }, index) => {
 						return (
 							<ProductInfoElement
@@ -107,7 +124,7 @@ const Step3 = () => {
 						바디 / 헤어
 					</Typography>
 				</StAccordionSummary>
-				<StAccordionDetails>
+				<StAccordionDetails id="bodyHair">
 					{bodyHair.map(({ brandName, productName, isProductEmptyError }, index) => {
 						return (
 							<ProductInfoElement
@@ -128,7 +145,7 @@ const Step3 = () => {
 						세제
 					</Typography>
 				</StAccordionSummary>
-				<StAccordionDetails>
+				<StAccordionDetails id="detergent">
 					{detergent.map(({ brandName, productName, isProductEmptyError }, index) => {
 						return (
 							<ProductInfoElement
@@ -149,7 +166,7 @@ const Step3 = () => {
 						식재료
 					</Typography>
 				</StAccordionSummary>
-				<StAccordionDetails>
+				<StAccordionDetails id="ingredient">
 					{ingredient.map(({ brandName, productName, isProductEmptyError }, index) => {
 						return (
 							<ProductInfoElement
@@ -170,7 +187,7 @@ const Step3 = () => {
 						기타
 					</Typography>
 				</StAccordionSummary>
-				<StAccordionDetails>
+				<StAccordionDetails id="etc">
 					{etc.map(({ brandName, productName, isProductEmptyError }, index) => {
 						return (
 							<ProductInfoElement

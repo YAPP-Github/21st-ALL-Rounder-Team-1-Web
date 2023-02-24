@@ -72,8 +72,7 @@ const Step2 = () => {
 		instaAccount,
 		callNumber,
 		registrationNumber,
-		changeNormal,
-		changeError,
+		setInputState,
 		setInitialValue,
 		setInputValue,
 	} = step2ErrorStore();
@@ -87,7 +86,6 @@ const Step2 = () => {
 	const dayOffRef = useRef<null[] | Array<RefObject<HTMLButtonElement>> | HTMLButtonElement[]>([]);
 	const [dayOffStatus, setDayOffStatus] = useState<boolean[]>([false, false, false, false, false, false, false, false]);
 	const [storeCallNumber, setStoreCallNumber] = useState('');
-	const [businessLicenseStatus, setBusinessLicenseStatus] = useState<'normal' | 'success' | 'error' | 'notClicked'>('normal');
 	const [selectedStoreImageBtn, setSelectedStoreImageBtn] = useState(imgPath.value[0] ? 'registrationImage' : 'defaultImage');
 	const [clientStoreImageURL, setClientStoreImageURL] = useState('');
 	const [S3ImagePath, setS3ImagePath] = useState(imgPath.value[0] ?? '');
@@ -97,15 +95,29 @@ const Step2 = () => {
 
 	const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const emptyInput = checkEmptyInputError(e.currentTarget.step2, changeError);
-		if (e.currentTarget.step2[0].value !== '' && businessLicenseStatus === 'normal') {
-			setBusinessLicenseStatus('notClicked');
+		const emptyInput = checkEmptyInputError(e.currentTarget.step2, setInputState);
+		if (e.currentTarget.step2[0].value !== '' && registrationNumber.isError === 'normal') {
+			setInputState('registrationNumber', 'notClicked');
+		}
+		if (registrationNumber.isError === 'fail' || registrationNumber.isError === 'notClicked') {
+			const registrationNumComponent: HTMLElement | null = document.getElementById('registrationNumber');
+			if (registrationNumComponent && registrationNumComponent !== null) {
+				window.scrollTo({
+					top: registrationNumComponent.scrollHeight - 140 + window.scrollY,
+					behavior: 'smooth',
+				});
+			}
+			return;
+		} else if (emptyInput[0] !== 0 && emptyInput[2] !== '' && document.getElementById(emptyInput[2].toString())) {
+			const emptyComponent: HTMLElement | null = document.getElementById(emptyInput[2].toString());
+			if (emptyComponent && emptyComponent !== null) {
+				window.scrollTo({
+					top: emptyComponent.getBoundingClientRect().top - 140 + window.scrollY,
+					behavior: 'smooth',
+				});
+			}
 			return;
 		}
-
-		if (businessLicenseStatus === 'error' || businessLicenseStatus === 'notClicked') return;
-
-		if (emptyInput[0] !== 0) return;
 
 		await saveStep2UserInput(e.currentTarget.step2, setStep2Request);
 		await makeBusinessHourData(dayOffRef, selectedBusinessHourBtn, setStep2Request);
@@ -125,7 +137,6 @@ const Step2 = () => {
 	};
 	const submitEditInputs = async () => {
 		const step2EditResponse = await patchStore({ ...step2Request, id: Number(query.get('storeId')) });
-
 		router.push(`/mypage/store`);
 	};
 	const handleSelectedStoreImageBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -141,7 +152,7 @@ const Step2 = () => {
 	};
 	const handleExtractedPostCode = (extractedPostcode: string[]) => {
 		const [zonecode, address] = extractedPostcode;
-		if (address !== '') changeNormal('basicAddress');
+		if (address !== '') setInputState('basicAddress', 'normal');
 		setStorePostcodeInputs({
 			...storePostcodeInputs,
 			address,
@@ -152,13 +163,6 @@ const Step2 = () => {
 			...storePostcodeInputs,
 			detailAddress: event.target.value,
 		});
-	};
-	const handleHoverState = () => {
-		if (businessLicenseStatus === 'error' || businessLicenseStatus === 'notClicked') {
-			setBusinessLicenseStatus('normal');
-		}
-
-		changeNormal('registrationNumber');
 	};
 	const handleTimePickerInput = (arrIndex: number) => {
 		setDayOffStatus({ ...dayOffStatus, [arrIndex]: !dayOffStatus[arrIndex] });
@@ -178,10 +182,10 @@ const Step2 = () => {
 		const { b_stt_cd, tax_type } = businessLicenseStatusResponse.data.data[0];
 
 		if (tax_type === '국세청에 등록되지 않은 사업자등록번호입니다.') {
-			setBusinessLicenseStatus('error');
+			setInputState('registrationNumber', 'fail');
 		}
 		if (b_stt_cd === '01') {
-			setBusinessLicenseStatus('success');
+			setInputState('registrationNumber', 'success');
 		}
 		businessLicenseInputRef.current.blur();
 	};
@@ -192,7 +196,7 @@ const Step2 = () => {
 			const { url } = await uploadToS3(e.target.files[0]);
 			setS3ImagePath(url);
 		}
-		changeNormal('imgPath');
+		setInputState('imgPath', 'normal');
 	};
 
 	const handleFindCoords = async (storeAddress: string) => {
@@ -259,8 +263,7 @@ const Step2 = () => {
 							key={registrationNumber.value}
 							value={registrationNumber.value}
 							inputFlag={registrationNumber.isError}
-							isAuthorizedNumber={businessLicenseStatus}
-							onFocus={handleHoverState}
+							onFocus={() => setInputState('registrationNumber', 'normal')}
 							placeholder="‘-‘ 를 빼고 숫자만 입력해주세요"
 						/>
 						<StoreResistrationSmallBtn type="button" width={{ width: '106px' }} onClick={handleBusinessLicenseStatusCheck}>
@@ -278,7 +281,7 @@ const Step2 = () => {
 						emptyErrorMessage="상호를 입력해주세요"
 						name="step2"
 						id="name"
-						onFocus={() => changeNormal('name')}
+						onFocus={() => setInputState('name', 'normal')}
 						inputFlag={name.isError}
 						width="320px"
 						placeholder="상호명을 입력해주세요"
@@ -296,7 +299,7 @@ const Step2 = () => {
 						emptyErrorMessage="매장 전화번호를 입력해주세요"
 						name="step2"
 						id="callNumber"
-						onFocus={() => changeNormal('callNumber')}
+						onFocus={() => setInputState('callNumber', 'normal')}
 						inputFlag={callNumber.isError}
 						width="320px"
 						placeholder="‘-‘ 를 포함하여 입력해주세요"
@@ -328,7 +331,7 @@ const Step2 = () => {
 					</StyledLayout.FlexBox>
 					<TextField
 						emptyErrorMessage="상세 주소를 입력해주세요"
-						onFocus={() => changeNormal('addressDetail')}
+						onFocus={() => setInputState('addressDetail', 'normal')}
 						inputFlag={addressDetail.isError}
 						value={storePostcodeInputs.detailAddress}
 						name="step2"
@@ -365,7 +368,7 @@ const Step2 = () => {
 					</StyledLayout.FlexBox>
 					<StyledLayout.FlexBox>
 						<RadioBtn
-							onClick={() => changeNormal('imgPath')}
+							onClick={() => setInputState('imgPath', 'normal')}
 							name="storeImage"
 							value="registerImage"
 							onChange={handleSelectedStoreImageBtn}
@@ -450,10 +453,10 @@ const Step2 = () => {
 						<StyledLayout.FlexBox flexDirection="column" gap="12px">
 							<StyledLayout.FlexBox>
 								<StyledLayout.FlexBox flexDirection="column" gap="6px">
-									<Typography variant="h3" aggressive="button_001" color="gray_007">
+									<Typography variant="h3" aggressive="button_001" color={theme.colors.gray_007}>
 										평일
 									</Typography>
-									<Typography variant="h4" aggressive="body_oneline_004" color="gray_005" margin="0 20px 0 0">
+									<Typography variant="h4" aggressive="body_oneline_004" color={theme.colors.gray_005} margin="0 20px 0 0">
 										(월~금)
 									</Typography>
 								</StyledLayout.FlexBox>
@@ -461,10 +464,10 @@ const Step2 = () => {
 							</StyledLayout.FlexBox>
 							<StyledLayout.FlexBox>
 								<StyledLayout.FlexBox flexDirection="column" gap="6px">
-									<Typography variant="h3" aggressive="button_001" color="gray_007">
+									<Typography variant="h3" aggressive="button_001" color={theme.colors.gray_007}>
 										주말
 									</Typography>
-									<Typography variant="h4" aggressive="body_oneline_004" color="gray_005" margin="0 20px 0 0">
+									<Typography variant="h4" aggressive="body_oneline_004" color={theme.colors.gray_005} margin="0 20px 0 0">
 										(토~일)
 									</Typography>
 								</StyledLayout.FlexBox>
@@ -525,7 +528,7 @@ const Step2 = () => {
 						name="step2"
 						id="notice"
 						inputFlag={notice.isError}
-						onFocus={() => changeNormal('notice')}
+						onFocus={() => setInputState('notice', 'normal')}
 						width="320px"
 						key={notice.value}
 						defaultValue={notice.value}

@@ -9,19 +9,24 @@ export const extractBusinessLicenseExceptHyhpen = (businessLicense: string) => {
 		.join('');
 };
 export const emailRegEx = /^[A-Za-z0-9]*@[A-Za-z0-9]*\.[A-Za-z]{2,3}$/;
-export const checkEmptyInputError = (inputArr: RadioNodeList, changeError: (inputId: string) => void) => {
+export const checkEmptyInputError = (
+	inputArr: RadioNodeList,
+	setInputState: (inputId: string, inputState: 'normal' | 'error' | 'success' | 'notClicked' | 'fail') => void,
+) => {
 	let emptyInput = 0;
 	let flag = false;
+	let firstError = '';
 	for (let i = 0; i < inputArr.length; i++) {
 		if ((inputArr[i] as HTMLInputElement).value === '' && (inputArr[i] as HTMLInputElement).id !== 'instaAccount') {
-			changeError((inputArr[i] as HTMLInputElement).id);
+			setInputState((inputArr[i] as HTMLInputElement).id, 'error');
 			emptyInput++;
+			if (firstError === '') firstError = (inputArr[i] as HTMLInputElement).id;
 		}
 		if ((inputArr[i] as HTMLInputElement).id === 'email') {
 			if (!emailRegEx.test((inputArr[i] as HTMLInputElement).value)) flag = true;
 		}
 	}
-	return [emptyInput, flag];
+	return [emptyInput, flag, firstError];
 };
 
 export const saveStep2UserInput = async (
