@@ -106,6 +106,7 @@ const Root = () => {
 							borderradius={'8px'}
 							backgroundcolor={theme.colors.primary_010}
 							color={theme.colors.white}
+							hoverOpacity={'0.8'}
 						>
 							<Typography variant="span" aggressive="button_000">
 								입점 신청
@@ -117,6 +118,8 @@ const Root = () => {
 							flex={1}
 							border={`1px solid ${theme.colors.gray_002}`}
 							borderradius={'8px'}
+							backgroundcolor={theme.colors.white}
+							hoverBackgroundColor={theme.colors.gray_001}
 							color={theme.colors.gray_006}
 						>
 							<Typography variant="span" aggressive="button_000">
@@ -231,7 +234,7 @@ const Root = () => {
 									{title}
 								</Typography>
 								<Divider direction="horizontal" width="996px" height="1px" margin="20px 0 16px 0" color={theme.colors.gray_002} />
-								<Typography variant="p" aggressive="body_multiline_001" color={theme.colors.gray_006}>
+								<Typography variant="p" aggressive="body_multiline_001" color={theme.colors.gray_006} whiteSpace={'pre-wrap'}>
 									{description}
 								</Typography>
 							</div>
@@ -259,6 +262,7 @@ const Root = () => {
 						borderradius={'8px'}
 						backgroundcolor={theme.colors.primary_010}
 						color={theme.colors.white}
+						hoverOpacity={'0.8'}
 					>
 						<Typography variant="span" aggressive="button_000">
 							입점 신청
@@ -275,6 +279,8 @@ export default Root;
 type LinkBtnProps = {
 	borderradius?: string;
 	backgroundcolor?: string;
+	hoverOpacity?: string;
+	hoverBackgroundColor?: string;
 } & CSSProperties;
 
 const StyledLinkBtn = styled(Link)<LinkBtnProps>`
@@ -287,6 +293,11 @@ const StyledLinkBtn = styled(Link)<LinkBtnProps>`
 	border-radius: ${({ borderradius }) => borderradius};
 	background-color: ${({ backgroundcolor }) => backgroundcolor};
 	color: ${({ color }) => color};
+
+	&:hover {
+		background-color: ${({ hoverBackgroundColor }) => hoverBackgroundColor};
+		opacity: ${({ hoverOpacity }) => hoverOpacity};
+	}
 `;
 
 const Card = styled.div`

@@ -102,7 +102,7 @@ type DividerProps = {
 	color: string;
 };
 
-export const Divider = styled.span<DividerProps>`
+export const Divider = styled.div<DividerProps>`
 	width: ${({ width }) => width};
 	height: ${({ height }) => height};
 	min-width: ${({ width }) => width};

@@ -1,18 +1,18 @@
-import React from 'react';
 import { StyledLayout, Typography } from 'components/shared';
 import { Divider } from 'components/shared/styled/layout';
-import * as S from './styled';
-import theme from 'styles/theme';
 import { InstagramIcon } from 'public/static/icons';
+import React from 'react';
+import theme from 'styles/theme';
+import * as S from './styled';
 
 const REFERCENCE_LINKS = {
-	SERVICE_INTRODUCE: 'https://heliotrope-decision-218.notion.site/Pump-8d0eb93581d640799030a34cbff082c0',
-	SERVICE_TERMS: 'https://heliotrope-decision-218.notion.site/4c15be8a033e4d5ba1f413712d2e4aff',
-	SERVICE_POLICY: 'https://heliotrope-decision-218.notion.site/d8dc6eba03a5432c98d618f03508aa24',
+	SERVICE_INTRODUCE: 'https://pumprefill.notion.site/pumprefill/Pump-8d0eb93581d640799030a34cbff082c0',
+	SERVICE_TERMS: 'https://pumprefill.notion.site/4c15be8a033e4d5ba1f413712d2e4aff',
+	SERVICE_POLICY: 'https://pumprefill.notion.site/d8dc6eba03a5432c98d618f03508aa24',
 } as const;
 
 const SOCIAL_LINKS = {
-	INSTAGRAM: 'https://www.instagram.com/pump_official/',
+	INSTAGRAM: 'https://www.instagram.com/pump_refillactivater/',
 };
 
 const Footer = () => {
