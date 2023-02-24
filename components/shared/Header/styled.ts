@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import { LinkWrapper } from 'components/shared/styled/layout';
+import styled from 'styled-components';
 
 export const Container = styled.header`
 	position: fixed;
@@ -33,7 +33,7 @@ export const NavigationItem = styled.li`
 	color: ${({ theme }) => theme.colors.gray_005};
 
 	&:hover {
-		color: ${({ theme }) => theme.colors.gray_007};
+		opacity: 0.8;
 	}
 `;
 
