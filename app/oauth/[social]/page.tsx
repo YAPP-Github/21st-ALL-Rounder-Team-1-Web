@@ -59,6 +59,9 @@ const OAuthCallbackPage = () => {
 
 			router.replace(`/`);
 		} else {
+			console.info(name, email, imgPath, oauthIdentity);
+			console.error(name, email, imgPath, oauthIdentity);
+
 			setOAuthResponse({
 				name,
 				email,

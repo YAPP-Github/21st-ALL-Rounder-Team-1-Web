@@ -28,9 +28,6 @@ const SignUp = () => {
 	const { oauthResponse } = useOAuthResponseStore();
 	const { email, oauthType } = oauthResponse;
 
-	console.info(oauthResponse);
-	console.error(oauthResponse);
-
 	const { setUserSession } = useUserSessionStore();
 
 	const [signupAgreementForm, setSignupAgreementForm] = useState<{ [key: string]: boolean }>({
