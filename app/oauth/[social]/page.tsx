@@ -57,7 +57,7 @@ const OAuthCallbackPage = () => {
 			const userSession = await getUserSession();
 			setUserSession(userSession);
 
-			router.replace(`/`);
+			router.push(`/`);
 		} else {
 			console.info(name, email, imgPath, oauthIdentity);
 			console.error(name, email, imgPath, oauthIdentity);
