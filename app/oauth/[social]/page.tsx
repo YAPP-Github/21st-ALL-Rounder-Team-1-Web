@@ -59,8 +59,6 @@ const OAuthCallbackPage = () => {
 
 			router.replace(`/`);
 		} else {
-			console.info(`callback page`, name, email, imgPath, oauthIdentity);
-
 			setOAuthResponse({
 				name,
 				email,
@@ -75,9 +73,7 @@ const OAuthCallbackPage = () => {
 	};
 
 	useEffect(() => {
-		setTimeout(() => {
-			handleOAuthCallback();
-		}, 1000);
+		handleOAuthCallback();
 	}, [isMounted]);
 
 	return (
