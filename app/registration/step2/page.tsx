@@ -136,7 +136,7 @@ const Step2 = () => {
 		await handleFindCoords(storePostcodeInputs.address);
 		await makeImgPath(selectedStoreImageBtn, S3ImagePath, setStep2Request);
 
-		if (query === null) changeModalKey(MODAL_KEY.ON_STORE_REGISTRATION_STEP_CHANGE_CONFIRM_MODAL);
+		if (query.toString() === '') changeModalKey(MODAL_KEY.ON_STORE_REGISTRATION_STEP_CHANGE_CONFIRM_MODAL);
 		else changeModalKey(MODAL_KEY.ON_STORE_EDIT_COMPLETION_CONFIRM_MODAL);
 	};
 
