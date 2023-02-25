@@ -10,7 +10,7 @@ import {
 } from 'hooks/api/auth/useSignin';
 import { getUserSession } from 'hooks/api/auth/useUserSession';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import useOAuthResponseStore from 'store/actions/oauthStore';
 import useUserSessionStore from 'store/actions/userSessionStore';
 import { setUserTokenInLocalStorage } from 'utils/storage';
@@ -22,6 +22,14 @@ const OAuthCallbackPage = () => {
 	const [isMounted, setIsMounted] = useState(false);
 	const { setOAuthResponse } = useOAuthResponseStore();
 	const { setUserSession } = useUserSessionStore();
+
+	const handleGetAuthorizationCode = () => {
+		const queryString = window.location.search;
+		const urlParams = new URLSearchParams(queryString);
+
+		const authorizationCode = urlParams.get('code') ?? '';
+		return authorizationCode;
+	};
 
 	const handleOAuthCallback = async () => {
 		if (!isMounted) {
@@ -37,11 +45,13 @@ const OAuthCallbackPage = () => {
 		const { access_token } =
 			social === 'kakao' ? await postKakaoAccessToken(authorizationCode) : await getNaverAccessToken(authorizationCode);
 
+		console.info(access_token);
+		console.error(access_token);
+
 		// 3. Get JWT from Pump Server
 		const userInfoWithJwtToken =
 			social === 'kakao' ? await getOAuthSigninKakaoApi(access_token) : await getOAuthSigninNaverApi(access_token);
 
-		console.info(userInfoWithJwtToken);
 		// 3. Check Validate Token and Success or Fail Process
 		const { name, email, imgPath, oauthIdentity } = userInfoWithJwtToken;
 		if (userInfoWithJwtToken.jwt) {
@@ -64,15 +74,7 @@ const OAuthCallbackPage = () => {
 		}
 	};
 
-	const handleGetAuthorizationCode = () => {
-		const queryString = window.location.search;
-		const urlParams = new URLSearchParams(queryString);
-
-		const authorizationCode = urlParams.get('code') ?? '';
-		return authorizationCode;
-	};
-
-	useEffect(() => {
+	useLayoutEffect(() => {
 		handleOAuthCallback();
 	}, [isMounted]);
 
