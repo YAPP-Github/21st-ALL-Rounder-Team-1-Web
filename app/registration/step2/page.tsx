@@ -127,7 +127,6 @@ const Step2 = () => {
 			}
 			return;
 		}
-		console.log(registrationNumber.isError);
 		await saveStep2UserInput(e.currentTarget.step2, setStep2Request);
 		await makeBusinessHourData(dayOffRef, selectedBusinessHourBtn, setStep2Request);
 		await makeStoreAddress(storePostcodeInputs, setStep2Request);
