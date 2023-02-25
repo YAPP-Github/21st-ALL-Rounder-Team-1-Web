@@ -49,9 +49,6 @@ const OAuthCallbackPage = () => {
 		const userInfoWithJwtToken =
 			social === 'kakao' ? await getOAuthSigninKakaoApi(access_token) : await getOAuthSigninNaverApi(access_token);
 
-		console.info(userInfoWithJwtToken);
-		console.error(userInfoWithJwtToken);
-
 		// 3. Check Validate Token and Success or Fail Process
 		const { name, email, imgPath, oauthIdentity } = userInfoWithJwtToken;
 		if (userInfoWithJwtToken.jwt) {
