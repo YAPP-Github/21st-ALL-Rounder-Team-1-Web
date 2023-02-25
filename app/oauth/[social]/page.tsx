@@ -57,7 +57,7 @@ const OAuthCallbackPage = () => {
 			const userSession = await getUserSession();
 			setUserSession(userSession);
 
-			router.push(`/`);
+			router.replace(`/`);
 		} else {
 			console.info(`callback page`, name, email, imgPath, oauthIdentity);
 
@@ -69,12 +69,15 @@ const OAuthCallbackPage = () => {
 				type: 'BOSS',
 				oauthType: social.toUpperCase(),
 			});
-			router.push(`/signup`);
+
+			router.replace(`/signup`);
 		}
 	};
 
 	useEffect(() => {
-		handleOAuthCallback();
+		setTimeout(() => {
+			handleOAuthCallback();
+		}, 1000);
 	}, [isMounted]);
 
 	return (
