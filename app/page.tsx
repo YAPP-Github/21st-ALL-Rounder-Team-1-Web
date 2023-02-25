@@ -106,7 +106,7 @@ const Root = () => {
 							borderradius={'8px'}
 							backgroundcolor={theme.colors.primary_010}
 							color={theme.colors.white}
-							hoverOpacity={'0.8'}
+							hoveropacity={'0.8'}
 						>
 							<Typography variant="span" aggressive="button_000">
 								입점 신청
@@ -119,7 +119,7 @@ const Root = () => {
 							border={`1px solid ${theme.colors.gray_002}`}
 							borderradius={'8px'}
 							backgroundcolor={theme.colors.white}
-							hoverBackgroundColor={theme.colors.gray_001}
+							hoverbackgroundcolor={theme.colors.gray_001}
 							color={theme.colors.gray_006}
 						>
 							<Typography variant="span" aggressive="button_000">
@@ -262,7 +262,7 @@ const Root = () => {
 						borderradius={'8px'}
 						backgroundcolor={theme.colors.primary_010}
 						color={theme.colors.white}
-						hoverOpacity={'0.8'}
+						hoveropacity={'0.8'}
 					>
 						<Typography variant="span" aggressive="button_000">
 							입점 신청
@@ -279,8 +279,8 @@ export default Root;
 type LinkBtnProps = {
 	borderradius?: string;
 	backgroundcolor?: string;
-	hoverOpacity?: string;
-	hoverBackgroundColor?: string;
+	hoveropacity?: string;
+	hoverbackgroundcolor?: string;
 } & CSSProperties;
 
 const StyledLinkBtn = styled(Link)<LinkBtnProps>`
@@ -295,8 +295,8 @@ const StyledLinkBtn = styled(Link)<LinkBtnProps>`
 	color: ${({ color }) => color};
 
 	&:hover {
-		background-color: ${({ hoverBackgroundColor }) => hoverBackgroundColor};
-		opacity: ${({ hoverOpacity }) => hoverOpacity};
+		background-color: ${({ hoverbackgroundcolor }) => hoverbackgroundcolor};
+		opacity: ${({ hoveropacity }) => hoveropacity};
 	}
 `;
 
