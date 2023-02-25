@@ -1,13 +1,15 @@
 import * as styled from 'styled-components';
 import normalize from 'styled-normalize';
+import theme from 'styles/theme';
 
 const GlobalStyle = styled.createGlobalStyle`
 	${normalize};
 
-	* {
+	*,
+	*:after,
+	*:before {
 		box-sizing: border-box;
-		font-size: 62.5%; // 10px->1rem
-		min-width: 320px;
+		font-size: 62.5%; // 10px -> 1rem
 	}
 
 	html,
@@ -94,11 +96,11 @@ const GlobalStyle = styled.createGlobalStyle`
 		margin: 0;
 		padding: 0;
 		border: 0;
-		font-size: 62.5%; //10px->1rem
+		font-size: 10px;
 		font: inherit;
 		vertical-align: baseline;
 	}
-	/* HTML5 display-role reset for older browsers */
+
 	article,
 	aside,
 	details,
@@ -150,27 +152,20 @@ const GlobalStyle = styled.createGlobalStyle`
 		height: 10rem;
 		border-radius: 1.6rem;
 	}
-	body,
-	html {
-		min-width: 1921px;
-		height: auto;
-		font-family: Pretendard;
-		font-size: 62.5%;
-	}
+
 	a {
 		text-decoration: none;
 		color: inherit;
 	}
 	input,
 	button {
-		outline: none;
+		padding: 0;
 		border: none;
 		background-color: transparent;
-	}
-	button {
-		padding: 0;
+		outline: none;
 		cursor: pointer;
 	}
+
 	input {
 		-webkit-appearance: none; /* Safari and Chrome */
 		-moz-appearance: none; /* Firefox */
@@ -204,6 +199,104 @@ const GlobalStyle = styled.createGlobalStyle`
 	textarea:focus:-ms-input-placeholder {
 		/* Internet Explorer 10+ */
 		color: transparent;
+	}
+
+	// Web Accessibility Styles - IR
+	.visually-hidden {
+		position: absolute !important;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: 0;
+		border: 0;
+		overflow: hidden;
+		clip: rect(1px 1px 1px 1px); /* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
+		clip: rect(1px, 1px, 1px, 1px); /*maybe deprecated but we need to support legacy browsers */
+		clip-path: inset(50%); /*modern browsers, clip-path works inwards from each corner*/
+		white-space: nowrap; /* added line to stop words getting smushed together (as they go onto seperate lines and some screen readers do not understand line feeds as a space */
+	}
+
+	.modal-title {
+		padding-bottom: 8px;
+		font: ${theme.fonts.headline_oneline_004};
+	}
+
+	.modal-description {
+		font: ${theme.fonts.body_oneline_002};
+	}
+
+	.modal-btn-single-wrapper {
+		max-height: 50px;
+		margin-top: 32px;
+
+		& > :nth-of-type(1) {
+			flex: 1;
+			width: 200px;
+			margin: 0 auto;
+		}
+	}
+
+	.modal-primary-btn-single-wrapper {
+		max-height: 50px;
+		margin-top: 40px;
+
+		& > :nth-of-type(1) {
+			flex: 1;
+			width: 200px;
+			margin: 0 auto;
+		}
+	}
+
+	.modal-btn-multi-wrapper {
+		display: flex;
+		gap: 8px;
+		max-height: 50px;
+		margin-top: 32px;
+
+		& > :nth-of-type(1) {
+			flex: 1;
+			width: 200px;
+		}
+
+		& > :nth-of-type(2) {
+			flex: 1;
+			width: 200px;
+		}
+	}
+
+	.modal-social-title {
+		padding-bottom: 16px;
+		font: ${theme.fonts.headline_multiline_002};
+	}
+
+	.modal-social-btn-wrapper {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		width: 400px;
+		height: 130px;
+		margin-top: 68px;
+
+		& > .social-login-btn {
+			flex: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 8px;
+			height: 60px;
+			border-radius: 8px;
+			font: ${theme.fonts.button_001};
+		}
+
+		& > .social-login-btn.naver {
+			background: #06bd34;
+			color: #ffffff;
+		}
+
+		& > .social-login-btn.kakao {
+			background: #fbe54d;
+			color: #351d1c;
+		}
 	}
 `;
 

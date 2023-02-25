@@ -9,7 +9,8 @@
 		"ecmaFeatures": { "jsx": true },
 		"ecmaVersion": "latest",
 		"sourceType": "module",
-        "project": "./tsconfig.json"
+        "project": "./tsconfig.json",
+		"createDefaultProgram": true
 	},
 	"overrides": [
 		{
@@ -20,9 +21,20 @@
 	"rules": {
 		"@typescript-eslint/explicit-function-return-type": "off",
 		"@typescript-eslint/triple-slash-reference": "off",
+		"@typescript-eslint/consistent-type-definitions": "off",
+		"@typescript-eslint/strict-boolean-expressions": "off",
+		"@typescript-eslint/restrict-plus-operands": "off",	// 빈 데이터에 대한 "+=" 연산자를 방지하는 룰  
+		"@typescript-eslint/restrict-template-expressions": "off",	// any 타입 데이터를 literal template 에 사용하려고 하면 발동하는 룰
+		"@typescript-eslint/naming-convention": "off",	// 외부 API Response 는 Naming Convention 이 다를 수 있음
+		"@typescript-eslint/no-misused-promises": ["error", { "checksVoidReturn": { "attributes": false }}],
+		"@typescript-eslint/no-floating-promises": "off",
+		"@typescript-eslint/no-unused-vars": "off",
+		"@typescript-eslint/no-unnecessary-boolean-literal-compare": "off",	// boolean eqeqeq 비교시 에러 발생 X
+		"no-constant-condition": "off",
+		"no-useless-return": "off",
+		"no-unused-vars": "off",
 		"react/react-in-jsx-scope": "off",
 		"no-var": "error",
-		"no-unused-vars": ["error", { "args": "none" }],
 		"eqeqeq": "error",
 		"no-console": ["error", { "allow": ["info", "warn", "error"] }]
 	}

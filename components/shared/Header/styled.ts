@@ -1,22 +1,50 @@
-import Link from 'next/link';
+import { LinkWrapper } from 'components/shared/styled/layout';
 import styled from 'styled-components';
 
 export const Container = styled.header`
+	position: fixed;
+	top: 0;
+	left: 0;
 	display: flex;
-	background-color: #d9d9d9;
+	width: 100%;
+	background-color: ${({ theme }) => theme.colors.white};
+	box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+	z-index: 100;
 `;
 
 export const GlobalNavigation = styled.nav`
 	display: flex;
-	justify-content: center;
+	align-items: center;
+	justify-content: space-between;
 	width: 100%;
-	min-height: 80px;
+	min-height: 78px;
 `;
 
-export const NavigationItem = styled(Link)<{ selected: boolean }>`
+export const LogoWrapper = styled(LinkWrapper)`
+	display: flex;
+	align-items: center;
+`;
+
+export const NavigationItem = styled.li`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-weight: ${({ selected }) => selected && '700'};
-	color: ${({ selected, theme }) => (selected ? 'tomato' : theme.colors.black)};
+	height: 100%;
+	color: ${({ theme }) => theme.colors.gray_005};
+
+	&:hover {
+		opacity: 0.8;
+	}
+`;
+
+export const LogoutBtn = styled.button`
+	display: flex;
+	align-items: center;
+	height: 100%;
+	color: ${({ theme }) => theme.colors.gray_005};
+	cursor: pointer;
+
+	&:hover {
+		color: ${({ theme }) => theme.colors.gray_007};
+	}
 `;

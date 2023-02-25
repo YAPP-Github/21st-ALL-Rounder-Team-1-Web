@@ -1,1 +1,17 @@
-export {};
+export { default as TrashIcon } from './trash.svg';
+export { default as AddPhotoIcon } from './add_photo.svg';
+export { default as SearchIcon } from './search.svg';
+export { default as RemoveIcon } from './remove.svg';
+export { default as AddIcon } from './add.svg';
+export { default as TopIcon } from './top.svg';
+export { default as BottomIcon } from './bottom.svg';
+export { default as CancelIcon } from './cancel.svg';
+export { default as ArrowRightIcon } from './arrow_right.svg';
+export { default as CheckboxCheckedIcon } from './checkbox_checked.svg';
+export { default as EmblemKakaoIcon } from './emblem_kakao.svg';
+export { default as EmblemNaverIcon } from './emblem_naver.svg';
+export { default as SymbolKakaoIcon } from './symbol_kakao.svg';
+export { default as SymbolNaverIcon } from './symbol_naver.svg';
+export { default as InstagramIcon } from './instagram.svg';
+export { default as ExpandMoreIcon } from './fold.svg';
+export { default as ExpandLessIcon } from './unfold.svg';

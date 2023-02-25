@@ -1,0 +1,74 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	text-align: center;
+	background-color: #f9f9fb;
+}
+
+.title {
+	margin: 0 0 16px 0;
+	font-family: 'Pretendard';
+	font-weight: 500;
+	font-size: 34px;
+	line-height: 34px;
+	letter-spacing: -0.4px;
+	color: #1c1c1e;
+}
+
+.description {
+	margin: 0 0 40px 0;
+	font-family: 'Pretendard';
+	font-weight: 400;
+	font-size: 19px;
+	line-height: 30px;
+	letter-spacing: -0.4px;
+	color: #636366;
+}
+
+.buttonContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+}
+
+.routeHome {
+	width: 200px;
+	padding: 16px 62.5px;
+	border: 1px solid #ff6c00;
+	border-radius: 10px;
+	font-family: 'Pretendard';
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 18px;
+	letter-spacing: -0.4px;
+	color: #ffffff;
+	cursor: pointer;
+	background-color: #ff6c00;
+}
+
+.routeHome:hover {
+	opacity: 0.8;
+}
+
+.routeBack {
+	width: 200px;
+	padding: 16px 62.5px;
+	border: 1px solid #8e8e93;
+	border-radius: 10px;
+	background-color: white;
+	font-family: 'Pretendard';
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 18px;
+	letter-spacing: -0.4px;
+	color: #636366;
+	cursor: pointer;
+}
+
+.routeBack:hover {
+	opacity: 0.8;
+}
