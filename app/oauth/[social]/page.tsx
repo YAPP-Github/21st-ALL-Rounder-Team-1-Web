@@ -45,12 +45,12 @@ const OAuthCallbackPage = () => {
 		const { access_token } =
 			social === 'kakao' ? await postKakaoAccessToken(authorizationCode) : await getNaverAccessToken(authorizationCode);
 
-		console.info(access_token);
-		console.error(access_token);
-
 		// 3. Get JWT from Pump Server
 		const userInfoWithJwtToken =
 			social === 'kakao' ? await getOAuthSigninKakaoApi(access_token) : await getOAuthSigninNaverApi(access_token);
+
+		console.info(userInfoWithJwtToken);
+		console.error(userInfoWithJwtToken);
 
 		// 3. Check Validate Token and Success or Fail Process
 		const { name, email, imgPath, oauthIdentity } = userInfoWithJwtToken;
