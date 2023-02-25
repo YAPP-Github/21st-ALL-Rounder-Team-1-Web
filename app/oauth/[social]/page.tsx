@@ -1,20 +1,20 @@
 'use client';
 
+import { LoadingCircleLottie } from 'components/shared';
+import { FlexBox } from 'components/shared/styled/layout';
 import {
+	getNaverAccessToken,
 	getOAuthSigninKakaoApi,
 	getOAuthSigninNaverApi,
 	postKakaoAccessToken,
-	getNaverAccessToken,
 } from 'hooks/api/auth/useSignin';
-import { useEffect, useState } from 'react';
+import { getUserSession } from 'hooks/api/auth/useUserSession';
 import { usePathname, useRouter } from 'next/navigation';
-import { isIncludedURLPattern } from 'utils/urlPattern';
-import { setUserTokenInLocalStorage } from 'utils/storage';
+import { useEffect, useState } from 'react';
 import useOAuthResponseStore from 'store/actions/oauthStore';
 import useUserSessionStore from 'store/actions/userSessionStore';
-import { getUserSession } from 'hooks/api/auth/useUserSession';
-import { LoadingCircleLottie } from 'components/shared';
-import { FlexBox } from 'components/shared/styled/layout';
+import { setUserTokenInLocalStorage } from 'utils/storage';
+import { isIncludedURLPattern } from 'utils/urlPattern';
 
 const OAuthCallbackPage = () => {
 	const router = useRouter();
@@ -41,6 +41,7 @@ const OAuthCallbackPage = () => {
 		const userInfoWithJwtToken =
 			social === 'kakao' ? await getOAuthSigninKakaoApi(access_token) : await getOAuthSigninNaverApi(access_token);
 
+		console.info(userInfoWithJwtToken);
 		// 3. Check Validate Token and Success or Fail Process
 		const { name, email, imgPath, oauthIdentity } = userInfoWithJwtToken;
 		if (userInfoWithJwtToken.jwt) {
