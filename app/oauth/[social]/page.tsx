@@ -10,7 +10,7 @@ import {
 } from 'hooks/api/auth/useSignin';
 import { getUserSession } from 'hooks/api/auth/useUserSession';
 import { usePathname, useRouter } from 'next/navigation';
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import useOAuthResponseStore from 'store/actions/oauthStore';
 import useUserSessionStore from 'store/actions/userSessionStore';
 import { setUserTokenInLocalStorage } from 'utils/storage';
@@ -73,7 +73,7 @@ const OAuthCallbackPage = () => {
 		}
 	};
 
-	useLayoutEffect(() => {
+	useEffect(() => {
 		handleOAuthCallback();
 	}, [isMounted]);
 
