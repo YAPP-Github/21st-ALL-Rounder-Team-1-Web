@@ -65,7 +65,6 @@ const Step2 = () => {
 	const {
 		name,
 		notice,
-		storeZonecode,
 		basicAddress,
 		addressDetail,
 		imgPath,
@@ -96,26 +95,26 @@ const Step2 = () => {
 	const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const emptyInput = checkEmptyInputError(e.currentTarget.step2, setInputState);
-		if (e.currentTarget.step2[0].value !== '' && registrationNumber.isError === 'normal') {
+		if (
+			registrationNumber.isError === 'notClicked' ||
+			(e.currentTarget.step2[0].value !== '' && registrationNumber.isError === 'normal')
+		) {
 			setInputState('registrationNumber', 'notClicked');
 			const registrationNumComponent: HTMLElement | null = document.getElementById('registrationNumber');
 			if (registrationNumComponent && registrationNumComponent !== null) {
 				window.scrollTo({
-					top: registrationNumComponent.scrollHeight - 140 + window.scrollY,
+					top: registrationNumComponent.getBoundingClientRect().top - 140 + window.scrollY,
 					behavior: 'smooth',
 				});
-				return;
 			}
 			return;
-		}
-		if (registrationNumber.isError === 'fail') {
+		} else if (registrationNumber.isError === 'fail') {
 			const registrationNumComponent: HTMLElement | null = document.getElementById('registrationNumber');
 			if (registrationNumComponent && registrationNumComponent !== null) {
 				window.scrollTo({
-					top: registrationNumComponent.scrollHeight - 140 + window.scrollY,
+					top: registrationNumComponent.getBoundingClientRect().top - 140 + window.scrollY,
 					behavior: 'smooth',
 				});
-				return;
 			}
 			return;
 		} else if (emptyInput[0] !== 0 && emptyInput[2] !== '' && document.getElementById(emptyInput[2].toString())) {
@@ -125,11 +124,10 @@ const Step2 = () => {
 					top: emptyComponent.getBoundingClientRect().top - 140 + window.scrollY,
 					behavior: 'smooth',
 				});
-				return;
 			}
 			return;
 		}
-
+		console.log(registrationNumber.isError);
 		await saveStep2UserInput(e.currentTarget.step2, setStep2Request);
 		await makeBusinessHourData(dayOffRef, selectedBusinessHourBtn, setStep2Request);
 		await makeStoreAddress(storePostcodeInputs, setStep2Request);
