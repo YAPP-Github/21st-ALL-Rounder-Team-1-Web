@@ -57,19 +57,11 @@ const OAuthCallbackPage = () => {
 			const userSession = await getUserSession();
 			setUserSession(userSession);
 
-			router.push(`/`);
+			router.replace(`/`);
 		} else {
-			console.info(`callback page`, name, email, imgPath, oauthIdentity);
-
-			setOAuthResponse({
-				name,
-				email,
-				imgPath,
-				oauthIdentity,
-				type: 'BOSS',
-				oauthType: social.toUpperCase(),
-			});
-			router.push(`/signup`);
+			router.replace(
+				`/signup?name=${name}&email=${email}&imgPath=${imgPath}&oauthIdentity=${oauthIdentity}&type=BOSS&oauthType=${social.toUpperCase()}`,
+			);
 		}
 	};
 

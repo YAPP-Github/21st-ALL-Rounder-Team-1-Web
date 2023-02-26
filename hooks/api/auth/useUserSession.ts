@@ -43,12 +43,13 @@ export const getUserSession = async () => {
 const GET_USER_SESSION_CACHE_TIME = 60 * 60 * 1000; // 60 minutes
 const GET_USER_SESSION_STALE_TIME = 59 * 60 * 1000; // 59 minutes
 
-export const useGetUserSession = () => {
+export const useGetUserSession = (jwtToken?: string | null) => {
 	return useQuery([getUserSessionQueryKey], async () => await getUserSession(), {
 		retry: 1,
 		cacheTime: GET_USER_SESSION_CACHE_TIME,
 		staleTime: GET_USER_SESSION_STALE_TIME,
 		refetchOnWindowFocus: false,
+		enabled: !!jwtToken,
 	});
 };
 

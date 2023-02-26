@@ -7,30 +7,35 @@ import { isValidatedSignupFormAgreement } from 'core/signupService';
 import { postJwtTokenByOAuthResponse } from 'hooks/api/auth/useSignup';
 import { getUserSession } from 'hooks/api/auth/useUserSession';
 import useRouteChangeAndRefreshDetect from 'hooks/useRouteChangeAndRefreshDetect';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
-import useOAuthResponseStore from 'store/actions/oauthStore';
 import useUserSessionStore from 'store/actions/userSessionStore';
 import styled, { CSSProperties } from 'styled-components';
 import style from 'styles/style';
 import { setUserTokenInLocalStorage } from 'utils/storage';
 
 const SignUp = () => {
-	useRouteChangeAndRefreshDetect({
-		refreshRedirectRoutePath: '/',
-		popStateCancelRoutePath: '/signup',
-		popStateSuccessRoutePath: '/',
-	});
+	if (process.env.NODE_ENV === 'development') {
+		useRouteChangeAndRefreshDetect({
+			refreshRedirectRoutePath: '/',
+			popStateCancelRoutePath: '/signup',
+			popStateSuccessRoutePath: '/',
+		});
+	}
 
 	const router = useRouter();
-
-	const [isLoadingPostJwtToken, setIsLoadingPostJwtToken] = useState(false);
-	const { oauthResponse } = useOAuthResponseStore();
-	const { email, oauthType } = oauthResponse;
-
-	console.info(`signup page`, oauthResponse);
+	const params = useSearchParams();
 
 	const { setUserSession } = useUserSessionStore();
+
+	const [isLoadingPostJwtToken, setIsLoadingPostJwtToken] = useState(false);
+
+	const name = params.get('name') as string;
+	const email = params.get('email') as string;
+	const imgPath = params.get('imgPath') as string;
+	const oauthIdentity = params.get('oauthIdentity') as string;
+	const type = params.get('type') as string;
+	const oauthType = params.get('oauthType') as string;
 
 	const [signupAgreementForm, setSignupAgreementForm] = useState<{ [key: string]: boolean }>({
 		serviceAll: true,
@@ -91,7 +96,7 @@ const SignUp = () => {
 		// POST API Call Response Status Code 를 기반으로 분기
 		try {
 			// Success
-			const token = await postJwtTokenByOAuthResponse(oauthResponse);
+			const token = await postJwtTokenByOAuthResponse({ name, email, imgPath, type, oauthType, oauthIdentity });
 			setUserTokenInLocalStorage(token);
 
 			const userSession = await getUserSession();
