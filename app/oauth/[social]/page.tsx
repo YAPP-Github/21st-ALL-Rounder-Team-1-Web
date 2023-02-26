@@ -59,16 +59,9 @@ const OAuthCallbackPage = () => {
 
 			router.replace(`/`);
 		} else {
-			setOAuthResponse({
-				name,
-				email,
-				imgPath,
-				oauthIdentity,
-				type: 'BOSS',
-				oauthType: social.toUpperCase(),
-			});
-
-			router.replace(`/signup`);
+			router.replace(
+				`/signup?name=${name}&email=${email}&imgPath=${imgPath}&oauthIdentity=${oauthIdentity}&type=BOSS&oauthType=${social.toUpperCase()}`,
+			);
 		}
 	};
 
