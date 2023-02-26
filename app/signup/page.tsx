@@ -15,11 +15,13 @@ import style from 'styles/style';
 import { setUserTokenInLocalStorage } from 'utils/storage';
 
 const SignUp = () => {
-	useRouteChangeAndRefreshDetect({
-		refreshRedirectRoutePath: '/',
-		popStateCancelRoutePath: '/signup',
-		popStateSuccessRoutePath: '/',
-	});
+	if (process.env.NODE_ENV === 'development') {
+		useRouteChangeAndRefreshDetect({
+			refreshRedirectRoutePath: '/',
+			popStateCancelRoutePath: '/signup',
+			popStateSuccessRoutePath: '/',
+		});
+	}
 
 	const router = useRouter();
 	const params = useSearchParams();
