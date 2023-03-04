@@ -30,12 +30,12 @@ const SignUp = () => {
 
 	const [isLoadingPostJwtToken, setIsLoadingPostJwtToken] = useState(false);
 
-	const name = params.get('name') as string;
-	const email = params.get('email') as string;
-	const imgPath = params.get('imgPath') as string;
-	const oauthIdentity = params.get('oauthIdentity') as string;
-	const type = params.get('type') as string;
-	const oauthType = params.get('oauthType') as string;
+	const name = params?.get('name') as string;
+	const email = params?.get('email') as string;
+	const imgPath = params?.get('imgPath') as string;
+	const oauthIdentity = params?.get('oauthIdentity') as string;
+	const type = params?.get('type') as string;
+	const oauthType = params?.get('oauthType') as string;
 
 	const [signupAgreementForm, setSignupAgreementForm] = useState<{ [key: string]: boolean }>({
 		serviceAll: true,
