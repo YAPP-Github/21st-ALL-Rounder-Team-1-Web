@@ -12,7 +12,7 @@ export const StyledTextFiled = styled.input<{
 }>`
 	border: 1px solid
 		${({ theme, inputFlag, formFlag }) =>
-			inputFlag === 'error' || formFlag === true || inputFlag === 'fail' ||inputFlag=== 'notClicked'
+			inputFlag === 'error' || formFlag === true || inputFlag === 'fail' || inputFlag === 'notClicked'
 				? theme.colors.error
 				: theme.colors.gray_002};
 	padding: 8px 16px;

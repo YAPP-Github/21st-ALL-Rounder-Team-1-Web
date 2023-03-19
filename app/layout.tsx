@@ -6,6 +6,7 @@ import { Provider } from 'jotai';
 import ProtectedRouteWithAuthContainer from 'pageComponents/app/ProtectedRouteWithAuthContainer';
 import styled, { ThemeProvider } from 'styled-components';
 import { GlobalStyle, theme } from 'styles';
+import '../styles/globals.css';
 import StyledComponentsRegistry from './RootStyleRegistry';
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {

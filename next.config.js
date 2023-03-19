@@ -1,15 +1,15 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-	
+	reactStrictMode: true,
+	swcMinify: true,
 	experimental: {
 		appDir: true,
+		typedRoutes: true,
 	},
 	compiler: {
 		styledComponents: true,
 	},
-	swcMinify: true,
-	reactStrictMode: true,
 	images: {
 		remotePatterns: [
 			{
@@ -26,8 +26,6 @@ const nextConfig = {
 			}
 			
 		]
-
-
 	},
 	webpack: (config) => {
     config.module.rules.push({
@@ -44,7 +42,7 @@ const nextConfig = {
 		S3_UPLOAD_URL: process.env.S3_UPLOAD_URL,
 		S3_UPLOAD_SECRET: process.env.S3_UPLOAD_SECRET,
 		S3_UPLOAD_BUCKET: process.env.S3_UPLOAD_BUCKET,
-    	S3_UPLOAD_REGION: process.env.S3_UPLOAD_REGION,
+    S3_UPLOAD_REGION: process.env.S3_UPLOAD_REGION,
 		API_BASE_URL: process.env.API_BASE_URL,
 		KAKAO_CLIENT_ID: process.env.KAKAO_CLIENT_ID,
 		KAKAO_CLIENT_SECRET: process.env.KAKAO_CLIENT_SECRET,

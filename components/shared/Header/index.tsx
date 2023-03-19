@@ -24,7 +24,7 @@ const Header = () => {
 						<Image src={PumpLogo} alt="Pump Logo" width={110} height={50} priority />
 					</S.LogoWrapper>
 
-					<StyledLayout.UnorderList gap={'40px'}>
+					<StyledLayout.UnorderList gap={'40px'} className="!hidden pc:!flex">
 						{!userSession?.id && (
 							<S.NavigationItem>
 								<StyledLayout.LinkWrapper href={'/signin'} replace>

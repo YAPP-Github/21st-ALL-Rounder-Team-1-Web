@@ -16,6 +16,7 @@ import {
 } from 'public/static/images';
 import styled, { CSSProperties } from 'styled-components';
 import { theme } from 'styles';
+import '../styles/globals.css';
 
 const SERVICE_INTRODUCE_PDF_LINK = 'https://drive.google.com/file/d/1f40Y7fdPCTnH83JgiIMmdeFb_igRMUBP/view';
 const SERVICE_APP_STORE_LINK = 'https://apps.apple.com/kr/app/pump/id1669869655';
@@ -126,7 +127,7 @@ const Root = () => {
 								서비스 소개서
 							</Typography>
 						</StyledLinkBtn>
-						<StyledLinkBtn href={SERVICE_APP_STORE_LINK} target={'_blank'}>
+						<StyledLinkBtn href={SERVICE_APP_STORE_LINK} target={'_blank'} className="!hidden pc:!flex">
 							<Image src={AppStoreDownloadImg} alt="app store" width={156} height={52} />
 						</StyledLinkBtn>
 					</StyledLayout.FlexBox>
@@ -243,17 +244,16 @@ const Root = () => {
 				</StyledLayout.FlexBox>
 			</StyledLayout.FlexBox>
 
-			<StyledLayout.FlexBox width="996px" margin="88px 0 96px 0">
+			<div className="mb-[4.8rem] mt-[4.0rem] flex w-full max-w-[99.6rem] pc:mt-[9.6rem] pc:mb-[8.8rem]">
 				<BackgroundBox
 					alignItems="center"
 					justifyContent="space-between"
 					width="100%"
 					padding="34px 48px"
 					backgroundColor={theme.colors.primary_001}
+					className="!justify-center !px-[2.4rem] !py-[2.4rem] pc:!justify-between pc:!py-[4.7rem] pc:!px-[4.8rem]"
 				>
-					<Typography variant="h2" aggressive="headline_oneline_003" color={theme.colors.primary_010}>
-						리필스테이션 홍보는 Pump에서 시작해보세요.
-					</Typography>
+					<h3 className="text-heading-6 text-primary pc:text-heading-3">리필스테이션 홍보는 Pump에서 시작해보세요.</h3>
 
 					<StyledLinkBtn
 						href={'/registration/step1'}
@@ -263,13 +263,27 @@ const Root = () => {
 						backgroundcolor={theme.colors.primary_010}
 						color={theme.colors.white}
 						hoveropacity={'0.8'}
+						className="!hidden pc:!block"
 					>
 						<Typography variant="span" aggressive="button_000">
 							입점 신청
 						</Typography>
 					</StyledLinkBtn>
 				</BackgroundBox>
-			</StyledLayout.FlexBox>
+			</div>
+
+			<div className="w-full justify-center bg-gray-1 px-[2rem] py-[4.8rem] text-center pc:hidden">
+				<h3 className="mb-[0.8rem]  text-heading-multi-4 text-gray-7">
+					Pump 서비스를
+					<br />
+					직접 사용해보고 싶으신가요 ?
+				</h3>
+				<p className="mb-[2rem]  text-body-4 text-gray-6">애플 앱 스토어에서 다운받을 수 있어요.</p>
+
+				<StyledLinkBtn href={SERVICE_APP_STORE_LINK} target={'_blank'}>
+					<Image src={AppStoreDownloadImg} alt="app store" width={156} height={52} />
+				</StyledLinkBtn>
+			</div>
 		</StyledLayout.FlexBox>
 	);
 };
